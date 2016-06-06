@@ -1,0 +1,98 @@
+<header ng-switch on="$location.path().indexOf('/RrppJeves/new') > -1">
+    <h3 ng-switch-when="true">Create a new RrppJefe</h3>
+    <h3 ng-switch-when="false">View or edit RrppJefe</h3>
+</header>
+<form id="RrppJefeForm" name="RrppJefeForm" class="form-horizontal" role="form">
+    
+    <div class="form-group" ng-class="{'has-error': RrppJefeForm.organizador.$invalid}">
+        <label for="organizador" class="col-sm-2 control-label">Organizador</label>
+        <div id="organizadorControls" class="col-sm-10">
+        <select id="organizador" name="organizador" class="form-control" ng-model="organizadorSelection" ng-options="o.text for o in organizadorSelectionList"  >
+            <option value="">Choose a Organizador</option>
+        </select>
+        </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error': RrppJefeForm.nombre.$invalid}">
+        <label for="nombre" class="col-sm-2 control-label">Nombre</label>
+        <div id="nombreControls" class="col-sm-10">
+            <input id="nombre" name="nombre" type="text" ng-maxlength="45" class="form-control" ng-model="rrppJefe.nombre" placeholder="Enter the RrppJefe Nombre"></input>
+            <span class="help-block error" ng-show="RrppJefeForm.nombre.$error.maxlength">maximum length is 45</span>
+        </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error': RrppJefeForm.apellido1.$invalid}">
+        <label for="apellido1" class="col-sm-2 control-label">Apellido 1</label>
+        <div id="apellido1Controls" class="col-sm-10">
+            <input id="apellido1" name="apellido1" type="text" ng-maxlength="45" class="form-control" ng-model="rrppJefe.apellido1" placeholder="Enter the RrppJefe Apellido 1"></input>
+            <span class="help-block error" ng-show="RrppJefeForm.apellido1.$error.maxlength">maximum length is 45</span>
+        </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error': RrppJefeForm.apellido2.$invalid}">
+        <label for="apellido2" class="col-sm-2 control-label">Apellido 2</label>
+        <div id="apellido2Controls" class="col-sm-10">
+            <input id="apellido2" name="apellido2" type="text" ng-maxlength="45" class="form-control" ng-model="rrppJefe.apellido2" placeholder="Enter the RrppJefe Apellido 2"></input>
+            <span class="help-block error" ng-show="RrppJefeForm.apellido2.$error.maxlength">maximum length is 45</span>
+        </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error': RrppJefeForm.email.$invalid}">
+        <label for="email" class="col-sm-2 control-label">Email</label>
+        <div id="emailControls" class="col-sm-10">
+            <input id="email" name="email" type="text" ng-maxlength="45" class="form-control" ng-model="rrppJefe.email" placeholder="Enter the RrppJefe Email"></input>
+            <span class="help-block error" ng-show="RrppJefeForm.email.$error.maxlength">maximum length is 45</span>
+        </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error': RrppJefeForm.telefono.$invalid}">
+        <label for="telefono" class="col-sm-2 control-label">Telefono</label>
+        <div id="telefonoControls" class="col-sm-10">
+            <input id="telefono" name="telefono" type="text" ng-maxlength="45" class="form-control" ng-model="rrppJefe.telefono" placeholder="Enter the RrppJefe Telefono"></input>
+            <span class="help-block error" ng-show="RrppJefeForm.telefono.$error.maxlength">maximum length is 45</span>
+        </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error': RrppJefeForm.limiteEntradas.$invalid}">
+        <label for="limiteEntradas" class="col-sm-2 control-label">Limite Entradas</label>
+        <div id="limiteEntradasControls" class="col-sm-10">
+            <input id="limiteEntradas" name="limiteEntradas" type="number" class="form-control" ng-model="rrppJefe.limiteEntradas" placeholder="Enter the RrppJefe Limite Entradas"></input>
+            <span class="help-block error" ng-show="RrppJefeForm.limiteEntradas.$error.number">not a number</span>
+        </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error': RrppJefeForm.codigoPromocional.$invalid}">
+        <label for="codigoPromocional" class="col-sm-2 control-label">Codigo Promocional</label>
+        <div id="codigoPromocionalControls" class="col-sm-10">
+            <input id="codigoPromocional" name="codigoPromocional" type="text" ng-maxlength="45" class="form-control" ng-model="rrppJefe.codigoPromocional" placeholder="Enter the RrppJefe Codigo Promocional"></input>
+            <span class="help-block error" ng-show="RrppJefeForm.codigoPromocional.$error.maxlength">maximum length is 45</span>
+        </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error': RrppJefeForm.rrppMinions.$invalid}">
+        <label for="rrppMinions" class="col-sm-2 control-label">Rrpp Minions</label>
+        <div id="rrppMinionsControls" class="col-sm-10">
+            <select id="rrppMinions" name="rrppMinions" multiple class="form-control" ng-model="rrppMinionsSelection" ng-options="r.text for r in rrppMinionsSelectionList">
+                <option value="">Choose a Rrpp Minions</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error': RrppJefeForm.eventos.$invalid}">
+        <label for="eventos" class="col-sm-2 control-label">Eventos</label>
+        <div id="eventosControls" class="col-sm-10">
+            <select id="eventos" name="eventos" multiple class="form-control" ng-model="eventosSelection" ng-options="e.text for e in eventosSelectionList">
+                <option value="">Choose a Eventos</option>
+            </select>
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <button id="saveRrppJefe" name="saveRrppJefe" class="btn btn-primary" ng-disabled="isClean() || RrppJefeForm.$invalid" ng-click="save()"><span class="glyphicon glyphicon-ok-sign"></span> Save</button>
+            <button id="cancel" name="cancel" class="btn btn-default" ng-click="cancel()"><span class="glyphicon glyphicon-remove-sign"></span> Cancel</button>
+            <button id="deleteRrppJefe" name="deleteRrppJefe" class="btn btn-danger" ng-show="rrppJefe.idrrppJefe" ng-click="remove()"><span class="glyphicon glyphicon-trash"></span> Delete</button>
+        </div>
+    </div>
+</form>

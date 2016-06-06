@@ -1,0 +1,32 @@
+<header ng-switch on="$location.path().indexOf('/DdTipoEventos/new') > -1">
+    <h3 ng-switch-when="true">Create a new DdTipoEvento</h3>
+    <h3 ng-switch-when="false">View or edit DdTipoEvento</h3>
+</header>
+<form id="DdTipoEventoForm" name="DdTipoEventoForm" class="form-horizontal" role="form">
+    
+    <div class="form-group" ng-class="{'has-error': DdTipoEventoForm.tipoEvento.$invalid}">
+        <label for="tipoEvento" class="col-sm-2 control-label">Tipo Evento</label>
+        <div id="tipoEventoControls" class="col-sm-10">
+            <input id="tipoEvento" name="tipoEvento" type="text" ng-maxlength="45" class="form-control" ng-model="ddTipoEvento.tipoEvento" placeholder="Enter the DdTipoEvento Tipo Evento"></input>
+            <span class="help-block error" ng-show="DdTipoEventoForm.tipoEvento.$error.maxlength">maximum length is 45</span>
+        </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error': DdTipoEventoForm.eventos.$invalid}">
+        <label for="eventos" class="col-sm-2 control-label">Eventos</label>
+        <div id="eventosControls" class="col-sm-10">
+            <select id="eventos" name="eventos" multiple class="form-control" ng-model="eventosSelection" ng-options="e.text for e in eventosSelectionList">
+                <option value="">Choose a Eventos</option>
+            </select>
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <button id="saveDdTipoEvento" name="saveDdTipoEvento" class="btn btn-primary" ng-disabled="isClean() || DdTipoEventoForm.$invalid" ng-click="save()"><span class="glyphicon glyphicon-ok-sign"></span> Save</button>
+            <button id="cancel" name="cancel" class="btn btn-default" ng-click="cancel()"><span class="glyphicon glyphicon-remove-sign"></span> Cancel</button>
+            <button id="deleteDdTipoEvento" name="deleteDdTipoEvento" class="btn btn-danger" ng-show="ddTipoEvento.idTipoEvento" ng-click="remove()"><span class="glyphicon glyphicon-trash"></span> Delete</button>
+        </div>
+    </div>
+</form>

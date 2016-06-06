@@ -1,0 +1,33 @@
+<header ng-switch on="$location.path().indexOf('/Sexos/new') > -1">
+    <h3 ng-switch-when="true">Create a new Sexo</h3>
+    <h3 ng-switch-when="false">View or edit Sexo</h3>
+</header>
+<form id="SexoForm" name="SexoForm" class="form-horizontal" role="form">
+    
+    <div class="form-group" ng-class="{'has-error': SexoForm.nombre.$invalid}">
+        <label for="nombre" class="col-sm-2 control-label">Nombre</label>
+        <div id="nombreControls" class="col-sm-10">
+            <input id="nombre" name="nombre" type="text" required ng-maxlength="45" class="form-control" ng-model="sexo.nombre" placeholder="Enter the Sexo Nombre"></input>
+            <span class="help-block error" ng-show="SexoForm.nombre.$error.required">required</span> 
+            <span class="help-block error" ng-show="SexoForm.nombre.$error.maxlength">maximum length is 45</span>
+        </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error': SexoForm.usuarios.$invalid}">
+        <label for="usuarios" class="col-sm-2 control-label">Usuarios</label>
+        <div id="usuariosControls" class="col-sm-10">
+            <select id="usuarios" name="usuarios" multiple class="form-control" ng-model="usuariosSelection" ng-options="u.text for u in usuariosSelectionList">
+                <option value="">Choose a Usuarios</option>
+            </select>
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <button id="saveSexo" name="saveSexo" class="btn btn-primary" ng-disabled="isClean() || SexoForm.$invalid" ng-click="save()"><span class="glyphicon glyphicon-ok-sign"></span> Save</button>
+            <button id="cancel" name="cancel" class="btn btn-default" ng-click="cancel()"><span class="glyphicon glyphicon-remove-sign"></span> Cancel</button>
+            <button id="deleteSexo" name="deleteSexo" class="btn btn-danger" ng-show="sexo.idsexo" ng-click="remove()"><span class="glyphicon glyphicon-trash"></span> Delete</button>
+        </div>
+    </div>
+</form>

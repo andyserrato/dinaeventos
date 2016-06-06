@@ -1,0 +1,81 @@
+<header ng-switch on="$location.path().indexOf('/Patrocinadors/new') > -1">
+    <h3 ng-switch-when="true">Create a new Patrocinador</h3>
+    <h3 ng-switch-when="false">View or edit Patrocinador</h3>
+</header>
+<form id="PatrocinadorForm" name="PatrocinadorForm" class="form-horizontal" role="form">
+    
+    <div class="form-group" ng-class="{'has-error': PatrocinadorForm.globalCodigopostal.$invalid}">
+        <label for="globalCodigopostal" class="col-sm-2 control-label">Global Codigopostal</label>
+        <div id="globalCodigopostalControls" class="col-sm-10">
+        <select id="globalCodigopostal" name="globalCodigopostal" class="form-control" ng-model="globalCodigopostalSelection" ng-options="g.text for g in globalCodigopostalSelectionList"  >
+            <option value="">Choose a Global Codigopostal</option>
+        </select>
+        </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error': PatrocinadorForm.nombre.$invalid}">
+        <label for="nombre" class="col-sm-2 control-label">Nombre</label>
+        <div id="nombreControls" class="col-sm-10">
+            <input id="nombre" name="nombre" type="text" ng-maxlength="45" class="form-control" ng-model="patrocinador.nombre" placeholder="Enter the Patrocinador Nombre"></input>
+            <span class="help-block error" ng-show="PatrocinadorForm.nombre.$error.maxlength">maximum length is 45</span>
+        </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error': PatrocinadorForm.direccion.$invalid}">
+        <label for="direccion" class="col-sm-2 control-label">Direccion</label>
+        <div id="direccionControls" class="col-sm-10">
+            <input id="direccion" name="direccion" type="text" ng-maxlength="45" class="form-control" ng-model="patrocinador.direccion" placeholder="Enter the Patrocinador Direccion"></input>
+            <span class="help-block error" ng-show="PatrocinadorForm.direccion.$error.maxlength">maximum length is 45</span>
+        </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error': PatrocinadorForm.telefono.$invalid}">
+        <label for="telefono" class="col-sm-2 control-label">Telefono</label>
+        <div id="telefonoControls" class="col-sm-10">
+            <input id="telefono" name="telefono" type="text" ng-maxlength="9" class="form-control" ng-model="patrocinador.telefono" placeholder="Enter the Patrocinador Telefono"></input>
+            <span class="help-block error" ng-show="PatrocinadorForm.telefono.$error.maxlength">maximum length is 9</span>
+        </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error': PatrocinadorForm.email.$invalid}">
+        <label for="email" class="col-sm-2 control-label">Email</label>
+        <div id="emailControls" class="col-sm-10">
+            <input id="email" name="email" type="text" ng-maxlength="45" class="form-control" ng-model="patrocinador.email" placeholder="Enter the Patrocinador Email"></input>
+            <span class="help-block error" ng-show="PatrocinadorForm.email.$error.maxlength">maximum length is 45</span>
+        </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error': PatrocinadorForm.cuentacorriente.$invalid}">
+        <label for="cuentacorriente" class="col-sm-2 control-label">Cuentacorriente</label>
+        <div id="cuentacorrienteControls" class="col-sm-10">
+            <input id="cuentacorriente" name="cuentacorriente" type="text" ng-maxlength="45" class="form-control" ng-model="patrocinador.cuentacorriente" placeholder="Enter the Patrocinador Cuentacorriente"></input>
+            <span class="help-block error" ng-show="PatrocinadorForm.cuentacorriente.$error.maxlength">maximum length is 45</span>
+        </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error': PatrocinadorForm.iban.$invalid}">
+        <label for="iban" class="col-sm-2 control-label">Iban</label>
+        <div id="ibanControls" class="col-sm-10">
+            <input id="iban" name="iban" type="text" ng-maxlength="45" class="form-control" ng-model="patrocinador.iban" placeholder="Enter the Patrocinador Iban"></input>
+            <span class="help-block error" ng-show="PatrocinadorForm.iban.$error.maxlength">maximum length is 45</span>
+        </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error': PatrocinadorForm.eventos.$invalid}">
+        <label for="eventos" class="col-sm-2 control-label">Eventos</label>
+        <div id="eventosControls" class="col-sm-10">
+            <select id="eventos" name="eventos" multiple class="form-control" ng-model="eventosSelection" ng-options="e.text for e in eventosSelectionList">
+                <option value="">Choose a Eventos</option>
+            </select>
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <button id="savePatrocinador" name="savePatrocinador" class="btn btn-primary" ng-disabled="isClean() || PatrocinadorForm.$invalid" ng-click="save()"><span class="glyphicon glyphicon-ok-sign"></span> Save</button>
+            <button id="cancel" name="cancel" class="btn btn-default" ng-click="cancel()"><span class="glyphicon glyphicon-remove-sign"></span> Cancel</button>
+            <button id="deletePatrocinador" name="deletePatrocinador" class="btn btn-danger" ng-show="patrocinador.idpatrocinador" ng-click="remove()"><span class="glyphicon glyphicon-trash"></span> Delete</button>
+        </div>
+    </div>
+</form>

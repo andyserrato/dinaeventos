@@ -1,0 +1,173 @@
+<header ng-switch on="$location.path().indexOf('/Eventos/new') > -1">
+    <h3 ng-switch-when="true">Create a new Evento</h3>
+    <h3 ng-switch-when="false">View or edit Evento</h3>
+</header>
+<form id="EventoForm" name="EventoForm" class="form-horizontal" role="form">
+    
+    <div class="form-group" ng-class="{'has-error': EventoForm.ddTipoEvento.$invalid}">
+        <label for="ddTipoEvento" class="col-sm-2 control-label">Dd Tipo Evento</label>
+        <div id="ddTipoEventoControls" class="col-sm-10">
+        <select id="ddTipoEvento" name="ddTipoEvento" class="form-control" ng-model="ddTipoEventoSelection" ng-options="d.text for d in ddTipoEventoSelectionList"  >
+            <option value="">Choose a Dd Tipo Evento</option>
+        </select>
+        </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error': EventoForm.globalCodigopostal.$invalid}">
+        <label for="globalCodigopostal" class="col-sm-2 control-label">Global Codigopostal</label>
+        <div id="globalCodigopostalControls" class="col-sm-10">
+        <select id="globalCodigopostal" name="globalCodigopostal" class="form-control" ng-model="globalCodigopostalSelection" ng-options="g.text for g in globalCodigopostalSelectionList"  >
+            <option value="">Choose a Global Codigopostal</option>
+        </select>
+        </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error': EventoForm.organizador.$invalid}">
+        <label for="organizador" class="col-sm-2 control-label">Organizador</label>
+        <div id="organizadorControls" class="col-sm-10">
+        <select id="organizador" name="organizador" class="form-control" ng-model="organizadorSelection" ng-options="o.text for o in organizadorSelectionList"  >
+            <option value="">Choose a Organizador</option>
+        </select>
+        </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error': EventoForm.nombre.$invalid}">
+        <label for="nombre" class="col-sm-2 control-label">Nombre</label>
+        <div id="nombreControls" class="col-sm-10">
+            <input id="nombre" name="nombre" type="text" required ng-maxlength="75" class="form-control" ng-model="evento.nombre" placeholder="Enter the Evento Nombre"></input>
+            <span class="help-block error" ng-show="EventoForm.nombre.$error.required">required</span> 
+            <span class="help-block error" ng-show="EventoForm.nombre.$error.maxlength">maximum length is 75</span>
+        </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error': EventoForm.nombrelugar.$invalid}">
+        <label for="nombrelugar" class="col-sm-2 control-label">Nombrelugar</label>
+        <div id="nombrelugarControls" class="col-sm-10">
+            <input id="nombrelugar" name="nombrelugar" type="text" ng-maxlength="60" class="form-control" ng-model="evento.nombrelugar" placeholder="Enter the Evento Nombrelugar"></input>
+            <span class="help-block error" ng-show="EventoForm.nombrelugar.$error.maxlength">maximum length is 60</span>
+        </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error': EventoForm.direccion.$invalid}">
+        <label for="direccion" class="col-sm-2 control-label">Direccion</label>
+        <div id="direccionControls" class="col-sm-10">
+            <input id="direccion" name="direccion" type="text" ng-maxlength="100" class="form-control" ng-model="evento.direccion" placeholder="Enter the Evento Direccion"></input>
+            <span class="help-block error" ng-show="EventoForm.direccion.$error.maxlength">maximum length is 100</span>
+        </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error': EventoForm.fechaIni.$invalid}">
+        <label for="fechaIni" class="col-sm-2 control-label">Fecha Ini</label>
+        <div id="fechaIniControls" class="col-sm-10">
+            <datetime id="fechaIni" name="fechaIni" required ng-model="evento.fechaIni" placeholder="Enter the Evento Fecha Ini"></datetime>
+            <span class="help-block error" ng-show="EventoForm.fechaIni.$error.required">required</span> 
+            <span class="help-block error" ng-show="EventoForm.fechaIni.$error.maxlength">maximum length is 19</span>
+            <span class="help-block error" ng-show="EventoForm.fechaIni.$error.datetimeFormat">does not match format "yyyy-MM-dd hh:mm:ss" (e.g. 2013-12-01 22:00:00)</span>
+        </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error': EventoForm.fechaFin.$invalid}">
+        <label for="fechaFin" class="col-sm-2 control-label">Fecha Fin</label>
+        <div id="fechaFinControls" class="col-sm-10">
+            <datetime id="fechaFin" name="fechaFin" required ng-model="evento.fechaFin" placeholder="Enter the Evento Fecha Fin"></datetime>
+            <span class="help-block error" ng-show="EventoForm.fechaFin.$error.required">required</span> 
+            <span class="help-block error" ng-show="EventoForm.fechaFin.$error.maxlength">maximum length is 19</span>
+            <span class="help-block error" ng-show="EventoForm.fechaFin.$error.datetimeFormat">does not match format "yyyy-MM-dd hh:mm:ss" (e.g. 2013-12-01 22:00:00)</span>
+        </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error': EventoForm.logo.$invalid}">
+        <label for="logo" class="col-sm-2 control-label">Logo</label>
+        <div id="logoControls" class="col-sm-10">
+            <input id="logo" name="logo" type="text" class="form-control" ng-model="evento.logo" placeholder="Enter the Evento Logo"></input>
+        </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error': EventoForm.descripcion.$invalid}">
+        <label for="descripcion" class="col-sm-2 control-label">Descripcion</label>
+        <div id="descripcionControls" class="col-sm-10">
+            <input id="descripcion" name="descripcion" type="text" ng-maxlength="140" class="form-control" ng-model="evento.descripcion" placeholder="Enter the Evento Descripcion"></input>
+            <span class="help-block error" ng-show="EventoForm.descripcion.$error.maxlength">maximum length is 140</span>
+        </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error': EventoForm.aforo.$invalid}">
+        <label for="aforo" class="col-sm-2 control-label">Aforo</label>
+        <div id="aforoControls" class="col-sm-10">
+            <input id="aforo" name="aforo" type="number" required class="form-control" ng-model="evento.aforo" placeholder="Enter the Evento Aforo"></input>
+            <span class="help-block error" ng-show="EventoForm.aforo.$error.required">required</span> 
+            <span class="help-block error" ng-show="EventoForm.aforo.$error.number">not a number</span>
+        </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error': EventoForm.latitud.$invalid}">
+        <label for="latitud" class="col-sm-2 control-label">Latitud</label>
+        <div id="latitudControls" class="col-sm-10">
+            <input id="latitud" name="latitud" type="number" required class="form-control" ng-model="evento.latitud" placeholder="Enter the Evento Latitud"></input>
+            <span class="help-block error" ng-show="EventoForm.latitud.$error.required">required</span> 
+            <span class="help-block error" ng-show="EventoForm.latitud.$error.number">not a number</span>
+        </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error': EventoForm.longitud.$invalid}">
+        <label for="longitud" class="col-sm-2 control-label">Longitud</label>
+        <div id="longitudControls" class="col-sm-10">
+            <input id="longitud" name="longitud" type="number" required class="form-control" ng-model="evento.longitud" placeholder="Enter the Evento Longitud"></input>
+            <span class="help-block error" ng-show="EventoForm.longitud.$error.required">required</span> 
+            <span class="help-block error" ng-show="EventoForm.longitud.$error.number">not a number</span>
+        </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error': EventoForm.entradasDisponibles.$invalid}">
+        <label for="entradasDisponibles" class="col-sm-2 control-label">Entradas Disponibles</label>
+        <div id="entradasDisponiblesControls" class="col-sm-10">
+            <input id="entradasDisponibles" name="entradasDisponibles" type="number" class="form-control" ng-model="evento.entradasDisponibles" placeholder="Enter the Evento Entradas Disponibles"></input>
+            <span class="help-block error" ng-show="EventoForm.entradasDisponibles.$error.number">not a number</span>
+        </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error': EventoForm.fechaAlta.$invalid}">
+        <label for="fechaAlta" class="col-sm-2 control-label">Fecha Alta</label>
+        <div id="fechaAltaControls" class="col-sm-10">
+            <datetime id="fechaAlta" name="fechaAlta" ng-model="evento.fechaAlta" placeholder="Enter the Evento Fecha Alta"></datetime>
+            <span class="help-block error" ng-show="EventoForm.fechaAlta.$error.maxlength">maximum length is 19</span>
+            <span class="help-block error" ng-show="EventoForm.fechaAlta.$error.datetimeFormat">does not match format "yyyy-MM-dd hh:mm:ss" (e.g. 2013-12-01 22:00:00)</span>
+        </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error': EventoForm.rrppJefes.$invalid}">
+        <label for="rrppJefes" class="col-sm-2 control-label">Rrpp Jefes</label>
+        <div id="rrppJefesControls" class="col-sm-10">
+            <select id="rrppJefes" name="rrppJefes" multiple class="form-control" ng-model="rrppJefesSelection" ng-options="r.text for r in rrppJefesSelectionList">
+                <option value="">Choose a Rrpp Jefes</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error': EventoForm.entradas.$invalid}">
+        <label for="entradas" class="col-sm-2 control-label">Entradas</label>
+        <div id="entradasControls" class="col-sm-10">
+            <select id="entradas" name="entradas" multiple class="form-control" ng-model="entradasSelection" ng-options="e.text for e in entradasSelectionList">
+                <option value="">Choose a Entradas</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error': EventoForm.patrocinadors.$invalid}">
+        <label for="patrocinadors" class="col-sm-2 control-label">Patrocinadors</label>
+        <div id="patrocinadorsControls" class="col-sm-10">
+            <select id="patrocinadors" name="patrocinadors" multiple class="form-control" ng-model="patrocinadorsSelection" ng-options="p.text for p in patrocinadorsSelectionList">
+                <option value="">Choose a Patrocinadors</option>
+            </select>
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <button id="saveEvento" name="saveEvento" class="btn btn-primary" ng-disabled="isClean() || EventoForm.$invalid" ng-click="save()"><span class="glyphicon glyphicon-ok-sign"></span> Save</button>
+            <button id="cancel" name="cancel" class="btn btn-default" ng-click="cancel()"><span class="glyphicon glyphicon-remove-sign"></span> Cancel</button>
+            <button id="deleteEvento" name="deleteEvento" class="btn btn-danger" ng-show="evento.idevento" ng-click="remove()"><span class="glyphicon glyphicon-trash"></span> Delete</button>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,211 @@
+<div class="form-horizontal">
+    <h3>Create a new Usuario</h3>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-sm-2">
+            <a id="Create" name="Create" class="btn btn-primary" href="#/Usuarios/new"><span class="glyphicon glyphicon-plus-sign"></span> Create</a>
+        </div>
+    </div>
+</div>
+<hr/>
+<div>
+    <h3>Search for Usuarios</h3>
+    <form id="UsuarioSearch" class="form-horizontal">
+        
+    <div class="form-group">
+        <label for="globalCodigopostal" class="col-sm-2 control-label">Global Codigopostal</label>
+        <div class="col-sm-10">
+            <select id="globalCodigopostal" name="globalCodigopostal" class="form-control" ng-model="search.globalCodigopostal" ng-options="g as g.idcodigopostal for g in globalCodigopostalList">
+                <option value="">Choose a Global Codigopostal</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="redessociales" class="col-sm-2 control-label">Redessociales</label>
+        <div class="col-sm-10">
+            <select id="redessociales" name="redessociales" class="form-control" ng-model="search.redessociales" ng-options="r as r.idredessociales for r in redessocialesList">
+                <option value="">Choose a Redessociales</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="roles" class="col-sm-2 control-label">Roles</label>
+        <div class="col-sm-10">
+            <select id="roles" name="roles" class="form-control" ng-model="search.roles" ng-options="r as r.idrol for r in rolesList">
+                <option value="">Choose a Roles</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="sexo" class="col-sm-2 control-label">Sexo</label>
+        <div class="col-sm-10">
+            <select id="sexo" name="sexo" class="form-control" ng-model="search.sexo" ng-options="s as s.idsexo for s in sexoList">
+                <option value="">Choose a Sexo</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="nombre" class="col-sm-2 control-label">Nombre</label>
+        <div class="col-sm-10">
+            <input id="nombre" name="nombre" class="form-control" type="text" ng-model="search.nombre" placeholder="Enter the Usuario Nombre"></input>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="apellido1" class="col-sm-2 control-label">Apellido 1</label>
+        <div class="col-sm-10">
+            <input id="apellido1" name="apellido1" class="form-control" type="text" ng-model="search.apellido1" placeholder="Enter the Usuario Apellido 1"></input>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="apellido2" class="col-sm-2 control-label">Apellido 2</label>
+        <div class="col-sm-10">
+            <input id="apellido2" name="apellido2" class="form-control" type="text" ng-model="search.apellido2" placeholder="Enter the Usuario Apellido 2"></input>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="email" class="col-sm-2 control-label">Email</label>
+        <div class="col-sm-10">
+            <input id="email" name="email" class="form-control" type="text" ng-model="search.email" placeholder="Enter the Usuario Email"></input>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="telefono" class="col-sm-2 control-label">Telefono</label>
+        <div class="col-sm-10">
+            <input id="telefono" name="telefono" class="form-control" type="text" ng-model="search.telefono" placeholder="Enter the Usuario Telefono"></input>
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <label for="direccion" class="col-sm-2 control-label">Direccion</label>
+        <div class="col-sm-10">
+            <input id="direccion" name="direccion" class="form-control" type="text" ng-model="search.direccion" placeholder="Enter the Usuario Direccion"></input>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="fotoperfil" class="col-sm-2 control-label">Fotoperfil</label>
+        <div class="col-sm-10">
+            <input id="fotoperfil" name="fotoperfil" class="form-control" type="text" ng-model="search.fotoperfil" placeholder="Enter the Usuario Fotoperfil"></input>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="password" class="col-sm-2 control-label">Password</label>
+        <div class="col-sm-10">
+            <input id="password" name="password" class="form-control" type="text" ng-model="search.password" placeholder="Enter the Usuario Password"></input>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="cuentacorriente" class="col-sm-2 control-label">Cuentacorriente</label>
+        <div class="col-sm-10">
+            <input id="cuentacorriente" name="cuentacorriente" class="form-control" type="text" ng-model="search.cuentacorriente" placeholder="Enter the Usuario Cuentacorriente"></input>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="iban" class="col-sm-2 control-label">Iban</label>
+        <div class="col-sm-10">
+            <input id="iban" name="iban" class="form-control" type="text" ng-model="search.iban" placeholder="Enter the Usuario Iban"></input>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="bloqueado" class="col-sm-2 control-label">Bloqueado</label>
+        <div class="col-sm-10">
+            <select id="bloqueado" name="bloqueado" class="form-control" ng-model="search.bloqueado" ng-options="b as b for b in bloqueadoList">
+                <option value="">Choose a Bloqueado</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="activo" class="col-sm-2 control-label">Activo</label>
+        <div class="col-sm-10">
+            <select id="activo" name="activo" class="form-control" ng-model="search.activo" ng-options="a as a for a in activoList">
+                <option value="">Choose a Activo</option>
+            </select>
+        </div>
+    </div>
+
+
+
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-sm-10">
+                <a id="Search" name="Search" class="btn btn-primary" ng-click="performSearch()"><span class="glyphicon glyphicon-search"></span> Search</a>
+            </div>
+        </div>
+    </form>
+</div>
+<div id="search-results">
+        <div class="table-responsive">
+        <table class="table table-responsive table-bordered table-striped clearfix">
+            <thead>
+                <tr>
+                    <th>Global Codigopostal</th>
+                    <th>Redessociales</th>
+                    <th>Roles</th>
+                    <th>Sexo</th>
+                    <th>Nombre</th>
+                    <th>Apellido 1</th>
+                    <th>Apellido 2</th>
+                    <th>Email</th>
+                    <th>Telefono</th>
+                    <th>Fechanac</th>
+                    <th>Direccion</th>
+                    <th>Fotoperfil</th>
+                    <th>Password</th>
+                    <th>Cuentacorriente</th>
+                    <th>Iban</th>
+                    <th>Bloqueado</th>
+                    <th>Activo</th>
+                    <th>Ultimologin</th>
+                </tr>
+            </thead>
+            <tbody id="search-results-body">
+                <tr ng-repeat="result in filteredResults | startFrom:currentPage*pageSize | limitTo:pageSize">
+                        <td><a href="#/Usuarios/edit/{{result.idusuario}}">{{result.globalCodigopostal.idcodigopostal}}</a></td>
+                        <td><a href="#/Usuarios/edit/{{result.idusuario}}">{{result.redessociales.idredessociales}}</a></td>
+                        <td><a href="#/Usuarios/edit/{{result.idusuario}}">{{result.roles.idrol}}</a></td>
+                        <td><a href="#/Usuarios/edit/{{result.idusuario}}">{{result.sexo.idsexo}}</a></td>
+                    <td><a href="#/Usuarios/edit/{{result.idusuario}}">{{result.nombre}}</a></td>
+                    <td><a href="#/Usuarios/edit/{{result.idusuario}}">{{result.apellido1}}</a></td>
+                    <td><a href="#/Usuarios/edit/{{result.idusuario}}">{{result.apellido2}}</a></td>
+                    <td><a href="#/Usuarios/edit/{{result.idusuario}}">{{result.email}}</a></td>
+                    <td><a href="#/Usuarios/edit/{{result.idusuario}}">{{result.telefono}}</a></td>
+                    <td><a href="#/Usuarios/edit/{{result.idusuario}}">{{result.fechanac| date:'mediumDate'}}</a></td>
+                    <td><a href="#/Usuarios/edit/{{result.idusuario}}">{{result.direccion}}</a></td>
+                    <td><a href="#/Usuarios/edit/{{result.idusuario}}">{{result.fotoperfil}}</a></td>
+                    <td><a href="#/Usuarios/edit/{{result.idusuario}}">{{result.password}}</a></td>
+                    <td><a href="#/Usuarios/edit/{{result.idusuario}}">{{result.cuentacorriente}}</a></td>
+                    <td><a href="#/Usuarios/edit/{{result.idusuario}}">{{result.iban}}</a></td>
+                    <td><a href="#/Usuarios/edit/{{result.idusuario}}">{{result.bloqueado}}</a></td>
+                    <td><a href="#/Usuarios/edit/{{result.idusuario}}">{{result.activo}}</a></td>
+                    <td><a href="#/Usuarios/edit/{{result.idusuario}}">{{result.ultimologin| date:'mediumDate'}}</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+        <ul class="pagination pagination-centered">
+        <li ng-class="{disabled:currentPage == 0}">
+            <a id="prev" href ng-click="previous()">«</a>
+        </li>
+        <li ng-repeat="n in pageRange" ng-class="{active:currentPage == n}" ng-click="setPage(n)">
+            <a href ng-bind="n + 1">1</a>
+        </li>
+        <li ng-class="{disabled: currentPage == (numberOfPages() - 1)}">
+            <a id="next" href ng-click="next()">»</a>
+        </li>
+    </ul>
+
+</div>

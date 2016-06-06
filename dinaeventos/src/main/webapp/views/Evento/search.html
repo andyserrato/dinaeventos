@@ -1,0 +1,174 @@
+<div class="form-horizontal">
+    <h3>Create a new Evento</h3>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-sm-2">
+            <a id="Create" name="Create" class="btn btn-primary" href="#/Eventos/new"><span class="glyphicon glyphicon-plus-sign"></span> Create</a>
+        </div>
+    </div>
+</div>
+<hr/>
+<div>
+    <h3>Search for Eventos</h3>
+    <form id="EventoSearch" class="form-horizontal">
+        
+    <div class="form-group">
+        <label for="ddTipoEvento" class="col-sm-2 control-label">Dd Tipo Evento</label>
+        <div class="col-sm-10">
+            <select id="ddTipoEvento" name="ddTipoEvento" class="form-control" ng-model="search.ddTipoEvento" ng-options="d as d.idTipoEvento for d in ddTipoEventoList">
+                <option value="">Choose a Dd Tipo Evento</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="globalCodigopostal" class="col-sm-2 control-label">Global Codigopostal</label>
+        <div class="col-sm-10">
+            <select id="globalCodigopostal" name="globalCodigopostal" class="form-control" ng-model="search.globalCodigopostal" ng-options="g as g.idcodigopostal for g in globalCodigopostalList">
+                <option value="">Choose a Global Codigopostal</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="organizador" class="col-sm-2 control-label">Organizador</label>
+        <div class="col-sm-10">
+            <select id="organizador" name="organizador" class="form-control" ng-model="search.organizador" ng-options="o as o.idorganizador for o in organizadorList">
+                <option value="">Choose a Organizador</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="nombre" class="col-sm-2 control-label">Nombre</label>
+        <div class="col-sm-10">
+            <input id="nombre" name="nombre" class="form-control" type="text" ng-model="search.nombre" placeholder="Enter the Evento Nombre"></input>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="nombrelugar" class="col-sm-2 control-label">Nombrelugar</label>
+        <div class="col-sm-10">
+            <input id="nombrelugar" name="nombrelugar" class="form-control" type="text" ng-model="search.nombrelugar" placeholder="Enter the Evento Nombrelugar"></input>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="direccion" class="col-sm-2 control-label">Direccion</label>
+        <div class="col-sm-10">
+            <input id="direccion" name="direccion" class="form-control" type="text" ng-model="search.direccion" placeholder="Enter the Evento Direccion"></input>
+        </div>
+    </div>
+
+
+
+    <div class="form-group">
+        <label for="logo" class="col-sm-2 control-label">Logo</label>
+        <div class="col-sm-10">
+            <input id="logo" name="logo" class="form-control" type="text" ng-model="search.logo" placeholder="Enter the Evento Logo"></input>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="descripcion" class="col-sm-2 control-label">Descripcion</label>
+        <div class="col-sm-10">
+            <input id="descripcion" name="descripcion" class="form-control" type="text" ng-model="search.descripcion" placeholder="Enter the Evento Descripcion"></input>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="aforo" class="col-sm-2 control-label">Aforo</label>
+        <div class="col-sm-10">
+            <input id="aforo" name="aforo" class="form-control" type="text" ng-model="search.aforo" placeholder="Enter the Evento Aforo"></input>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="latitud" class="col-sm-2 control-label">Latitud</label>
+        <div class="col-sm-10">
+            <input id="latitud" name="latitud" class="form-control" type="text" ng-model="search.latitud" placeholder="Enter the Evento Latitud"></input>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="longitud" class="col-sm-2 control-label">Longitud</label>
+        <div class="col-sm-10">
+            <input id="longitud" name="longitud" class="form-control" type="text" ng-model="search.longitud" placeholder="Enter the Evento Longitud"></input>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="entradasDisponibles" class="col-sm-2 control-label">Entradas Disponibles</label>
+        <div class="col-sm-10">
+            <input id="entradasDisponibles" name="entradasDisponibles" class="form-control" type="text" ng-model="search.entradasDisponibles" placeholder="Enter the Evento Entradas Disponibles"></input>
+        </div>
+    </div>
+
+
+
+
+
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-sm-10">
+                <a id="Search" name="Search" class="btn btn-primary" ng-click="performSearch()"><span class="glyphicon glyphicon-search"></span> Search</a>
+            </div>
+        </div>
+    </form>
+</div>
+<div id="search-results">
+        <div class="table-responsive">
+        <table class="table table-responsive table-bordered table-striped clearfix">
+            <thead>
+                <tr>
+                    <th>Dd Tipo Evento</th>
+                    <th>Global Codigopostal</th>
+                    <th>Organizador</th>
+                    <th>Nombre</th>
+                    <th>Nombrelugar</th>
+                    <th>Direccion</th>
+                    <th>Fecha Ini</th>
+                    <th>Fecha Fin</th>
+                    <th>Logo</th>
+                    <th>Descripcion</th>
+                    <th>Aforo</th>
+                    <th>Latitud</th>
+                    <th>Longitud</th>
+                    <th>Entradas Disponibles</th>
+                    <th>Fecha Alta</th>
+                </tr>
+            </thead>
+            <tbody id="search-results-body">
+                <tr ng-repeat="result in filteredResults | startFrom:currentPage*pageSize | limitTo:pageSize">
+                        <td><a href="#/Eventos/edit/{{result.idevento}}">{{result.ddTipoEvento.idTipoEvento}}</a></td>
+                        <td><a href="#/Eventos/edit/{{result.idevento}}">{{result.globalCodigopostal.idcodigopostal}}</a></td>
+                        <td><a href="#/Eventos/edit/{{result.idevento}}">{{result.organizador.idorganizador}}</a></td>
+                    <td><a href="#/Eventos/edit/{{result.idevento}}">{{result.nombre}}</a></td>
+                    <td><a href="#/Eventos/edit/{{result.idevento}}">{{result.nombrelugar}}</a></td>
+                    <td><a href="#/Eventos/edit/{{result.idevento}}">{{result.direccion}}</a></td>
+                    <td><a href="#/Eventos/edit/{{result.idevento}}">{{result.fechaIni| date:'yyyy-MM-dd HH:mm:ss Z'}}</a></td>
+                    <td><a href="#/Eventos/edit/{{result.idevento}}">{{result.fechaFin| date:'yyyy-MM-dd HH:mm:ss Z'}}</a></td>
+                    <td><a href="#/Eventos/edit/{{result.idevento}}">{{result.logo}}</a></td>
+                    <td><a href="#/Eventos/edit/{{result.idevento}}">{{result.descripcion}}</a></td>
+                    <td><a href="#/Eventos/edit/{{result.idevento}}">{{result.aforo}}</a></td>
+                    <td><a href="#/Eventos/edit/{{result.idevento}}">{{result.latitud}}</a></td>
+                    <td><a href="#/Eventos/edit/{{result.idevento}}">{{result.longitud}}</a></td>
+                    <td><a href="#/Eventos/edit/{{result.idevento}}">{{result.entradasDisponibles}}</a></td>
+                    <td><a href="#/Eventos/edit/{{result.idevento}}">{{result.fechaAlta| date:'yyyy-MM-dd HH:mm:ss Z'}}</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+        <ul class="pagination pagination-centered">
+        <li ng-class="{disabled:currentPage == 0}">
+            <a id="prev" href ng-click="previous()">«</a>
+        </li>
+        <li ng-repeat="n in pageRange" ng-class="{active:currentPage == n}" ng-click="setPage(n)">
+            <a href ng-bind="n + 1">1</a>
+        </li>
+        <li ng-class="{disabled: currentPage == (numberOfPages() - 1)}">
+            <a id="next" href ng-click="next()">»</a>
+        </li>
+    </ul>
+
+</div>

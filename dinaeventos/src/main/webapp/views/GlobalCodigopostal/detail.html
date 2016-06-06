@@ -1,0 +1,76 @@
+<header ng-switch on="$location.path().indexOf('/GlobalCodigopostals/new') > -1">
+    <h3 ng-switch-when="true">Create a new GlobalCodigopostal</h3>
+    <h3 ng-switch-when="false">View or edit GlobalCodigopostal</h3>
+</header>
+<form id="GlobalCodigopostalForm" name="GlobalCodigopostalForm" class="form-horizontal" role="form">
+    
+    <div class="form-group" ng-class="{'has-error': GlobalCodigopostalForm.globalProvincia.$invalid}">
+        <label for="globalProvincia" class="col-sm-2 control-label">Global Provincia</label>
+        <div id="globalProvinciaControls" class="col-sm-10">
+        <select id="globalProvincia" name="globalProvincia" class="form-control" ng-model="globalProvinciaSelection" ng-options="g.text for g in globalProvinciaSelectionList"  >
+            <option value="">Choose a Global Provincia</option>
+        </select>
+        </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error': GlobalCodigopostalForm.codigo.$invalid}">
+        <label for="codigo" class="col-sm-2 control-label">Codigo</label>
+        <div id="codigoControls" class="col-sm-10">
+            <input id="codigo" name="codigo" type="text" ng-maxlength="5" class="form-control" ng-model="globalCodigopostal.codigo" placeholder="Enter the GlobalCodigopostal Codigo"></input>
+            <span class="help-block error" ng-show="GlobalCodigopostalForm.codigo.$error.maxlength">maximum length is 5</span>
+        </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error': GlobalCodigopostalForm.localidad.$invalid}">
+        <label for="localidad" class="col-sm-2 control-label">Localidad</label>
+        <div id="localidadControls" class="col-sm-10">
+            <input id="localidad" name="localidad" type="text" ng-maxlength="45" class="form-control" ng-model="globalCodigopostal.localidad" placeholder="Enter the GlobalCodigopostal Localidad"></input>
+            <span class="help-block error" ng-show="GlobalCodigopostalForm.localidad.$error.maxlength">maximum length is 45</span>
+        </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error': GlobalCodigopostalForm.patrocinadors.$invalid}">
+        <label for="patrocinadors" class="col-sm-2 control-label">Patrocinadors</label>
+        <div id="patrocinadorsControls" class="col-sm-10">
+            <select id="patrocinadors" name="patrocinadors" multiple class="form-control" ng-model="patrocinadorsSelection" ng-options="p.text for p in patrocinadorsSelectionList">
+                <option value="">Choose a Patrocinadors</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error': GlobalCodigopostalForm.usuarios.$invalid}">
+        <label for="usuarios" class="col-sm-2 control-label">Usuarios</label>
+        <div id="usuariosControls" class="col-sm-10">
+            <select id="usuarios" name="usuarios" multiple class="form-control" ng-model="usuariosSelection" ng-options="u.text for u in usuariosSelectionList">
+                <option value="">Choose a Usuarios</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error': GlobalCodigopostalForm.eventos.$invalid}">
+        <label for="eventos" class="col-sm-2 control-label">Eventos</label>
+        <div id="eventosControls" class="col-sm-10">
+            <select id="eventos" name="eventos" multiple class="form-control" ng-model="eventosSelection" ng-options="e.text for e in eventosSelectionList">
+                <option value="">Choose a Eventos</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error': GlobalCodigopostalForm.organizadors.$invalid}">
+        <label for="organizadors" class="col-sm-2 control-label">Organizadors</label>
+        <div id="organizadorsControls" class="col-sm-10">
+            <select id="organizadors" name="organizadors" multiple class="form-control" ng-model="organizadorsSelection" ng-options="o.text for o in organizadorsSelectionList">
+                <option value="">Choose a Organizadors</option>
+            </select>
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <button id="saveGlobalCodigopostal" name="saveGlobalCodigopostal" class="btn btn-primary" ng-disabled="isClean() || GlobalCodigopostalForm.$invalid" ng-click="save()"><span class="glyphicon glyphicon-ok-sign"></span> Save</button>
+            <button id="cancel" name="cancel" class="btn btn-default" ng-click="cancel()"><span class="glyphicon glyphicon-remove-sign"></span> Cancel</button>
+            <button id="deleteGlobalCodigopostal" name="deleteGlobalCodigopostal" class="btn btn-danger" ng-show="globalCodigopostal.idcodigopostal" ng-click="remove()"><span class="glyphicon glyphicon-trash"></span> Delete</button>
+        </div>
+    </div>
+</form>

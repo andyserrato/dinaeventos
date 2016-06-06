@@ -1,0 +1,32 @@
+<header ng-switch on="$location.path().indexOf('/GlobalProvincia/new') > -1">
+    <h3 ng-switch-when="true">Create a new GlobalProvincia</h3>
+    <h3 ng-switch-when="false">View or edit GlobalProvincia</h3>
+</header>
+<form id="GlobalProvinciaForm" name="GlobalProvinciaForm" class="form-horizontal" role="form">
+    
+    <div class="form-group" ng-class="{'has-error': GlobalProvinciaForm.nombre.$invalid}">
+        <label for="nombre" class="col-sm-2 control-label">Nombre</label>
+        <div id="nombreControls" class="col-sm-10">
+            <input id="nombre" name="nombre" type="text" ng-maxlength="45" class="form-control" ng-model="globalProvincia.nombre" placeholder="Enter the GlobalProvincia Nombre"></input>
+            <span class="help-block error" ng-show="GlobalProvinciaForm.nombre.$error.maxlength">maximum length is 45</span>
+        </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error': GlobalProvinciaForm.globalCodigopostals.$invalid}">
+        <label for="globalCodigopostals" class="col-sm-2 control-label">Global Codigopostals</label>
+        <div id="globalCodigopostalsControls" class="col-sm-10">
+            <select id="globalCodigopostals" name="globalCodigopostals" multiple class="form-control" ng-model="globalCodigopostalsSelection" ng-options="g.text for g in globalCodigopostalsSelectionList">
+                <option value="">Choose a Global Codigopostals</option>
+            </select>
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <button id="saveGlobalProvincia" name="saveGlobalProvincia" class="btn btn-primary" ng-disabled="isClean() || GlobalProvinciaForm.$invalid" ng-click="save()"><span class="glyphicon glyphicon-ok-sign"></span> Save</button>
+            <button id="cancel" name="cancel" class="btn btn-default" ng-click="cancel()"><span class="glyphicon glyphicon-remove-sign"></span> Cancel</button>
+            <button id="deleteGlobalProvincia" name="deleteGlobalProvincia" class="btn btn-danger" ng-show="globalProvincia.idprovincia" ng-click="remove()"><span class="glyphicon glyphicon-trash"></span> Delete</button>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,122 @@
+<div class="form-horizontal">
+    <h3>Create a new RrppMinion</h3>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-sm-2">
+            <a id="Create" name="Create" class="btn btn-primary" href="#/RrppMinions/new"><span class="glyphicon glyphicon-plus-sign"></span> Create</a>
+        </div>
+    </div>
+</div>
+<hr/>
+<div>
+    <h3>Search for RrppMinions</h3>
+    <form id="RrppMinionSearch" class="form-horizontal">
+        
+    <div class="form-group">
+        <label for="rrppJefe" class="col-sm-2 control-label">Rrpp Jefe</label>
+        <div class="col-sm-10">
+            <select id="rrppJefe" name="rrppJefe" class="form-control" ng-model="search.rrppJefe" ng-options="r as r.idrrppJefe for r in rrppJefeList">
+                <option value="">Choose a Rrpp Jefe</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="nombre" class="col-sm-2 control-label">Nombre</label>
+        <div class="col-sm-10">
+            <input id="nombre" name="nombre" class="form-control" type="text" ng-model="search.nombre" placeholder="Enter the RrppMinion Nombre"></input>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="apellido1" class="col-sm-2 control-label">Apellido 1</label>
+        <div class="col-sm-10">
+            <input id="apellido1" name="apellido1" class="form-control" type="text" ng-model="search.apellido1" placeholder="Enter the RrppMinion Apellido 1"></input>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="apellido2" class="col-sm-2 control-label">Apellido 2</label>
+        <div class="col-sm-10">
+            <input id="apellido2" name="apellido2" class="form-control" type="text" ng-model="search.apellido2" placeholder="Enter the RrppMinion Apellido 2"></input>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="email" class="col-sm-2 control-label">Email</label>
+        <div class="col-sm-10">
+            <input id="email" name="email" class="form-control" type="text" ng-model="search.email" placeholder="Enter the RrppMinion Email"></input>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="telefono" class="col-sm-2 control-label">Telefono</label>
+        <div class="col-sm-10">
+            <input id="telefono" name="telefono" class="form-control" type="text" ng-model="search.telefono" placeholder="Enter the RrppMinion Telefono"></input>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="limiteEntradas" class="col-sm-2 control-label">Limite Entradas</label>
+        <div class="col-sm-10">
+            <input id="limiteEntradas" name="limiteEntradas" class="form-control" type="text" ng-model="search.limiteEntradas" placeholder="Enter the RrppMinion Limite Entradas"></input>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="coigoPromocional" class="col-sm-2 control-label">Coigo Promocional</label>
+        <div class="col-sm-10">
+            <input id="coigoPromocional" name="coigoPromocional" class="form-control" type="text" ng-model="search.coigoPromocional" placeholder="Enter the RrppMinion Coigo Promocional"></input>
+        </div>
+    </div>
+
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-sm-10">
+                <a id="Search" name="Search" class="btn btn-primary" ng-click="performSearch()"><span class="glyphicon glyphicon-search"></span> Search</a>
+            </div>
+        </div>
+    </form>
+</div>
+<div id="search-results">
+        <div class="table-responsive">
+        <table class="table table-responsive table-bordered table-striped clearfix">
+            <thead>
+                <tr>
+                    <th>Rrpp Jefe</th>
+                    <th>Nombre</th>
+                    <th>Apellido 1</th>
+                    <th>Apellido 2</th>
+                    <th>Email</th>
+                    <th>Telefono</th>
+                    <th>Limite Entradas</th>
+                    <th>Coigo Promocional</th>
+                </tr>
+            </thead>
+            <tbody id="search-results-body">
+                <tr ng-repeat="result in filteredResults | startFrom:currentPage*pageSize | limitTo:pageSize">
+                        <td><a href="#/RrppMinions/edit/{{result.idrrppMinion}}">{{result.rrppJefe.idrrppJefe}}</a></td>
+                    <td><a href="#/RrppMinions/edit/{{result.idrrppMinion}}">{{result.nombre}}</a></td>
+                    <td><a href="#/RrppMinions/edit/{{result.idrrppMinion}}">{{result.apellido1}}</a></td>
+                    <td><a href="#/RrppMinions/edit/{{result.idrrppMinion}}">{{result.apellido2}}</a></td>
+                    <td><a href="#/RrppMinions/edit/{{result.idrrppMinion}}">{{result.email}}</a></td>
+                    <td><a href="#/RrppMinions/edit/{{result.idrrppMinion}}">{{result.telefono}}</a></td>
+                    <td><a href="#/RrppMinions/edit/{{result.idrrppMinion}}">{{result.limiteEntradas}}</a></td>
+                    <td><a href="#/RrppMinions/edit/{{result.idrrppMinion}}">{{result.coigoPromocional}}</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+        <ul class="pagination pagination-centered">
+        <li ng-class="{disabled:currentPage == 0}">
+            <a id="prev" href ng-click="previous()">«</a>
+        </li>
+        <li ng-repeat="n in pageRange" ng-class="{active:currentPage == n}" ng-click="setPage(n)">
+            <a href ng-bind="n + 1">1</a>
+        </li>
+        <li ng-class="{disabled: currentPage == (numberOfPages() - 1)}">
+            <a id="next" href ng-click="next()">»</a>
+        </li>
+    </ul>
+
+</div>

@@ -1,0 +1,81 @@
+<div class="form-horizontal">
+    <h3>Create a new GlobalCodigopostal</h3>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-sm-2">
+            <a id="Create" name="Create" class="btn btn-primary" href="#/GlobalCodigopostals/new"><span class="glyphicon glyphicon-plus-sign"></span> Create</a>
+        </div>
+    </div>
+</div>
+<hr/>
+<div>
+    <h3>Search for GlobalCodigopostals</h3>
+    <form id="GlobalCodigopostalSearch" class="form-horizontal">
+        
+    <div class="form-group">
+        <label for="globalProvincia" class="col-sm-2 control-label">Global Provincia</label>
+        <div class="col-sm-10">
+            <select id="globalProvincia" name="globalProvincia" class="form-control" ng-model="search.globalProvincia" ng-options="g as g.idprovincia for g in globalProvinciaList">
+                <option value="">Choose a Global Provincia</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="codigo" class="col-sm-2 control-label">Codigo</label>
+        <div class="col-sm-10">
+            <input id="codigo" name="codigo" class="form-control" type="text" ng-model="search.codigo" placeholder="Enter the GlobalCodigopostal Codigo"></input>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="localidad" class="col-sm-2 control-label">Localidad</label>
+        <div class="col-sm-10">
+            <input id="localidad" name="localidad" class="form-control" type="text" ng-model="search.localidad" placeholder="Enter the GlobalCodigopostal Localidad"></input>
+        </div>
+    </div>
+
+
+
+
+
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-sm-10">
+                <a id="Search" name="Search" class="btn btn-primary" ng-click="performSearch()"><span class="glyphicon glyphicon-search"></span> Search</a>
+            </div>
+        </div>
+    </form>
+</div>
+<div id="search-results">
+        <div class="table-responsive">
+        <table class="table table-responsive table-bordered table-striped clearfix">
+            <thead>
+                <tr>
+                    <th>Global Provincia</th>
+                    <th>Codigo</th>
+                    <th>Localidad</th>
+                </tr>
+            </thead>
+            <tbody id="search-results-body">
+                <tr ng-repeat="result in filteredResults | startFrom:currentPage*pageSize | limitTo:pageSize">
+                        <td><a href="#/GlobalCodigopostals/edit/{{result.idcodigopostal}}">{{result.globalProvincia.idprovincia}}</a></td>
+                    <td><a href="#/GlobalCodigopostals/edit/{{result.idcodigopostal}}">{{result.codigo}}</a></td>
+                    <td><a href="#/GlobalCodigopostals/edit/{{result.idcodigopostal}}">{{result.localidad}}</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+        <ul class="pagination pagination-centered">
+        <li ng-class="{disabled:currentPage == 0}">
+            <a id="prev" href ng-click="previous()">«</a>
+        </li>
+        <li ng-repeat="n in pageRange" ng-class="{active:currentPage == n}" ng-click="setPage(n)">
+            <a href ng-bind="n + 1">1</a>
+        </li>
+        <li ng-class="{disabled: currentPage == (numberOfPages() - 1)}">
+            <a id="next" href ng-click="next()">»</a>
+        </li>
+    </ul>
+
+</div>

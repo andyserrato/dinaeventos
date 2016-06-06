@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="dinaeventos">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Dinaeventos</title>
+    <link href="styles/bootstrap.css" rel="stylesheet" media="screen">
+    <link href="styles/bootstrap-theme.css" rel="stylesheet" media="screen">
+    <link href="styles/main.css" rel="stylesheet" media="screen">
+</head>
+<body>
+    <div id="wrap">
+    	
+    	<div class="navbar navbar-inverse navbar-fixed-top">
+			<div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="offcanvas">
+                      <span class="sr-only">Toggle navigation</span>
+                      <span class="icon-bar"></span>
+                      <span class="icon-bar"></span>
+                      <span class="icon-bar"></span>
+                    </button>
+				    <a class="navbar-brand" href="#">Dinaeventos</a>
+			    </div>
+			</div>
+    	</div>
+        
+        <div class="container">
+            <div class="row row-offcanvas row-offcanvas-left">
+                <!-- sidebar -->
+                <div class="col-xs-6 col-sm-3 well sidebar-offcanvas">
+                    <a href="app.html">
+                        <img class="hidden-xs img-responsive" src="img/forge-logo.png" alt="JBoss Forge"></img>
+                    </a>
+                    <nav class="sidebar-nav" ng-controller="NavController" role="navigation">
+                        <div id="sidebar-entries" class="list-group">
+                        	<a class="list-group-item" ng-class="{active: matchesRoute('DdFormapagos')}" href="#/DdFormapagos" data-toggle="offcanvas">DdFormapagos</a>
+                        	<a class="list-group-item" ng-class="{active: matchesRoute('DdOrigenEntradas')}" href="#/DdOrigenEntradas" data-toggle="offcanvas">DdOrigenEntradas</a>
+                        	<a class="list-group-item" ng-class="{active: matchesRoute('DdTipoEventos')}" href="#/DdTipoEventos" data-toggle="offcanvas">DdTipoEventos</a>
+                        	<a class="list-group-item" ng-class="{active: matchesRoute('DdTiposIvas')}" href="#/DdTiposIvas" data-toggle="offcanvas">DdTiposIvas</a>
+                        	<a class="list-group-item" ng-class="{active: matchesRoute('Entradas')}" href="#/Entradas" data-toggle="offcanvas">Entradas</a>
+                        	<a class="list-group-item" ng-class="{active: matchesRoute('Eventos')}" href="#/Eventos" data-toggle="offcanvas">Eventos</a>
+                        	<a class="list-group-item" ng-class="{active: matchesRoute('GlobalCodigopostals')}" href="#/GlobalCodigopostals" data-toggle="offcanvas">GlobalCodigopostals</a>
+                        	<a class="list-group-item" ng-class="{active: matchesRoute('GlobalProvincia')}" href="#/GlobalProvincia" data-toggle="offcanvas">GlobalProvincia</a>
+                        	<a class="list-group-item" ng-class="{active: matchesRoute('Members')}" href="#/Members" data-toggle="offcanvas">Members</a>
+                        	<a class="list-group-item" ng-class="{active: matchesRoute('Organizadors')}" href="#/Organizadors" data-toggle="offcanvas">Organizadors</a>
+                        	<a class="list-group-item" ng-class="{active: matchesRoute('Patrocinadors')}" href="#/Patrocinadors" data-toggle="offcanvas">Patrocinadors</a>
+                        	<a class="list-group-item" ng-class="{active: matchesRoute('Permisos')}" href="#/Permisos" data-toggle="offcanvas">Permisos</a>
+                        	<a class="list-group-item" ng-class="{active: matchesRoute('Redessociales')}" href="#/Redessociales" data-toggle="offcanvas">Redessociales</a>
+                        	<a class="list-group-item" ng-class="{active: matchesRoute('Roles')}" href="#/Roles" data-toggle="offcanvas">Roles</a>
+                        	<a class="list-group-item" ng-class="{active: matchesRoute('RrppJeves')}" href="#/RrppJeves" data-toggle="offcanvas">RrppJeves</a>
+                        	<a class="list-group-item" ng-class="{active: matchesRoute('RrppMinions')}" href="#/RrppMinions" data-toggle="offcanvas">RrppMinions</a>
+                        	<a class="list-group-item" ng-class="{active: matchesRoute('Sexos')}" href="#/Sexos" data-toggle="offcanvas">Sexos</a>
+                        	<a class="list-group-item" ng-class="{active: matchesRoute('Tipoentradas')}" href="#/Tipoentradas" data-toggle="offcanvas">Tipoentradas</a>
+                        	<a class="list-group-item" ng-class="{active: matchesRoute('Usuarios')}" href="#/Usuarios" data-toggle="offcanvas">Usuarios</a>
+                        </div>
+                    </nav>
+                </div>
+                <!-- main area-->
+                <div class="col-sm-offset-1 col-xs-12 col-sm-8 well mainarea">
+                    <div ng-controller="FlashController" class="alert alert-dismissible" ng-class="'alert-' + flash.getMessage().cssClass" role="alert" ng-show="showAlert">
+                        <button type="button" class="close" ng-click="hideAlert()" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        {{flash.getMessage().text}}
+                    </div>
+                    <div id="main" ng-view>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="footer">
+        <div class="container">
+            <p>Powered by <a href="http://jboss.org/forge">Forge</a></p>
+            <p><a href="http://glyphicons.com">Glyphicons Free</a> licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a>.</p>
+        </div>
+    </div>
+    
+    <script src="scripts/vendor/modernizr-2.8.3.min.js"></script>
+    <script src="scripts/vendor/jquery-2.1.1.js"></script>
+    <script src="scripts/vendor/bootstrap.js"></script>
+    <script src="scripts/vendor/angular.js"></script>
+    <script src="scripts/vendor/angular-route.js"></script>
+    <script src="scripts/vendor/angular-resource.js"></script>
+    <script src="scripts/app.js"></script>
+    <script src="scripts/offcanvas.js"></script>
+    <script src="scripts/directives/datepicker.js"></script>
+    <script src="scripts/directives/timepicker.js"></script>
+    <script src="scripts/directives/datetimepicker.js"></script>
+    <script src="scripts/filters/startFromFilter.js"></script>
+    <script src="scripts/filters/genericSearchFilter.js"></script>
+    <script src="scripts/services/flash.js"></script>
+    <script src="scripts/services/locationParser.js"></script>
+    <script src="scripts/controllers/flashController.js"></script>
+    <script src="scripts/services/DdFormapagoFactory.js"></script>
+    <script src="scripts/controllers/newDdFormapagoController.js"></script>
+    <script src="scripts/controllers/searchDdFormapagoController.js"></script>
+    <script src="scripts/controllers/editDdFormapagoController.js"></script>
+    <script src="scripts/services/DdOrigenEntradaFactory.js"></script>
+    <script src="scripts/controllers/newDdOrigenEntradaController.js"></script>
+    <script src="scripts/controllers/searchDdOrigenEntradaController.js"></script>
+    <script src="scripts/controllers/editDdOrigenEntradaController.js"></script>
+    <script src="scripts/services/DdTipoEventoFactory.js"></script>
+    <script src="scripts/controllers/newDdTipoEventoController.js"></script>
+    <script src="scripts/controllers/searchDdTipoEventoController.js"></script>
+    <script src="scripts/controllers/editDdTipoEventoController.js"></script>
+    <script src="scripts/services/DdTiposIvaFactory.js"></script>
+    <script src="scripts/controllers/newDdTiposIvaController.js"></script>
+    <script src="scripts/controllers/searchDdTiposIvaController.js"></script>
+    <script src="scripts/controllers/editDdTiposIvaController.js"></script>
+    <script src="scripts/services/EntradaFactory.js"></script>
+    <script src="scripts/controllers/newEntradaController.js"></script>
+    <script src="scripts/controllers/searchEntradaController.js"></script>
+    <script src="scripts/controllers/editEntradaController.js"></script>
+    <script src="scripts/services/EventoFactory.js"></script>
+    <script src="scripts/controllers/newEventoController.js"></script>
+    <script src="scripts/controllers/searchEventoController.js"></script>
+    <script src="scripts/controllers/editEventoController.js"></script>
+    <script src="scripts/services/GlobalCodigopostalFactory.js"></script>
+    <script src="scripts/controllers/newGlobalCodigopostalController.js"></script>
+    <script src="scripts/controllers/searchGlobalCodigopostalController.js"></script>
+    <script src="scripts/controllers/editGlobalCodigopostalController.js"></script>
+    <script src="scripts/services/GlobalProvinciaFactory.js"></script>
+    <script src="scripts/controllers/newGlobalProvinciaController.js"></script>
+    <script src="scripts/controllers/searchGlobalProvinciaController.js"></script>
+    <script src="scripts/controllers/editGlobalProvinciaController.js"></script>
+    <script src="scripts/services/MemberFactory.js"></script>
+    <script src="scripts/controllers/newMemberController.js"></script>
+    <script src="scripts/controllers/searchMemberController.js"></script>
+    <script src="scripts/controllers/editMemberController.js"></script>
+    <script src="scripts/services/OrganizadorFactory.js"></script>
+    <script src="scripts/controllers/newOrganizadorController.js"></script>
+    <script src="scripts/controllers/searchOrganizadorController.js"></script>
+    <script src="scripts/controllers/editOrganizadorController.js"></script>
+    <script src="scripts/services/PatrocinadorFactory.js"></script>
+    <script src="scripts/controllers/newPatrocinadorController.js"></script>
+    <script src="scripts/controllers/searchPatrocinadorController.js"></script>
+    <script src="scripts/controllers/editPatrocinadorController.js"></script>
+    <script src="scripts/services/PermisosFactory.js"></script>
+    <script src="scripts/controllers/newPermisosController.js"></script>
+    <script src="scripts/controllers/searchPermisosController.js"></script>
+    <script src="scripts/controllers/editPermisosController.js"></script>
+    <script src="scripts/services/RedessocialesFactory.js"></script>
+    <script src="scripts/controllers/newRedessocialesController.js"></script>
+    <script src="scripts/controllers/searchRedessocialesController.js"></script>
+    <script src="scripts/controllers/editRedessocialesController.js"></script>
+    <script src="scripts/services/RolesFactory.js"></script>
+    <script src="scripts/controllers/newRolesController.js"></script>
+    <script src="scripts/controllers/searchRolesController.js"></script>
+    <script src="scripts/controllers/editRolesController.js"></script>
+    <script src="scripts/services/RrppJefeFactory.js"></script>
+    <script src="scripts/controllers/newRrppJefeController.js"></script>
+    <script src="scripts/controllers/searchRrppJefeController.js"></script>
+    <script src="scripts/controllers/editRrppJefeController.js"></script>
+    <script src="scripts/services/RrppMinionFactory.js"></script>
+    <script src="scripts/controllers/newRrppMinionController.js"></script>
+    <script src="scripts/controllers/searchRrppMinionController.js"></script>
+    <script src="scripts/controllers/editRrppMinionController.js"></script>
+    <script src="scripts/services/SexoFactory.js"></script>
+    <script src="scripts/controllers/newSexoController.js"></script>
+    <script src="scripts/controllers/searchSexoController.js"></script>
+    <script src="scripts/controllers/editSexoController.js"></script>
+    <script src="scripts/services/TipoentradaFactory.js"></script>
+    <script src="scripts/controllers/newTipoentradaController.js"></script>
+    <script src="scripts/controllers/searchTipoentradaController.js"></script>
+    <script src="scripts/controllers/editTipoentradaController.js"></script>
+    <script src="scripts/services/UsuarioFactory.js"></script>
+    <script src="scripts/controllers/newUsuarioController.js"></script>
+    <script src="scripts/controllers/searchUsuarioController.js"></script>
+    <script src="scripts/controllers/editUsuarioController.js"></script>
+</body>
+</html>

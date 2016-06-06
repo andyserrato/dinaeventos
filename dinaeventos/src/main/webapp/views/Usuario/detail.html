@@ -1,0 +1,173 @@
+<header ng-switch on="$location.path().indexOf('/Usuarios/new') > -1">
+    <h3 ng-switch-when="true">Create a new Usuario</h3>
+    <h3 ng-switch-when="false">View or edit Usuario</h3>
+</header>
+<form id="UsuarioForm" name="UsuarioForm" class="form-horizontal" role="form">
+    
+    <div class="form-group" ng-class="{'has-error': UsuarioForm.globalCodigopostal.$invalid}">
+        <label for="globalCodigopostal" class="col-sm-2 control-label">Global Codigopostal</label>
+        <div id="globalCodigopostalControls" class="col-sm-10">
+        <select id="globalCodigopostal" name="globalCodigopostal" class="form-control" ng-model="globalCodigopostalSelection" ng-options="g.text for g in globalCodigopostalSelectionList"  >
+            <option value="">Choose a Global Codigopostal</option>
+        </select>
+        </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error': UsuarioForm.redessociales.$invalid}">
+        <label for="redessociales" class="col-sm-2 control-label">Redessociales</label>
+        <div id="redessocialesControls" class="col-sm-10">
+        <select id="redessociales" name="redessociales" class="form-control" ng-model="redessocialesSelection" ng-options="r.text for r in redessocialesSelectionList"  >
+            <option value="">Choose a Redessociales</option>
+        </select>
+        </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error': UsuarioForm.roles.$invalid}">
+        <label for="roles" class="col-sm-2 control-label">Roles</label>
+        <div id="rolesControls" class="col-sm-10">
+        <select id="roles" name="roles" class="form-control" ng-model="rolesSelection" ng-options="r.text for r in rolesSelectionList"  >
+            <option value="">Choose a Roles</option>
+        </select>
+        </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error': UsuarioForm.sexo.$invalid}">
+        <label for="sexo" class="col-sm-2 control-label">Sexo</label>
+        <div id="sexoControls" class="col-sm-10">
+        <select id="sexo" name="sexo" class="form-control" ng-model="sexoSelection" ng-options="s.text for s in sexoSelectionList"  >
+            <option value="">Choose a Sexo</option>
+        </select>
+        </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error': UsuarioForm.nombre.$invalid}">
+        <label for="nombre" class="col-sm-2 control-label">Nombre</label>
+        <div id="nombreControls" class="col-sm-10">
+            <input id="nombre" name="nombre" type="text" ng-maxlength="45" class="form-control" ng-model="usuario.nombre" placeholder="Enter the Usuario Nombre"></input>
+            <span class="help-block error" ng-show="UsuarioForm.nombre.$error.maxlength">maximum length is 45</span>
+        </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error': UsuarioForm.apellido1.$invalid}">
+        <label for="apellido1" class="col-sm-2 control-label">Apellido 1</label>
+        <div id="apellido1Controls" class="col-sm-10">
+            <input id="apellido1" name="apellido1" type="text" required ng-maxlength="45" class="form-control" ng-model="usuario.apellido1" placeholder="Enter the Usuario Apellido 1"></input>
+            <span class="help-block error" ng-show="UsuarioForm.apellido1.$error.required">required</span> 
+            <span class="help-block error" ng-show="UsuarioForm.apellido1.$error.maxlength">maximum length is 45</span>
+        </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error': UsuarioForm.apellido2.$invalid}">
+        <label for="apellido2" class="col-sm-2 control-label">Apellido 2</label>
+        <div id="apellido2Controls" class="col-sm-10">
+            <input id="apellido2" name="apellido2" type="text" ng-maxlength="45" class="form-control" ng-model="usuario.apellido2" placeholder="Enter the Usuario Apellido 2"></input>
+            <span class="help-block error" ng-show="UsuarioForm.apellido2.$error.maxlength">maximum length is 45</span>
+        </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error': UsuarioForm.email.$invalid}">
+        <label for="email" class="col-sm-2 control-label">Email</label>
+        <div id="emailControls" class="col-sm-10">
+            <input id="email" name="email" type="text" ng-maxlength="45" class="form-control" ng-model="usuario.email" placeholder="Enter the Usuario Email"></input>
+            <span class="help-block error" ng-show="UsuarioForm.email.$error.maxlength">maximum length is 45</span>
+        </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error': UsuarioForm.telefono.$invalid}">
+        <label for="telefono" class="col-sm-2 control-label">Telefono</label>
+        <div id="telefonoControls" class="col-sm-10">
+            <input id="telefono" name="telefono" type="text" ng-maxlength="9" class="form-control" ng-model="usuario.telefono" placeholder="Enter the Usuario Telefono"></input>
+            <span class="help-block error" ng-show="UsuarioForm.telefono.$error.maxlength">maximum length is 9</span>
+        </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error': UsuarioForm.fechanac.$invalid}">
+        <label for="fechanac" class="col-sm-2 control-label">Fechanac</label>
+        <div id="fechanacControls" class="col-sm-10">
+            <date id="fechanac" name="fechanac" ng-model="usuario.fechanac" placeholder="Enter the Usuario Fechanac"></date>
+            <span class="help-block error" ng-show="UsuarioForm.fechanac.$error.maxlength">maximum length is 10</span>
+            <span class="help-block error" ng-show="UsuarioForm.fechanac.$error.dateFormat">does not match format "yyyy-MM-dd" (e.g. 2013-12-01)</span>
+        </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error': UsuarioForm.direccion.$invalid}">
+        <label for="direccion" class="col-sm-2 control-label">Direccion</label>
+        <div id="direccionControls" class="col-sm-10">
+            <input id="direccion" name="direccion" type="text" ng-maxlength="45" class="form-control" ng-model="usuario.direccion" placeholder="Enter the Usuario Direccion"></input>
+            <span class="help-block error" ng-show="UsuarioForm.direccion.$error.maxlength">maximum length is 45</span>
+        </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error': UsuarioForm.fotoperfil.$invalid}">
+        <label for="fotoperfil" class="col-sm-2 control-label">Fotoperfil</label>
+        <div id="fotoperfilControls" class="col-sm-10">
+            <input id="fotoperfil" name="fotoperfil" type="text" class="form-control" ng-model="usuario.fotoperfil" placeholder="Enter the Usuario Fotoperfil"></input>
+        </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error': UsuarioForm.password.$invalid}">
+        <label for="password" class="col-sm-2 control-label">Password</label>
+        <div id="passwordControls" class="col-sm-10">
+            <input id="password" name="password" type="text" required ng-maxlength="45" class="form-control" ng-model="usuario.password" placeholder="Enter the Usuario Password"></input>
+            <span class="help-block error" ng-show="UsuarioForm.password.$error.required">required</span> 
+            <span class="help-block error" ng-show="UsuarioForm.password.$error.maxlength">maximum length is 45</span>
+        </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error': UsuarioForm.cuentacorriente.$invalid}">
+        <label for="cuentacorriente" class="col-sm-2 control-label">Cuentacorriente</label>
+        <div id="cuentacorrienteControls" class="col-sm-10">
+            <input id="cuentacorriente" name="cuentacorriente" type="text" ng-maxlength="45" class="form-control" ng-model="usuario.cuentacorriente" placeholder="Enter the Usuario Cuentacorriente"></input>
+            <span class="help-block error" ng-show="UsuarioForm.cuentacorriente.$error.maxlength">maximum length is 45</span>
+        </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error': UsuarioForm.iban.$invalid}">
+        <label for="iban" class="col-sm-2 control-label">Iban</label>
+        <div id="ibanControls" class="col-sm-10">
+            <input id="iban" name="iban" type="text" ng-maxlength="45" class="form-control" ng-model="usuario.iban" placeholder="Enter the Usuario Iban"></input>
+            <span class="help-block error" ng-show="UsuarioForm.iban.$error.maxlength">maximum length is 45</span>
+        </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error': UsuarioForm.bloqueado.$invalid}">
+        <label for="bloqueado" class="col-sm-2 control-label">Bloqueado</label>
+        <div id="bloqueadoControls" class="col-sm-10">
+            <input id="bloqueado" name="bloqueado" type="checkbox" class="checkbox" ng-model="usuario.bloqueado" placeholder="Enter the Usuario Bloqueado"></input>
+        </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error': UsuarioForm.activo.$invalid}">
+        <label for="activo" class="col-sm-2 control-label">Activo</label>
+        <div id="activoControls" class="col-sm-10">
+            <input id="activo" name="activo" type="checkbox" class="checkbox" ng-model="usuario.activo" placeholder="Enter the Usuario Activo"></input>
+        </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error': UsuarioForm.ultimologin.$invalid}">
+        <label for="ultimologin" class="col-sm-2 control-label">Ultimologin</label>
+        <div id="ultimologinControls" class="col-sm-10">
+            <date id="ultimologin" name="ultimologin" ng-model="usuario.ultimologin" placeholder="Enter the Usuario Ultimologin"></date>
+            <span class="help-block error" ng-show="UsuarioForm.ultimologin.$error.maxlength">maximum length is 10</span>
+            <span class="help-block error" ng-show="UsuarioForm.ultimologin.$error.dateFormat">does not match format "yyyy-MM-dd" (e.g. 2013-12-01)</span>
+        </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error': UsuarioForm.entradas.$invalid}">
+        <label for="entradas" class="col-sm-2 control-label">Entradas</label>
+        <div id="entradasControls" class="col-sm-10">
+            <select id="entradas" name="entradas" multiple class="form-control" ng-model="entradasSelection" ng-options="e.text for e in entradasSelectionList">
+                <option value="">Choose a Entradas</option>
+            </select>
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <button id="saveUsuario" name="saveUsuario" class="btn btn-primary" ng-disabled="isClean() || UsuarioForm.$invalid" ng-click="save()"><span class="glyphicon glyphicon-ok-sign"></span> Save</button>
+            <button id="cancel" name="cancel" class="btn btn-default" ng-click="cancel()"><span class="glyphicon glyphicon-remove-sign"></span> Cancel</button>
+            <button id="deleteUsuario" name="deleteUsuario" class="btn btn-danger" ng-show="usuario.idusuario" ng-click="remove()"><span class="glyphicon glyphicon-trash"></span> Delete</button>
+        </div>
+    </div>
+</form>

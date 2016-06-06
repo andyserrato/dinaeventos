@@ -1,0 +1,32 @@
+<header ng-switch on="$location.path().indexOf('/Redessociales/new') > -1">
+    <h3 ng-switch-when="true">Create a new Redessociales</h3>
+    <h3 ng-switch-when="false">View or edit Redessociales</h3>
+</header>
+<form id="RedessocialesForm" name="RedessocialesForm" class="form-horizontal" role="form">
+    
+    <div class="form-group" ng-class="{'has-error': RedessocialesForm.enlace.$invalid}">
+        <label for="enlace" class="col-sm-2 control-label">Enlace</label>
+        <div id="enlaceControls" class="col-sm-10">
+            <input id="enlace" name="enlace" type="text" ng-maxlength="45" class="form-control" ng-model="redessociales.enlace" placeholder="Enter the Redessociales Enlace"></input>
+            <span class="help-block error" ng-show="RedessocialesForm.enlace.$error.maxlength">maximum length is 45</span>
+        </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error': RedessocialesForm.usuarios.$invalid}">
+        <label for="usuarios" class="col-sm-2 control-label">Usuarios</label>
+        <div id="usuariosControls" class="col-sm-10">
+            <select id="usuarios" name="usuarios" multiple class="form-control" ng-model="usuariosSelection" ng-options="u.text for u in usuariosSelectionList">
+                <option value="">Choose a Usuarios</option>
+            </select>
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <button id="saveRedessociales" name="saveRedessociales" class="btn btn-primary" ng-disabled="isClean() || RedessocialesForm.$invalid" ng-click="save()"><span class="glyphicon glyphicon-ok-sign"></span> Save</button>
+            <button id="cancel" name="cancel" class="btn btn-default" ng-click="cancel()"><span class="glyphicon glyphicon-remove-sign"></span> Cancel</button>
+            <button id="deleteRedessociales" name="deleteRedessociales" class="btn btn-danger" ng-show="redessociales.idredessociales" ng-click="remove()"><span class="glyphicon glyphicon-trash"></span> Delete</button>
+        </div>
+    </div>
+</form>
