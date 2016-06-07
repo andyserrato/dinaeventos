@@ -1,9 +1,8 @@
 package org.dinamizadores.dinaeventos.model;
-// Generated 06-jun-2016 19:44:44 by Hibernate Tools 4.3.1.Final
+// Generated 07-jun-2016 22:29:03 by Hibernate Tools 4.3.1.Final
 
 import java.util.HashSet;
 import java.util.Set;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -22,6 +21,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class DdOrigenEntrada implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
 	private static final long serialVersionUID = -7320896745270200719L;
 	private int idorigenEntrada;
 	private String nombre;
@@ -41,7 +43,7 @@ public class DdOrigenEntrada implements java.io.Serializable {
 		this.entradas = entradas;
 	}
 
-	@Id @GeneratedValue(strategy=GenerationType.AUTO) 
+	@Id @GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name = "idorigen_entrada", unique = true, nullable = false)
 	public int getIdorigenEntrada() {
 		return this.idorigenEntrada;

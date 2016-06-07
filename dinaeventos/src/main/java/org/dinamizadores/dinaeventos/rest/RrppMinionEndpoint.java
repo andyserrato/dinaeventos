@@ -59,7 +59,7 @@ public class RrppMinionEndpoint {
 	public Response findById(@PathParam("id") int id) {
 		TypedQuery<RrppMinion> findByIdQuery = em
 				.createQuery(
-						"SELECT DISTINCT r FROM RrppMinion r LEFT JOIN FETCH r.rrppJefe LEFT JOIN FETCH r.rrppJefeHasEntradas WHERE r.idrrppMinion = :entityId ORDER BY r.idrrppMinion",
+						"SELECT DISTINCT r FROM RrppMinion r LEFT JOIN FETCH r.rrppJefe LEFT JOIN FETCH r.ddRrppJefeEntradas WHERE r.idrrppMinion = :entityId ORDER BY r.idrrppMinion",
 						RrppMinion.class);
 		findByIdQuery.setParameter("entityId", id);
 		RrppMinion entity;
@@ -80,7 +80,7 @@ public class RrppMinionEndpoint {
 			@QueryParam("max") Integer maxResult) {
 		TypedQuery<RrppMinion> findAllQuery = em
 				.createQuery(
-						"SELECT DISTINCT r FROM RrppMinion r LEFT JOIN FETCH r.rrppJefe LEFT JOIN FETCH r.rrppJefeHasEntradas ORDER BY r.idrrppMinion",
+						"SELECT DISTINCT r FROM RrppMinion r LEFT JOIN FETCH r.rrppJefe LEFT JOIN FETCH r.ddRrppJefeEntradas ORDER BY r.idrrppMinion",
 						RrppMinion.class);
 		if (startPosition != null) {
 			findAllQuery.setFirstResult(startPosition);

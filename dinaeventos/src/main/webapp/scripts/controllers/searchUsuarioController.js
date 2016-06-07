@@ -1,6 +1,6 @@
 
 
-angular.module('dinaeventos').controller('SearchUsuarioController', function($scope, $http, $filter, UsuarioResource , GlobalCodigopostalResource, RedessocialesResource, RolesResource, SexoResource, EntradaResource) {
+angular.module('dinaeventos').controller('SearchUsuarioController', function($scope, $http, $filter, UsuarioResource , DdSexoResource, GlobalCodigopostalResource, RedessocialesResource, RolesResource, EntradaResource) {
 
     $scope.search={};
     $scope.currentPage = 0;
@@ -17,10 +17,10 @@ angular.module('dinaeventos').controller('SearchUsuarioController', function($sc
         }
         return max;
     };
+    $scope.ddSexoList = DdSexoResource.queryAll();
     $scope.globalCodigopostalList = GlobalCodigopostalResource.queryAll();
     $scope.redessocialesList = RedessocialesResource.queryAll();
     $scope.rolesList = RolesResource.queryAll();
-    $scope.sexoList = SexoResource.queryAll();
     $scope.bloqueadoList = [
         "true",
         "false"

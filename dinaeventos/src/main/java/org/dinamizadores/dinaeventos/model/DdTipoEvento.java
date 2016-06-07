@@ -1,9 +1,8 @@
 package org.dinamizadores.dinaeventos.model;
-// Generated 06-jun-2016 19:44:44 by Hibernate Tools 4.3.1.Final
+// Generated 07-jun-2016 22:29:03 by Hibernate Tools 4.3.1.Final
 
 import java.util.HashSet;
 import java.util.Set;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -22,6 +21,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class DdTipoEvento implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
 	private static final long serialVersionUID = 7158322830248428572L;
 	private int idTipoEvento;
 	private String tipoEvento;
@@ -39,7 +41,7 @@ public class DdTipoEvento implements java.io.Serializable {
 		this.eventos = eventos;
 	}
 
-	@Id @GeneratedValue(strategy=GenerationType.AUTO) 
+	@Id @GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name = "id_tipo_evento", unique = true, nullable = false)
 	public int getIdTipoEvento() {
 		return this.idTipoEvento;

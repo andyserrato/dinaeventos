@@ -1,8 +1,23 @@
 
-angular.module('dinaeventos').controller('NewUsuarioController', function ($scope, $location, locationParser, flash, UsuarioResource , GlobalCodigopostalResource, RedessocialesResource, RolesResource, SexoResource, EntradaResource) {
+angular.module('dinaeventos').controller('NewUsuarioController', function ($scope, $location, locationParser, flash, UsuarioResource , DdSexoResource, GlobalCodigopostalResource, RedessocialesResource, RolesResource, EntradaResource) {
     $scope.disabled = false;
     $scope.$location = $location;
     $scope.usuario = $scope.usuario || {};
+    
+    $scope.ddSexoList = DdSexoResource.queryAll(function(items){
+        $scope.ddSexoSelectionList = $.map(items, function(item) {
+            return ( {
+                value : item.idsexo,
+                text : item.idsexo
+            });
+        });
+    });
+    $scope.$watch("ddSexoSelection", function(selection) {
+        if ( typeof selection != 'undefined') {
+            $scope.usuario.ddSexo = {};
+            $scope.usuario.ddSexo.idsexo = selection.value;
+        }
+    });
     
     $scope.globalCodigopostalList = GlobalCodigopostalResource.queryAll(function(items){
         $scope.globalCodigopostalSelectionList = $.map(items, function(item) {
@@ -46,21 +61,6 @@ angular.module('dinaeventos').controller('NewUsuarioController', function ($scop
         if ( typeof selection != 'undefined') {
             $scope.usuario.roles = {};
             $scope.usuario.roles.idrol = selection.value;
-        }
-    });
-    
-    $scope.sexoList = SexoResource.queryAll(function(items){
-        $scope.sexoSelectionList = $.map(items, function(item) {
-            return ( {
-                value : item.idsexo,
-                text : item.idsexo
-            });
-        });
-    });
-    $scope.$watch("sexoSelection", function(selection) {
-        if ( typeof selection != 'undefined') {
-            $scope.usuario.sexo = {};
-            $scope.usuario.sexo.idsexo = selection.value;
         }
     });
     

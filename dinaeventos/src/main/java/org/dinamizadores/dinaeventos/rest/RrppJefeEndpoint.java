@@ -58,7 +58,7 @@ public class RrppJefeEndpoint {
 	public Response findById(@PathParam("id") int id) {
 		TypedQuery<RrppJefe> findByIdQuery = em
 				.createQuery(
-						"SELECT DISTINCT r FROM RrppJefe r LEFT JOIN FETCH r.organizador LEFT JOIN FETCH r.rrppMinions LEFT JOIN FETCH r.rrppJefeHasEntradas LEFT JOIN FETCH r.eventos WHERE r.idrrppJefe = :entityId ORDER BY r.idrrppJefe",
+						"SELECT DISTINCT r FROM RrppJefe r LEFT JOIN FETCH r.organizador LEFT JOIN FETCH r.rrppMinions LEFT JOIN FETCH r.ddRrppJefeEntradas LEFT JOIN FETCH r.eventos WHERE r.idrrppJefe = :entityId ORDER BY r.idrrppJefe",
 						RrppJefe.class);
 		findByIdQuery.setParameter("entityId", id);
 		RrppJefe entity;
@@ -79,7 +79,7 @@ public class RrppJefeEndpoint {
 			@QueryParam("max") Integer maxResult) {
 		TypedQuery<RrppJefe> findAllQuery = em
 				.createQuery(
-						"SELECT DISTINCT r FROM RrppJefe r LEFT JOIN FETCH r.organizador LEFT JOIN FETCH r.rrppMinions LEFT JOIN FETCH r.rrppJefeHasEntradas LEFT JOIN FETCH r.eventos ORDER BY r.idrrppJefe",
+						"SELECT DISTINCT r FROM RrppJefe r LEFT JOIN FETCH r.organizador LEFT JOIN FETCH r.rrppMinions LEFT JOIN FETCH r.ddRrppJefeEntradas LEFT JOIN FETCH r.eventos ORDER BY r.idrrppJefe",
 						RrppJefe.class);
 		if (startPosition != null) {
 			findAllQuery.setFirstResult(startPosition);

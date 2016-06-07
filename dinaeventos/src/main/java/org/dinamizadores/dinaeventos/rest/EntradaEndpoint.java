@@ -58,7 +58,7 @@ public class EntradaEndpoint {
 	public Response findById(@PathParam("id") int id) {
 		TypedQuery<Entrada> findByIdQuery = em
 				.createQuery(
-						"SELECT DISTINCT e FROM Entrada e LEFT JOIN FETCH e.ddFormapago LEFT JOIN FETCH e.ddOrigenEntrada LEFT JOIN FETCH e.ddTiposIva LEFT JOIN FETCH e.evento LEFT JOIN FETCH e.tipoentrada LEFT JOIN FETCH e.usuario LEFT JOIN FETCH e.rrppJefeHasEntradas WHERE e.identrada = :entityId ORDER BY e.identrada",
+						"SELECT DISTINCT e FROM Entrada e LEFT JOIN FETCH e.ddFormapago LEFT JOIN FETCH e.ddOrigenEntrada LEFT JOIN FETCH e.ddTipoEntrada LEFT JOIN FETCH e.ddTiposIva LEFT JOIN FETCH e.evento LEFT JOIN FETCH e.usuario LEFT JOIN FETCH e.ddRrppJefeEntradas WHERE e.identrada = :entityId ORDER BY e.identrada",
 						Entrada.class);
 		findByIdQuery.setParameter("entityId", id);
 		Entrada entity;
@@ -79,7 +79,7 @@ public class EntradaEndpoint {
 			@QueryParam("max") Integer maxResult) {
 		TypedQuery<Entrada> findAllQuery = em
 				.createQuery(
-						"SELECT DISTINCT e FROM Entrada e LEFT JOIN FETCH e.ddFormapago LEFT JOIN FETCH e.ddOrigenEntrada LEFT JOIN FETCH e.ddTiposIva LEFT JOIN FETCH e.evento LEFT JOIN FETCH e.tipoentrada LEFT JOIN FETCH e.usuario LEFT JOIN FETCH e.rrppJefeHasEntradas ORDER BY e.identrada",
+						"SELECT DISTINCT e FROM Entrada e LEFT JOIN FETCH e.ddFormapago LEFT JOIN FETCH e.ddOrigenEntrada LEFT JOIN FETCH e.ddTipoEntrada LEFT JOIN FETCH e.ddTiposIva LEFT JOIN FETCH e.evento LEFT JOIN FETCH e.usuario LEFT JOIN FETCH e.ddRrppJefeEntradas ORDER BY e.identrada",
 						Entrada.class);
 		if (startPosition != null) {
 			findAllQuery.setFirstResult(startPosition);

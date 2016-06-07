@@ -1,0 +1,33 @@
+<header ng-switch on="$location.path().indexOf('/DdTipoEntradas/new') > -1">
+    <h3 ng-switch-when="true">Create a new DdTipoEntrada</h3>
+    <h3 ng-switch-when="false">View or edit DdTipoEntrada</h3>
+</header>
+<form id="DdTipoEntradaForm" name="DdTipoEntradaForm" class="form-horizontal" role="form">
+    
+    <div class="form-group" ng-class="{'has-error': DdTipoEntradaForm.nombre.$invalid}">
+        <label for="nombre" class="col-sm-2 control-label">Nombre</label>
+        <div id="nombreControls" class="col-sm-10">
+            <input id="nombre" name="nombre" type="text" required ng-maxlength="45" class="form-control" ng-model="ddTipoEntrada.nombre" placeholder="Enter the DdTipoEntrada Nombre"></input>
+            <span class="help-block error" ng-show="DdTipoEntradaForm.nombre.$error.required">required</span> 
+            <span class="help-block error" ng-show="DdTipoEntradaForm.nombre.$error.maxlength">maximum length is 45</span>
+        </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error': DdTipoEntradaForm.entradas.$invalid}">
+        <label for="entradas" class="col-sm-2 control-label">Entradas</label>
+        <div id="entradasControls" class="col-sm-10">
+            <select id="entradas" name="entradas" multiple class="form-control" ng-model="entradasSelection" ng-options="e.text for e in entradasSelectionList">
+                <option value="">Choose a Entradas</option>
+            </select>
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <button id="saveDdTipoEntrada" name="saveDdTipoEntrada" class="btn btn-primary" ng-disabled="isClean() || DdTipoEntradaForm.$invalid" ng-click="save()"><span class="glyphicon glyphicon-ok-sign"></span> Save</button>
+            <button id="cancel" name="cancel" class="btn btn-default" ng-click="cancel()"><span class="glyphicon glyphicon-remove-sign"></span> Cancel</button>
+            <button id="deleteDdTipoEntrada" name="deleteDdTipoEntrada" class="btn btn-danger" ng-show="ddTipoEntrada.idtipoentrada" ng-click="remove()"><span class="glyphicon glyphicon-trash"></span> Delete</button>
+        </div>
+    </div>
+</form>

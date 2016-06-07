@@ -1,6 +1,6 @@
 
 
-angular.module('dinaeventos').controller('EditUsuarioController', function($scope, $routeParams, $location, flash, UsuarioResource , GlobalCodigopostalResource, RedessocialesResource, RolesResource, SexoResource, EntradaResource) {
+angular.module('dinaeventos').controller('EditUsuarioController', function($scope, $routeParams, $location, flash, UsuarioResource , DdSexoResource, GlobalCodigopostalResource, RedessocialesResource, RolesResource, EntradaResource) {
     var self = this;
     $scope.disabled = false;
     $scope.$location = $location;
@@ -9,6 +9,23 @@ angular.module('dinaeventos').controller('EditUsuarioController', function($scop
         var successCallback = function(data){
             self.original = data;
             $scope.usuario = new UsuarioResource(self.original);
+            DdSexoResource.queryAll(function(items) {
+                $scope.ddSexoSelectionList = $.map(items, function(item) {
+                    var wrappedObject = {
+                        idsexo : item.idsexo
+                    };
+                    var labelObject = {
+                        value : item.idsexo,
+                        text : item.idsexo
+                    };
+                    if($scope.usuario.ddSexo && item.idsexo == $scope.usuario.ddSexo.idsexo) {
+                        $scope.ddSexoSelection = labelObject;
+                        $scope.usuario.ddSexo = wrappedObject;
+                        self.original.ddSexo = $scope.usuario.ddSexo;
+                    }
+                    return labelObject;
+                });
+            });
             GlobalCodigopostalResource.queryAll(function(items) {
                 $scope.globalCodigopostalSelectionList = $.map(items, function(item) {
                     var wrappedObject = {
@@ -56,23 +73,6 @@ angular.module('dinaeventos').controller('EditUsuarioController', function($scop
                         $scope.rolesSelection = labelObject;
                         $scope.usuario.roles = wrappedObject;
                         self.original.roles = $scope.usuario.roles;
-                    }
-                    return labelObject;
-                });
-            });
-            SexoResource.queryAll(function(items) {
-                $scope.sexoSelectionList = $.map(items, function(item) {
-                    var wrappedObject = {
-                        idsexo : item.idsexo
-                    };
-                    var labelObject = {
-                        value : item.idsexo,
-                        text : item.idsexo
-                    };
-                    if($scope.usuario.sexo && item.idsexo == $scope.usuario.sexo.idsexo) {
-                        $scope.sexoSelection = labelObject;
-                        $scope.usuario.sexo = wrappedObject;
-                        self.original.sexo = $scope.usuario.sexo;
                     }
                     return labelObject;
                 });
@@ -144,6 +144,12 @@ angular.module('dinaeventos').controller('EditUsuarioController', function($scop
         $scope.usuario.$remove(successCallback, errorCallback);
     };
     
+    $scope.$watch("ddSexoSelection", function(selection) {
+        if (typeof selection != 'undefined') {
+            $scope.usuario.ddSexo = {};
+            $scope.usuario.ddSexo.idsexo = selection.value;
+        }
+    });
     $scope.$watch("globalCodigopostalSelection", function(selection) {
         if (typeof selection != 'undefined') {
             $scope.usuario.globalCodigopostal = {};
@@ -160,12 +166,6 @@ angular.module('dinaeventos').controller('EditUsuarioController', function($scop
         if (typeof selection != 'undefined') {
             $scope.usuario.roles = {};
             $scope.usuario.roles.idrol = selection.value;
-        }
-    });
-    $scope.$watch("sexoSelection", function(selection) {
-        if (typeof selection != 'undefined') {
-            $scope.usuario.sexo = {};
-            $scope.usuario.sexo.idsexo = selection.value;
         }
     });
     $scope.bloqueadoList = [

@@ -20,31 +20,31 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriBuilder;
-import org.dinamizadores.dinaeventos.model.Sexo;
+import org.dinamizadores.dinaeventos.model.DdTipoEntrada;
 
 /**
  * 
  */
 @Stateless
-@Path("/sexos")
-public class SexoEndpoint {
+@Path("/ddtipoentradas")
+public class DdTipoEntradaEndpoint {
 	@PersistenceContext(unitName = "dinaeventos-persistence-unit")
 	private EntityManager em;
 
 	@POST
 	@Consumes("application/json")
-	public Response create(Sexo entity) {
+	public Response create(DdTipoEntrada entity) {
 		em.persist(entity);
 		return Response.created(
-				UriBuilder.fromResource(SexoEndpoint.class)
-						.path(String.valueOf(entity.getIdsexo())).build())
-				.build();
+				UriBuilder.fromResource(DdTipoEntradaEndpoint.class)
+						.path(String.valueOf(entity.getIdtipoentrada()))
+						.build()).build();
 	}
 
 	@DELETE
 	@Path("/{id:[0-9][0-9]*}")
 	public Response deleteById(@PathParam("id") int id) {
-		Sexo entity = em.find(Sexo.class, id);
+		DdTipoEntrada entity = em.find(DdTipoEntrada.class, id);
 		if (entity == null) {
 			return Response.status(Status.NOT_FOUND).build();
 		}
@@ -56,12 +56,12 @@ public class SexoEndpoint {
 	@Path("/{id:[0-9][0-9]*}")
 	@Produces("application/json")
 	public Response findById(@PathParam("id") int id) {
-		TypedQuery<Sexo> findByIdQuery = em
+		TypedQuery<DdTipoEntrada> findByIdQuery = em
 				.createQuery(
-						"SELECT DISTINCT s FROM Sexo s LEFT JOIN FETCH s.usuarios WHERE s.idsexo = :entityId ORDER BY s.idsexo",
-						Sexo.class);
+						"SELECT DISTINCT d FROM DdTipoEntrada d LEFT JOIN FETCH d.entradas WHERE d.idtipoentrada = :entityId ORDER BY d.idtipoentrada",
+						DdTipoEntrada.class);
 		findByIdQuery.setParameter("entityId", id);
-		Sexo entity;
+		DdTipoEntrada entity;
 		try {
 			entity = findByIdQuery.getSingleResult();
 		} catch (NoResultException nre) {
@@ -75,33 +75,34 @@ public class SexoEndpoint {
 
 	@GET
 	@Produces("application/json")
-	public List<Sexo> listAll(@QueryParam("start") Integer startPosition,
+	public List<DdTipoEntrada> listAll(
+			@QueryParam("start") Integer startPosition,
 			@QueryParam("max") Integer maxResult) {
-		TypedQuery<Sexo> findAllQuery = em
+		TypedQuery<DdTipoEntrada> findAllQuery = em
 				.createQuery(
-						"SELECT DISTINCT s FROM Sexo s LEFT JOIN FETCH s.usuarios ORDER BY s.idsexo",
-						Sexo.class);
+						"SELECT DISTINCT d FROM DdTipoEntrada d LEFT JOIN FETCH d.entradas ORDER BY d.idtipoentrada",
+						DdTipoEntrada.class);
 		if (startPosition != null) {
 			findAllQuery.setFirstResult(startPosition);
 		}
 		if (maxResult != null) {
 			findAllQuery.setMaxResults(maxResult);
 		}
-		final List<Sexo> results = findAllQuery.getResultList();
+		final List<DdTipoEntrada> results = findAllQuery.getResultList();
 		return results;
 	}
 
 	@PUT
 	@Path("/{id:[0-9][0-9]*}")
 	@Consumes("application/json")
-	public Response update(@PathParam("id") int id, Sexo entity) {
+	public Response update(@PathParam("id") int id, DdTipoEntrada entity) {
 		if (entity == null) {
 			return Response.status(Status.BAD_REQUEST).build();
 		}
-		if (id != entity.getIdsexo()) {
+		if (id != entity.getIdtipoentrada()) {
 			return Response.status(Status.CONFLICT).entity(entity).build();
 		}
-		if (em.find(Sexo.class, id) == null) {
+		if (em.find(DdTipoEntrada.class, id) == null) {
 			return Response.status(Status.NOT_FOUND).build();
 		}
 		try {

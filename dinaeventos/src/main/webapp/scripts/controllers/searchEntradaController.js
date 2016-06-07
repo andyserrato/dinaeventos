@@ -1,6 +1,6 @@
 
 
-angular.module('dinaeventos').controller('SearchEntradaController', function($scope, $http, $filter, EntradaResource , DdFormapagoResource, DdOrigenEntradaResource, DdTiposIvaResource, EventoResource, TipoentradaResource, UsuarioResource) {
+angular.module('dinaeventos').controller('SearchEntradaController', function($scope, $http, $filter, EntradaResource , DdFormapagoResource, DdOrigenEntradaResource, DdTipoEntradaResource, DdTiposIvaResource, EventoResource, UsuarioResource) {
 
     $scope.search={};
     $scope.currentPage = 0;
@@ -19,9 +19,9 @@ angular.module('dinaeventos').controller('SearchEntradaController', function($sc
     };
     $scope.ddFormapagoList = DdFormapagoResource.queryAll();
     $scope.ddOrigenEntradaList = DdOrigenEntradaResource.queryAll();
+    $scope.ddTipoEntradaList = DdTipoEntradaResource.queryAll();
     $scope.ddTiposIvaList = DdTiposIvaResource.queryAll();
     $scope.eventoList = EventoResource.queryAll();
-    $scope.tipoentradaList = TipoentradaResource.queryAll();
     $scope.usuarioList = UsuarioResource.queryAll();
     $scope.validadaList = [
         "true",
@@ -35,7 +35,7 @@ angular.module('dinaeventos').controller('SearchEntradaController', function($sc
         "true",
         "false"
     ];
-    $scope.dentroFueraList = [
+    $scope.dentrofueraList = [
         "true",
         "false"
     ];

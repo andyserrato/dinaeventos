@@ -1,5 +1,5 @@
 package org.dinamizadores.dinaeventos.model;
-// Generated 06-jun-2016 19:44:44 by Hibernate Tools 4.3.1.Final
+// Generated 07-jun-2016 22:29:03 by Hibernate Tools 4.3.1.Final
 
 import java.util.HashSet;
 import java.util.Set;
@@ -24,59 +24,62 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class Entrada implements java.io.Serializable {
 
-	private static final long serialVersionUID = 5469731044159726220L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5161305156458533934L;
 	private int identrada;
 	private DdFormapago ddFormapago;
 	private DdOrigenEntrada ddOrigenEntrada;
+	private DdTipoEntrada ddTipoEntrada;
 	private DdTiposIva ddTiposIva;
 	private Evento evento;
-	private Tipoentrada tipoentrada;
 	private Usuario usuario;
 	private String numeroserie;
 	private Boolean validada;
 	private Boolean ticketgenerado;
 	private Float precio;
 	private Boolean activa;
-	private Boolean dentroFuera;
+	private Boolean dentrofuera;
 	private Boolean vendida;
-	private Set<RrppJefeHasEntrada> rrppJefeHasEntradas = new HashSet<RrppJefeHasEntrada>(
+	private Set<DdRrppJefeEntrada> ddRrppJefeEntradas = new HashSet<DdRrppJefeEntrada>(
 			0);
 
 	public Entrada() {
 	}
 
 	public Entrada(int identrada, DdFormapago ddFormapago,
-			DdOrigenEntrada ddOrigenEntrada, DdTiposIva ddTiposIva,
-			Evento evento, Tipoentrada tipoentrada, Usuario usuario) {
+			DdOrigenEntrada ddOrigenEntrada, DdTipoEntrada ddTipoEntrada,
+			DdTiposIva ddTiposIva, Evento evento, Usuario usuario) {
 		this.identrada = identrada;
 		this.ddFormapago = ddFormapago;
 		this.ddOrigenEntrada = ddOrigenEntrada;
+		this.ddTipoEntrada = ddTipoEntrada;
 		this.ddTiposIva = ddTiposIva;
 		this.evento = evento;
-		this.tipoentrada = tipoentrada;
 		this.usuario = usuario;
 	}
 	public Entrada(int identrada, DdFormapago ddFormapago,
-			DdOrigenEntrada ddOrigenEntrada, DdTiposIva ddTiposIva,
-			Evento evento, Tipoentrada tipoentrada, Usuario usuario,
+			DdOrigenEntrada ddOrigenEntrada, DdTipoEntrada ddTipoEntrada,
+			DdTiposIva ddTiposIva, Evento evento, Usuario usuario,
 			String numeroserie, Boolean validada, Boolean ticketgenerado,
-			Float precio, Boolean activa, Boolean dentroFuera, Boolean vendida,
-			Set<RrppJefeHasEntrada> rrppJefeHasEntradas) {
+			Float precio, Boolean activa, Boolean dentrofuera, Boolean vendida,
+			Set<DdRrppJefeEntrada> ddRrppJefeEntradas) {
 		this.identrada = identrada;
 		this.ddFormapago = ddFormapago;
 		this.ddOrigenEntrada = ddOrigenEntrada;
+		this.ddTipoEntrada = ddTipoEntrada;
 		this.ddTiposIva = ddTiposIva;
 		this.evento = evento;
-		this.tipoentrada = tipoentrada;
 		this.usuario = usuario;
 		this.numeroserie = numeroserie;
 		this.validada = validada;
 		this.ticketgenerado = ticketgenerado;
 		this.precio = precio;
 		this.activa = activa;
-		this.dentroFuera = dentroFuera;
+		this.dentrofuera = dentrofuera;
 		this.vendida = vendida;
-		this.rrppJefeHasEntradas = rrppJefeHasEntradas;
+		this.ddRrppJefeEntradas = ddRrppJefeEntradas;
 	}
 
 	@Id @GeneratedValue(strategy=GenerationType.AUTO)
@@ -110,6 +113,16 @@ public class Entrada implements java.io.Serializable {
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "idtipoentrada", nullable = false)
+	public DdTipoEntrada getDdTipoEntrada() {
+		return this.ddTipoEntrada;
+	}
+
+	public void setDdTipoEntrada(DdTipoEntrada ddTipoEntrada) {
+		this.ddTipoEntrada = ddTipoEntrada;
+	}
+
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idtipoiva", nullable = false)
 	public DdTiposIva getDdTiposIva() {
 		return this.ddTiposIva;
@@ -127,16 +140,6 @@ public class Entrada implements java.io.Serializable {
 
 	public void setEvento(Evento evento) {
 		this.evento = evento;
-	}
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "idtipoentrada", nullable = false)
-	public Tipoentrada getTipoentrada() {
-		return this.tipoentrada;
-	}
-
-	public void setTipoentrada(Tipoentrada tipoentrada) {
-		this.tipoentrada = tipoentrada;
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -194,13 +197,13 @@ public class Entrada implements java.io.Serializable {
 		this.activa = activa;
 	}
 
-	@Column(name = "dentro_fuera")
-	public Boolean getDentroFuera() {
-		return this.dentroFuera;
+	@Column(name = "dentrofuera")
+	public Boolean getDentrofuera() {
+		return this.dentrofuera;
 	}
 
-	public void setDentroFuera(Boolean dentroFuera) {
-		this.dentroFuera = dentroFuera;
+	public void setDentrofuera(Boolean dentrofuera) {
+		this.dentrofuera = dentrofuera;
 	}
 
 	@Column(name = "vendida")
@@ -213,13 +216,12 @@ public class Entrada implements java.io.Serializable {
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "entrada")
-	public Set<RrppJefeHasEntrada> getRrppJefeHasEntradas() {
-		return this.rrppJefeHasEntradas;
+	public Set<DdRrppJefeEntrada> getDdRrppJefeEntradas() {
+		return this.ddRrppJefeEntradas;
 	}
 
-	public void setRrppJefeHasEntradas(
-			Set<RrppJefeHasEntrada> rrppJefeHasEntradas) {
-		this.rrppJefeHasEntradas = rrppJefeHasEntradas;
+	public void setDdRrppJefeEntradas(Set<DdRrppJefeEntrada> ddRrppJefeEntradas) {
+		this.ddRrppJefeEntradas = ddRrppJefeEntradas;
 	}
 
 }

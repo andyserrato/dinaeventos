@@ -1,5 +1,5 @@
 
-angular.module('dinaeventos').controller('NewEntradaController', function ($scope, $location, locationParser, flash, EntradaResource , DdFormapagoResource, DdOrigenEntradaResource, DdTiposIvaResource, EventoResource, TipoentradaResource, UsuarioResource) {
+angular.module('dinaeventos').controller('NewEntradaController', function ($scope, $location, locationParser, flash, EntradaResource , DdFormapagoResource, DdOrigenEntradaResource, DdTipoEntradaResource, DdTiposIvaResource, EventoResource, UsuarioResource) {
     $scope.disabled = false;
     $scope.$location = $location;
     $scope.entrada = $scope.entrada || {};
@@ -34,6 +34,21 @@ angular.module('dinaeventos').controller('NewEntradaController', function ($scop
         }
     });
     
+    $scope.ddTipoEntradaList = DdTipoEntradaResource.queryAll(function(items){
+        $scope.ddTipoEntradaSelectionList = $.map(items, function(item) {
+            return ( {
+                value : item.idtipoentrada,
+                text : item.idtipoentrada
+            });
+        });
+    });
+    $scope.$watch("ddTipoEntradaSelection", function(selection) {
+        if ( typeof selection != 'undefined') {
+            $scope.entrada.ddTipoEntrada = {};
+            $scope.entrada.ddTipoEntrada.idtipoentrada = selection.value;
+        }
+    });
+    
     $scope.ddTiposIvaList = DdTiposIvaResource.queryAll(function(items){
         $scope.ddTiposIvaSelectionList = $.map(items, function(item) {
             return ( {
@@ -61,21 +76,6 @@ angular.module('dinaeventos').controller('NewEntradaController', function ($scop
         if ( typeof selection != 'undefined') {
             $scope.entrada.evento = {};
             $scope.entrada.evento.idevento = selection.value;
-        }
-    });
-    
-    $scope.tipoentradaList = TipoentradaResource.queryAll(function(items){
-        $scope.tipoentradaSelectionList = $.map(items, function(item) {
-            return ( {
-                value : item.idtipoentrada,
-                text : item.idtipoentrada
-            });
-        });
-    });
-    $scope.$watch("tipoentradaSelection", function(selection) {
-        if ( typeof selection != 'undefined') {
-            $scope.entrada.tipoentrada = {};
-            $scope.entrada.tipoentrada.idtipoentrada = selection.value;
         }
     });
     
@@ -109,7 +109,7 @@ angular.module('dinaeventos').controller('NewEntradaController', function ($scop
         "false"
     ];
 
-    $scope.dentroFueraList = [
+    $scope.dentrofueraList = [
         "true",
         "false"
     ];

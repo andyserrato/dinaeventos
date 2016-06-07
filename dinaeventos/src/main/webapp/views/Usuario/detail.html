@@ -4,6 +4,15 @@
 </header>
 <form id="UsuarioForm" name="UsuarioForm" class="form-horizontal" role="form">
     
+    <div class="form-group" ng-class="{'has-error': UsuarioForm.ddSexo.$invalid}">
+        <label for="ddSexo" class="col-sm-2 control-label">Dd Sexo</label>
+        <div id="ddSexoControls" class="col-sm-10">
+        <select id="ddSexo" name="ddSexo" class="form-control" ng-model="ddSexoSelection" ng-options="d.text for d in ddSexoSelectionList"  >
+            <option value="">Choose a Dd Sexo</option>
+        </select>
+        </div>
+    </div>
+
     <div class="form-group" ng-class="{'has-error': UsuarioForm.globalCodigopostal.$invalid}">
         <label for="globalCodigopostal" class="col-sm-2 control-label">Global Codigopostal</label>
         <div id="globalCodigopostalControls" class="col-sm-10">
@@ -27,15 +36,6 @@
         <div id="rolesControls" class="col-sm-10">
         <select id="roles" name="roles" class="form-control" ng-model="rolesSelection" ng-options="r.text for r in rolesSelectionList"  >
             <option value="">Choose a Roles</option>
-        </select>
-        </div>
-    </div>
-
-    <div class="form-group" ng-class="{'has-error': UsuarioForm.sexo.$invalid}">
-        <label for="sexo" class="col-sm-2 control-label">Sexo</label>
-        <div id="sexoControls" class="col-sm-10">
-        <select id="sexo" name="sexo" class="form-control" ng-model="sexoSelection" ng-options="s.text for s in sexoSelectionList"  >
-            <option value="">Choose a Sexo</option>
         </select>
         </div>
     </div>

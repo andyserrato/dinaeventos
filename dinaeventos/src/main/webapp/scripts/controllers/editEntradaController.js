@@ -1,6 +1,6 @@
 
 
-angular.module('dinaeventos').controller('EditEntradaController', function($scope, $routeParams, $location, flash, EntradaResource , DdFormapagoResource, DdOrigenEntradaResource, DdTiposIvaResource, EventoResource, TipoentradaResource, UsuarioResource) {
+angular.module('dinaeventos').controller('EditEntradaController', function($scope, $routeParams, $location, flash, EntradaResource , DdFormapagoResource, DdOrigenEntradaResource, DdTipoEntradaResource, DdTiposIvaResource, EventoResource, UsuarioResource) {
     var self = this;
     $scope.disabled = false;
     $scope.$location = $location;
@@ -43,6 +43,23 @@ angular.module('dinaeventos').controller('EditEntradaController', function($scop
                     return labelObject;
                 });
             });
+            DdTipoEntradaResource.queryAll(function(items) {
+                $scope.ddTipoEntradaSelectionList = $.map(items, function(item) {
+                    var wrappedObject = {
+                        idtipoentrada : item.idtipoentrada
+                    };
+                    var labelObject = {
+                        value : item.idtipoentrada,
+                        text : item.idtipoentrada
+                    };
+                    if($scope.entrada.ddTipoEntrada && item.idtipoentrada == $scope.entrada.ddTipoEntrada.idtipoentrada) {
+                        $scope.ddTipoEntradaSelection = labelObject;
+                        $scope.entrada.ddTipoEntrada = wrappedObject;
+                        self.original.ddTipoEntrada = $scope.entrada.ddTipoEntrada;
+                    }
+                    return labelObject;
+                });
+            });
             DdTiposIvaResource.queryAll(function(items) {
                 $scope.ddTiposIvaSelectionList = $.map(items, function(item) {
                     var wrappedObject = {
@@ -73,23 +90,6 @@ angular.module('dinaeventos').controller('EditEntradaController', function($scop
                         $scope.eventoSelection = labelObject;
                         $scope.entrada.evento = wrappedObject;
                         self.original.evento = $scope.entrada.evento;
-                    }
-                    return labelObject;
-                });
-            });
-            TipoentradaResource.queryAll(function(items) {
-                $scope.tipoentradaSelectionList = $.map(items, function(item) {
-                    var wrappedObject = {
-                        idtipoentrada : item.idtipoentrada
-                    };
-                    var labelObject = {
-                        value : item.idtipoentrada,
-                        text : item.idtipoentrada
-                    };
-                    if($scope.entrada.tipoentrada && item.idtipoentrada == $scope.entrada.tipoentrada.idtipoentrada) {
-                        $scope.tipoentradaSelection = labelObject;
-                        $scope.entrada.tipoentrada = wrappedObject;
-                        self.original.tipoentrada = $scope.entrada.tipoentrada;
                     }
                     return labelObject;
                 });
@@ -169,6 +169,12 @@ angular.module('dinaeventos').controller('EditEntradaController', function($scop
             $scope.entrada.ddOrigenEntrada.idorigenEntrada = selection.value;
         }
     });
+    $scope.$watch("ddTipoEntradaSelection", function(selection) {
+        if (typeof selection != 'undefined') {
+            $scope.entrada.ddTipoEntrada = {};
+            $scope.entrada.ddTipoEntrada.idtipoentrada = selection.value;
+        }
+    });
     $scope.$watch("ddTiposIvaSelection", function(selection) {
         if (typeof selection != 'undefined') {
             $scope.entrada.ddTiposIva = {};
@@ -179,12 +185,6 @@ angular.module('dinaeventos').controller('EditEntradaController', function($scop
         if (typeof selection != 'undefined') {
             $scope.entrada.evento = {};
             $scope.entrada.evento.idevento = selection.value;
-        }
-    });
-    $scope.$watch("tipoentradaSelection", function(selection) {
-        if (typeof selection != 'undefined') {
-            $scope.entrada.tipoentrada = {};
-            $scope.entrada.tipoentrada.idtipoentrada = selection.value;
         }
     });
     $scope.$watch("usuarioSelection", function(selection) {
@@ -205,7 +205,7 @@ angular.module('dinaeventos').controller('EditEntradaController', function($scop
         "true",
         "false"
     ];
-    $scope.dentroFueraList = [
+    $scope.dentrofueraList = [
         "true",
         "false"
     ];

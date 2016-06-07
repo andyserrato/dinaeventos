@@ -1,5 +1,5 @@
 package org.dinamizadores.dinaeventos.model;
-// Generated 06-jun-2016 19:44:44 by Hibernate Tools 4.3.1.Final
+// Generated 07-jun-2016 22:29:03 by Hibernate Tools 4.3.1.Final
 
 import java.util.HashSet;
 import java.util.Set;
@@ -24,7 +24,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class RrppJefe implements java.io.Serializable {
 
-	private static final long serialVersionUID = 8670004750613899350L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3304139706316999758L;
 	private int idrrppJefe;
 	private Organizador organizador;
 	private String nombre;
@@ -35,7 +38,7 @@ public class RrppJefe implements java.io.Serializable {
 	private Integer limiteEntradas;
 	private String codigoPromocional;
 	private Set<RrppMinion> rrppMinions = new HashSet<RrppMinion>(0);
-	private Set<RrppJefeHasEntrada> rrppJefeHasEntradas = new HashSet<RrppJefeHasEntrada>(
+	private Set<DdRrppJefeEntrada> ddRrppJefeEntradas = new HashSet<DdRrppJefeEntrada>(
 			0);
 	private Set<Evento> eventos = new HashSet<Evento>(0);
 
@@ -50,7 +53,7 @@ public class RrppJefe implements java.io.Serializable {
 			String apellido1, String apellido2, String email, String telefono,
 			Integer limiteEntradas, String codigoPromocional,
 			Set<RrppMinion> rrppMinions,
-			Set<RrppJefeHasEntrada> rrppJefeHasEntradas, Set<Evento> eventos) {
+			Set<DdRrppJefeEntrada> ddRrppJefeEntradas, Set<Evento> eventos) {
 		this.idrrppJefe = idrrppJefe;
 		this.organizador = organizador;
 		this.nombre = nombre;
@@ -61,7 +64,7 @@ public class RrppJefe implements java.io.Serializable {
 		this.limiteEntradas = limiteEntradas;
 		this.codigoPromocional = codigoPromocional;
 		this.rrppMinions = rrppMinions;
-		this.rrppJefeHasEntradas = rrppJefeHasEntradas;
+		this.ddRrppJefeEntradas = ddRrppJefeEntradas;
 		this.eventos = eventos;
 	}
 
@@ -158,13 +161,12 @@ public class RrppJefe implements java.io.Serializable {
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "rrppJefe")
-	public Set<RrppJefeHasEntrada> getRrppJefeHasEntradas() {
-		return this.rrppJefeHasEntradas;
+	public Set<DdRrppJefeEntrada> getDdRrppJefeEntradas() {
+		return this.ddRrppJefeEntradas;
 	}
 
-	public void setRrppJefeHasEntradas(
-			Set<RrppJefeHasEntrada> rrppJefeHasEntradas) {
-		this.rrppJefeHasEntradas = rrppJefeHasEntradas;
+	public void setDdRrppJefeEntradas(Set<DdRrppJefeEntrada> ddRrppJefeEntradas) {
+		this.ddRrppJefeEntradas = ddRrppJefeEntradas;
 	}
 
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "rrppJefes")

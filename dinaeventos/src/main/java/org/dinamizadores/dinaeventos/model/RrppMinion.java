@@ -1,5 +1,5 @@
 package org.dinamizadores.dinaeventos.model;
-// Generated 06-jun-2016 19:44:44 by Hibernate Tools 4.3.1.Final
+// Generated 07-jun-2016 22:29:03 by Hibernate Tools 4.3.1.Final
 
 import java.util.HashSet;
 import java.util.Set;
@@ -23,7 +23,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class RrppMinion implements java.io.Serializable {
 
-	private static final long serialVersionUID = -6055256069090623801L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2106054994832258816L;
 	private int idrrppMinion;
 	private RrppJefe rrppJefe;
 	private String nombre;
@@ -33,7 +36,7 @@ public class RrppMinion implements java.io.Serializable {
 	private String telefono;
 	private Integer limiteEntradas;
 	private String coigoPromocional;
-	private Set<RrppJefeHasEntrada> rrppJefeHasEntradas = new HashSet<RrppJefeHasEntrada>(
+	private Set<DdRrppJefeEntrada> ddRrppJefeEntradas = new HashSet<DdRrppJefeEntrada>(
 			0);
 
 	public RrppMinion() {
@@ -46,7 +49,7 @@ public class RrppMinion implements java.io.Serializable {
 	public RrppMinion(int idrrppMinion, RrppJefe rrppJefe, String nombre,
 			String apellido1, String apellido2, String email, String telefono,
 			Integer limiteEntradas, String coigoPromocional,
-			Set<RrppJefeHasEntrada> rrppJefeHasEntradas) {
+			Set<DdRrppJefeEntrada> ddRrppJefeEntradas) {
 		this.idrrppMinion = idrrppMinion;
 		this.rrppJefe = rrppJefe;
 		this.nombre = nombre;
@@ -56,7 +59,7 @@ public class RrppMinion implements java.io.Serializable {
 		this.telefono = telefono;
 		this.limiteEntradas = limiteEntradas;
 		this.coigoPromocional = coigoPromocional;
-		this.rrppJefeHasEntradas = rrppJefeHasEntradas;
+		this.ddRrppJefeEntradas = ddRrppJefeEntradas;
 	}
 
 	@Id @GeneratedValue(strategy=GenerationType.AUTO)
@@ -143,13 +146,12 @@ public class RrppMinion implements java.io.Serializable {
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "rrppMinion")
-	public Set<RrppJefeHasEntrada> getRrppJefeHasEntradas() {
-		return this.rrppJefeHasEntradas;
+	public Set<DdRrppJefeEntrada> getDdRrppJefeEntradas() {
+		return this.ddRrppJefeEntradas;
 	}
 
-	public void setRrppJefeHasEntradas(
-			Set<RrppJefeHasEntrada> rrppJefeHasEntradas) {
-		this.rrppJefeHasEntradas = rrppJefeHasEntradas;
+	public void setDdRrppJefeEntradas(Set<DdRrppJefeEntrada> ddRrppJefeEntradas) {
+		this.ddRrppJefeEntradas = ddRrppJefeEntradas;
 	}
 
 }

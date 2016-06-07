@@ -1,8 +1,8 @@
 
-angular.module('dinaeventos').controller('NewTipoentradaController', function ($scope, $location, locationParser, flash, TipoentradaResource , EntradaResource) {
+angular.module('dinaeventos').controller('NewDdTipoEntradaController', function ($scope, $location, locationParser, flash, DdTipoEntradaResource , EntradaResource) {
     $scope.disabled = false;
     $scope.$location = $location;
-    $scope.tipoentrada = $scope.tipoentrada || {};
+    $scope.ddTipoEntrada = $scope.ddTipoEntrada || {};
     
     $scope.entradasList = EntradaResource.queryAll(function(items){
         $scope.entradasSelectionList = $.map(items, function(item) {
@@ -14,11 +14,11 @@ angular.module('dinaeventos').controller('NewTipoentradaController', function ($
     });
     $scope.$watch("entradasSelection", function(selection) {
         if (typeof selection != 'undefined') {
-            $scope.tipoentrada.entradas = [];
+            $scope.ddTipoEntrada.entradas = [];
             $.each(selection, function(idx,selectedItem) {
                 var collectionItem = {};
                 collectionItem.identrada = selectedItem.value;
-                $scope.tipoentrada.entradas.push(collectionItem);
+                $scope.ddTipoEntrada.entradas.push(collectionItem);
             });
         }
     });
@@ -27,8 +27,8 @@ angular.module('dinaeventos').controller('NewTipoentradaController', function ($
     $scope.save = function() {
         var successCallback = function(data,responseHeaders){
             var id = locationParser(responseHeaders);
-            flash.setMessage({'type':'success','text':'The tipoentrada was created successfully.'});
-            $location.path('/Tipoentradas');
+            flash.setMessage({'type':'success','text':'The ddTipoEntrada was created successfully.'});
+            $location.path('/DdTipoEntradas');
         };
         var errorCallback = function(response) {
             if(response && response.data && response.data.message) {
@@ -37,10 +37,10 @@ angular.module('dinaeventos').controller('NewTipoentradaController', function ($
                 flash.setMessage({'type': 'error', 'text': 'Something broke. Retry, or cancel and start afresh.'}, true);
             }
         };
-        TipoentradaResource.save($scope.tipoentrada, successCallback, errorCallback);
+        DdTipoEntradaResource.save($scope.ddTipoEntrada, successCallback, errorCallback);
     };
     
     $scope.cancel = function() {
-        $location.path("/Tipoentradas");
+        $location.path("/DdTipoEntradas");
     };
 });

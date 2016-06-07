@@ -1,5 +1,5 @@
 package org.dinamizadores.dinaeventos.model;
-// Generated 06-jun-2016 19:44:44 by Hibernate Tools 4.3.1.Final
+// Generated 07-jun-2016 22:29:03 by Hibernate Tools 4.3.1.Final
 
 import java.util.HashSet;
 import java.util.Set;
@@ -24,6 +24,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class Patrocinador implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
 	private static final long serialVersionUID = -338721678686586442L;
 	private int idpatrocinador;
 	private GlobalCodigopostal globalCodigopostal;
@@ -133,7 +136,7 @@ public class Patrocinador implements java.io.Serializable {
 	}
 
 	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "patrocinador_evento", catalog = "jbossforge", joinColumns = {@JoinColumn(name = "idpatrocinador", nullable = false, updatable = false)}, inverseJoinColumns = {@JoinColumn(name = "idevento", nullable = false, updatable = false)})
+	@JoinTable(name = "dd_patrocinador_evento", catalog = "jbossforge", joinColumns = {@JoinColumn(name = "idpatrocinador", nullable = false, updatable = false)}, inverseJoinColumns = {@JoinColumn(name = "idevento", nullable = false, updatable = false)})
 	public Set<Evento> getEventos() {
 		return this.eventos;
 	}

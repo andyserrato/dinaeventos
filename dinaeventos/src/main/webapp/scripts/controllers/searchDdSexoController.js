@@ -1,6 +1,6 @@
 
 
-angular.module('dinaeventos').controller('SearchTipoentradaController', function($scope, $http, $filter, TipoentradaResource , EntradaResource) {
+angular.module('dinaeventos').controller('SearchDdSexoController', function($scope, $http, $filter, DdSexoResource , UsuarioResource) {
 
     $scope.search={};
     $scope.currentPage = 0;
@@ -19,7 +19,7 @@ angular.module('dinaeventos').controller('SearchTipoentradaController', function
     };
 
     $scope.performSearch = function() {
-        $scope.searchResults = TipoentradaResource.queryAll(function(){
+        $scope.searchResults = DdSexoResource.queryAll(function(){
             $scope.filteredResults = $filter('searchFilter')($scope.searchResults, $scope);
             $scope.currentPage = 0;
         });

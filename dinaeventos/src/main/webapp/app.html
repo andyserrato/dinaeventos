@@ -36,13 +36,14 @@
                         <div id="sidebar-entries" class="list-group">
                         	<a class="list-group-item" ng-class="{active: matchesRoute('DdFormapagos')}" href="#/DdFormapagos" data-toggle="offcanvas">DdFormapagos</a>
                         	<a class="list-group-item" ng-class="{active: matchesRoute('DdOrigenEntradas')}" href="#/DdOrigenEntradas" data-toggle="offcanvas">DdOrigenEntradas</a>
+                        	<a class="list-group-item" ng-class="{active: matchesRoute('DdSexos')}" href="#/DdSexos" data-toggle="offcanvas">DdSexos</a>
+                        	<a class="list-group-item" ng-class="{active: matchesRoute('DdTipoEntradas')}" href="#/DdTipoEntradas" data-toggle="offcanvas">DdTipoEntradas</a>
                         	<a class="list-group-item" ng-class="{active: matchesRoute('DdTipoEventos')}" href="#/DdTipoEventos" data-toggle="offcanvas">DdTipoEventos</a>
                         	<a class="list-group-item" ng-class="{active: matchesRoute('DdTiposIvas')}" href="#/DdTiposIvas" data-toggle="offcanvas">DdTiposIvas</a>
                         	<a class="list-group-item" ng-class="{active: matchesRoute('Entradas')}" href="#/Entradas" data-toggle="offcanvas">Entradas</a>
                         	<a class="list-group-item" ng-class="{active: matchesRoute('Eventos')}" href="#/Eventos" data-toggle="offcanvas">Eventos</a>
                         	<a class="list-group-item" ng-class="{active: matchesRoute('GlobalCodigopostals')}" href="#/GlobalCodigopostals" data-toggle="offcanvas">GlobalCodigopostals</a>
                         	<a class="list-group-item" ng-class="{active: matchesRoute('GlobalProvincia')}" href="#/GlobalProvincia" data-toggle="offcanvas">GlobalProvincia</a>
-                        	<a class="list-group-item" ng-class="{active: matchesRoute('Members')}" href="#/Members" data-toggle="offcanvas">Members</a>
                         	<a class="list-group-item" ng-class="{active: matchesRoute('Organizadors')}" href="#/Organizadors" data-toggle="offcanvas">Organizadors</a>
                         	<a class="list-group-item" ng-class="{active: matchesRoute('Patrocinadors')}" href="#/Patrocinadors" data-toggle="offcanvas">Patrocinadors</a>
                         	<a class="list-group-item" ng-class="{active: matchesRoute('Permisos')}" href="#/Permisos" data-toggle="offcanvas">Permisos</a>
@@ -50,8 +51,6 @@
                         	<a class="list-group-item" ng-class="{active: matchesRoute('Roles')}" href="#/Roles" data-toggle="offcanvas">Roles</a>
                         	<a class="list-group-item" ng-class="{active: matchesRoute('RrppJeves')}" href="#/RrppJeves" data-toggle="offcanvas">RrppJeves</a>
                         	<a class="list-group-item" ng-class="{active: matchesRoute('RrppMinions')}" href="#/RrppMinions" data-toggle="offcanvas">RrppMinions</a>
-                        	<a class="list-group-item" ng-class="{active: matchesRoute('Sexos')}" href="#/Sexos" data-toggle="offcanvas">Sexos</a>
-                        	<a class="list-group-item" ng-class="{active: matchesRoute('Tipoentradas')}" href="#/Tipoentradas" data-toggle="offcanvas">Tipoentradas</a>
                         	<a class="list-group-item" ng-class="{active: matchesRoute('Usuarios')}" href="#/Usuarios" data-toggle="offcanvas">Usuarios</a>
                         </div>
                     </nav>
@@ -100,6 +99,14 @@
     <script src="scripts/controllers/newDdOrigenEntradaController.js"></script>
     <script src="scripts/controllers/searchDdOrigenEntradaController.js"></script>
     <script src="scripts/controllers/editDdOrigenEntradaController.js"></script>
+    <script src="scripts/services/DdSexoFactory.js"></script>
+    <script src="scripts/controllers/newDdSexoController.js"></script>
+    <script src="scripts/controllers/searchDdSexoController.js"></script>
+    <script src="scripts/controllers/editDdSexoController.js"></script>
+    <script src="scripts/services/DdTipoEntradaFactory.js"></script>
+    <script src="scripts/controllers/newDdTipoEntradaController.js"></script>
+    <script src="scripts/controllers/searchDdTipoEntradaController.js"></script>
+    <script src="scripts/controllers/editDdTipoEntradaController.js"></script>
     <script src="scripts/services/DdTipoEventoFactory.js"></script>
     <script src="scripts/controllers/newDdTipoEventoController.js"></script>
     <script src="scripts/controllers/searchDdTipoEventoController.js"></script>
@@ -124,10 +131,6 @@
     <script src="scripts/controllers/newGlobalProvinciaController.js"></script>
     <script src="scripts/controllers/searchGlobalProvinciaController.js"></script>
     <script src="scripts/controllers/editGlobalProvinciaController.js"></script>
-    <script src="scripts/services/MemberFactory.js"></script>
-    <script src="scripts/controllers/newMemberController.js"></script>
-    <script src="scripts/controllers/searchMemberController.js"></script>
-    <script src="scripts/controllers/editMemberController.js"></script>
     <script src="scripts/services/OrganizadorFactory.js"></script>
     <script src="scripts/controllers/newOrganizadorController.js"></script>
     <script src="scripts/controllers/searchOrganizadorController.js"></script>
@@ -156,14 +159,6 @@
     <script src="scripts/controllers/newRrppMinionController.js"></script>
     <script src="scripts/controllers/searchRrppMinionController.js"></script>
     <script src="scripts/controllers/editRrppMinionController.js"></script>
-    <script src="scripts/services/SexoFactory.js"></script>
-    <script src="scripts/controllers/newSexoController.js"></script>
-    <script src="scripts/controllers/searchSexoController.js"></script>
-    <script src="scripts/controllers/editSexoController.js"></script>
-    <script src="scripts/services/TipoentradaFactory.js"></script>
-    <script src="scripts/controllers/newTipoentradaController.js"></script>
-    <script src="scripts/controllers/searchTipoentradaController.js"></script>
-    <script src="scripts/controllers/editTipoentradaController.js"></script>
     <script src="scripts/services/UsuarioFactory.js"></script>
     <script src="scripts/controllers/newUsuarioController.js"></script>
     <script src="scripts/controllers/searchUsuarioController.js"></script>

@@ -22,6 +22,15 @@
         </div>
     </div>
 
+    <div class="form-group" ng-class="{'has-error': EntradaForm.ddTipoEntrada.$invalid}">
+        <label for="ddTipoEntrada" class="col-sm-2 control-label">Dd Tipo Entrada</label>
+        <div id="ddTipoEntradaControls" class="col-sm-10">
+        <select id="ddTipoEntrada" name="ddTipoEntrada" class="form-control" ng-model="ddTipoEntradaSelection" ng-options="d.text for d in ddTipoEntradaSelectionList"  >
+            <option value="">Choose a Dd Tipo Entrada</option>
+        </select>
+        </div>
+    </div>
+
     <div class="form-group" ng-class="{'has-error': EntradaForm.ddTiposIva.$invalid}">
         <label for="ddTiposIva" class="col-sm-2 control-label">Dd Tipos Iva</label>
         <div id="ddTiposIvaControls" class="col-sm-10">
@@ -36,15 +45,6 @@
         <div id="eventoControls" class="col-sm-10">
         <select id="evento" name="evento" class="form-control" ng-model="eventoSelection" ng-options="e.text for e in eventoSelectionList"  >
             <option value="">Choose a Evento</option>
-        </select>
-        </div>
-    </div>
-
-    <div class="form-group" ng-class="{'has-error': EntradaForm.tipoentrada.$invalid}">
-        <label for="tipoentrada" class="col-sm-2 control-label">Tipoentrada</label>
-        <div id="tipoentradaControls" class="col-sm-10">
-        <select id="tipoentrada" name="tipoentrada" class="form-control" ng-model="tipoentradaSelection" ng-options="t.text for t in tipoentradaSelectionList"  >
-            <option value="">Choose a Tipoentrada</option>
         </select>
         </div>
     </div>
@@ -95,10 +95,10 @@
         </div>
     </div>
 
-    <div class="form-group" ng-class="{'has-error': EntradaForm.dentroFuera.$invalid}">
-        <label for="dentroFuera" class="col-sm-2 control-label">Dentro Fuera</label>
-        <div id="dentroFueraControls" class="col-sm-10">
-            <input id="dentroFuera" name="dentroFuera" type="checkbox" class="checkbox" ng-model="entrada.dentroFuera" placeholder="Enter the Entrada Dentro Fuera"></input>
+    <div class="form-group" ng-class="{'has-error': EntradaForm.dentrofuera.$invalid}">
+        <label for="dentrofuera" class="col-sm-2 control-label">Dentrofuera</label>
+        <div id="dentrofueraControls" class="col-sm-10">
+            <input id="dentrofuera" name="dentrofuera" type="checkbox" class="checkbox" ng-model="entrada.dentrofuera" placeholder="Enter the Entrada Dentrofuera"></input>
         </div>
     </div>
 

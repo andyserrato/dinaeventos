@@ -58,7 +58,7 @@ public class UsuarioEndpoint {
 	public Response findById(@PathParam("id") int id) {
 		TypedQuery<Usuario> findByIdQuery = em
 				.createQuery(
-						"SELECT DISTINCT u FROM Usuario u LEFT JOIN FETCH u.globalCodigopostal LEFT JOIN FETCH u.redessociales LEFT JOIN FETCH u.roles LEFT JOIN FETCH u.sexo LEFT JOIN FETCH u.entradas WHERE u.idusuario = :entityId ORDER BY u.idusuario",
+						"SELECT DISTINCT u FROM Usuario u LEFT JOIN FETCH u.ddSexo LEFT JOIN FETCH u.globalCodigopostal LEFT JOIN FETCH u.redessociales LEFT JOIN FETCH u.roles LEFT JOIN FETCH u.entradas WHERE u.idusuario = :entityId ORDER BY u.idusuario",
 						Usuario.class);
 		findByIdQuery.setParameter("entityId", id);
 		Usuario entity;
@@ -79,7 +79,7 @@ public class UsuarioEndpoint {
 			@QueryParam("max") Integer maxResult) {
 		TypedQuery<Usuario> findAllQuery = em
 				.createQuery(
-						"SELECT DISTINCT u FROM Usuario u LEFT JOIN FETCH u.globalCodigopostal LEFT JOIN FETCH u.redessociales LEFT JOIN FETCH u.roles LEFT JOIN FETCH u.sexo LEFT JOIN FETCH u.entradas ORDER BY u.idusuario",
+						"SELECT DISTINCT u FROM Usuario u LEFT JOIN FETCH u.ddSexo LEFT JOIN FETCH u.globalCodigopostal LEFT JOIN FETCH u.redessociales LEFT JOIN FETCH u.roles LEFT JOIN FETCH u.entradas ORDER BY u.idusuario",
 						Usuario.class);
 		if (startPosition != null) {
 			findAllQuery.setFirstResult(startPosition);

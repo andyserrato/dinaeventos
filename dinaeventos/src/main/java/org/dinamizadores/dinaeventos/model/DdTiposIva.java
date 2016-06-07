@@ -1,5 +1,5 @@
 package org.dinamizadores.dinaeventos.model;
-// Generated 06-jun-2016 19:44:44 by Hibernate Tools 4.3.1.Final
+// Generated 07-jun-2016 22:29:03 by Hibernate Tools 4.3.1.Final
 
 import java.util.HashSet;
 import java.util.Set;
@@ -21,6 +21,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class DdTiposIva implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
 	private static final long serialVersionUID = 4675200136023075100L;
 	private int idtipoiva;
 	private String nombre;

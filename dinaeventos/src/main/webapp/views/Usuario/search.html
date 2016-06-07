@@ -12,6 +12,15 @@
     <form id="UsuarioSearch" class="form-horizontal">
         
     <div class="form-group">
+        <label for="ddSexo" class="col-sm-2 control-label">Dd Sexo</label>
+        <div class="col-sm-10">
+            <select id="ddSexo" name="ddSexo" class="form-control" ng-model="search.ddSexo" ng-options="d as d.idsexo for d in ddSexoList">
+                <option value="">Choose a Dd Sexo</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group">
         <label for="globalCodigopostal" class="col-sm-2 control-label">Global Codigopostal</label>
         <div class="col-sm-10">
             <select id="globalCodigopostal" name="globalCodigopostal" class="form-control" ng-model="search.globalCodigopostal" ng-options="g as g.idcodigopostal for g in globalCodigopostalList">
@@ -34,15 +43,6 @@
         <div class="col-sm-10">
             <select id="roles" name="roles" class="form-control" ng-model="search.roles" ng-options="r as r.idrol for r in rolesList">
                 <option value="">Choose a Roles</option>
-            </select>
-        </div>
-    </div>
-
-    <div class="form-group">
-        <label for="sexo" class="col-sm-2 control-label">Sexo</label>
-        <div class="col-sm-10">
-            <select id="sexo" name="sexo" class="form-control" ng-model="search.sexo" ng-options="s as s.idsexo for s in sexoList">
-                <option value="">Choose a Sexo</option>
             </select>
         </div>
     </div>
@@ -151,10 +151,10 @@
         <table class="table table-responsive table-bordered table-striped clearfix">
             <thead>
                 <tr>
+                    <th>Dd Sexo</th>
                     <th>Global Codigopostal</th>
                     <th>Redessociales</th>
                     <th>Roles</th>
-                    <th>Sexo</th>
                     <th>Nombre</th>
                     <th>Apellido 1</th>
                     <th>Apellido 2</th>
@@ -173,10 +173,10 @@
             </thead>
             <tbody id="search-results-body">
                 <tr ng-repeat="result in filteredResults | startFrom:currentPage*pageSize | limitTo:pageSize">
+                        <td><a href="#/Usuarios/edit/{{result.idusuario}}">{{result.ddSexo.idsexo}}</a></td>
                         <td><a href="#/Usuarios/edit/{{result.idusuario}}">{{result.globalCodigopostal.idcodigopostal}}</a></td>
                         <td><a href="#/Usuarios/edit/{{result.idusuario}}">{{result.redessociales.idredessociales}}</a></td>
                         <td><a href="#/Usuarios/edit/{{result.idusuario}}">{{result.roles.idrol}}</a></td>
-                        <td><a href="#/Usuarios/edit/{{result.idusuario}}">{{result.sexo.idsexo}}</a></td>
                     <td><a href="#/Usuarios/edit/{{result.idusuario}}">{{result.nombre}}</a></td>
                     <td><a href="#/Usuarios/edit/{{result.idusuario}}">{{result.apellido1}}</a></td>
                     <td><a href="#/Usuarios/edit/{{result.idusuario}}">{{result.apellido2}}</a></td>

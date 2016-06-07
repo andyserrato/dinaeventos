@@ -1,10 +1,9 @@
 package org.dinamizadores.dinaeventos.model;
-// Generated 06-jun-2016 19:44:44 by Hibernate Tools 4.3.1.Final
+// Generated 07-jun-2016 22:29:03 by Hibernate Tools 4.3.1.Final
 
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -27,12 +26,15 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class Usuario implements java.io.Serializable {
 
-	private static final long serialVersionUID = 2746794641592488897L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2027988858915595039L;
 	private int idusuario;
+	private DdSexo ddSexo;
 	private GlobalCodigopostal globalCodigopostal;
 	private Redessociales redessociales;
 	private Roles roles;
-	private Sexo sexo;
 	private String nombre;
 	private String apellido1;
 	private String apellido2;
@@ -52,29 +54,29 @@ public class Usuario implements java.io.Serializable {
 	public Usuario() {
 	}
 
-	public Usuario(int idusuario, GlobalCodigopostal globalCodigopostal,
-			Redessociales redessociales, Roles roles, Sexo sexo,
-			String apellido1, String password) {
+	public Usuario(int idusuario, DdSexo ddSexo,
+			GlobalCodigopostal globalCodigopostal, Redessociales redessociales,
+			Roles roles, String apellido1, String password) {
 		this.idusuario = idusuario;
+		this.ddSexo = ddSexo;
 		this.globalCodigopostal = globalCodigopostal;
 		this.redessociales = redessociales;
 		this.roles = roles;
-		this.sexo = sexo;
 		this.apellido1 = apellido1;
 		this.password = password;
 	}
-	public Usuario(int idusuario, GlobalCodigopostal globalCodigopostal,
-			Redessociales redessociales, Roles roles, Sexo sexo, String nombre,
-			String apellido1, String apellido2, String email, String telefono,
-			Date fechanac, String direccion, byte[] fotoperfil,
-			String password, String cuentacorriente, String iban,
-			Boolean bloqueado, Boolean activo, Date ultimologin,
+	public Usuario(int idusuario, DdSexo ddSexo,
+			GlobalCodigopostal globalCodigopostal, Redessociales redessociales,
+			Roles roles, String nombre, String apellido1, String apellido2,
+			String email, String telefono, Date fechanac, String direccion,
+			byte[] fotoperfil, String password, String cuentacorriente,
+			String iban, Boolean bloqueado, Boolean activo, Date ultimologin,
 			Set<Entrada> entradas) {
 		this.idusuario = idusuario;
+		this.ddSexo = ddSexo;
 		this.globalCodigopostal = globalCodigopostal;
 		this.redessociales = redessociales;
 		this.roles = roles;
-		this.sexo = sexo;
 		this.nombre = nombre;
 		this.apellido1 = apellido1;
 		this.apellido2 = apellido2;
@@ -92,7 +94,7 @@ public class Usuario implements java.io.Serializable {
 		this.entradas = entradas;
 	}
 
-	@Id @GeneratedValue(strategy=GenerationType.AUTO) 
+	@Id @GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name = "idusuario", unique = true, nullable = false)
 	public int getIdusuario() {
 		return this.idusuario;
@@ -100,6 +102,16 @@ public class Usuario implements java.io.Serializable {
 
 	public void setIdusuario(int idusuario) {
 		this.idusuario = idusuario;
+	}
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "idsexo", nullable = false)
+	public DdSexo getDdSexo() {
+		return this.ddSexo;
+	}
+
+	public void setDdSexo(DdSexo ddSexo) {
+		this.ddSexo = ddSexo;
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -130,16 +142,6 @@ public class Usuario implements java.io.Serializable {
 
 	public void setRoles(Roles roles) {
 		this.roles = roles;
-	}
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "idsexo", nullable = false)
-	public Sexo getSexo() {
-		return this.sexo;
-	}
-
-	public void setSexo(Sexo sexo) {
-		this.sexo = sexo;
 	}
 
 	@Column(name = "nombre", length = 45)
