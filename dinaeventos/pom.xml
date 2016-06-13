@@ -43,10 +43,13 @@
       <artifactId>javaee-api</artifactId>
       <scope>provided</scope>
     </dependency>
+<<<<<<< HEAD
     <dependency>
     	<groupId>org.primefaces</groupId>
     	<artifactId>primefaces</artifactId>
     	<version>6.0</version>
     </dependency>
+=======
+>>>>>>> branch 'master' of ssh://git@github.com/andyserrato/dinaeventos.git
   </dependencies>
 </project>
