@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/resources/scaffold/pageTemplate.xhtml">
+
+	<f:metadata>
+		<f:viewParam name="id" value='#{usuarioBean.id}'/>
+		<f:event type="preRenderView" listener='#{usuarioBean.retrieve}'/>
+	</f:metadata>
+
+	<ui:param name="pageTitle" value="View Usuario"/>
+
+	<ui:define name="header">
+		Usuario
+	</ui:define>
+
+	<ui:define name="subheader">
+		View existing Usuario
+	</ui:define>
+
+	<ui:define name="footer"/>
+
+	<ui:define name="main">
+		<h:panelGrid columnClasses="label,component,required" columns="3">
+			<h:outputLabel for="usuarioBeanUsuarioNombre" value="Nombre:"/>
+			<h:outputText id="usuarioBeanUsuarioNombre" value="#{usuarioBean.usuario.nombre}"/>
+			<h:outputText/>
+			<h:outputLabel for="usuarioBeanUsuarioApellido1" value="Apellido 1:"/>
+			<h:outputText id="usuarioBeanUsuarioApellido1" value="#{usuarioBean.usuario.apellido1}"/>
+			<h:outputText/>
+			<h:outputLabel for="usuarioBeanUsuarioApellido2" value="Apellido 2:"/>
+			<h:outputText id="usuarioBeanUsuarioApellido2" value="#{usuarioBean.usuario.apellido2}"/>
+			<h:outputText/>
+			<h:outputLabel for="usuarioBeanUsuarioEmail" value="Email:"/>
+			<h:outputText id="usuarioBeanUsuarioEmail" value="#{usuarioBean.usuario.email}"/>
+			<h:outputText/>
+			<h:outputLabel for="usuarioBeanUsuarioTelefono" value="Telefono:"/>
+			<h:outputText id="usuarioBeanUsuarioTelefono" value="#{usuarioBean.usuario.telefono}"/>
+			<h:outputText/>
+			<h:outputLabel for="usuarioBeanUsuarioFechanac" value="Fechanac:"/>
+			<h:outputText id="usuarioBeanUsuarioFechanac" value="#{usuarioBean.usuario.fechanac}">
+				<f:convertDateTime type="date"/>
+			</h:outputText>
+			<h:outputText/>
+			<h:outputLabel for="usuarioBeanUsuarioDireccion" value="Direccion:"/>
+			<h:outputText id="usuarioBeanUsuarioDireccion" value="#{usuarioBean.usuario.direccion}"/>
+			<h:outputText/>
+			<h:outputLabel for="usuarioBeanUsuarioFotoperfil" value="Fotoperfil:"/>
+			<h:outputText id="usuarioBeanUsuarioFotoperfil" value="#{usuarioBean.usuario.fotoperfil}"/>
+			<h:outputText/>
+			<h:outputLabel for="usuarioBeanUsuarioPassword" value="Password:"/>
+			<h:outputText id="usuarioBeanUsuarioPassword" value="#{usuarioBean.usuario.password}"/>
+			<h:outputText/>
+			<h:outputLabel for="usuarioBeanUsuarioCuentacorriente" value="Cuentacorriente:"/>
+			<h:outputText id="usuarioBeanUsuarioCuentacorriente" value="#{usuarioBean.usuario.cuentacorriente}"/>
+			<h:outputText/>
+			<h:outputLabel for="usuarioBeanUsuarioIban" value="Iban:"/>
+			<h:outputText id="usuarioBeanUsuarioIban" value="#{usuarioBean.usuario.iban}"/>
+			<h:outputText/>
+			<h:outputLabel for="usuarioBeanUsuarioBloqueado" value="Bloqueado:"/>
+			<h:outputText id="usuarioBeanUsuarioBloqueado" value="#{usuarioBean.usuario.bloqueado}"/>
+			<h:outputText/>
+			<h:outputLabel for="usuarioBeanUsuarioActivo" value="Activo:"/>
+			<h:outputText id="usuarioBeanUsuarioActivo" value="#{usuarioBean.usuario.activo}"/>
+			<h:outputText/>
+			<h:outputLabel for="usuarioBeanUsuarioUltimologin" value="Ultimologin:"/>
+			<h:outputText id="usuarioBeanUsuarioUltimologin" value="#{usuarioBean.usuario.ultimologin}">
+				<f:convertDateTime type="date"/>
+			</h:outputText>
+			<h:outputText/>
+			<h:outputLabel for="usuarioBeanUsuarioIdsexo" value="Idsexo:"/>
+			<h:outputText id="usuarioBeanUsuarioIdsexo" value="#{usuarioBean.usuario.idsexo}"/>
+			<h:outputText/>
+			<h:outputLabel for="usuarioBeanUsuarioIdredessociales" value="Idredessociales:"/>
+			<h:outputText id="usuarioBeanUsuarioIdredessociales" value="#{usuarioBean.usuario.idredessociales}"/>
+			<h:outputText/>
+			<h:outputLabel for="usuarioBeanUsuarioIdrol" value="Idrol:"/>
+			<h:outputText id="usuarioBeanUsuarioIdrol" value="#{usuarioBean.usuario.idrol}"/>
+			<h:outputText/>
+			<h:outputLabel for="usuarioBeanUsuarioIdcodigopostal" value="Idcodigopostal:"/>
+			<h:outputText id="usuarioBeanUsuarioIdcodigopostal" value="#{usuarioBean.usuario.idcodigopostal}"/>
+			<h:outputText/>
+		</h:panelGrid>
+
+		<div class="buttons">
+			<h:link value="View All" outcome="search" styleClass="btn btn-primary"/> 
+			<h:link value="Edit" outcome="create" includeViewParams="true" styleClass="btn btn-primary"/>
+			<h:link value="Create New" outcome="create" styleClass="btn btn-primary"/>
+		</div>
+	</ui:define>
+
+</ui:composition>

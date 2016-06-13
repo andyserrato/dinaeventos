@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/resources/scaffold/pageTemplate.xhtml">
+
+	<f:metadata>
+		<f:viewParam name="id" value='#{organizadoresBean.id}'/>
+		<f:event type="preRenderView" listener='#{organizadoresBean.retrieve}'/>
+	</f:metadata>
+
+	<ui:param name="pageTitle" value="View Organizadores"/>
+
+	<ui:define name="header">
+		Organizadores
+	</ui:define>
+
+	<ui:define name="subheader">
+		View existing Organizadores
+	</ui:define>
+
+	<ui:define name="footer"/>
+
+	<ui:define name="main">
+		<h:panelGrid columnClasses="label,component,required" columns="3">
+			<h:outputLabel for="organizadoresBeanOrganizadoresNombre" value="Nombre:"/>
+			<h:outputText id="organizadoresBeanOrganizadoresNombre" value="#{organizadoresBean.organizadores.nombre}"/>
+			<h:outputText/>
+			<h:outputLabel for="organizadoresBeanOrganizadoresDireccion" value="Direccion:"/>
+			<h:outputText id="organizadoresBeanOrganizadoresDireccion" value="#{organizadoresBean.organizadores.direccion}"/>
+			<h:outputText/>
+			<h:outputLabel for="organizadoresBeanOrganizadoresDescripcion" value="Descripcion:"/>
+			<h:outputText id="organizadoresBeanOrganizadoresDescripcion" value="#{organizadoresBean.organizadores.descripcion}"/>
+			<h:outputText/>
+			<h:outputLabel for="organizadoresBeanOrganizadoresEnlacefb" value="Enlacefb:"/>
+			<h:outputText id="organizadoresBeanOrganizadoresEnlacefb" value="#{organizadoresBean.organizadores.enlacefb}"/>
+			<h:outputText/>
+			<h:outputLabel for="organizadoresBeanOrganizadoresEnlacetw" value="Enlacetw:"/>
+			<h:outputText id="organizadoresBeanOrganizadoresEnlacetw" value="#{organizadoresBean.organizadores.enlacetw}"/>
+			<h:outputText/>
+			<h:outputLabel for="organizadoresBeanOrganizadoresEmail" value="Email:"/>
+			<h:outputText id="organizadoresBeanOrganizadoresEmail" value="#{organizadoresBean.organizadores.email}"/>
+			<h:outputText/>
+			<h:outputLabel for="organizadoresBeanOrganizadoresTelefono" value="Telefono:"/>
+			<h:outputText id="organizadoresBeanOrganizadoresTelefono" value="#{organizadoresBean.organizadores.telefono}"/>
+			<h:outputText/>
+			<h:outputLabel for="organizadoresBeanOrganizadoresPassword" value="Password:"/>
+			<h:outputText id="organizadoresBeanOrganizadoresPassword" value="#{organizadoresBean.organizadores.password}"/>
+			<h:outputText/>
+			<h:outputLabel for="organizadoresBeanOrganizadoresCuentacorriente" value="Cuentacorriente:"/>
+			<h:outputText id="organizadoresBeanOrganizadoresCuentacorriente" value="#{organizadoresBean.organizadores.cuentacorriente}"/>
+			<h:outputText/>
+			<h:outputLabel for="organizadoresBeanOrganizadoresIban" value="Iban:"/>
+			<h:outputText id="organizadoresBeanOrganizadoresIban" value="#{organizadoresBean.organizadores.iban}"/>
+			<h:outputText/>
+			<h:outputLabel for="organizadoresBeanOrganizadoresIdcodigopostal" value="Idcodigopostal:"/>
+			<h:outputText id="organizadoresBeanOrganizadoresIdcodigopostal" value="#{organizadoresBean.organizadores.idcodigopostal}"/>
+			<h:outputText/>
+		</h:panelGrid>
+
+		<div class="buttons">
+			<h:link value="View All" outcome="search" styleClass="btn btn-primary"/> 
+			<h:link value="Edit" outcome="create" includeViewParams="true" styleClass="btn btn-primary"/>
+			<h:link value="Create New" outcome="create" styleClass="btn btn-primary"/>
+		</div>
+	</ui:define>
+
+</ui:composition>

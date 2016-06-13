@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/resources/scaffold/pageTemplate.xhtml">
+
+	<f:metadata>
+		<f:viewParam name="id" value='#{rrppJefesBean.id}'/>
+		<f:event type="preRenderView" listener='#{rrppJefesBean.retrieve}'/>
+	</f:metadata>
+
+	<ui:param name="pageTitle" value="View Rrpp Jefes"/>
+
+	<ui:define name="header">
+		Rrpp Jefes
+	</ui:define>
+
+	<ui:define name="subheader">
+		View existing Rrpp Jefes
+	</ui:define>
+
+	<ui:define name="footer"/>
+
+	<ui:define name="main">
+		<h:panelGrid columnClasses="label,component,required" columns="3">
+			<h:outputLabel for="rrppJefesBeanRrppJefesNombre" value="Nombre:"/>
+			<h:outputText id="rrppJefesBeanRrppJefesNombre" value="#{rrppJefesBean.rrppJefes.nombre}"/>
+			<h:outputText/>
+			<h:outputLabel for="rrppJefesBeanRrppJefesApellido1" value="Apellido 1:"/>
+			<h:outputText id="rrppJefesBeanRrppJefesApellido1" value="#{rrppJefesBean.rrppJefes.apellido1}"/>
+			<h:outputText/>
+			<h:outputLabel for="rrppJefesBeanRrppJefesApellido2" value="Apellido 2:"/>
+			<h:outputText id="rrppJefesBeanRrppJefesApellido2" value="#{rrppJefesBean.rrppJefes.apellido2}"/>
+			<h:outputText/>
+			<h:outputLabel for="rrppJefesBeanRrppJefesEmail" value="Email:"/>
+			<h:outputText id="rrppJefesBeanRrppJefesEmail" value="#{rrppJefesBean.rrppJefes.email}"/>
+			<h:outputText/>
+			<h:outputLabel for="rrppJefesBeanRrppJefesTelefono" value="Telefono:"/>
+			<h:outputText id="rrppJefesBeanRrppJefesTelefono" value="#{rrppJefesBean.rrppJefes.telefono}"/>
+			<h:outputText/>
+			<h:outputLabel for="rrppJefesBeanRrppJefesIdorganizador" value="Idorganizador:"/>
+			<h:outputText id="rrppJefesBeanRrppJefesIdorganizador" value="#{rrppJefesBean.rrppJefes.idorganizador}"/>
+			<h:outputText/>
+			<h:outputLabel for="rrppJefesBeanRrppJefesLimiteEntradas" value="Limite Entradas:"/>
+			<h:outputText id="rrppJefesBeanRrppJefesLimiteEntradas" value="#{rrppJefesBean.rrppJefes.limiteEntradas}"/>
+			<h:outputText/>
+			<h:outputLabel for="rrppJefesBeanRrppJefesCodigoPromocional" value="Codigo Promocional:"/>
+			<h:outputText id="rrppJefesBeanRrppJefesCodigoPromocional" value="#{rrppJefesBean.rrppJefes.codigoPromocional}"/>
+			<h:outputText/>
+		</h:panelGrid>
+
+		<div class="buttons">
+			<h:link value="View All" outcome="search" styleClass="btn btn-primary"/> 
+			<h:link value="Edit" outcome="create" includeViewParams="true" styleClass="btn btn-primary"/>
+			<h:link value="Create New" outcome="create" styleClass="btn btn-primary"/>
+		</div>
+	</ui:define>
+
+</ui:composition>

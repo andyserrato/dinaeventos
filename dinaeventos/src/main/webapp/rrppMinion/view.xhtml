@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/resources/scaffold/pageTemplate.xhtml">
+
+	<f:metadata>
+		<f:viewParam name="id" value='#{rrppMinionBean.id}'/>
+		<f:event type="preRenderView" listener='#{rrppMinionBean.retrieve}'/>
+	</f:metadata>
+
+	<ui:param name="pageTitle" value="View Rrpp Minion"/>
+
+	<ui:define name="header">
+		Rrpp Minion
+	</ui:define>
+
+	<ui:define name="subheader">
+		View existing Rrpp Minion
+	</ui:define>
+
+	<ui:define name="footer"/>
+
+	<ui:define name="main">
+		<h:panelGrid columnClasses="label,component,required" columns="3">
+			<h:outputLabel for="rrppMinionBeanRrppMinionNombre" value="Nombre:"/>
+			<h:outputText id="rrppMinionBeanRrppMinionNombre" value="#{rrppMinionBean.rrppMinion.nombre}"/>
+			<h:outputText/>
+			<h:outputLabel for="rrppMinionBeanRrppMinionApellido1" value="Apellido 1:"/>
+			<h:outputText id="rrppMinionBeanRrppMinionApellido1" value="#{rrppMinionBean.rrppMinion.apellido1}"/>
+			<h:outputText/>
+			<h:outputLabel for="rrppMinionBeanRrppMinionApellido2" value="Apellido 2:"/>
+			<h:outputText id="rrppMinionBeanRrppMinionApellido2" value="#{rrppMinionBean.rrppMinion.apellido2}"/>
+			<h:outputText/>
+			<h:outputLabel for="rrppMinionBeanRrppMinionEmail" value="Email:"/>
+			<h:outputText id="rrppMinionBeanRrppMinionEmail" value="#{rrppMinionBean.rrppMinion.email}"/>
+			<h:outputText/>
+			<h:outputLabel for="rrppMinionBeanRrppMinionTelefono" value="Telefono:"/>
+			<h:outputText id="rrppMinionBeanRrppMinionTelefono" value="#{rrppMinionBean.rrppMinion.telefono}"/>
+			<h:outputText/>
+			<h:outputLabel for="rrppMinionBeanRrppMinionIdjefe" value="Idjefe:"/>
+			<h:outputText id="rrppMinionBeanRrppMinionIdjefe" value="#{rrppMinionBean.rrppMinion.idjefe}"/>
+			<h:outputText/>
+			<h:outputLabel for="rrppMinionBeanRrppMinionLimiteEntradas" value="Limite Entradas:"/>
+			<h:outputText id="rrppMinionBeanRrppMinionLimiteEntradas" value="#{rrppMinionBean.rrppMinion.limiteEntradas}"/>
+			<h:outputText/>
+			<h:outputLabel for="rrppMinionBeanRrppMinionCoigoPromocional" value="Coigo Promocional:"/>
+			<h:outputText id="rrppMinionBeanRrppMinionCoigoPromocional" value="#{rrppMinionBean.rrppMinion.coigoPromocional}"/>
+			<h:outputText/>
+		</h:panelGrid>
+
+		<div class="buttons">
+			<h:link value="View All" outcome="search" styleClass="btn btn-primary"/> 
+			<h:link value="Edit" outcome="create" includeViewParams="true" styleClass="btn btn-primary"/>
+			<h:link value="Create New" outcome="create" styleClass="btn btn-primary"/>
+		</div>
+	</ui:define>
+
+</ui:composition>

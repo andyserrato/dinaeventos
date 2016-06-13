@@ -1,5 +1,5 @@
 package org.dinamizadores.dinaeventos.model;
-// Generated 07-jun-2016 22:29:03 by Hibernate Tools 4.3.1.Final
+// Generated 13-jun-2016 11:45:19 by Hibernate Tools 4.3.1.Final
 
 
 import javax.persistence.Column;

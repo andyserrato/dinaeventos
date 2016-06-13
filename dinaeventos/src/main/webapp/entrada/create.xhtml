@@ -1,0 +1,156 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	template="/resources/scaffold/pageTemplate.xhtml">
+
+	<f:metadata>
+		<f:viewParam name="id" value='#{entradaBean.id}'/>
+		<f:event type="preRenderView" listener='#{entradaBean.retrieve}'/>
+	</f:metadata>
+
+	<ui:param name="pageTitle" value="Create Entrada"/>
+
+	<ui:define name="header">
+		Entrada
+	</ui:define>
+
+	<ui:define name="subheader">
+		<c:choose>
+			<c:when test='#{!empty entradaBean.id}'>
+				Edit existing Entrada
+			</c:when>
+			<c:otherwise>
+				Create a new Entrada
+			</c:otherwise>
+		</c:choose>
+	</ui:define>
+
+	<ui:define name="footer"/>
+
+	<ui:define name="main">
+		<h:form id="create">
+			<h:messages globalOnly="true" styleClass="error"/>
+
+			<h:panelGrid columnClasses="label,component,required" columns="3">
+				<h:outputLabel for="entradaBeanEntradaNumeroserie" value="Numeroserie:"/>
+				<h:panelGroup>
+					<h:inputText id="entradaBeanEntradaNumeroserie" maxLength="100" value="#{entradaBean.entrada.numeroserie}"/>
+					<h:message for="entradaBeanEntradaNumeroserie" styleClass="error"/>
+				</h:panelGroup>
+				<h:outputText/>
+				<h:outputLabel for="entradaBeanEntradaValidada" value="Validada:"/>
+				<h:panelGroup>
+					<h:selectOneMenu id="entradaBeanEntradaValidada" value="#{entradaBean.entrada.validada}">
+						<f:selectItem/>
+						<f:selectItem itemLabel="Yes" itemValue="true"/>
+						<f:selectItem itemLabel="No" itemValue="false"/>
+					</h:selectOneMenu>
+					<h:message for="entradaBeanEntradaValidada" styleClass="error"/>
+				</h:panelGroup>
+				<h:outputText/>
+				<h:outputLabel for="entradaBeanEntradaTicketgenerado" value="Ticketgenerado:"/>
+				<h:panelGroup>
+					<h:selectOneMenu id="entradaBeanEntradaTicketgenerado" value="#{entradaBean.entrada.ticketgenerado}">
+						<f:selectItem/>
+						<f:selectItem itemLabel="Yes" itemValue="true"/>
+						<f:selectItem itemLabel="No" itemValue="false"/>
+					</h:selectOneMenu>
+					<h:message for="entradaBeanEntradaTicketgenerado" styleClass="error"/>
+				</h:panelGroup>
+				<h:outputText/>
+				<h:outputLabel for="entradaBeanEntradaPrecio" value="Precio:"/>
+				<h:panelGroup>
+					<h:inputText id="entradaBeanEntradaPrecio" value="#{entradaBean.entrada.precio}"/>
+					<h:message for="entradaBeanEntradaPrecio" styleClass="error"/>
+				</h:panelGroup>
+				<h:outputText/>
+				<h:outputLabel for="entradaBeanEntradaActiva" value="Activa:"/>
+				<h:panelGroup>
+					<h:selectOneMenu id="entradaBeanEntradaActiva" value="#{entradaBean.entrada.activa}">
+						<f:selectItem/>
+						<f:selectItem itemLabel="Yes" itemValue="true"/>
+						<f:selectItem itemLabel="No" itemValue="false"/>
+					</h:selectOneMenu>
+					<h:message for="entradaBeanEntradaActiva" styleClass="error"/>
+				</h:panelGroup>
+				<h:outputText/>
+				<h:outputLabel for="entradaBeanEntradaIdevento" value="Idevento:"/>
+				<h:panelGroup>
+					<h:inputText id="entradaBeanEntradaIdevento" value="#{entradaBean.entrada.idevento}"/>
+					<h:message for="entradaBeanEntradaIdevento" styleClass="error"/>
+				</h:panelGroup>
+				<h:outputText/>
+				<h:outputLabel for="entradaBeanEntradaIdusuario" value="Idusuario:"/>
+				<h:panelGroup>
+					<h:inputText id="entradaBeanEntradaIdusuario" value="#{entradaBean.entrada.idusuario}"/>
+					<h:message for="entradaBeanEntradaIdusuario" styleClass="error"/>
+				</h:panelGroup>
+				<h:outputText/>
+				<h:outputLabel for="entradaBeanEntradaIdtipoiva" value="Idtipoiva:"/>
+				<h:panelGroup>
+					<h:inputText id="entradaBeanEntradaIdtipoiva" value="#{entradaBean.entrada.idtipoiva}"/>
+					<h:message for="entradaBeanEntradaIdtipoiva" styleClass="error"/>
+				</h:panelGroup>
+				<h:outputText/>
+				<h:outputLabel for="entradaBeanEntradaIdformapago" value="Idformapago:"/>
+				<h:panelGroup>
+					<h:inputText id="entradaBeanEntradaIdformapago" value="#{entradaBean.entrada.idformapago}"/>
+					<h:message for="entradaBeanEntradaIdformapago" styleClass="error"/>
+				</h:panelGroup>
+				<h:outputText/>
+				<h:outputLabel for="entradaBeanEntradaIdtipoentrada" value="Idtipoentrada:"/>
+				<h:panelGroup>
+					<h:inputText id="entradaBeanEntradaIdtipoentrada" value="#{entradaBean.entrada.idtipoentrada}"/>
+					<h:message for="entradaBeanEntradaIdtipoentrada" styleClass="error"/>
+				</h:panelGroup>
+				<h:outputText/>
+				<h:outputLabel for="entradaBeanEntradaIdorigen" value="Idorigen:"/>
+				<h:panelGroup>
+					<h:inputText id="entradaBeanEntradaIdorigen" value="#{entradaBean.entrada.idorigen}"/>
+					<h:message for="entradaBeanEntradaIdorigen" styleClass="error"/>
+				</h:panelGroup>
+				<h:outputText/>
+				<h:outputLabel for="entradaBeanEntradaDentrofuera" value="Dentrofuera:"/>
+				<h:panelGroup>
+					<h:selectOneMenu id="entradaBeanEntradaDentrofuera" value="#{entradaBean.entrada.dentrofuera}">
+						<f:selectItem/>
+						<f:selectItem itemLabel="Yes" itemValue="true"/>
+						<f:selectItem itemLabel="No" itemValue="false"/>
+					</h:selectOneMenu>
+					<h:message for="entradaBeanEntradaDentrofuera" styleClass="error"/>
+				</h:panelGroup>
+				<h:outputText/>
+				<h:outputLabel for="entradaBeanEntradaVendida" value="Vendida:"/>
+				<h:panelGroup>
+					<h:selectOneMenu id="entradaBeanEntradaVendida" value="#{entradaBean.entrada.vendida}">
+						<f:selectItem/>
+						<f:selectItem itemLabel="Yes" itemValue="true"/>
+						<f:selectItem itemLabel="No" itemValue="false"/>
+					</h:selectOneMenu>
+					<h:message for="entradaBeanEntradaVendida" styleClass="error"/>
+				</h:panelGroup>
+				<h:outputText/>
+			</h:panelGrid>
+
+			<div class="buttons">
+				<h:commandLink value="Save" action='#{entradaBean.update}' styleClass="btn btn-primary"/>
+				<c:choose>
+					<c:when test='#{!empty entradaBean.id}'>
+						<h:link value="Cancel" outcome="view" styleClass="btn btn-primary">
+							<f:param name="id" value='#{entradaBean.id}'/>
+						</h:link>
+						<h:commandLink value="Delete" action='#{entradaBean.delete}' styleClass="btn btn-primary"/>
+					</c:when>
+					<c:otherwise>
+						<h:link value="Cancel" outcome="search" styleClass="btn btn-primary"/>
+					</c:otherwise>
+				</c:choose>
+			</div>
+		</h:form>
+	</ui:define>
+
+</ui:composition>

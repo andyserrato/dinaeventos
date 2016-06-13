@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/resources/scaffold/pageTemplate.xhtml">
+
+	<f:metadata>
+		<f:viewParam name="page" value='#{usuarioBean.page}'/>
+		<f:event type="preRenderView" listener='#{usuarioBean.paginate}'/>
+	</f:metadata>
+
+	<ui:param name="pageTitle" value="Search Usuario entities"/>
+
+	<ui:define name="header">
+		Usuario
+	</ui:define>
+
+	<ui:define name="subheader">
+		Search Usuario entities
+	</ui:define>
+
+	<ui:define name="footer"/>
+
+	<ui:define name="main">
+		<h:form id="search">
+			<f:validateBean disabled="true">
+				<h:panelGroup styleClass="search">
+
+					<h:panelGrid columnClasses="label,component,required" columns="3">
+						<h:outputLabel for="usuarioBeanExampleNombre" value="Nombre:"/>
+						<h:panelGroup>
+							<h:inputText id="usuarioBeanExampleNombre" maxLength="45" value="#{usuarioBean.example.nombre}"/>
+							<h:message for="usuarioBeanExampleNombre" styleClass="error"/>
+						</h:panelGroup>
+						<h:outputText/>
+						<h:outputLabel for="usuarioBeanExampleApellido1" value="Apellido 1:"/>
+						<h:panelGroup>
+							<h:inputText id="usuarioBeanExampleApellido1" maxLength="45" value="#{usuarioBean.example.apellido1}"/>
+							<h:message for="usuarioBeanExampleApellido1" styleClass="error"/>
+						</h:panelGroup>
+						<h:outputText/>
+						<h:outputLabel for="usuarioBeanExampleApellido2" value="Apellido 2:"/>
+						<h:panelGroup>
+							<h:inputText id="usuarioBeanExampleApellido2" maxLength="45" value="#{usuarioBean.example.apellido2}"/>
+							<h:message for="usuarioBeanExampleApellido2" styleClass="error"/>
+						</h:panelGroup>
+						<h:outputText/>
+						<h:outputLabel for="usuarioBeanExampleEmail" value="Email:"/>
+						<h:panelGroup>
+							<h:inputText id="usuarioBeanExampleEmail" maxLength="45" value="#{usuarioBean.example.email}"/>
+							<h:message for="usuarioBeanExampleEmail" styleClass="error"/>
+						</h:panelGroup>
+						<h:outputText/>
+						<h:outputLabel for="usuarioBeanExampleTelefono" value="Telefono:"/>
+						<h:panelGroup>
+							<h:inputText id="usuarioBeanExampleTelefono" maxLength="9" value="#{usuarioBean.example.telefono}"/>
+							<h:message for="usuarioBeanExampleTelefono" styleClass="error"/>
+						</h:panelGroup>
+						<h:outputText/>
+					</h:panelGrid>
+					<h:panelGroup styleClass="buttons">
+						<h:commandLink value="Search" action='#{usuarioBean.search}' styleClass="btn btn-primary"/>
+						<h:commandLink value="Create New" action='#{usuarioBean.create}' styleClass="btn btn-primary"/>
+					</h:panelGroup>
+				</h:panelGroup>
+			</f:validateBean>
+			
+			<h:dataTable id="usuarioBeanPageItems" styleClass="data-table" value="#{usuarioBean.pageItems}" var="_item">
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Apellido 1"/>
+					</f:facet>
+					<h:link outcome="/usuario/view">
+						<f:param name="id" value="#{_item.idusuario}"/>
+						<h:outputText id="itemApellido1" value="#{_item.apellido1}"/>
+					</h:link>
+				</h:column>
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Password"/>
+					</f:facet>
+					<h:link outcome="/usuario/view">
+						<f:param name="id" value="#{_item.idusuario}"/>
+						<h:outputText id="itemPassword" value="#{_item.password}"/>
+					</h:link>
+				</h:column>
+			</h:dataTable>
+			<ui:include src="/resources/scaffold/paginator.xhtml">
+				<ui:param name="paginatorBean" value='#{usuarioBean}'/>
+			</ui:include>
+		</h:form>
+			
+	</ui:define>
+
+</ui:composition>

@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/resources/scaffold/pageTemplate.xhtml">
+
+	<f:metadata>
+		<f:viewParam name="page" value='#{globalCodigopostalesBean.page}'/>
+		<f:event type="preRenderView" listener='#{globalCodigopostalesBean.paginate}'/>
+	</f:metadata>
+
+	<ui:param name="pageTitle" value="Search Global Codigopostales entities"/>
+
+	<ui:define name="header">
+		Global Codigopostales
+	</ui:define>
+
+	<ui:define name="subheader">
+		Search Global Codigopostales entities
+	</ui:define>
+
+	<ui:define name="footer"/>
+
+	<ui:define name="main">
+		<h:form id="search">
+			<f:validateBean disabled="true">
+				<h:panelGroup styleClass="search">
+
+					<h:panelGrid columnClasses="label,component,required" columns="3">
+						<h:outputLabel for="globalCodigopostalesBeanExampleCodigo" value="Codigo:"/>
+						<h:panelGroup>
+							<h:inputText id="globalCodigopostalesBeanExampleCodigo" maxLength="5" value="#{globalCodigopostalesBean.example.codigo}"/>
+							<h:message for="globalCodigopostalesBeanExampleCodigo" styleClass="error"/>
+						</h:panelGroup>
+						<h:outputText/>
+						<h:outputLabel for="globalCodigopostalesBeanExampleLocalidad" value="Localidad:"/>
+						<h:panelGroup>
+							<h:inputText id="globalCodigopostalesBeanExampleLocalidad" maxLength="45" value="#{globalCodigopostalesBean.example.localidad}"/>
+							<h:message for="globalCodigopostalesBeanExampleLocalidad" styleClass="error"/>
+						</h:panelGroup>
+						<h:outputText/>
+						<h:outputLabel for="globalCodigopostalesBeanExampleIdprovincia" value="Idprovincia:"/>
+						<h:panelGroup>
+							<h:inputText id="globalCodigopostalesBeanExampleIdprovincia" value="#{globalCodigopostalesBean.example.idprovincia}"/>
+							<h:message for="globalCodigopostalesBeanExampleIdprovincia" styleClass="error"/>
+						</h:panelGroup>
+						<h:outputText/>
+					</h:panelGrid>
+					<h:panelGroup styleClass="buttons">
+						<h:commandLink value="Search" action='#{globalCodigopostalesBean.search}' styleClass="btn btn-primary"/>
+						<h:commandLink value="Create New" action='#{globalCodigopostalesBean.create}' styleClass="btn btn-primary"/>
+					</h:panelGroup>
+				</h:panelGroup>
+			</f:validateBean>
+			
+			<h:dataTable id="globalCodigopostalesBeanPageItems" styleClass="data-table" value="#{globalCodigopostalesBean.pageItems}" var="_item">
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Codigo"/>
+					</f:facet>
+					<h:link outcome="/globalCodigopostales/view">
+						<f:param name="id" value="#{_item.idcodigopostal}"/>
+						<h:outputText id="itemCodigo" value="#{_item.codigo}"/>
+					</h:link>
+				</h:column>
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Localidad"/>
+					</f:facet>
+					<h:link outcome="/globalCodigopostales/view">
+						<f:param name="id" value="#{_item.idcodigopostal}"/>
+						<h:outputText id="itemLocalidad" value="#{_item.localidad}"/>
+					</h:link>
+				</h:column>
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Idprovincia"/>
+					</f:facet>
+					<h:link outcome="/globalCodigopostales/view">
+						<f:param name="id" value="#{_item.idcodigopostal}"/>
+						<h:outputText id="itemIdprovincia" value="#{_item.idprovincia}"/>
+					</h:link>
+				</h:column>
+			</h:dataTable>
+			<ui:include src="/resources/scaffold/paginator.xhtml">
+				<ui:param name="paginatorBean" value='#{globalCodigopostalesBean}'/>
+			</ui:include>
+		</h:form>
+			
+	</ui:define>
+
+</ui:composition>

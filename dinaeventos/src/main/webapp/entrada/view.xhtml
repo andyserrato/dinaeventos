@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/resources/scaffold/pageTemplate.xhtml">
+
+	<f:metadata>
+		<f:viewParam name="id" value='#{entradaBean.id}'/>
+		<f:event type="preRenderView" listener='#{entradaBean.retrieve}'/>
+	</f:metadata>
+
+	<ui:param name="pageTitle" value="View Entrada"/>
+
+	<ui:define name="header">
+		Entrada
+	</ui:define>
+
+	<ui:define name="subheader">
+		View existing Entrada
+	</ui:define>
+
+	<ui:define name="footer"/>
+
+	<ui:define name="main">
+		<h:panelGrid columnClasses="label,component,required" columns="3">
+			<h:outputLabel for="entradaBeanEntradaNumeroserie" value="Numeroserie:"/>
+			<h:outputText id="entradaBeanEntradaNumeroserie" value="#{entradaBean.entrada.numeroserie}"/>
+			<h:outputText/>
+			<h:outputLabel for="entradaBeanEntradaValidada" value="Validada:"/>
+			<h:outputText id="entradaBeanEntradaValidada" value="#{entradaBean.entrada.validada}"/>
+			<h:outputText/>
+			<h:outputLabel for="entradaBeanEntradaTicketgenerado" value="Ticketgenerado:"/>
+			<h:outputText id="entradaBeanEntradaTicketgenerado" value="#{entradaBean.entrada.ticketgenerado}"/>
+			<h:outputText/>
+			<h:outputLabel for="entradaBeanEntradaPrecio" value="Precio:"/>
+			<h:outputText id="entradaBeanEntradaPrecio" value="#{entradaBean.entrada.precio}"/>
+			<h:outputText/>
+			<h:outputLabel for="entradaBeanEntradaActiva" value="Activa:"/>
+			<h:outputText id="entradaBeanEntradaActiva" value="#{entradaBean.entrada.activa}"/>
+			<h:outputText/>
+			<h:outputLabel for="entradaBeanEntradaIdevento" value="Idevento:"/>
+			<h:outputText id="entradaBeanEntradaIdevento" value="#{entradaBean.entrada.idevento}"/>
+			<h:outputText/>
+			<h:outputLabel for="entradaBeanEntradaIdusuario" value="Idusuario:"/>
+			<h:outputText id="entradaBeanEntradaIdusuario" value="#{entradaBean.entrada.idusuario}"/>
+			<h:outputText/>
+			<h:outputLabel for="entradaBeanEntradaIdtipoiva" value="Idtipoiva:"/>
+			<h:outputText id="entradaBeanEntradaIdtipoiva" value="#{entradaBean.entrada.idtipoiva}"/>
+			<h:outputText/>
+			<h:outputLabel for="entradaBeanEntradaIdformapago" value="Idformapago:"/>
+			<h:outputText id="entradaBeanEntradaIdformapago" value="#{entradaBean.entrada.idformapago}"/>
+			<h:outputText/>
+			<h:outputLabel for="entradaBeanEntradaIdtipoentrada" value="Idtipoentrada:"/>
+			<h:outputText id="entradaBeanEntradaIdtipoentrada" value="#{entradaBean.entrada.idtipoentrada}"/>
+			<h:outputText/>
+			<h:outputLabel for="entradaBeanEntradaIdorigen" value="Idorigen:"/>
+			<h:outputText id="entradaBeanEntradaIdorigen" value="#{entradaBean.entrada.idorigen}"/>
+			<h:outputText/>
+			<h:outputLabel for="entradaBeanEntradaDentrofuera" value="Dentrofuera:"/>
+			<h:outputText id="entradaBeanEntradaDentrofuera" value="#{entradaBean.entrada.dentrofuera}"/>
+			<h:outputText/>
+			<h:outputLabel for="entradaBeanEntradaVendida" value="Vendida:"/>
+			<h:outputText id="entradaBeanEntradaVendida" value="#{entradaBean.entrada.vendida}"/>
+			<h:outputText/>
+		</h:panelGrid>
+
+		<div class="buttons">
+			<h:link value="View All" outcome="search" styleClass="btn btn-primary"/> 
+			<h:link value="Edit" outcome="create" includeViewParams="true" styleClass="btn btn-primary"/>
+			<h:link value="Create New" outcome="create" styleClass="btn btn-primary"/>
+		</div>
+	</ui:define>
+
+</ui:composition>

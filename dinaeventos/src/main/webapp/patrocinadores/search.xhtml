@@ -1,0 +1,124 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/resources/scaffold/pageTemplate.xhtml">
+
+	<f:metadata>
+		<f:viewParam name="page" value='#{patrocinadoresBean.page}'/>
+		<f:event type="preRenderView" listener='#{patrocinadoresBean.paginate}'/>
+	</f:metadata>
+
+	<ui:param name="pageTitle" value="Search Patrocinadores entities"/>
+
+	<ui:define name="header">
+		Patrocinadores
+	</ui:define>
+
+	<ui:define name="subheader">
+		Search Patrocinadores entities
+	</ui:define>
+
+	<ui:define name="footer"/>
+
+	<ui:define name="main">
+		<h:form id="search">
+			<f:validateBean disabled="true">
+				<h:panelGroup styleClass="search">
+
+					<h:panelGrid columnClasses="label,component,required" columns="3">
+						<h:outputLabel for="patrocinadoresBeanExampleNombre" value="Nombre:"/>
+						<h:panelGroup>
+							<h:inputText id="patrocinadoresBeanExampleNombre" maxLength="45" value="#{patrocinadoresBean.example.nombre}"/>
+							<h:message for="patrocinadoresBeanExampleNombre" styleClass="error"/>
+						</h:panelGroup>
+						<h:outputText/>
+						<h:outputLabel for="patrocinadoresBeanExampleDireccion" value="Direccion:"/>
+						<h:panelGroup>
+							<h:inputText id="patrocinadoresBeanExampleDireccion" maxLength="45" value="#{patrocinadoresBean.example.direccion}"/>
+							<h:message for="patrocinadoresBeanExampleDireccion" styleClass="error"/>
+						</h:panelGroup>
+						<h:outputText/>
+						<h:outputLabel for="patrocinadoresBeanExampleTelefono" value="Telefono:"/>
+						<h:panelGroup>
+							<h:inputText id="patrocinadoresBeanExampleTelefono" maxLength="9" value="#{patrocinadoresBean.example.telefono}"/>
+							<h:message for="patrocinadoresBeanExampleTelefono" styleClass="error"/>
+						</h:panelGroup>
+						<h:outputText/>
+						<h:outputLabel for="patrocinadoresBeanExampleEmail" value="Email:"/>
+						<h:panelGroup>
+							<h:inputText id="patrocinadoresBeanExampleEmail" maxLength="45" value="#{patrocinadoresBean.example.email}"/>
+							<h:message for="patrocinadoresBeanExampleEmail" styleClass="error"/>
+						</h:panelGroup>
+						<h:outputText/>
+						<h:outputLabel for="patrocinadoresBeanExampleCuentacorriente" value="Cuentacorriente:"/>
+						<h:panelGroup>
+							<h:inputText id="patrocinadoresBeanExampleCuentacorriente" maxLength="45" value="#{patrocinadoresBean.example.cuentacorriente}"/>
+							<h:message for="patrocinadoresBeanExampleCuentacorriente" styleClass="error"/>
+						</h:panelGroup>
+						<h:outputText/>
+					</h:panelGrid>
+					<h:panelGroup styleClass="buttons">
+						<h:commandLink value="Search" action='#{patrocinadoresBean.search}' styleClass="btn btn-primary"/>
+						<h:commandLink value="Create New" action='#{patrocinadoresBean.create}' styleClass="btn btn-primary"/>
+					</h:panelGroup>
+				</h:panelGroup>
+			</f:validateBean>
+			
+			<h:dataTable id="patrocinadoresBeanPageItems" styleClass="data-table" value="#{patrocinadoresBean.pageItems}" var="_item">
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Nombre"/>
+					</f:facet>
+					<h:link outcome="/patrocinadores/view">
+						<f:param name="id" value="#{_item.idpatrocinador}"/>
+						<h:outputText id="itemNombre" value="#{_item.nombre}"/>
+					</h:link>
+				</h:column>
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Direccion"/>
+					</f:facet>
+					<h:link outcome="/patrocinadores/view">
+						<f:param name="id" value="#{_item.idpatrocinador}"/>
+						<h:outputText id="itemDireccion" value="#{_item.direccion}"/>
+					</h:link>
+				</h:column>
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Telefono"/>
+					</f:facet>
+					<h:link outcome="/patrocinadores/view">
+						<f:param name="id" value="#{_item.idpatrocinador}"/>
+						<h:outputText id="itemTelefono" value="#{_item.telefono}"/>
+					</h:link>
+				</h:column>
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Email"/>
+					</f:facet>
+					<h:link outcome="/patrocinadores/view">
+						<f:param name="id" value="#{_item.idpatrocinador}"/>
+						<h:outputText id="itemEmail" value="#{_item.email}"/>
+					</h:link>
+				</h:column>
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Cuentacorriente"/>
+					</f:facet>
+					<h:link outcome="/patrocinadores/view">
+						<f:param name="id" value="#{_item.idpatrocinador}"/>
+						<h:outputText id="itemCuentacorriente" value="#{_item.cuentacorriente}"/>
+					</h:link>
+				</h:column>
+			</h:dataTable>
+			<ui:include src="/resources/scaffold/paginator.xhtml">
+				<ui:param name="paginatorBean" value='#{patrocinadoresBean}'/>
+			</ui:include>
+		</h:form>
+			
+	</ui:define>
+
+</ui:composition>

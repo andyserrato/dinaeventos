@@ -1,0 +1,124 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	template="/resources/scaffold/pageTemplate.xhtml">
+
+	<f:metadata>
+		<f:viewParam name="id" value='#{organizadoresBean.id}'/>
+		<f:event type="preRenderView" listener='#{organizadoresBean.retrieve}'/>
+	</f:metadata>
+
+	<ui:param name="pageTitle" value="Create Organizadores"/>
+
+	<ui:define name="header">
+		Organizadores
+	</ui:define>
+
+	<ui:define name="subheader">
+		<c:choose>
+			<c:when test='#{!empty organizadoresBean.id}'>
+				Edit existing Organizadores
+			</c:when>
+			<c:otherwise>
+				Create a new Organizadores
+			</c:otherwise>
+		</c:choose>
+	</ui:define>
+
+	<ui:define name="footer"/>
+
+	<ui:define name="main">
+		<h:form id="create">
+			<h:messages globalOnly="true" styleClass="error"/>
+
+			<h:panelGrid columnClasses="label,component,required" columns="3">
+				<h:outputLabel for="organizadoresBeanOrganizadoresNombre" value="Nombre:"/>
+				<h:panelGroup>
+					<h:inputText id="organizadoresBeanOrganizadoresNombre" maxLength="45" value="#{organizadoresBean.organizadores.nombre}"/>
+					<h:message for="organizadoresBeanOrganizadoresNombre" styleClass="error"/>
+				</h:panelGroup>
+				<h:outputText/>
+				<h:outputLabel for="organizadoresBeanOrganizadoresDireccion" value="Direccion:"/>
+				<h:panelGroup>
+					<h:inputText id="organizadoresBeanOrganizadoresDireccion" value="#{organizadoresBean.organizadores.direccion}"/>
+					<h:message for="organizadoresBeanOrganizadoresDireccion" styleClass="error"/>
+				</h:panelGroup>
+				<h:outputText/>
+				<h:outputLabel for="organizadoresBeanOrganizadoresDescripcion" value="Descripcion:"/>
+				<h:panelGroup>
+					<h:inputText id="organizadoresBeanOrganizadoresDescripcion" value="#{organizadoresBean.organizadores.descripcion}"/>
+					<h:message for="organizadoresBeanOrganizadoresDescripcion" styleClass="error"/>
+				</h:panelGroup>
+				<h:outputText/>
+				<h:outputLabel for="organizadoresBeanOrganizadoresEnlacefb" value="Enlacefb:"/>
+				<h:panelGroup>
+					<h:inputText id="organizadoresBeanOrganizadoresEnlacefb" value="#{organizadoresBean.organizadores.enlacefb}"/>
+					<h:message for="organizadoresBeanOrganizadoresEnlacefb" styleClass="error"/>
+				</h:panelGroup>
+				<h:outputText/>
+				<h:outputLabel for="organizadoresBeanOrganizadoresEnlacetw" value="Enlacetw:"/>
+				<h:panelGroup>
+					<h:inputText id="organizadoresBeanOrganizadoresEnlacetw" value="#{organizadoresBean.organizadores.enlacetw}"/>
+					<h:message for="organizadoresBeanOrganizadoresEnlacetw" styleClass="error"/>
+				</h:panelGroup>
+				<h:outputText/>
+				<h:outputLabel for="organizadoresBeanOrganizadoresEmail" value="Email:"/>
+				<h:panelGroup>
+					<h:inputText id="organizadoresBeanOrganizadoresEmail" maxLength="100" required="true" value="#{organizadoresBean.organizadores.email}"/>
+					<h:message for="organizadoresBeanOrganizadoresEmail" styleClass="error"/>
+				</h:panelGroup>
+				<h:outputText value="*"/>
+				<h:outputLabel for="organizadoresBeanOrganizadoresTelefono" value="Telefono:"/>
+				<h:panelGroup>
+					<h:inputText id="organizadoresBeanOrganizadoresTelefono" maxLength="9" value="#{organizadoresBean.organizadores.telefono}"/>
+					<h:message for="organizadoresBeanOrganizadoresTelefono" styleClass="error"/>
+				</h:panelGroup>
+				<h:outputText/>
+				<h:outputLabel for="organizadoresBeanOrganizadoresPassword" value="Password:"/>
+				<h:panelGroup>
+					<h:inputText id="organizadoresBeanOrganizadoresPassword" maxLength="45" required="true" value="#{organizadoresBean.organizadores.password}"/>
+					<h:message for="organizadoresBeanOrganizadoresPassword" styleClass="error"/>
+				</h:panelGroup>
+				<h:outputText value="*"/>
+				<h:outputLabel for="organizadoresBeanOrganizadoresCuentacorriente" value="Cuentacorriente:"/>
+				<h:panelGroup>
+					<h:inputText id="organizadoresBeanOrganizadoresCuentacorriente" maxLength="45" value="#{organizadoresBean.organizadores.cuentacorriente}"/>
+					<h:message for="organizadoresBeanOrganizadoresCuentacorriente" styleClass="error"/>
+				</h:panelGroup>
+				<h:outputText/>
+				<h:outputLabel for="organizadoresBeanOrganizadoresIban" value="Iban:"/>
+				<h:panelGroup>
+					<h:inputText id="organizadoresBeanOrganizadoresIban" maxLength="45" value="#{organizadoresBean.organizadores.iban}"/>
+					<h:message for="organizadoresBeanOrganizadoresIban" styleClass="error"/>
+				</h:panelGroup>
+				<h:outputText/>
+				<h:outputLabel for="organizadoresBeanOrganizadoresIdcodigopostal" value="Idcodigopostal:"/>
+				<h:panelGroup>
+					<h:inputText id="organizadoresBeanOrganizadoresIdcodigopostal" value="#{organizadoresBean.organizadores.idcodigopostal}"/>
+					<h:message for="organizadoresBeanOrganizadoresIdcodigopostal" styleClass="error"/>
+				</h:panelGroup>
+				<h:outputText/>
+			</h:panelGrid>
+
+			<div class="buttons">
+				<h:commandLink value="Save" action='#{organizadoresBean.update}' styleClass="btn btn-primary"/>
+				<c:choose>
+					<c:when test='#{!empty organizadoresBean.id}'>
+						<h:link value="Cancel" outcome="view" styleClass="btn btn-primary">
+							<f:param name="id" value='#{organizadoresBean.id}'/>
+						</h:link>
+						<h:commandLink value="Delete" action='#{organizadoresBean.delete}' styleClass="btn btn-primary"/>
+					</c:when>
+					<c:otherwise>
+						<h:link value="Cancel" outcome="search" styleClass="btn btn-primary"/>
+					</c:otherwise>
+				</c:choose>
+			</div>
+		</h:form>
+	</ui:define>
+
+</ui:composition>
