@@ -224,10 +224,7 @@ public class EventoBean implements Serializable {
 					builder.lower(root.<String> get("direccion")),
 					'%' + direccion.toLowerCase() + '%'));
 		}
-		byte[] logo = this.example.getLogo();
-		if (logo != null) {
-			predicatesList.add(builder.equal(root.get("logo"), logo));
-		}
+
 		String descripcion = this.example.getDescripcion();
 		if (descripcion != null && !"".equals(descripcion)) {
 			predicatesList.add(builder.like(

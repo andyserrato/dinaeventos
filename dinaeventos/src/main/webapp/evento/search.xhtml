@@ -4,7 +4,8 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	template="/resources/scaffold/pageTemplate.xhtml">
+	template="/resources/scaffold/pageTemplate.xhtml"
+	xmlns:p="http://primefaces.org/ui">
 
 	<f:metadata>
 		<f:viewParam name="page" value='#{eventoBean.page}'/>
@@ -47,12 +48,7 @@
 							<h:message for="eventoBeanExampleDireccion" styleClass="error"/>
 						</h:panelGroup>
 						<h:outputText/>
-						<h:outputLabel for="eventoBeanExampleLogo" value="Logo:"/>
-						<h:panelGroup>
-							<h:inputText id="eventoBeanExampleLogo" value="#{eventoBean.example.logo}"/>
-							<h:message for="eventoBeanExampleLogo" styleClass="error"/>
-						</h:panelGroup>
-						<h:outputText/>
+
 						<h:outputLabel for="eventoBeanExampleDescripcion" value="Descripcion:"/>
 						<h:panelGroup>
 							<h:inputText id="eventoBeanExampleDescripcion" maxLength="140" value="#{eventoBean.example.descripcion}"/>

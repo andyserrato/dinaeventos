@@ -5,14 +5,15 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
-	template="/resources/scaffold/pageTemplate.xhtml">
+	template="/resources/scaffold/pageTemplate.xhtml"
+	xmlns:p="http://primefaces.org/ui">
 
 	<f:metadata>
 		<f:viewParam name="id" value='#{eventoBean.id}'/>
 		<f:event type="preRenderView" listener='#{eventoBean.retrieve}'/>
 	</f:metadata>
 
-	<ui:param name="pageTitle" value="Create Evento"/>
+	<ui:param name="pageTitle" value="Crear Evento"/>
 
 	<ui:define name="header">
 		Evento
@@ -24,7 +25,7 @@
 				Edit existing Evento
 			</c:when>
 			<c:otherwise>
-				Create a new Evento
+				Crear un evento
 			</c:otherwise>
 		</c:choose>
 	</ui:define>
@@ -72,7 +73,9 @@
 				<h:outputText value="*"/>
 				<h:outputLabel for="eventoBeanEventoLogo" value="Logo:"/>
 				<h:panelGroup>
-					<h:inputText id="eventoBeanEventoLogo" value="#{eventoBean.evento.logo}"/>
+					
+					<p:fileUpload fileUploadListener="#{eventoBean.example.logo}" mode="advanced" dragDropSupport="true"
+                           sizeLimit="100000"  allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
 					<h:message for="eventoBeanEventoLogo" styleClass="error"/>
 				</h:panelGroup>
 				<h:outputText/>
