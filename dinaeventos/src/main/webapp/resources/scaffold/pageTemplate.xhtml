@@ -6,8 +6,13 @@
 <h:head>
 	<title>#{empty pageTitle ? 'Page Title' : pageTitle}</title>
 	<link rel="icon" href='#{resource["favicon.ico"]}' />
-	<h:outputStylesheet name="bootstrap.css" />
-	<h:outputStylesheet name="forge-style.css" />
+	<!-- <h:outputStylesheet name="bootstrap.css" /> -->
+	<h:outputStylesheet name="css/forge-style.css" /> 
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<h:outputStylesheet name="bootstrap/css/bootstrap.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" />
+    <h:outputScript name="bootstrap/js/bootstrap.js" />
+    <h:outputStylesheet name="css/font-awesome.css" /> 
 </h:head>
 
 <h:body>
