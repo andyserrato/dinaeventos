@@ -74,7 +74,7 @@
 				<h:outputLabel for="eventoBeanEventoLogo" value="Logo:"/>
 				<h:panelGroup>
 					
-					<p:fileUpload fileUploadListener="#{eventoBean.example.logo}" mode="advanced" dragDropSupport="true"
+					<p:fileUpload id="eventoBeanEventoLogo" fileUploadListener="#{eventoBean.example.logo}" mode="advanced" dragDropSupport="true"
                            sizeLimit="100000"  allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
 					<h:message for="eventoBeanEventoLogo" styleClass="error"/>
 				</h:panelGroup>
