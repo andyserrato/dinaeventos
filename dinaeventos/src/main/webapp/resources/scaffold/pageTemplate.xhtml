@@ -28,21 +28,29 @@
 <h:body>
 	<ui:debug rendered="#{facesContext.application.projectStage == 'Development'}" />
 	<div class="navbar navbar-default">
-			<div class="container-fluid">
-				
-					
-					<div class="navbar-collapse navbar-right">
-						<ul class="nav">
-							<li><h:link id="brandLink" outcome="/entrada/comprarEntrada.xhtml" styleClass="brand">
-						<h:outputText value="Welcome to " rendered=" #{request.userPrincipal !=null} "/>
-	                    Comprar entrada
-	                    <h:outputText value=",  #{request.userPrincipal.name}" rendered="#{request.userPrincipal !=null} "/>
-					</h:link></li>
-						</ul>
-					</div>
-				
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed"
+					data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
+					aria-expanded="false">
+					<span class="sr-only">Toggle navigation</span> 
+					<span class="icon-bar"></span> 
+					<span class="icon-bar"></span> 
+					<span class="icon-bar"></span>
+				</button>
+				<h:link id="brandLink" outcome="/index.xhtml" value="Dinaeventos" styleClass="navbar-brand"/>
 			</div>
-		
+			<ul class="nav navbar-nav navbar-right">
+				<li>
+					<h:link id="comprarEntradaLink"	outcome="/entrada/comprarEntrada.xhtml" value="Comprar entrada" />
+				</li>
+				<li>
+					<h:outputLink value="javascript:void(0)" onclick="PF('dlg').show();" title="login">
+						<h:outputText value="Login" />
+					</h:outputLink>
+				</li>
+			</ul>
+		</div>
 	</div>
 
 	<div class="container">

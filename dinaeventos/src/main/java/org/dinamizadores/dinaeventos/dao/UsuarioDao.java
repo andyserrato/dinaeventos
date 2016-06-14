@@ -47,4 +47,20 @@ public class UsuarioDao {
 		}
 		return findAllQuery.getResultList();
 	}
+
+	public Usuario login(String email, String password) {
+		Usuario usuario = null;
+		TypedQuery<Usuario> query = em.createQuery(
+				"SELECT u FROM Usuario u WHERE u.email = :email",
+				Usuario.class);
+		// TODO [ANDY] Hash del password 
+		try {
+			usuario = query.setParameter("email", email).getSingleResult();
+		} catch (Exception e) {
+			// TODO [ANDY] Colocar login en el sistema
+			System.err.println("Error: " + e.getMessage());
+		}
+		
+		return usuario;
+	}
 }

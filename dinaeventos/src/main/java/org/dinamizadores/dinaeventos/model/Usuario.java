@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -144,7 +145,7 @@ public class Usuario implements java.io.Serializable {
 		this.fechanac = fechanac;
 	}
 
-	@Column(name = "direccion", length = 45)
+	@Column(name = "direccion", length = 255)
 	public String getDireccion() {
 		return this.direccion;
 	}
@@ -153,6 +154,7 @@ public class Usuario implements java.io.Serializable {
 		this.direccion = direccion;
 	}
 
+	@Lob
 	@Column(name = "fotoperfil")
 	public byte[] getFotoperfil() {
 		return this.fotoperfil;
