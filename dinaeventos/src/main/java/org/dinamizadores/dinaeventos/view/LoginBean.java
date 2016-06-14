@@ -1,16 +1,16 @@
 package org.dinamizadores.dinaeventos.view;
 
+import java.io.IOException;
 import java.io.Serializable;
 
+import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
-import javax.faces.event.ActionEvent;
 
 import org.dinamizadores.dinaeventos.dao.UsuarioDao;
 import org.dinamizadores.dinaeventos.model.Usuario;
-import org.primefaces.context.RequestContext;
 
 @ManagedBean(name = "loginBean")
 @SessionScoped
@@ -19,10 +19,24 @@ public class LoginBean implements Serializable {
 	private static final long serialVersionUID = -1161277308459762945L;
 	private String email;
     private String password;
+    @EJB
     private UsuarioDao usuarioDao;
- 
-     
-    public String getPassword() {
+    private Boolean loggedIn = false;
+    private String originalURL;
+    
+    public void recordOriginalURL(String originalURL) {
+        this.originalURL = originalURL;
+    }
+    
+    public String getOriginalURL() {
+		return originalURL;
+	}
+
+	public void setOriginalURL(String originalURL) {
+		this.originalURL = originalURL;
+	}
+
+	public String getPassword() {
         return password;
     }
  
@@ -37,13 +51,20 @@ public class LoginBean implements Serializable {
     public void setEmail(String email) {
         this.email = email;
     }
- 
-    public void login(ActionEvent event) {
+    
+    public Boolean isLoggedIn() {
+		return loggedIn;
+	}
+
+	public void setLoggedIn(Boolean loggedIn) {
+		this.loggedIn = loggedIn;
+	}
+
+	public void login() {
         Usuario usuario = usuarioDao.login(email, password);
-        RequestContext context = RequestContext.getCurrentInstance();
+        FacesContext context = FacesContext.getCurrentInstance();
         FacesMessage message = null;
-        boolean loggedIn = false;
-         
+        
         if(usuario != null && usuario.getEmail().equals(email) && usuario.getPassword().equals(password)) {
             loggedIn = true;
             message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Bienvenido", usuario.getNombre());
@@ -52,8 +73,7 @@ public class LoginBean implements Serializable {
             message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Iniciar la sesión", "Correo/Contraseña incorrecta");
         }
          
-        FacesContext.getCurrentInstance().addMessage(null, message);
-        context.addCallbackParam("loggedIn", loggedIn);
+       context.addMessage(null, message);
     }
     
     public void loginFacebook() {

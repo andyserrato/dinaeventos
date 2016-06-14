@@ -8,8 +8,6 @@
 <h:head>
 	<title>#{empty pageTitle ? 'Page Title' : pageTitle}</title>
 	<link rel="icon" href='#{resource["favicon.ico"]}' />
-	<!-- <h:outputStylesheet name="bootstrap.css" /> -->
-	<!--<h:outputStylesheet name="css/forge-style.css" /> -->
 	<h:outputStylesheet name="css/animate.min.css" />
 	<h:outputStylesheet name="css/bootstrap.min.css" />
 	<h:outputStylesheet name="css/font-awesome.min.css" />
@@ -20,8 +18,8 @@
 	<h:outputStylesheet name="css/responsive.css" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<h:outputStylesheet name="bootstrap/css/bootstrap.css" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" />
-    <h:outputScript name="bootstrap/js/bootstrap.js" />
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" />
+	<h:outputScript name="bootstrap/js/bootstrap.js" />
     <h:outputStylesheet name="css/font-awesome.css" /> 
 </h:head>
 
@@ -45,9 +43,7 @@
 					<h:link id="comprarEntradaLink"	outcome="/entrada/comprarEntrada.xhtml" value="Comprar entrada" />
 				</li>
 				<li>
-					<h:outputLink value="javascript:void(0)" onclick="PF('dlg').show();" title="login">
-						<h:outputText value="Login" />
-					</h:outputLink>
+					<h:link value="Login" outcome="/login/login" />
 				</li>
 			</ul>
 		</div>
@@ -140,9 +136,8 @@
 
 	<footer>
 		<div id="footer">
-	    	<p>Powered by <a href="http://jboss.org/forge">Sam</a></p>
+	    	<p>Powered by <a href="http://jboss.org/forge">Dinamizadores Group</a></p>
 	    </div>
 	</footer>
-
 </h:body>
 </html>
