@@ -1,6 +1,8 @@
 package org.dinamizadores.dinaeventos.model;
 // Generated 13-jun-2016 11:45:19 by Hibernate Tools 4.3.1.Final
 
+import java.math.BigDecimal;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -21,6 +23,7 @@ public class DdTipoEntrada implements java.io.Serializable {
 	private static final long serialVersionUID = -6930581924254393809L;
 	private int idtipoentrada;
 	private String nombre;
+	private BigDecimal precio;
 
 	public DdTipoEntrada() {
 	}
@@ -48,6 +51,15 @@ public class DdTipoEntrada implements java.io.Serializable {
 
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
+	}
+	
+	@Column(name = "precio", nullable = false)
+	public BigDecimal getPrecio() {
+		return this.precio;
+	}
+
+	public void setPrecio(BigDecimal precio) {
+		this.precio = precio;
 	}
 
 }

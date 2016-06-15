@@ -7,10 +7,6 @@
 	template="/resources/scaffold/pageTemplateCliente.xhtml"
 	xmlns:p="http://primefaces.org/ui">
 
-	<f:metadata>
-		<f:viewParam name="page" value='#{entradaBean.page}'/>
-		<f:event type="preRenderView" listener='#{entradaBean.init}'/>
-	</f:metadata>
 
 	<ui:param name="pageTitle" value="Compra entradas"/>
 
@@ -26,24 +22,39 @@
 
 	<ui:define name="main">
 		<h:form id="comprar">
-			<p:dataTable value="#{entradaBean.tiposEntrada}" var="tipo">
-				<p:column headerText="entrada">
-						<h:outputText value="#{tipo.nombre}" />
-				</p:column>
-				<p:column headerText="cantidad">
-						<p:selectOneMenu  id="cantidad" value="#{entradaBean.cantidad}" style="width:200px;">
-							<f:selectItem itemLabel="1" itemValue="" />
-							<f:selectItem itemLabel="2" itemValue="" />
-							<f:selectItem itemLabel="3" itemValue="" />
-							<f:selectItem itemLabel="4" itemValue="" />
-							<f:selectItem itemLabel="5" itemValue="" />
-							<f:selectItem itemLabel="6" itemValue="" />
-            				
-						</p:selectOneMenu>
-				
-				</p:column>
-			
-			</p:dataTable>
+		
+					<p:dataTable styleClass="table table-striped" value="#{entradaBean.tiposEntrada}" var="tipo">
+						<p:column headerText="entrada">
+								<h:outputText value="#{tipo.nombre}" />
+						</p:column>
+						<p:column headerText="cantidad">
+								<p:selectOneMenu  id="cantidad" value="#{entradaBean.cantidad}"  style="width:200px;">
+									<p:ajax update="comprar:total"  listener="#{entradaBean.sumarTotal(tipo.idtipoentrada)}" />
+									<f:selectItem itemLabel="0" itemValue="0"  />
+									<f:selectItem itemLabel="1" itemValue="1" />
+									<f:selectItem itemLabel="2" itemValue="2" />
+									<f:selectItem itemLabel="3" itemValue="3" />
+									<f:selectItem itemLabel="4" itemValue="4" />
+									<f:selectItem itemLabel="5" itemValue="5" />
+									<f:selectItem itemLabel="6" itemValue="6" />
+								</p:selectOneMenu>
+						</p:column>
+						<p:column headerText="precio">
+								<h:outputText value="#{tipo.precio}" />
+						</p:column>
+						
+					</p:dataTable>
+					<p:outputPanel style="float:right;">
+						<p:outputLabel  value="Total: "></p:outputLabel> <p:outputLabel id="total" value="#{entradaBean.total}"></p:outputLabel>
+					</p:outputPanel>
+					<br></br>
+					<p:separator />
+					
+					<p:outputPanel style="margin:auto; width:20%;">
+						<p:commandButton action="/usuario/formularioCliente.xhtml?faces-redirect=true" value="Comprar entrada">
+							
+						</p:commandButton>
+					</p:outputPanel>
 		</h:form>
 			
 	</ui:define>
