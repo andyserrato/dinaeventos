@@ -11,11 +11,11 @@
 	<ui:param name="pageTitle" value="Search Usuario entities"/>
 
 	<ui:define name="header">
-		Usuario
+		<h1>Usuario</h1>
 	</ui:define>
 
 	<ui:define name="subheader">
-		Rellena la información de personas
+		<h3>Rellena la información de personas</h3>
 	</ui:define>
 
 	<ui:define name="footer"/>
@@ -23,9 +23,18 @@
 	<ui:define name="main">
 		<h:form id="search">
 			<p:outputLabel  value="Total: "></p:outputLabel> <p:outputLabel id="total" value="#{usuarioBean.total}"></p:outputLabel>
-			
+			<p:accordionPanel value="#{usuarioBean.listadoEntradas}" var="entrada">
+		        <p:tab title="Entrada #{entrada.nombre}">
+		            <h:panelGrid columns="2" cellpadding="10">
+		                
+		                <h:outputText
+		                    value="Precio: #{entrada.precio}" />
+		            </h:panelGrid>
+		        </p:tab>
+		    </p:accordionPanel>
 			
 		</h:form>
+	
 			
 	</ui:define>
 

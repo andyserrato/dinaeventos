@@ -2,14 +2,20 @@ package org.dinamizadores.dinaeventos.view;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-import javax.faces.component.FacesComponent;
 
+import org.dinamizadores.dinaeventos.model.DdTipoEntrada;
 import org.dinamizadores.dinaeventos.model.Usuario;
+import org.dinamizadores.dinaevents.dto.entradasCompleta;
 
 /**
  * Backing bean for Usuario entities.
@@ -34,18 +40,51 @@ public class UsuarioBean implements Serializable {
 	private Integer id;
 	private Usuario usuario;
 	
-	public BigDecimal total = new BigDecimal(0);
+	private BigDecimal total = new BigDecimal(0);
+	
+	private Integer cantidad = 0;
+	
+	private String nombreEntrada = null;
+	
+	private Map<Long,List<BigDecimal>> listaPrecios =  new HashMap<Long,List<BigDecimal>>();
+	
+	private List<entradasCompleta> listadoEntradas = new ArrayList<entradasCompleta>();
+	
+	private List<DdTipoEntrada> tiposEntrada = new ArrayList<DdTipoEntrada>();
 	
 	
 	@PostConstruct
 	public void init(){
+		System.out.println("Inicio init");
 		
 		total = (BigDecimal) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("total");
+		listaPrecios = (Map<Long, List<BigDecimal>>) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("lista");
+		tiposEntrada = (List<DdTipoEntrada>) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("tiposEntrada");
 		
-		
-		
+		calcularInfoUsuarios();
+	
+		System.out.println("Fin init");
 	}
 	
+	private void calcularInfoUsuarios(){
+		System.out.println("Inicio calcularInfoUsuarios");
+		
+		for (Entry<Long,List<BigDecimal>> e: listaPrecios.entrySet()){
+			for (int i = 0; i < e.getValue().size(); i++){
+				entradasCompleta entrada = new entradasCompleta();
+				entrada.setIdTipoEntrada(e.getKey());
+				//entrada.setCantidadEntradas(e.getValue());
+				for (DdTipoEntrada d : tiposEntrada)
+					if (d.getIdtipoentrada() == e.getKey())
+						entrada.setNombre(d.getNombre());
+				entrada.setPrecio(e.getValue().get(0));
+				listadoEntradas.add(entrada);
+			}
+					
+		}
+		
+		System.out.println("Fin calcularInfoUsuarios");
+	}
 	
 
 	public BigDecimal getTotal() {
@@ -72,7 +111,44 @@ public class UsuarioBean implements Serializable {
 		this.usuario = usuario;
 	}
 
+	public Map<Long,List<BigDecimal>> getListaPrecios() {
+		return listaPrecios;
+	}
 
+	public void setListaPrecios(Map<Long,List<BigDecimal>> listaPrecios) {
+		this.listaPrecios = listaPrecios;
+	}
 
+	public Integer getCantidad() {
+		return cantidad;
+	}
+
+	public void setCantidad(Integer cantidad) {
+		this.cantidad = cantidad;
+	}
+
+	public String getNombreEntrada() {
+		return nombreEntrada;
+	}
+
+	public void setNombreEntrada(String nombreEntrada) {
+		this.nombreEntrada = nombreEntrada;
+	}
+
+	public List<entradasCompleta> getListadoEntradas() {
+		return listadoEntradas;
+	}
+
+	public void setListadoEntradas(List<entradasCompleta> listadoEntradas) {
+		this.listadoEntradas = listadoEntradas;
+	}
+
+	public List<DdTipoEntrada> getTiposEntrada() {
+		return tiposEntrada;
+	}
+
+	public void setTiposEntrada(List<DdTipoEntrada> tiposEntrada) {
+		this.tiposEntrada = tiposEntrada;
+	}
 	
 }

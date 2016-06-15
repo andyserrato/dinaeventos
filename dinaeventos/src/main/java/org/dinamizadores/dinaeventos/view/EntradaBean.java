@@ -17,7 +17,6 @@ import javax.faces.context.FacesContext;
 import org.dinamizadores.dinaeventos.dao.EntradaDao;
 import org.dinamizadores.dinaeventos.model.DdTipoEntrada;
 import org.dinamizadores.dinaeventos.model.Entrada;
-import org.primefaces.event.FlowEvent;
 
 /**
  * Backing bean for Entrada entities.
@@ -48,7 +47,7 @@ public class EntradaBean implements Serializable {
 	
 	private Map<Long,List<BigDecimal>> listaPrecios =  new HashMap<Long,List<BigDecimal>>();
 
-	public BigDecimal total = new BigDecimal(0);
+	private BigDecimal total = new BigDecimal(0);
 	
 	private Entrada entrada;
 	
@@ -63,10 +62,16 @@ public class EntradaBean implements Serializable {
 	public void init() {
 		System.out.println("Inicio init");
 		
+		//reiniciamos cada vez que cargamos el Bean
+		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("total", total);
+		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("lista", listaPrecios);
+		cantidad = 0;
+		
 		this.tiposEntrada = tipoEntradaDao.listTipoEntrada();
 		for (DdTipoEntrada tipo : tiposEntrada){
 			listaPrecios.put((long) tipo.getIdtipoentrada(), new ArrayList<BigDecimal>());
 		}
+		
 		System.out.println("Fin init");
 	}
 	
@@ -89,8 +94,33 @@ public class EntradaBean implements Serializable {
 				total = total.add(a);
 			
 		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("total", total);
+		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("lista", listaPrecios);
+		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("tiposEntrada", tiposEntrada  );
 		
 		System.out.println("Fin sumarTotal");
+	}
+	
+	public boolean isRendererBoton() {
+		System.out.println("Inicio isRendererBoton");
+		
+		boolean desactivado = true;
+        int res;
+        
+        res = total.compareTo(BigDecimal.valueOf(0));
+		
+        //Iguales
+		if (res == 0){
+			desactivado = true;
+		//0 menor que total
+		}else if (res == 1){
+			desactivado = false;
+		//total menor que 0
+		}else if (res == -1){
+			desactivado = true;
+		}
+		
+		System.out.println("Fina isRendererBoton");
+		return desactivado;
 	}
 
 	
