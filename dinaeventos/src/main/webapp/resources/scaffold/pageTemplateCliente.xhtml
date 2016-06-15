@@ -20,7 +20,7 @@
 	<h:outputStylesheet name="css/responsive.css" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<h:outputStylesheet name="bootstrap/css/bootstrap.css" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" />
+    
     <h:outputScript name="bootstrap/js/bootstrap.js" />
     <h:outputStylesheet name="css/font-awesome.css" /> 
 </h:head>
@@ -33,11 +33,12 @@
 					
 					<div class="navbar-collapse navbar-right">
 						<ul class="nav">
-							<li><h:link id="brandLink" outcome="/entrada/comprarEntrada.xhtml" styleClass="brand">
-						<h:outputText value="Welcome to " rendered=" #{request.userPrincipal !=null} "/>
-	                    Comprar entrada
-	                    <h:outputText value=",  #{request.userPrincipal.name}" rendered="#{request.userPrincipal !=null} "/>
-					</h:link></li>
+							<li>
+								<h:link id="brandLink" outcome="/entrada/comprarEntrada.xhtml" styleClass="brand">
+									<h:outputText value="Welcome to " rendered=" #{request.userPrincipal !=null} "/>
+	                    			Comprar entrada
+	                    			<h:outputText value=",  #{request.userPrincipal.name}" rendered="#{request.userPrincipal !=null} "/>
+								</h:link></li>
 						</ul>
 					</div>
 				

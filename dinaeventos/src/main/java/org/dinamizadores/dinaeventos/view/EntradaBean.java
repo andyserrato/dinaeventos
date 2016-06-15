@@ -1,15 +1,14 @@
 package org.dinamizadores.dinaeventos.view;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.ejb.EJB;
 import javax.ejb.SessionContext;
 import javax.ejb.Stateful;
 import javax.enterprise.context.Conversation;
 import javax.enterprise.context.ConversationScoped;
-import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
@@ -18,14 +17,10 @@ import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
-import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
 
+import org.dinamizadores.dinaeventos.dao.EntradaDao;
+import org.dinamizadores.dinaeventos.model.DdTipoEntrada;
 import org.dinamizadores.dinaeventos.model.Entrada;
-import java.lang.Boolean;
 
 /**
  * Backing bean for Entrada entities.
@@ -49,24 +44,15 @@ public class EntradaBean implements Serializable {
 	 */
 
 	private Integer id;
-
-	public Integer getId() {
-		return this.id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
+	
+	private Integer cantidad;
 
 	private Entrada entrada;
-
-	public Entrada getEntrada() {
-		return this.entrada;
-	}
-
-	public void setEntrada(Entrada entrada) {
-		this.entrada = entrada;
-	}
+	
+	@EJB
+	private EntradaDao tipoEntradaDao; 
+	
+	private List<DdTipoEntrada> tiposEntrada;
 
 	@Inject
 	private Conversation conversation;
@@ -74,6 +60,13 @@ public class EntradaBean implements Serializable {
 	@PersistenceContext(unitName = "dinaeventos-persistence-unit", type = PersistenceContextType.EXTENDED)
 	private EntityManager entityManager;
 
+	
+	public void init() {
+		
+		this.tiposEntrada = tipoEntradaDao.listTipoEntrada();
+	}
+	
+	
 	public String create() {
 
 		this.conversation.begin();
@@ -104,44 +97,6 @@ public class EntradaBean implements Serializable {
 		return this.entityManager.find(Entrada.class, id);
 	}
 
-	/*
-	 * Support updating and deleting Entrada entities
-	 */
-
-	public String update() {
-		this.conversation.end();
-
-		try {
-			if (this.id == null) {
-				this.entityManager.persist(this.entrada);
-				return "search?faces-redirect=true";
-			} else {
-				this.entityManager.merge(this.entrada);
-				return "view?faces-redirect=true&id="
-						+ this.entrada.getIdentrada();
-			}
-		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(e.getMessage()));
-			return null;
-		}
-	}
-
-	public String delete() {
-		this.conversation.end();
-
-		try {
-			Entrada deletableEntity = findById(getId());
-
-			this.entityManager.remove(deletableEntity);
-			this.entityManager.flush();
-			return "search?faces-redirect=true";
-		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(e.getMessage()));
-			return null;
-		}
-	}
 
 	/*
 	 * Support searching Entrada entities with pagination
@@ -150,6 +105,7 @@ public class EntradaBean implements Serializable {
 	private int page;
 	private long count;
 	private List<Entrada> pageItems;
+	
 
 	private Entrada example = new Entrada();
 
@@ -178,61 +134,6 @@ public class EntradaBean implements Serializable {
 		return null;
 	}
 
-	public void paginate() {
-
-		CriteriaBuilder builder = this.entityManager.getCriteriaBuilder();
-
-		// Populate this.count
-
-		CriteriaQuery<Long> countCriteria = builder.createQuery(Long.class);
-		Root<Entrada> root = countCriteria.from(Entrada.class);
-		countCriteria = countCriteria.select(builder.count(root)).where(
-				getSearchPredicates(root));
-		this.count = this.entityManager.createQuery(countCriteria)
-				.getSingleResult();
-
-		// Populate this.pageItems
-
-		CriteriaQuery<Entrada> criteria = builder.createQuery(Entrada.class);
-		root = criteria.from(Entrada.class);
-		TypedQuery<Entrada> query = this.entityManager.createQuery(criteria
-				.select(root).where(getSearchPredicates(root)));
-		query.setFirstResult(this.page * getPageSize()).setMaxResults(
-				getPageSize());
-		this.pageItems = query.getResultList();
-	}
-
-	private Predicate[] getSearchPredicates(Root<Entrada> root) {
-
-		CriteriaBuilder builder = this.entityManager.getCriteriaBuilder();
-		List<Predicate> predicatesList = new ArrayList<Predicate>();
-
-		String numeroserie = this.example.getNumeroserie();
-		if (numeroserie != null && !"".equals(numeroserie)) {
-			predicatesList.add(builder.like(
-					builder.lower(root.<String> get("numeroserie")),
-					'%' + numeroserie.toLowerCase() + '%'));
-		}
-		Boolean validada = this.example.getValidada();
-		if (validada != null) {
-			predicatesList.add(builder.equal(root.get("validada"), validada));
-		}
-		Boolean ticketgenerado = this.example.getTicketgenerado();
-		if (ticketgenerado != null) {
-			predicatesList.add(builder.equal(root.get("ticketgenerado"),
-					ticketgenerado));
-		}
-		Boolean activa = this.example.getActiva();
-		if (activa != null) {
-			predicatesList.add(builder.equal(root.get("activa"), activa));
-		}
-		Integer idevento = this.example.getIdevento();
-		if (idevento != null && idevento.intValue() != 0) {
-			predicatesList.add(builder.equal(root.get("idevento"), idevento));
-		}
-
-		return predicatesList.toArray(new Predicate[predicatesList.size()]);
-	}
 
 	public List<Entrada> getPageItems() {
 		return this.pageItems;
@@ -247,13 +148,6 @@ public class EntradaBean implements Serializable {
 	 * HtmlSelectOneMenu)
 	 */
 
-	public List<Entrada> getAll() {
-
-		CriteriaQuery<Entrada> criteria = this.entityManager
-				.getCriteriaBuilder().createQuery(Entrada.class);
-		return this.entityManager.createQuery(
-				criteria.select(criteria.from(Entrada.class))).getResultList();
-	}
 
 	@Resource
 	private SessionContext sessionContext;
@@ -299,5 +193,45 @@ public class EntradaBean implements Serializable {
 		Entrada added = this.add;
 		this.add = new Entrada();
 		return added;
+	}
+	
+	public Integer getId() {
+		return this.id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public Integer getCantidad() {
+		return cantidad;
+	}
+
+	public void setCantidad(Integer cantidad) {
+		this.cantidad = cantidad;
+	}
+	
+	public Entrada getEntrada() {
+		return this.entrada;
+	}
+
+	public void setEntrada(Entrada entrada) {
+		this.entrada = entrada;
+	}
+
+	public EntradaDao getTipoEntrada() {
+		return tipoEntradaDao;
+	}
+
+	public void setTipoEntrada(EntradaDao tipoEntrada) {
+		this.tipoEntradaDao = tipoEntrada;
+	}
+
+	public List<DdTipoEntrada> getTiposEntrada() {
+		return tiposEntrada;
+	}
+
+	public void setTiposEntrada(List<DdTipoEntrada> tiposEntrada) {
+		this.tiposEntrada = tiposEntrada;
 	}
 }

@@ -9,7 +9,7 @@
 
 	<f:metadata>
 		<f:viewParam name="page" value='#{entradaBean.page}'/>
-		<f:event type="preRenderView" listener='#{entradaBean.paginate}'/>
+		<f:event type="preRenderView" listener='#{entradaBean.init}'/>
 	</f:metadata>
 
 	<ui:param name="pageTitle" value="Compra entradas"/>
@@ -26,12 +26,20 @@
 
 	<ui:define name="main">
 		<h:form id="comprar">
-			<p:dataTable value="#{entradaBean.pageItems}">
+			<p:dataTable value="#{entradaBean.tiposEntrada}" var="tipo">
 				<p:column headerText="entrada">
-						<h:outputText value="EntradaGeneral" />
+						<h:outputText value="#{tipo.nombre}" />
 				</p:column>
 				<p:column headerText="cantidad">
-						<p:selectOneMenu id="cantidad" style="width:20px;"></p:selectOneMenu>
+						<p:selectOneMenu  id="cantidad" value="#{entradaBean.cantidad}" style="width:200px;">
+							<f:selectItem itemLabel="1" itemValue="" />
+							<f:selectItem itemLabel="2" itemValue="" />
+							<f:selectItem itemLabel="3" itemValue="" />
+							<f:selectItem itemLabel="4" itemValue="" />
+							<f:selectItem itemLabel="5" itemValue="" />
+							<f:selectItem itemLabel="6" itemValue="" />
+            				
+						</p:selectOneMenu>
 				
 				</p:column>
 			
