@@ -26,8 +26,7 @@ public class Usuario implements java.io.Serializable {
 	private static final long serialVersionUID = -8141392932334002184L;
 	private int idusuario;
 	private String nombre;
-	private String apellido1;
-	private String apellido2;
+	private String apellidos;
 	private String email;
 	private String telefono;
 	private Date fechanac;
@@ -50,7 +49,7 @@ public class Usuario implements java.io.Serializable {
 
 	public Usuario(int idusuario, String apellido1, String password) {
 		this.idusuario = idusuario;
-		this.apellido1 = apellido1;
+		this.apellidos = apellido1;
 		this.password = password;
 	}
 	public Usuario(int idusuario, String nombre, String apellido1,
@@ -61,8 +60,7 @@ public class Usuario implements java.io.Serializable {
 			Integer idredessociales, Integer idrol, Integer idcodigopostal, String dni) {
 		this.idusuario = idusuario;
 		this.nombre = nombre;
-		this.apellido1 = apellido1;
-		this.apellido2 = apellido2;
+		this.apellidos = apellido1;
 		this.email = email;
 		this.telefono = telefono;
 		this.fechanac = fechanac;
@@ -92,7 +90,7 @@ public class Usuario implements java.io.Serializable {
 		this.idusuario = idusuario;
 	}
 
-	@Column(name = "nombre", length = 45)
+	@Column(name = "nombre", length = 50)
 	public String getNombre() {
 		return this.nombre;
 	}
@@ -101,25 +99,16 @@ public class Usuario implements java.io.Serializable {
 		this.nombre = nombre;
 	}
 
-	@Column(name = "apellido1", nullable = false, length = 45)
+	@Column(name = "apellido", length = 255)
 	public String getApellido1() {
-		return this.apellido1;
+		return this.apellidos;
 	}
 
-	public void setApellido1(String apellido1) {
-		this.apellido1 = apellido1;
+	public void setApellido1(String apellidos) {
+		this.apellidos = apellidos;
 	}
 
-	@Column(name = "apellido2", length = 45)
-	public String getApellido2() {
-		return this.apellido2;
-	}
-
-	public void setApellido2(String apellido2) {
-		this.apellido2 = apellido2;
-	}
-
-	@Column(name = "email", length = 45)
+	@Column(name = "email", length = 100)
 	public String getEmail() {
 		return this.email;
 	}
@@ -138,7 +127,7 @@ public class Usuario implements java.io.Serializable {
 	}
 
 	@Temporal(TemporalType.DATE)
-	@Column(name = "fechanac", length = 10)
+	@Column(name = "fechanac")
 	public Date getFechanac() {
 		return this.fechanac;
 	}
@@ -166,7 +155,7 @@ public class Usuario implements java.io.Serializable {
 		this.fotoperfil = fotoperfil;
 	}
 
-	@Column(name = "password", nullable = false, length = 45)
+	@Column(name = "password", length = 255)
 	public String getPassword() {
 		return this.password;
 	}
@@ -175,7 +164,7 @@ public class Usuario implements java.io.Serializable {
 		this.password = password;
 	}
 
-	@Column(name = "cuentacorriente", length = 45)
+	@Column(name = "cuentacorriente", length = 20)
 	public String getCuentacorriente() {
 		return this.cuentacorriente;
 	}
@@ -184,7 +173,7 @@ public class Usuario implements java.io.Serializable {
 		this.cuentacorriente = cuentacorriente;
 	}
 
-	@Column(name = "iban", length = 45)
+	@Column(name = "iban", length = 34)
 	public String getIban() {
 		return this.iban;
 	}
@@ -212,7 +201,7 @@ public class Usuario implements java.io.Serializable {
 	}
 
 	@Temporal(TemporalType.DATE)
-	@Column(name = "ultimologin", length = 10)
+	@Column(name = "ultimologin")
 	public Date getUltimologin() {
 		return this.ultimologin;
 	}
@@ -257,6 +246,7 @@ public class Usuario implements java.io.Serializable {
 		this.idcodigopostal = idcodigopostal;
 	}
 
+	@Column(name = "idcodigopostal", length = 9)
 	public String getDni() {
 		return dni;
 	}
