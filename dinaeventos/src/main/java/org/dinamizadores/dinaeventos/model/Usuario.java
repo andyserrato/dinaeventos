@@ -246,7 +246,7 @@ public class Usuario implements java.io.Serializable {
 		this.idcodigopostal = idcodigopostal;
 	}
 
-	@Column(name = "idcodigopostal", length = 9)
+	@Column(name = "dni", length = 9)
 	public String getDni() {
 		return dni;
 	}

@@ -20,7 +20,22 @@ public class Redessociales implements java.io.Serializable {
 	 */
 	private static final long serialVersionUID = 8114825636505298077L;
 	private int idredessociales;
-	private String enlace;
+	private String enlacePerfil;
+	private String token;
+	private String enlaceFoto;
+	private String idUser;
+	private String redSocial;
+
+	public Redessociales(int idredessociales, String enlacePerfil, String token, String enlaceFoto, String idUser,
+			String redSocial) {
+		super();
+		this.idredessociales = idredessociales;
+		this.enlacePerfil = enlacePerfil;
+		this.token = token;
+		this.enlaceFoto = enlaceFoto;
+		this.idUser = idUser;
+		this.redSocial = redSocial;
+	}
 
 	public Redessociales() {
 	}
@@ -28,10 +43,7 @@ public class Redessociales implements java.io.Serializable {
 	public Redessociales(int idredessociales) {
 		this.idredessociales = idredessociales;
 	}
-	public Redessociales(int idredessociales, String enlace) {
-		this.idredessociales = idredessociales;
-		this.enlace = enlace;
-	}
+	
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -44,13 +56,50 @@ public class Redessociales implements java.io.Serializable {
 		this.idredessociales = idredessociales;
 	}
 
-	@Column(name = "enlace", length = 45)
+	@Column(name = "enlaceperfil", length = 500)
 	public String getEnlace() {
-		return this.enlace;
+		return this.enlacePerfil;
 	}
 
-	public void setEnlace(String enlace) {
-		this.enlace = enlace;
+	public void setEnlace(String enlacePerfil) {
+		this.enlacePerfil = enlacePerfil;
 	}
 
+	@Column(name = "token", length = 500)
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
+	}
+
+	@Column(name = "enlacefoto", length = 500)
+	public String getEnlaceFoto() {
+		return enlaceFoto;
+	}
+
+	public void setEnlaceFoto(String enlaceFoto) {
+		this.enlaceFoto = enlaceFoto;
+	}
+
+	@Column(name = "redsocial", length = 100)
+	public String getRedSocial() {
+		return redSocial;
+	}
+
+	public void setRedSocial(String redSocial) {
+		this.redSocial = redSocial;
+	}
+
+	@Column(name = "iduser", length = 255)
+	public String getIdUser() {
+		return idUser;
+	}
+
+	public void setIdUser(String idUser) {
+		this.idUser = idUser;
+	}
+	
+	
 }
