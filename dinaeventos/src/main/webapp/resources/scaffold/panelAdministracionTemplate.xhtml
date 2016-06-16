@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+	<h:head>
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<h:outputStylesheet name="bootstrap/css/bootstrap.css" />
+	    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" />
+	    <h:outputScript name="bootstrap/js/bootstrap.js" />
+	    <h:outputStylesheet name="css/font-awesome.css" />
+    </h:head>  
+      
+    <h:body>
+    	<div style="height: 100px;">
+    		PAELLAS 2017 LOGO2
+  			<br/>
+  			15 de abril de 2017, La Coma
+  			<br/>
+  			<ui:insert name="header" />
+    	</div>
+      	
+        <div class="menuLateral" style="float: left; width: 18%; background-color: #fff;">
+        	<div style="font-size: 14px; font-weight: bold;">Datos globales</div>
+        	<ul class="nav nav-tabs nav-stacked">
+        		<li><p:commandLink value="Visión global" id="btn1" action="#{panelAdministracion.irAVisionGlobal()}"/></li>
+        		<li><p:commandLink value="Lugares de origen" id="btn2" action="#{panelAdministracion.irALugaresDeOrigen()}"/></li>
+        	</ul>
+        	<div style="font-size: 14px; font-weight: bold;">Venta online</div>
+        	<ul class="nav nav-tabs nav-stacked">
+        		<li><p:commandLink value="Ventas online" id="btn3" action="#{panelAdministracion.irAVentasOnline()}"/></li>
+        		<li><p:commandLink value="Ventas por tipos de entradas" id="btn4" action="#{panelAdministracion.irAVentasTipoEntradas()}"/></li>
+        		<li><p:commandLink value="Venta por precios" id="btn5" action="#{panelAdministracion.irAVentaPorPrecios()}"/></li>
+        	</ul>
+        	<div style="font-size: 14px; font-weight: bold;">Venta física</div>
+        	<ul class="nav nav-tabs nav-stacked">
+        		<li><p:commandLink value="Ventas físicas" id="btn6" action="#{panelAdministracion.irAVentasFisicas()}"/></li>
+        		<li><p:commandLink value="Descargar datos de venta" id="btn7" /></li>
+        	</ul>
+        	<div style="font-size: 14px; font-weight: bold;">Validaciones</div>
+        	<ul class="nav nav-tabs nav-stacked">
+        		<li><p:commandLink value="Ventas en papel" id="btn8" action="#{panelAdministracion.irAVentasEnPapel()}"/></li>
+        	</ul>
+        	<div style="font-size: 14px; font-weight: bold;">Herramientas</div>
+        	<ul class="nav nav-tabs nav-stacked">
+        		<li><p:commandLink value="Gestión de precios" id="btn9" /></li>
+        		<li><p:commandLink value="Gestión de RRPP" id="btn10" /></li>
+        		<li><p:commandLink value="Gestión de entradas" id="btn11" /></li>
+        		<li><p:commandLink value="Generar invitación" id="btn12" /></li>
+        		<li><p:commandLink value="Ver VIP's e invitaciones" id="btn13" /></li>
+        		<li><p:commandLink value="Facturación" id="btn14" /></li>
+        	</ul>
+        </div> 
+        
+        <div class="cuerpoPagina" style="width: 100%">
+        	<h:form method="post" enctype="multipart/form-data">
+        		<ui:insert name="main" />
+        	</h:form>
+        </div>
+          
+    </h:body> 
+</html>

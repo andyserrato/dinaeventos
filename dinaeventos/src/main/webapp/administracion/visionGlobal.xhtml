@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/resources/scaffold/panelAdministracionTemplate.xhtml"
+	xmlns:p="http://primefaces.org/ui">
+	
+	<ui:define name="header">
+		<h1>Visión Global</h1>
+	</ui:define>
+
+	<ui:define name="main">
+		<h:panelGrid id="panelTop" columns="1" class="nav nav-tabs nav-stacked">
+		
+			<h:panelGrid id="panelEntradasTV" columns="2">
+			
+				<h:outputLabel value="Entradas totales vendidas" style="float: left"/>
+				
+				<h:panelGrid columns="3" style="float: right">
+					<p:outputLabel id="labelEntradasVendidas" style="bold: true; float:left" value="#{visionGlobal.entradasVendidas}"/>
+					<b>/</b>
+					<p:outputLabel id="labelEntradasTotales" style="float: right" value="#{visionGlobal.entradasTotales}"/>
+				</h:panelGrid>
+			</h:panelGrid>
+			
+			<h:panelGrid id="panelIngresosTotales" columns="2">
+				<h:outputLabel value="Ingresos totales" style="float: left"/>
+				<p:outputLabel id="labelIngresosTotales" style="float: right" value="#{visionGlobal.ingresosTotales}€"/>
+			</h:panelGrid>
+		</h:panelGrid>
+		
+		<br/>
+		
+		<h:panelGrid id="panelMid" columns="1" class="nav nav-tabs nav-stacked">
+		
+			<h:panelGrid id="panelVendidasPapel" columns="2">
+				<h:outputLabel value="Entradas validadas vendidas en papel" style="float: left"/>
+				<p:outputLabel id="labelVendidasPapel" style="float: right" value="#{visionGlobal.entradasPapel}"/>
+			</h:panelGrid>
+			
+			<h:panelGrid id="panelVendidasOnline" columns="2">
+				<h:outputLabel value="Entradas vendidas online" style="float: left"/>
+				<p:outputLabel id="labelVendidasOnline" style="float: right" value="#{visionGlobal.entradasOnline}"/>
+			</h:panelGrid>
+			
+			<h:panelGrid id="panelVendidasSMS" columns="2">
+				<h:outputLabel value="Entradas vendidas por SMS" style="float: left"/>
+				<p:outputLabel id="labelVendidasSMS" style="float: right" value="#{visionGlobal.entradasSMS}"/>
+			</h:panelGrid>
+			
+		</h:panelGrid>
+		
+		<br/>
+		
+		<h:panelGrid id="panelBot" columns="1" class="nav nav-tabs nav-stacked">
+			
+			<h:panelGrid id="panelCambiosNombre" columns="2">
+				<h:outputLabel value="Cambios de nombre" style="float: left"/>
+				<p:outputLabel id="labelCambiosNombre" style="float: right" value="#{visionGlobal.cambiosNombre}(1058€)"/>
+			</h:panelGrid>
+			
+		</h:panelGrid>
+			
+	</ui:define>
+
+</ui:composition>
