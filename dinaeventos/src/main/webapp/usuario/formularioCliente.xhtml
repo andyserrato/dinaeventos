@@ -8,14 +8,14 @@
 	xmlns:p="http://primefaces.org/ui">
 
 
-	<ui:param name="pageTitle" value="Search Usuario entities"/>
+	<ui:param name="pageTitle" value="Rellenar información entradas"/>
 
 	<ui:define name="header">
-		<h1>Usuario</h1>
+		<h1>Entrada</h1>
 	</ui:define>
 
 	<ui:define name="subheader">
-		<h3>Rellena la información de personas</h3>
+		<h3>Rellena la información de entradas</h3>
 	</ui:define>
 
 	<ui:define name="footer"/>
@@ -25,14 +25,58 @@
 			<p:outputLabel  value="Total: "></p:outputLabel> <p:outputLabel id="total" value="#{usuarioBean.total}"></p:outputLabel>
 			<p:accordionPanel value="#{usuarioBean.listadoEntradas}" var="entrada">
 		        <p:tab title="Entrada #{entrada.nombre}">
-		            <h:panelGrid columns="2" cellpadding="10">
-		                
-		                <h:outputText
-		                    value="Precio: #{entrada.precio}" />
-		            </h:panelGrid>
+		        <div class="section">
+		        	<div class="container-fluid">
+			        	<div class="row">
+			        		<div class="col-md-4">
+					        	<h:panelGrid  columns="2" cellpadding="10" >
+					            
+					                 <p:outputLabel value="Facebook"  />
+					                 <p:commandButton icon="fa fa-facebook" />
+					                 
+					            </h:panelGrid>
+					         </div>
+					         <div  class="col-md-5">
+					         
+					         <p:panel id="panel">
+					            <h:panelGrid columns="3" cellpadding="10" >
+					            	 <span class="label label-default">Nombre</span>
+					                 <p:inputText id="nombre" value="#{entrada.usuario.nombre}" label="Nombre" required="true"></p:inputText>
+					                 <p:message for="nombre" display="icon" />
+					                 
+					                 <span class="label label-default">Apellidos</span>
+					                 <p:inputText label="apellidos" id="apellidos" value="#{entrada.usuario.apellido1}" required="true"></p:inputText>
+					                 <p:message for="apellidos" display="icon" />
+
+									 <span class="label label-default">Correo electrónico</span>
+					                 <p:inputText label="email" value="#{entrada.usuario.email}" id="email" required="true"></p:inputText>
+					                 <p:message for="email" display="icon" />
+
+					                 <span class="label label-default">Fecha de nacimiento</span>
+					                 <p:calendar label="fecha" id="fecha" value="#{entrada.usuario.fechanac}" pattern="dd/MM/yyyy" required="true" showOn="button"></p:calendar>
+									 <p:message for="fecha" display="icon" />
+									
+					                 <span class="label label-default">DNI</span>
+					                 <p:inputText label="dni" id="dni" value="#{entrada.usuario.dni}" required="true"></p:inputText>
+					            	 <p:message for="dni" display="icon" />
+					            </h:panelGrid>
+					            </p:panel>
+					         </div>
+					         <div class="col-md-3">
+			        			<h:outputText style="float:right;" value="Precio entrada: #{entrada.precio}" />
+			        		</div>
+				          </div>
+			          </div>
+		         </div>
 		        </p:tab>
 		    </p:accordionPanel>
-			
+			<br></br>
+					<p:separator />
+					
+					<p:outputPanel style="margin:auto; width:20%;">
+						<p:commandButton id="botonComprar" update="search" action="/entrada/comprarEntrada.xhtml?faces-redirect=true"  value="Validar información">
+						</p:commandButton>
+					</p:outputPanel>
 		</h:form>
 	
 			

@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.dinamizadores.dinaeventos.model.Usuario;
+
 public class entradasCompleta {
 	
 	private Long idTipoEntrada;
@@ -14,14 +16,16 @@ public class entradasCompleta {
 	
 	private BigDecimal precio;
 	
+	private Usuario usuario;
+	
 	public entradasCompleta(){
 		idTipoEntrada = null;
 		cantidadEntradas = new ArrayList<BigDecimal>() ;
 		precio = new BigDecimal(0);
 		nombre = null;
+		usuario = new Usuario();
 	}
 	
-
 	public Long getIdTipoEntrada() {
 		return idTipoEntrada;
 	}
@@ -56,6 +60,14 @@ public class entradasCompleta {
 
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
+	}
+
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 
 }

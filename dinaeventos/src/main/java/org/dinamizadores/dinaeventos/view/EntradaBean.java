@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -57,6 +58,11 @@ public class EntradaBean implements Serializable {
 
 
 
+	@PreDestroy
+	public void reiniciar(){
+		System.out.println("Inicio reiniciar");
+		cantidad = 0;
+	}
 
 	@PostConstruct
 	public void init() {
@@ -123,6 +129,12 @@ public class EntradaBean implements Serializable {
 		return desactivado;
 	}
 
+	public String cambiarPagina(){
+		System.out.println("Inicio cambiarPagina");
+		
+		cantidad = 0;
+		return "/usuario/formularioCliente.xhtml?faces-redirect=true";
+	}
 	
 	public Integer getId() {
 		return this.id;

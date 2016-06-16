@@ -53,7 +53,7 @@
 					<p:separator />
 					
 					<p:outputPanel style="margin:auto; width:20%;">
-						<p:commandButton id="botonComprar"  disabled="#{entradaBean.isRendererBoton()}" action="/usuario/formularioCliente.xhtml?faces-redirect=true" value="Comprar entrada">
+						<p:commandButton id="botonComprar"  disabled="#{entradaBean.isRendererBoton()}" action="#{entradaBean.cambiarPagina()}" value="Añadir entrada">
 						</p:commandButton>
 					</p:outputPanel>
 		</h:form>

@@ -43,6 +43,7 @@ public class Usuario implements java.io.Serializable {
 	private Integer idredessociales;
 	private Integer idrol;
 	private Integer idcodigopostal;
+	private String dni;
 
 	public Usuario() {
 	}
@@ -57,7 +58,7 @@ public class Usuario implements java.io.Serializable {
 			String direccion, byte[] fotoperfil, String password,
 			String cuentacorriente, String iban, Boolean bloqueado,
 			Boolean activo, Date ultimologin, Integer idsexo,
-			Integer idredessociales, Integer idrol, Integer idcodigopostal) {
+			Integer idredessociales, Integer idrol, Integer idcodigopostal, String dni) {
 		this.idusuario = idusuario;
 		this.nombre = nombre;
 		this.apellido1 = apellido1;
@@ -77,6 +78,7 @@ public class Usuario implements java.io.Serializable {
 		this.idredessociales = idredessociales;
 		this.idrol = idrol;
 		this.idcodigopostal = idcodigopostal;
+		this.dni = dni;
 	}
 
 	@Id
@@ -253,6 +255,14 @@ public class Usuario implements java.io.Serializable {
 
 	public void setIdcodigopostal(Integer idcodigopostal) {
 		this.idcodigopostal = idcodigopostal;
+	}
+
+	public String getDni() {
+		return dni;
+	}
+
+	public void setDni(String dni) {
+		this.dni = dni;
 	}
 
 }
