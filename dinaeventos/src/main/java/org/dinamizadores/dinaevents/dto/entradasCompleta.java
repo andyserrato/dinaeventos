@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.dinamizadores.dinaeventos.model.DdTipoComplemento;
 import org.dinamizadores.dinaeventos.model.Usuario;
 
 public class entradasCompleta {
@@ -18,12 +19,16 @@ public class entradasCompleta {
 	
 	private Usuario usuario;
 	
+	private List<complementoEntero> listaComplementos;
+	
+	
 	public entradasCompleta(){
 		idTipoEntrada = null;
 		cantidadEntradas = new ArrayList<BigDecimal>() ;
 		precio = new BigDecimal(0);
 		nombre = null;
 		usuario = new Usuario();
+		listaComplementos = new ArrayList<complementoEntero>();
 	}
 	
 	public Long getIdTipoEntrada() {
@@ -68,6 +73,14 @@ public class entradasCompleta {
 
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
+	}
+
+	public List<complementoEntero> getListaComplementos() {
+		return listaComplementos;
+	}
+
+	public void setListaComplementos(List<complementoEntero> listaComplementos) {
+		this.listaComplementos = listaComplementos;
 	}
 
 }

@@ -7,6 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
+import org.dinamizadores.dinaeventos.model.DdTipoComplemento;
 import org.dinamizadores.dinaeventos.model.DdTipoEntrada;
 import org.dinamizadores.dinaeventos.model.Entrada;
 import org.dinamizadores.dinaeventos.view.DdTipoEntradaBean;
@@ -55,6 +56,14 @@ public class EntradaDao {
 		TypedQuery<DdTipoEntrada> findAllQuery = em.createQuery(
 				"SELECT DISTINCT te FROM DdTipoEntrada te ORDER BY te.idtipoentrada",
 				DdTipoEntrada.class);
+		
+		return findAllQuery.getResultList();
+	}
+	
+	public List<DdTipoComplemento> listTipoComplemento() {
+		TypedQuery<DdTipoComplemento> findAllQuery = em.createQuery(
+				"SELECT DISTINCT te FROM DdTipoComplemento te ORDER BY te.idcomplemento",
+				DdTipoComplemento.class);
 		
 		return findAllQuery.getResultList();
 	}

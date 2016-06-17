@@ -86,6 +86,14 @@ public class UsuarioBean implements Serializable {
 		System.out.println("Fin calcularInfoUsuarios");
 	}
 	
+	public String cambiarPagina(){
+		
+		//FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("total", total);
+		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("listaEntradas", listadoEntradas);
+		
+		return "/comprar/comprarComplemento.xhtml?faces-redirect=true";
+	}
+	
 
 	public BigDecimal getTotal() {
 		return total;
