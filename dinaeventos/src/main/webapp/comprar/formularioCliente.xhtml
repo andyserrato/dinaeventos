@@ -22,43 +22,45 @@
 
 	<ui:define name="main">
 		<h:form id="search">
-			<p:outputLabel  value="Total: "></p:outputLabel> <p:outputLabel id="total" value="#{usuarioBean.total}"></p:outputLabel>
-			<p:accordionPanel value="#{usuarioBean.listadoEntradas}" var="entrada">
-		        <p:tab title="Entrada #{entrada.nombre}">
+		    <p:repeat value="#{usuarioBean.listadoEntradas}" var="entrada">
+		        <p:outputLabel value="Entrada #{entrada.nombre}"></p:outputLabel>
 		        <div class="section">
 		        	<div class="container-fluid">
 			        	<div class="row">
-			        		<div class="col-md-4">
-					        	<h:panelGrid  columns="2" cellpadding="10" >
+			        		<div class="col-md-2">
+					        	<h:panelGrid  columns="2" cellpadding="10" style="margin-top:20%;" >
 					            
 					                 <p:outputLabel value="Facebook"  />
 					                 <p:commandButton icon="fa fa-facebook" />
 					                 
 					            </h:panelGrid>
 					         </div>
-					         <div  class="col-md-5">
+					         <div class="col-md-6">
 					         
 					         <p:panel id="panel">
-					            <h:panelGrid columns="3" cellpadding="10" >
+					            <h:panelGrid columns="3" cellpadding="10" style="width:100%;">
+					            	<div class="input-group ">
 					            	 <span class="label label-default">Nombre</span>
-					                 <p:inputText id="nombre" value="#{entrada.usuario.nombre}" label="Nombre" required="true"></p:inputText>
-					                 <p:message for="nombre" display="icon" />
+					                   <p:inputText  id="nombre" value="#{entrada.usuario.nombre}" label="Nombre" required="true"></p:inputText>
+					                 <p:message  for="nombre" display="icon" />
 					                 
 					                 <span class="label label-default">Apellidos</span>
-					                 <p:inputText label="apellidos" id="apellidos" value="#{entrada.usuario.apellido1}" required="true"></p:inputText>
-					                 <p:message for="apellidos" display="icon" />
+					                
+					                 <p:inputText  class="" label="apellidos" id="apellidos" value="#{entrada.usuario.apellido1}" required="true"></p:inputText>
+					                 <p:message  for="apellidos" display="icon" />
 
 									 <span class="label label-default">Correo electrónico</span>
-					                 <p:inputText label="email" value="#{entrada.usuario.email}" id="email" required="true"></p:inputText>
-					                 <p:message for="email" display="icon" />
+					                 <p:inputText  label="email" value="#{entrada.usuario.email}" id="email" required="true"></p:inputText>
+					                 <p:message  for="email" display="icon" />
 
 					                 <span class="label label-default">Fecha de nacimiento</span>
-					                 <p:calendar label="fecha" id="fecha" value="#{entrada.usuario.fechanac}" pattern="dd/MM/yyyy" required="true" showOn="button"></p:calendar>
-									 <p:message for="fecha" display="icon" />
+					                 <p:calendar  label="fecha" id="fecha" value="#{entrada.usuario.fechanac}" pattern="dd/MM/yyyy" required="true" showOn="button"></p:calendar>
+									 <p:message   for="fecha" display="icon" />
 									
 					                 <span class="label label-default">DNI</span>
-					                 <p:inputText label="dni" id="dni" value="#{entrada.usuario.dni}" required="true"></p:inputText>
-					            	 <p:message for="dni" display="icon" />
+					                 <p:inputText  label="dni" id="dni" value="#{entrada.usuario.dni}" required="true"></p:inputText>
+					            	 <p:message  for="dni" display="icon" />
+					            	 </div>
 					            </h:panelGrid>
 					            </p:panel>
 					         </div>
@@ -68,14 +70,17 @@
 				          </div>
 			          </div>
 		         </div>
-		        </p:tab>
-		    </p:accordionPanel>
+		       	<hr />
+		    </p:repeat>
+		    <p:outputPanel style="float:right;">
+						<p:outputLabel  value="Total: "></p:outputLabel> <p:outputLabel id="total" value="#{usuarioBean.total}"></p:outputLabel>
+			</p:outputPanel>
 			<br></br>
 					<p:separator />
 					
 					<p:outputPanel style="margin:auto; width:20%;">
-						<p:commandButton id="botonComprar" update="search" action="/entrada/comprarEntrada.xhtml?faces-redirect=true"  value="Validar información">
-						</p:commandButton>
+						<p:commandLink styleClass="btn btn-primary" id="botonComprar" update="search" action="#{usuarioBean.cambiarPagina()}"  value="Validar información">
+						</p:commandLink>
 					</p:outputPanel>
 		</h:form>
 	

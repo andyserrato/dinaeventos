@@ -36,9 +36,9 @@
 				
 					
 					<div class="navbar-collapse navbar-right">
-						<ul class="nav">
+						<ul class="nav navbar-nav">
 							<li>
-								<h:link id="brandLink" outcome="/entrada/comprarEntrada.xhtml" styleClass="brand">
+								<h:link id="brandLink" outcome="/comprar/comprarEntrada.xhtml" styleClass="brand">
 									<h:outputText value="Welcome to " rendered=" #{request.userPrincipal !=null} "/>
 	                    			Comprar entrada
 	                    			<h:outputText value=",  #{request.userPrincipal.name}" rendered="#{request.userPrincipal !=null} "/>

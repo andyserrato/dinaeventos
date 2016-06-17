@@ -101,7 +101,7 @@ public class EntradaBean implements Serializable {
 			
 		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("total", total);
 		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("lista", listaPrecios);
-		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("tiposEntrada", tiposEntrada  );
+		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("tiposEntrada", tiposEntrada);
 		
 		System.out.println("Fin sumarTotal");
 	}
@@ -133,7 +133,7 @@ public class EntradaBean implements Serializable {
 		System.out.println("Inicio cambiarPagina");
 		
 		cantidad = 0;
-		return "/usuario/formularioCliente.xhtml?faces-redirect=true";
+		return "/comprar/formularioCliente.xhtml?faces-redirect=true";
 	}
 	
 	public Integer getId() {
