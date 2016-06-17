@@ -8,6 +8,11 @@
 	template="/resources/scaffold/pageTemplate.xhtml"
 	xmlns:p="http://primefaces.org/ui">
 
+<f:view>
+	<f:metadata>
+		<f:event type="preRenderView" listener="#{loginBean.checkFirstFacebookLogin}" />
+	</f:metadata>
+</f:view>
 	<ui:param name="pageTitle" value="Login" />
 
 	<ui:define name="header">
@@ -18,7 +23,7 @@
 
 	<ui:define name="main">
 
-		<h:form>
+		<h:form id="loginInterno">
 			<p:growl id="growl" sticky="true" showDetail="true" life="3000" />
 			<p:panel>
 				<h:panelGrid columns="2" cellpadding="5">
@@ -26,9 +31,14 @@
 					<p:inputText id="email" value="#{loginBean.email}" required="true"	label="Email" />
 					<p:outputLabel for="password" value="Password:" />
 					<p:password id="password" value="#{loginBean.password}"	required="true" label="password" />
-					<p:commandButton value="Login" update="growl" action="#{loginBean.login}" />
 				</h:panelGrid>
+				<p:commandButton value="Login" update="growl" action="#{loginBean.login}" />
 			</p:panel>
+		</h:form>
+		<h:form id="loginRedesSociales">
+			<p:commandButton value="Facebook Login" action="#{loginBean.loginFacebook}" icon="fa fa-fw fa-facebook" />
+			<p:commandButton value="Obtener Perfil Facebook" action="#{loginBean.obtenerPerfilFacebook}" icon="fa fa-fw fa-facebook" />
+			<p:commandButton value="Google Login" action="#{loginBean.loginGoogle}" icon="fa fa-fw fa-google" />
 		</h:form>
 	</ui:define>
 

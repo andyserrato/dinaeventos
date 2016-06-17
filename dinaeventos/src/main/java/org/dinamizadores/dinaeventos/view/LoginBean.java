@@ -2,15 +2,28 @@ package org.dinamizadores.dinaeventos.view;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.Map;
+import java.util.Random;
 
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 
 import org.dinamizadores.dinaeventos.dao.UsuarioDao;
 import org.dinamizadores.dinaeventos.model.Usuario;
+import org.dinamizadores.dinaevents.dto.facebookprofile.PerfilRedSocial;
+
+import com.github.scribejava.apis.FacebookApi;
+import com.github.scribejava.core.builder.ServiceBuilder;
+import com.github.scribejava.core.model.OAuth2AccessToken;
+import com.github.scribejava.core.model.OAuthRequest;
+import com.github.scribejava.core.model.Response;
+import com.github.scribejava.core.model.Verb;
+import com.github.scribejava.core.oauth.OAuth20Service;
+import com.google.gson.Gson;
 
 @ManagedBean(name = "loginBean")
 @SessionScoped
@@ -23,6 +36,12 @@ public class LoginBean implements Serializable {
     private UsuarioDao usuarioDao;
     private Boolean loggedIn = false;
     private String originalURL;
+    private static final String NETWORK_NAME = "Facebook";
+    private static final String PROTECTED_RESOURCE_URL = "https://graph.facebook.com/v2.6/me";
+    private static final String PROFILE_URL = "https://graph.facebook.com/v2.6/me?fields=id,first_name,last_name,email,birthday,gender,link,picture,location";
+    private OAuth2AccessToken accessToken = null;
+    private boolean checkFacebookLogin = false;
+    private String paginaOriginal = "";
     
     public void recordOriginalURL(String originalURL) {
         this.originalURL = originalURL;
@@ -55,12 +74,21 @@ public class LoginBean implements Serializable {
     public Boolean isLoggedIn() {
 		return loggedIn;
 	}
-
+    
 	public void setLoggedIn(Boolean loggedIn) {
 		this.loggedIn = loggedIn;
 	}
+	
+	public boolean isCheckFacebookLogin() {
+		return checkFacebookLogin;
+	}
+    
+	public void setCheckFacebookLogin(boolean checkFacebookLogin) {
+		this.checkFacebookLogin = checkFacebookLogin;
+	}
 
 	public void login() {
+		System.out.println("Login normal");
         Usuario usuario = usuarioDao.login(email, password);
         FacesContext context = FacesContext.getCurrentInstance();
         FacesMessage message = null;
@@ -77,6 +105,160 @@ public class LoginBean implements Serializable {
     }
     
     public void loginFacebook() {
+    	System.out.println("login facebook");
+    	final String clientId = "1065091143540194";
+        final String clientSecret = "51cd238b5a3a10d2b9e0ec51c862c091";
+        final String secretState = "secret" + new Random().nextInt(999_999);
+        final OAuth20Service service = new ServiceBuilder()
+                .apiKey(clientId)
+                .apiSecret(clientSecret)
+                .scope("email")
+                .state(secretState)
+                .callback("http://localhost:8080/dinaeventos/faces/login/login.xhtml")
+                .build(FacebookApi.instance());
+        
+        final String authorizationUrl = service.getAuthorizationUrl();
+        
+        checkFacebookLogin = true;
+        
+        ExternalContext externalContext = FacesContext.getCurrentInstance()
+                .getExternalContext();
+
+           
+
+           try {
+               externalContext.redirect(authorizationUrl);
+           } catch (IOException ex) {
+               System.out.println("cualquier cosa");
+           }
+
+    }
+    
+    public void loginGoogle() {
     	
     }
+    
+    public void checkFirstFacebookLogin() {
+    	System.out.println("Checking loggin");
+    	if (checkFacebookLogin) {
+    		System.out.println("Entramos a verificar el login");
+    		final String clientId = "1065091143540194";
+            final String clientSecret = "51cd238b5a3a10d2b9e0ec51c862c091";
+            final String secretState = "secret" + new Random().nextInt(999_999);
+            final OAuth20Service service = new ServiceBuilder()
+                    .apiKey(clientId)
+                    .apiSecret(clientSecret)
+                    .state(secretState)
+                    .callback("http://localhost:8080/dinaeventos/faces/login/login.xhtml")
+                    .build(FacebookApi.instance());
+            
+    		ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+    		Map<String, String> parameterMap = (Map<String, String>) externalContext.getRequestParameterMap();
+    		
+    		// Si se recibe code se obtiene token 
+    		final String code = parameterMap.get("code");
+    		if (code !=  null && !"".equals(code)){
+    			System.out.println("code: " + code);
+				try {
+					accessToken = service.getAccessToken(code);
+					System.out.println("token: " + accessToken.getAccessToken());
+				} catch (IOException e) {
+					System.err.println("error:" + e.getMessage());
+	            	checkFacebookLogin = false;				}
+    		}
+    		
+    		final OAuthRequest request = new OAuthRequest(Verb.GET, PROTECTED_RESOURCE_URL, service);
+    		
+    		try {
+            service.signRequest(accessToken, request);
+    		} catch (Exception e) {
+            	System.err.println("error:" + e.getMessage());
+            	checkFacebookLogin = false;
+            }
+    		
+            Response response = null;
+            try {
+            response = request.send();
+            } catch (Exception e) {
+            	System.err.println("error:" + e.getMessage());
+            	checkFacebookLogin = false;
+            }
+            System.out.println("Got it! Lets see what we found...");
+            System.out.println();
+            System.out.println(response.getCode());
+            try {
+				System.out.println(response.getBody());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    		
+    		// si se obtiene token se verifica
+    		final String token = parameterMap.get("token");
+    		if (token != null && !"".equals(token)) {
+    			final OAuthRequest request2 = new OAuthRequest(Verb.GET, "https://graph.facebook.com/debug_token", service);
+                service.signRequest(accessToken, request2);
+                final Response response2 = request2.send();
+                System.out.println("Got it! Lets see what we found...");
+                System.out.println();
+                System.out.println(response2.getCode());
+                try {
+    				System.out.println(response2 .getBody());
+    			} catch (IOException e) {
+    				// TODO Auto-generated catch block
+    				e.printStackTrace();
+    			}
+    		}
+    		
+    		checkFacebookLogin = false;
+    		
+//    	    Verifier v = new Verifier(parameterMap.get("oauth_verifier"));
+//    	    Token accessToken = service.getAccessToken(requestToken, v);
+//
+//    	    OAuthRequest request = new OAuthRequest(Verb.GET, "https://api.linkedin.com/v1/people/~");
+//
+//    	    service.signRequest(accessToken, request); 
+//    	    Response response = request.send();
+//
+//    	    System.err.println(response.getBody());
+//
+//    	    return "";
+    	}
+    }
+    
+    public void obtenerPerfilFacebook() {
+    	final String clientId = "1065091143540194";
+        final String clientSecret = "51cd238b5a3a10d2b9e0ec51c862c091";
+        final String secretState = "secret" + new Random().nextInt(999_999);
+        final OAuth20Service service = new ServiceBuilder()
+                .apiKey(clientId)
+                .apiSecret(clientSecret)
+                .state(secretState)
+                .callback("http://localhost:8080/dinaeventos/faces/login/login.xhtml")
+                .build(FacebookApi.instance());
+        
+        
+		final OAuthRequest request = new OAuthRequest(Verb.GET, PROFILE_URL, service);
+		
+		try {
+//		service.refreshAccessToken(accessToken.getAccessToken());
+//		final OAuthRequest requestAuthorization = new OAuthRequest(Verb.GET, service.getAuthorizationUrl(), service);
+//		service.signRequest(accessToken, requestAuthorization);
+//		Response responseAuthorization = requestAuthorization.send();
+//		System.out.println("Respuesta" + responseAuthorization.getBody());
+		
+        service.signRequest(accessToken, request);
+        Response response = null;
+        response = request.send();
+        System.out.println("Got it! Lets see what we found...");
+		System.out.println(response.getBody());
+		Gson gson = new Gson();
+		PerfilRedSocial perfilFacebook = gson.fromJson(response.getBody(), PerfilRedSocial.class);
+		System.out.println("perfil" + perfilFacebook.toString());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+    }
+    
+    
 }
