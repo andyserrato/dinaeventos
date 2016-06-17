@@ -14,6 +14,7 @@ import javax.faces.context.FacesContext;
 
 import org.dinamizadores.dinaeventos.dao.UsuarioDao;
 import org.dinamizadores.dinaeventos.model.Usuario;
+import org.dinamizadores.dinaeventos.utiles.log.Loggable;
 import org.dinamizadores.dinaevents.dto.facebookprofile.PerfilRedSocial;
 
 import com.github.scribejava.apis.FacebookApi;
@@ -27,6 +28,7 @@ import com.google.gson.Gson;
 
 @ManagedBean(name = "loginBean")
 @SessionScoped
+@Loggable
 public class LoginBean implements Serializable {
  
 	private static final long serialVersionUID = -1161277308459762945L;
