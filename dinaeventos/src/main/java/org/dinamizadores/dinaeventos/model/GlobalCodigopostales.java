@@ -64,7 +64,7 @@ public class GlobalCodigopostales implements java.io.Serializable {
 		this.codigo = codigo;
 	}
 
-	@Column(name = "localidad", length = 45)
+	@Column(name = "localidad", length = 255)
 	public String getLocalidad() {
 		return this.localidad;
 	}
