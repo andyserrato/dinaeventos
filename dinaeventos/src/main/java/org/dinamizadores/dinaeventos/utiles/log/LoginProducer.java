@@ -12,7 +12,6 @@ import org.apache.logging.log4j.Logger;
 public class LoginProducer {
 	@Produces
 	private Logger createLogger(InjectionPoint injectionPoint) {
-//		return Logger.getLogger(injectionPoint.getMember().getDeclaringClass().getName());
 		return LogManager.getLogger(injectionPoint.getMember().getDeclaringClass().getName());
 	}
 }

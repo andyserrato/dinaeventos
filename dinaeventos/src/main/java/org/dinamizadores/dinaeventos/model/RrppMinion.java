@@ -15,17 +15,10 @@ import javax.persistence.Table;
 @Table(name = "rrpp_minion", catalog = "jbossforge")
 public class RrppMinion implements java.io.Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1697250336808658251L;
 	private int idrrppMinion;
-	private String nombre;
-	private String apellido1;
-	private String apellido2;
-	private String email;
-	private String telefono;
 	private Integer idjefe;
+	private Integer idUsuario;
 	private Integer limiteEntradas;
 	private String coigoPromocional;
 
@@ -35,16 +28,11 @@ public class RrppMinion implements java.io.Serializable {
 	public RrppMinion(int idrrppMinion) {
 		this.idrrppMinion = idrrppMinion;
 	}
-	public RrppMinion(int idrrppMinion, String nombre, String apellido1,
-			String apellido2, String email, String telefono, Integer idjefe,
+	public RrppMinion(int idrrppMinion, Integer idjefe, Integer idUsuario,
 			Integer limiteEntradas, String coigoPromocional) {
 		this.idrrppMinion = idrrppMinion;
-		this.nombre = nombre;
-		this.apellido1 = apellido1;
-		this.apellido2 = apellido2;
-		this.email = email;
-		this.telefono = telefono;
 		this.idjefe = idjefe;
+		this.idUsuario = idUsuario;
 		this.limiteEntradas = limiteEntradas;
 		this.coigoPromocional = coigoPromocional;
 	}
@@ -60,51 +48,6 @@ public class RrppMinion implements java.io.Serializable {
 		this.idrrppMinion = idrrppMinion;
 	}
 
-	@Column(name = "nombre", length = 45)
-	public String getNombre() {
-		return this.nombre;
-	}
-
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
-
-	@Column(name = "apellido1", length = 45)
-	public String getApellido1() {
-		return this.apellido1;
-	}
-
-	public void setApellido1(String apellido1) {
-		this.apellido1 = apellido1;
-	}
-
-	@Column(name = "apellido2", length = 45)
-	public String getApellido2() {
-		return this.apellido2;
-	}
-
-	public void setApellido2(String apellido2) {
-		this.apellido2 = apellido2;
-	}
-
-	@Column(name = "email", length = 100)
-	public String getEmail() {
-		return this.email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	@Column(name = "telefono", length = 45)
-	public String getTelefono() {
-		return this.telefono;
-	}
-
-	public void setTelefono(String telefono) {
-		this.telefono = telefono;
-	}
-
 	@Column(name = "idjefe")
 	public Integer getIdjefe() {
 		return this.idjefe;
@@ -112,6 +55,15 @@ public class RrppMinion implements java.io.Serializable {
 
 	public void setIdjefe(Integer idjefe) {
 		this.idjefe = idjefe;
+	}
+	
+	@Column(name = "idUsuario")
+	public Integer getIdUsuario() {
+		return this.idUsuario;
+	}
+
+	public void setIdUsuario(Integer idUsuario) {
+		this.idUsuario = idUsuario;
 	}
 
 	@Column(name = "limite_entradas")
