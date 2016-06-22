@@ -4,23 +4,26 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map.Entry;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.faces.view.ViewScoped;
 import javax.faces.context.FacesContext;
-import javax.faces.event.ValueChangeEvent;
+import javax.inject.Named;
 
 import org.dinamizadores.dinaeventos.dao.EntradaDao;
 import org.dinamizadores.dinaeventos.model.DdTipoComplemento;
 import org.dinamizadores.dinaeventos.model.Usuario;
+import org.dinamizadores.dinaeventos.utiles.log.Loggable;
 import org.dinamizadores.dinaevents.dto.complementoEntero;
 import org.dinamizadores.dinaevents.dto.entradasCompleta;
 
 
-@ManagedBean 
+@Named
 @ViewScoped
+@Loggable
+
 public class DdTipoComplementoBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -53,19 +56,15 @@ public class DdTipoComplementoBean implements Serializable {
 	
 	@PostConstruct
 	public void init(){
-		System.out.println("Inicio init");
-		
+	
 		total = (BigDecimal) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("total");
 		listadoEntradas = (List<entradasCompleta>) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("listaEntradas");
 		
-		calcularInfoComplementos();
-	
-		System.out.println("Fin init");
+		calcularInfoComplementos();	
 	}
 	
 	private void calcularInfoComplementos(){
-		System.out.println("Inicio calcularInfoComplementos");
-		
+			
 		setListadoComplemento(tipoComplementoDao.listTipoComplemento());
 		
 		for (entradasCompleta entrada : listadoEntradas){
@@ -76,9 +75,19 @@ public class DdTipoComplementoBean implements Serializable {
 			entrada.getListaComplementos().add(comple);
 			}
 		}
-		
-		System.out.println("Fin calcularInfoComplementos");
 	}
+	
+	public void agregarComplemento(){
+		total = new BigDecimal(0);
+		for (entradasCompleta entrada : listadoEntradas){
+				for (complementoEntero c : entrada.getListaComplementos()){
+					total = total.add(c.getComplemento().getPrecio().multiply(BigDecimal.valueOf(c.getCantidad())));
+				}
+				total = total.add(entrada.getPrecio());
+			}
+		
+		}
+	
 	
 	public String cambiarPagina(){
 		

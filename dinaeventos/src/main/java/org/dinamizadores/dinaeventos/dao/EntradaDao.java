@@ -10,11 +10,13 @@ import javax.persistence.TypedQuery;
 import org.dinamizadores.dinaeventos.model.DdTipoComplemento;
 import org.dinamizadores.dinaeventos.model.DdTipoEntrada;
 import org.dinamizadores.dinaeventos.model.Entrada;
+import org.dinamizadores.dinaeventos.utiles.log.Loggable;
 import org.dinamizadores.dinaeventos.view.DdTipoEntradaBean;
 
 /**
  * DAO for Entrada
  */
+@Loggable
 @Stateless
 public class EntradaDao {
 	@PersistenceContext(unitName = "dinaeventos-persistence-unit")

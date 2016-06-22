@@ -21,7 +21,9 @@
 	<ui:define name="footer"/>
 
 	<ui:define name="main">
+	
 		<h:form id="comprar">
+		
 				<div class="row">
 				<p:repeat var="entrada"  value="#{ddTipoComplementoBean.listadoEntradas}" >
 					
@@ -40,8 +42,8 @@
 								       <h:outputLabel value="#{comple.complemento.nombre}" />
 								       <h:outputLabel value="#{comple.complemento.precio}" />
 								       <h:outputLabel value="#{comple.complemento.descripcion}" />
-								       <p:spinner      value="#{comple.cantidad}" min="0" > 
-								       	<p:ajax update="comprar:totales"></p:ajax>
+								       <p:spinner  value="#{comple.cantidad}" min="0" > 
+								       	<p:ajax update="comprar:totales" listener="#{ddTipoComplementoBean.agregarComplemento}" />
 								       </p:spinner>
 							        </p:repeat>
 							        </div>
@@ -51,9 +53,10 @@
 					  </div>	
 				</p:repeat>
 				</div>
-					<p:outputPanel id="totales" style="float:right;">
+				
+					<p:outputPanel id="totales" >
 			        			<div class="col-md-12 ">
-							<p:outputLabel  value="Total: " /> <p:outputLabel id="total" value="#{ddTipoComplementoBean.total}"></p:outputLabel>
+							<p:outputLabel  value="Total: " /> <p:outputLabel id="total" value="#{ddTipoComplementoBean.total} €"></p:outputLabel>
 								</div>
 								<div class="col-md-12 ">
 							<p:repeat var="entrada" value="#{ddTipoComplementoBean.listadoEntradas}" >
@@ -62,7 +65,7 @@
 								<p:outputLabel  value=" va ha comprar:" /> 
 								<p:repeat var="complemento" value="#{entrada.listaComplementos}"  >
 									<p:outputPanel rendered="#{complemento.cantidad > 0}">
-									<br></br>
+									
 									<p:outputLabel  value="Cantidad #{complemento.cantidad} de" /> <p:outputLabel  value=" #{complemento.complemento.nombre} " /> <p:outputLabel  value=" precio: #{complemento.complemento.precio}" /> 	 
 									</p:outputPanel>
 								</p:repeat>

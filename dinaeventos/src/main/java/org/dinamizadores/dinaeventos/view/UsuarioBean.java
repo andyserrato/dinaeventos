@@ -9,12 +9,13 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.faces.view.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.inject.Named;
 
 import org.dinamizadores.dinaeventos.model.DdTipoEntrada;
 import org.dinamizadores.dinaeventos.model.Usuario;
+import org.dinamizadores.dinaeventos.utiles.log.Loggable;
 import org.dinamizadores.dinaevents.dto.entradasCompleta;
 
 /**
@@ -26,9 +27,10 @@ import org.dinamizadores.dinaevents.dto.entradasCompleta;
  * <tt>CriteriaBuilder</tt> for searches) rather than introducing a CRUD
  * framework or custom base class.
  */
-
-@ManagedBean 
+@Named("usuarioBean")
 @ViewScoped
+@Loggable
+
 public class UsuarioBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -55,7 +57,6 @@ public class UsuarioBean implements Serializable {
 	
 	@PostConstruct
 	public void init(){
-		System.out.println("Inicio init");
 		
 		total = (BigDecimal) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("total");
 		listaPrecios = (Map<Long, List<BigDecimal>>) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("lista");
@@ -63,17 +64,15 @@ public class UsuarioBean implements Serializable {
 		
 		calcularInfoUsuarios();
 	
-		System.out.println("Fin init");
 	}
 	
 	private void calcularInfoUsuarios(){
-		System.out.println("Inicio calcularInfoUsuarios");
 		
 		for (Entry<Long,List<BigDecimal>> e: listaPrecios.entrySet()){
 			for (int i = 0; i < e.getValue().size(); i++){
 				entradasCompleta entrada = new entradasCompleta();
 				entrada.setIdTipoEntrada(e.getKey());
-				//entrada.setCantidadEntradas(e.getValue());
+				entrada.setCantidadEntradas(e.getValue());
 				for (DdTipoEntrada d : tiposEntrada)
 					if (d.getIdtipoentrada() == e.getKey())
 						entrada.setNombre(d.getNombre());
@@ -83,7 +82,6 @@ public class UsuarioBean implements Serializable {
 					
 		}
 		
-		System.out.println("Fin calcularInfoUsuarios");
 	}
 	
 	public String cambiarPagina(){
