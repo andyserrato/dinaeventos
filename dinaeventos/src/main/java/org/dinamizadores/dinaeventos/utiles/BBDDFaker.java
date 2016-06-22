@@ -197,14 +197,14 @@ public class BBDDFaker {
 	public RrppJefes crearRRPPJefes(int idOrganizador){
 		RrppJefes r = new RrppJefes();
 		
-		r.setApellido1(f.name().firstName());
+		/*r.setApellido1(f.name().firstName());
 		r.setApellido2(f.name().lastName());
 		r.setCodigoPromocional(f.hacker().verb());
 		r.setEmail(f.internet().emailAddress());
 		r.setIdorganizador(idOrganizador);
 		r.setLimiteEntradas(0);
 		r.setNombre(f.name().nameWithMiddle());
-		r.setTelefono(f.phoneNumber().cellPhone());
+		r.setTelefono(f.phoneNumber().cellPhone());*/
 		
 		return r;
 	}
@@ -212,14 +212,14 @@ public class BBDDFaker {
 	public RrppMinion crearRRPPMinion(int idJefe){
 		RrppMinion r = new RrppMinion();
 		
-		r.setApellido1(f.name().firstName());
+		/*r.setApellido1(f.name().firstName());
 		r.setApellido2(f.name().lastName());
 		r.setCoigoPromocional(f.hacker().verb());
 		r.setEmail(f.internet().emailAddress());
 		r.setIdjefe(idJefe);
 		r.setLimiteEntradas(0);
 		r.setNombre(f.name().nameWithMiddle());
-		r.setTelefono(f.phoneNumber().cellPhone());
+		r.setTelefono(f.phoneNumber().cellPhone());*/
 		
 		return r;
 	}
