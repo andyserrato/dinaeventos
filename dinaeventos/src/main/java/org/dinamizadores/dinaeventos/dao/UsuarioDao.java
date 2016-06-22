@@ -7,10 +7,12 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import org.dinamizadores.dinaeventos.model.Usuario;
+import org.dinamizadores.dinaeventos.utiles.log.Loggable;
 
 /**
  * DAO for Usuario
  */
+@Loggable
 @Stateless
 public class UsuarioDao {
 	@PersistenceContext(unitName = "dinaeventos-persistence-unit")

@@ -6,14 +6,11 @@ import java.util.List;
 
 import javax.annotation.Resource;
 import javax.ejb.SessionContext;
-import javax.ejb.Stateful;
-import javax.enterprise.context.Conversation;
-import javax.enterprise.context.ConversationScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
-import javax.inject.Inject;
+import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -25,6 +22,7 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import org.dinamizadores.dinaeventos.model.RrppJefes;
+import org.dinamizadores.dinaeventos.utiles.log.Loggable;
 
 /**
  * Backing bean for RrppJefes entities.
@@ -37,8 +35,8 @@ import org.dinamizadores.dinaeventos.model.RrppJefes;
  */
 
 @Named
-@Stateful
-@ConversationScoped
+@ViewScoped
+@Loggable
 public class RrppJefesBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -67,28 +65,13 @@ public class RrppJefesBean implements Serializable {
 		this.rrppJefes = rrppJefes;
 	}
 
-	@Inject
-	private Conversation conversation;
-
 	@PersistenceContext(unitName = "dinaeventos-persistence-unit", type = PersistenceContextType.EXTENDED)
 	private EntityManager entityManager;
-
-	public String create() {
-
-		this.conversation.begin();
-		this.conversation.setTimeout(1800000L);
-		return "create?faces-redirect=true";
-	}
 
 	public void retrieve() {
 
 		if (FacesContext.getCurrentInstance().isPostback()) {
 			return;
-		}
-
-		if (this.conversation.isTransient()) {
-			this.conversation.begin();
-			this.conversation.setTimeout(1800000L);
 		}
 
 		if (this.id == null) {
@@ -108,8 +91,6 @@ public class RrppJefesBean implements Serializable {
 	 */
 
 	public String update() {
-		this.conversation.end();
-
 		try {
 			if (this.id == null) {
 				this.entityManager.persist(this.rrppJefes);
@@ -127,8 +108,6 @@ public class RrppJefesBean implements Serializable {
 	}
 
 	public String delete() {
-		this.conversation.end();
-
 		try {
 			RrppJefes deletableEntity = findById(getId());
 
@@ -207,36 +186,6 @@ public class RrppJefesBean implements Serializable {
 		CriteriaBuilder builder = this.entityManager.getCriteriaBuilder();
 		List<Predicate> predicatesList = new ArrayList<Predicate>();
 
-		String nombre = this.example.getNombre();
-		if (nombre != null && !"".equals(nombre)) {
-			predicatesList.add(builder.like(
-					builder.lower(root.<String> get("nombre")),
-					'%' + nombre.toLowerCase() + '%'));
-		}
-		String apellido1 = this.example.getApellido1();
-		if (apellido1 != null && !"".equals(apellido1)) {
-			predicatesList.add(builder.like(
-					builder.lower(root.<String> get("apellido1")),
-					'%' + apellido1.toLowerCase() + '%'));
-		}
-		String apellido2 = this.example.getApellido2();
-		if (apellido2 != null && !"".equals(apellido2)) {
-			predicatesList.add(builder.like(
-					builder.lower(root.<String> get("apellido2")),
-					'%' + apellido2.toLowerCase() + '%'));
-		}
-		String email = this.example.getEmail();
-		if (email != null && !"".equals(email)) {
-			predicatesList.add(builder.like(
-					builder.lower(root.<String> get("email")),
-					'%' + email.toLowerCase() + '%'));
-		}
-		String telefono = this.example.getTelefono();
-		if (telefono != null && !"".equals(telefono)) {
-			predicatesList.add(builder.like(
-					builder.lower(root.<String> get("telefono")),
-					'%' + telefono.toLowerCase() + '%'));
-		}
 
 		return predicatesList.toArray(new Predicate[predicatesList.size()]);
 	}
