@@ -3,18 +3,28 @@ package org.dinamizadores.dinaeventos.view;
 import java.io.Serializable;
 
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
 
+import org.dinamizadores.dinaeventos.dao.DAOGenerico;
+import org.dinamizadores.dinaeventos.model.DdFormapago;
+import org.dinamizadores.dinaeventos.utiles.BBDDFaker;
 import org.dinamizadores.dinaeventos.utiles.Constantes;
+
+import com.github.javafaker.Faker;
 
 /**
  * @author Raúl "El niño maravilla" del Río
  *
  */
-@ManagedBean(name="visionGlobal")
+@Named("visionGlobal")
 @ViewScoped
 public class VisionGlobalBean implements Serializable{
+	
+	/** LoginBean inyectado para poder recoger datos globales de la aplicación. */
+	@Inject
+	private LoginBean loginBean;
 
 	/** Atributo temporal para mostrar el número de entradas vendidas. */
 	private int entradasVendidas;
@@ -37,6 +47,9 @@ public class VisionGlobalBean implements Serializable{
 	/** Atributo temporal. */
 	private float ingresosTotales;
 	
+	private DAOGenerico dao;
+	private BBDDFaker bd;
+	
 	/**
 	 * Constructor por defecto
 	 */
@@ -49,8 +62,26 @@ public class VisionGlobalBean implements Serializable{
 		entradasSMS = 6988;
 		cambiosNombre = 529;
 		ingresosTotales = (float) 304333.15;
+		
+		dao = new DAOGenerico();
+		bd = new BBDDFaker();
+		
+		DdFormapago p = bd.crearFormaPago();
+		
+		if(p == null){
+			System.out.println("fuck");
+		} else{
+		
+			try {
+				dao.insertar(p);
+			} catch (Exception e) {
+				System.out.println("Pues YOLO bitches!");
+				e.printStackTrace();
+			}
+		}
+		
 	}
-
+	
 	/**
 	 * @return the entradasVendidas
 	 */
@@ -147,5 +178,12 @@ public class VisionGlobalBean implements Serializable{
 	 */
 	public void setIngresosTotales(float ingresosTotales) {
 		this.ingresosTotales = ingresosTotales;
+	}
+	
+	/**
+	 * @param loginBean the loginBean to set
+	 */
+	public void setLoginBean(LoginBean loginBean) {
+		this.loginBean = loginBean;
 	}
 }
