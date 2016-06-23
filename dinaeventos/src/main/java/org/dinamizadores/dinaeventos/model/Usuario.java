@@ -5,10 +5,13 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -42,6 +45,7 @@ public class Usuario implements java.io.Serializable {
 	private Integer idredessociales;
 	private Integer idrol;
 	private Integer idcodigopostal;
+	private GlobalCodigospostales codigoPostal;
 	private String dni;
 
 	public Usuario() {
@@ -52,7 +56,7 @@ public class Usuario implements java.io.Serializable {
 		this.apellidos = apellido1;
 		this.password = password;
 	}
-	public Usuario(int idusuario, String nombre, String apellido1,
+	public Usuario(int idusuario, String nombre, String apellido,
 			String apellido2, String email, String telefono, Date fechanac,
 			String direccion, byte[] fotoperfil, String password,
 			String cuentacorriente, String iban, Boolean bloqueado,
@@ -60,7 +64,7 @@ public class Usuario implements java.io.Serializable {
 			Integer idredessociales, Integer idrol, Integer idcodigopostal, String dni) {
 		this.idusuario = idusuario;
 		this.nombre = nombre;
-		this.apellidos = apellido1;
+		this.apellidos = apellido;
 		this.email = email;
 		this.telefono = telefono;
 		this.fechanac = fechanac;
@@ -82,11 +86,11 @@ public class Usuario implements java.io.Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "idusuario", unique = true, nullable = false)
-	public int getIdusuario() {
+	public int getIdUsuario() {
 		return this.idusuario;
 	}
 
-	public void setIdusuario(int idusuario) {
+	public void setIdUsuario(int idusuario) {
 		this.idusuario = idusuario;
 	}
 
@@ -100,11 +104,11 @@ public class Usuario implements java.io.Serializable {
 	}
 
 	@Column(name = "apellido", length = 255)
-	public String getApellido1() {
+	public String getApellidos() {
 		return this.apellidos;
 	}
 
-	public void setApellido1(String apellidos) {
+	public void setApellidos(String apellidos) {
 		this.apellidos = apellidos;
 	}
 
@@ -241,6 +245,17 @@ public class Usuario implements java.io.Serializable {
 	public Integer getIdcodigopostal() {
 		return this.idcodigopostal;
 	}
+	
+	/** Código postal. */
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "idcodigopostal", insertable = false, updatable = false)
+	public GlobalCodigospostales getCodigoPostal() {
+		return codigoPostal;
+	}
+
+	public void setCodigoPostal(GlobalCodigospostales codigoPostal) {
+		this.codigoPostal = codigoPostal;
+	}
 
 	public void setIdcodigopostal(Integer idcodigopostal) {
 		this.idcodigopostal = idcodigopostal;
@@ -254,5 +269,4 @@ public class Usuario implements java.io.Serializable {
 	public void setDni(String dni) {
 		this.dni = dni;
 	}
-
 }

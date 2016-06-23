@@ -3,6 +3,7 @@ package org.dinamizadores.dinaeventos.view;
 import java.io.Serializable;
 
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -10,9 +11,6 @@ import javax.inject.Named;
 import org.dinamizadores.dinaeventos.dao.DAOGenerico;
 import org.dinamizadores.dinaeventos.model.DdFormapago;
 import org.dinamizadores.dinaeventos.utiles.BBDDFaker;
-import org.dinamizadores.dinaeventos.utiles.Constantes;
-
-import com.github.javafaker.Faker;
 
 /**
  * @author Raúl "El niño maravilla" del Río
@@ -47,6 +45,7 @@ public class VisionGlobalBean implements Serializable{
 	/** Atributo temporal. */
 	private float ingresosTotales;
 	
+	@EJB
 	private DAOGenerico dao;
 	private BBDDFaker bd;
 	
@@ -63,7 +62,7 @@ public class VisionGlobalBean implements Serializable{
 		cambiosNombre = 529;
 		ingresosTotales = (float) 304333.15;
 		
-		dao = new DAOGenerico();
+//		dao = new DAOGenerico();
 		bd = new BBDDFaker();
 		
 		DdFormapago p = bd.crearFormaPago();

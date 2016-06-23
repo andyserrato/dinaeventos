@@ -1,4 +1,4 @@
-package org.dinamizadores.dinaevents.dto;
+package org.dinamizadores.dinaeventos.dto;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;

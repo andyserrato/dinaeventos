@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.ejb.SessionContext;
 import javax.ejb.Stateful;
@@ -24,7 +25,9 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import org.dinamizadores.dinaeventos.dao.DAOGenerico;
 import org.dinamizadores.dinaeventos.model.DdFormapago;
+import org.dinamizadores.dinaeventos.utiles.BBDDFaker;
 
 /**
  * Backing bean for DdFormapago entities.
@@ -73,10 +76,33 @@ public class DdFormapagoBean implements Serializable {
 	@PersistenceContext(unitName = "dinaeventos-persistence-unit", type = PersistenceContextType.EXTENDED)
 	private EntityManager entityManager;
 
+	public void init(){
+		 DAOGenerico dao;
+		 BBDDFaker bd;
+		
+		dao = new DAOGenerico();
+		bd = new BBDDFaker();
+		
+		DdFormapago p = bd.crearFormaPago();
+		
+		if(p == null){
+			System.out.println("fuck");
+		} else{
+		
+			try {
+				dao.insertar(p);
+			} catch (Exception e) {
+				System.out.println("Pues YOLO bitches!");
+				e.printStackTrace();
+			}
+		}
+	}
+	
 	public String create() {
 
 		this.conversation.begin();
 		this.conversation.setTimeout(1800000L);
+		 init();
 		return "create?faces-redirect=true";
 	}
 

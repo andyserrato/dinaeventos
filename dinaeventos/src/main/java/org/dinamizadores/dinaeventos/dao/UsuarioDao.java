@@ -6,9 +6,12 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+
+import org.apache.logging.log4j.LogManager;
+import org.dinamizadores.dinaeventos.model.RrppJefes;
 import org.dinamizadores.dinaeventos.model.Usuario;
 import org.dinamizadores.dinaeventos.utiles.log.Loggable;
-
+import org.apache.logging.log4j.Logger;
 /**
  * DAO for Usuario
  */
@@ -17,7 +20,9 @@ import org.dinamizadores.dinaeventos.utiles.log.Loggable;
 public class UsuarioDao {
 	@PersistenceContext(unitName = "dinaeventos-persistence-unit")
 	private EntityManager em;
-
+	private static final Logger LOG = LogManager.getLogger(UsuarioDao.class); 
+	
+	
 	public void create(Usuario entity) {
 		em.persist(entity);
 	}
@@ -64,5 +69,15 @@ public class UsuarioDao {
 		}
 		
 		return usuario;
+	}
+	
+	
+	public RrppJefes crearRrppJefe(RrppJefes rrppJefe) {
+		em.persist(rrppJefe.getUsuario());
+		LOG.debug("idUsuario: " + rrppJefe.getUsuario().getIdUsuario());
+		rrppJefe.setIdUsuario(rrppJefe.getUsuario().getIdUsuario());
+		em.persist(rrppJefe);
+		LOG.debug("idrrppJefe: " + rrppJefe.getIdrrppJefe());
+		return rrppJefe;
 	}
 }

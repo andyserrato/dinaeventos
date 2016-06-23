@@ -3,9 +3,12 @@ package org.dinamizadores.dinaeventos.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
@@ -19,9 +22,10 @@ public class RrppJefes implements java.io.Serializable {
 	private int idrrppJefe;
 	private Integer idOrganizador;
 	private Integer idUsuario;
+	private Usuario usuario;
 	private Integer limiteEntradas;
 	private String codigoPromocional;
-
+	
 	public RrppJefes() {
 	}
 
@@ -64,6 +68,16 @@ public class RrppJefes implements java.io.Serializable {
 
 	public void setIdUsuario(Integer idUsuario) {
 		this.idUsuario = idUsuario;
+	}
+
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name="idUsuario", insertable=false, updatable=false)
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 
 	@Column(name = "limite_entradas")

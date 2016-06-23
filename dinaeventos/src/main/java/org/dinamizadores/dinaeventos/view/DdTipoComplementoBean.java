@@ -5,8 +5,6 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map.Entry;
-
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.view.ViewScoped;
@@ -18,8 +16,8 @@ import org.dinamizadores.dinaeventos.model.DdTipoComplemento;
 import org.dinamizadores.dinaeventos.model.Usuario;
 import org.dinamizadores.dinaeventos.utiles.log.Loggable;
 import org.dinamizadores.dinaeventos.utiles.pdf.FormarPDF;
-import org.dinamizadores.dinaevents.dto.complementoEntero;
-import org.dinamizadores.dinaevents.dto.entradasCompleta;
+import org.dinamizadores.dinaeventos.dto.complementoEntero;
+import org.dinamizadores.dinaeventos.dto.entradasCompleta;
 
 import com.itextpdf.text.DocumentException;
 
