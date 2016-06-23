@@ -228,7 +228,7 @@ public class BBDDFaker {
 		Usuario u = new Usuario();
 		
 		u.setActivo(true);
-		u.setApellido1(f.name().lastName());
+		u.setApellidos(f.name().lastName());
 		u.setBloqueado(false);
 		u.setCuentacorriente(f.finance().creditCard());
 		u.setDireccion(f.address().streetAddress());
