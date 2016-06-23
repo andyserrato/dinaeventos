@@ -5,8 +5,6 @@
     <provider>org.hibernate.ejb.HibernatePersistence</provider>
     <jta-data-source>java:jboss/datasources/MySQLDS</jta-data-source>
     
-    <class>org.dinamizadores.dinaeventos.model.DdFormapago</class>
-    
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     
     <properties>
