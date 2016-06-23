@@ -1,5 +1,5 @@
 
-package org.dinamizadores.dinaevents.dto.facebookprofile;
+package org.dinamizadores.dinaeventos.dto.facebookprofile;
 
 import javax.annotation.Generated;
 import com.google.gson.annotations.Expose;

@@ -13,10 +13,10 @@ import javax.faces.view.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 
+import org.dinamizadores.dinaeventos.dto.entradasCompleta;
 import org.dinamizadores.dinaeventos.model.DdTipoEntrada;
 import org.dinamizadores.dinaeventos.model.Usuario;
 import org.dinamizadores.dinaeventos.utiles.log.Loggable;
-import org.dinamizadores.dinaevents.dto.entradasCompleta;
 
 /**
  * Backing bean for Usuario entities.

@@ -1,4 +1,4 @@
-package org.dinamizadores.dinaevents.utiles.pdf;
+package org.dinamizadores.dinaeventos.utiles.pdf;
 import java.io.File;
 
 public class Repository {
