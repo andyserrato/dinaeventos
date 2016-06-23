@@ -14,7 +14,7 @@ import org.dinamizadores.dinaeventos.utiles.log.Loggable;
 
 @Stateless
 @Loggable
-public class DiccionarioDao {
+public class DiccionarioDao extends DAOGenerico{
 	@PersistenceContext(unitName = "dinaeventos-persistence-unit")
 	private EntityManager em;
 	
@@ -35,13 +35,15 @@ public class DiccionarioDao {
 		return findAllQuery.getResultList();
 	}
 
-	public List<GlobalCodigospostales> actualizaLocalidadesByCP(Integer idProvincia) {
+	public List<GlobalCodigospostales> actualizaLocalidadesByCP(Integer idCodigoPostal) {
 		TypedQuery<GlobalCodigospostales> findLocalidadesByCP = em.createQuery(
-				"SELECT codp FROM GlobalCodigospostales codp WHERE codp.idprovincia = :idProvincia ORDER BY codp.localidad",
+				"SELECT codp FROM GlobalCodigospostales codp WHERE codp.codigo LIKE :idCodigoPostal ORDER BY codp.localidad",
 				GlobalCodigospostales.class);
 		
-		findLocalidadesByCP.setParameter("idProvincia", idProvincia);
+		findLocalidadesByCP.setParameter("idCodigoPostal", idCodigoPostal + "%");
 		
 		return findLocalidadesByCP.getResultList();
 	}
+	
+	
 }

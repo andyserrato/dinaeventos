@@ -4,9 +4,12 @@ package org.dinamizadores.dinaeventos.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
@@ -27,6 +30,9 @@ public class GlobalCodigospostales  implements java.io.Serializable {
     private String codigo;
     @Column(name="localidad")
     private String localidad;
+    @ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name="idProvincia", insertable=false, updatable=false)
+    private GlobalProvincias provincia;
 
     public GlobalCodigospostales() {
     }
@@ -73,8 +79,13 @@ public class GlobalCodigospostales  implements java.io.Serializable {
         this.localidad = localidad;
     }
 
+	public GlobalProvincias getProvincia() {
+		return provincia;
+	}
 
-
+	public void setProvincia(GlobalProvincias provincia) {
+		this.provincia = provincia;
+	}
 
 }
 

@@ -1,12 +1,16 @@
 package org.dinamizadores.dinaeventos.model;
 // Generated 13-jun-2016 11:45:19 by Hibernate Tools 4.3.1.Final
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 
 /**
@@ -34,6 +38,8 @@ public class Entrada implements java.io.Serializable {
 	private Integer idorigen;
 	private Boolean dentrofuera;
 	private Boolean vendida;
+	private Date fechaValidada;
+	private Date fechaVendida;
 
 	public Entrada() {
 	}
@@ -188,6 +194,26 @@ public class Entrada implements java.io.Serializable {
 
 	public void setVendida(Boolean vendida) {
 		this.vendida = vendida;
+	}
+
+	@Temporal(TemporalType.DATE)
+	@Column(name = "fechavalidada")
+	public Date getFechaValidada() {
+		return fechaValidada;
+	}
+
+	public void setFechaValidada(Date fechaValidada) {
+		this.fechaValidada = fechaValidada;
+	}
+
+	@Temporal(TemporalType.DATE)
+	@Column(name = "fechavendida")
+	public Date getFechaVendida() {
+		return fechaVendida;
+	}
+
+	public void setFechaVendida(Date fechaVendida) {
+		this.fechaVendida = fechaVendida;
 	}
 
 }

@@ -6,6 +6,8 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
@@ -19,6 +21,7 @@ import org.dinamizadores.dinaeventos.model.GlobalProvincias;
 import org.dinamizadores.dinaeventos.model.RrppJefes;
 import org.dinamizadores.dinaeventos.model.Usuario;
 import org.dinamizadores.dinaeventos.utiles.log.Loggable;
+import org.primefaces.model.UploadedFile;
 
 /**
  * Backing bean for RrppJefes entities.
@@ -43,7 +46,7 @@ public class RrppJefesBean implements Serializable {
 	private List<DdSexo> ddSexos;
 	private final Logger log = LogManager.getLogger(RrppJefesBean.class);
 	private RrppJefes jefeEntity;
-	
+	private UploadedFile imageFile;
 	private List<GlobalProvincias> ddProvincias;
 	private List<GlobalCodigospostales> codigosPostales; 
 	
@@ -59,6 +62,12 @@ public class RrppJefesBean implements Serializable {
 	
 	public void create() {
 		jefeEntity = usuarioDao.crearRrppJefe(jefeEntity);
+	}
+	
+	public void storeImage() {
+		
+		FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Foto Subida", imageFile.getFileName() + " Se ha subido");
+		FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
 	
 	public List<DdSexo> getDdSexos() {
@@ -96,5 +105,14 @@ public class RrppJefesBean implements Serializable {
 	public void actualizaLocalidadesByCP(Integer IdProvincia) {
 		codigosPostales = diccionarioDao.actualizaLocalidadesByCP(IdProvincia);
 	}
+
+	public UploadedFile getImageFile() {
+		return imageFile;
+	}
+
+	public void setImageFile(UploadedFile imageFile) {
+		this.imageFile = imageFile;
+	}
 	
+	//TODO [ANDY] en el pcalendar sólo deja 20 años corregir
 }

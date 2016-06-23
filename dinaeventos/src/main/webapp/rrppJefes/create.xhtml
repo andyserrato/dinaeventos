@@ -51,7 +51,7 @@
 					<p:message for="rrppJefeTelefono" styleClass="error"/>
 
 					<p:outputLabel for="rrppJefeFechaNac" value="Fecha de Nacimiento:"/>
-					<p:calendar id="rrppJefeFechaNac" required="true" value="#{rrppJefe.jefeEntity.usuario.fechanac}" />
+					<p:calendar id="rrppJefeFechaNac" pattern="dd-MM-yyyy" mask="true" navigator="true" required="true" value="#{rrppJefe.jefeEntity.usuario.fechanac}" />
 					<p:message for="rrppJefeFechaNac" styleClass="error"/>
 
 					<p:outputLabel for="rrppJefeDireccion" value="Direccion:"/>
@@ -73,13 +73,27 @@
 						</div>
 						<div class="ui-grid-col-4">
 							<p:outputLabel for="rrppJefeProvincia" value="Provincia" />
-							<h:selectOneMenu id="rrppJefeProvincia" value="#{detalleUsuarios.user.idCodigoPostal}" required="true" requiredMessage="Es necesario escoger un Código Postal">
+							<h:selectOneMenu id="rrppJefeProvincia" value="#{rrppJefe.jefeEntity.usuario.idcodigopostal}" required="true" requiredMessage="Es necesario escoger un Código Postal">
 								<f:selectItem itemValue="#{null}" itemLabel="Seleccionar localidad" />
-								<f:selectItems value="#{detalleUsuarios.codigosPostales}" var="cp" itemLabel="#{cp.localidad} - #{cp.provincia}" itemValue="#{cp.id}" />
+								<f:selectItems value="#{rrppJefe.codigosPostales}" var="cp" itemLabel="#{cp.localidad} - #{cp.provincia.nombre}" itemValue="#{cp.idcodigopostal}" />
 							</h:selectOneMenu>
 						</div>
 					</div>
-				<!-- file upload -->
+				<!-- file upload 
+					<p:fileUpload value="#{rrppJefe.imageFile}" mdoe="simple"/>
+					<p:commandButton value="Subir Foto" ajax="false" actionListener="#{rrppJefe.storeImage}"/>
+					
+					<h:outputText value="Foto" />
+					<h:panelGrid columns="2" cellpadding="10">
+						<p:graphicImage id="rrppJefeFoto" value="#{logo.logo}" rendered="#{detalleEntes.enteAuxiliar.logo != null}" cache="false" height="90" width="250">
+					       <f:param name="idEnte" value="#{detalleEntes.enteAuxiliar.idente}" />
+					    </p:graphicImage>
+						<p:fileUpload id="imageUpload" value="#{detalleEntes.archivoSubida}" mode="simple" skinSimple="true" label="Seleccionar logo" style="width:100%" />
+					</h:panelGrid>
+							
+					<p:message for="imageUpload" />
+					
+					-->
 					
 					<p:commandLink value="Save" update="@form" action="#{rrppJefe.create()}" styleClass="btn btn-primary"/>
 		</h:form>
