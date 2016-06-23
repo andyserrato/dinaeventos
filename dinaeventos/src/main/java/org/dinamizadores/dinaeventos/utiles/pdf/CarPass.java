@@ -1,4 +1,4 @@
-package org.dinamizadores.dinaevents.utiles.pdf;
+package org.dinamizadores.dinaeventos.utiles.pdf;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +19,7 @@ public class CarPass {
     private String odometerType;
     private String message;
     private List<OdometerReading> odometerReadings;
+    private String prueba;
 
     public CarPass() {
         this.vin = "VF154PB5VXA1138BB";
@@ -29,6 +30,7 @@ public class CarPass {
         this.firstRegistrationBe = "22/12/1981";
         this.validUntil = "01/02/2007";
         this.odometerType = "Km";
+        this.prueba = "HOLA";
     }
 
     public String getVin() {
@@ -93,7 +95,12 @@ public class CarPass {
         return odometerReadings;
     }
 
-    public class OdometerReading  {
+    public String getPrueba() {
+		return prueba;
+	}
+
+
+	public class OdometerReading  {
 
         private String date;
         private String value;

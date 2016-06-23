@@ -1,5 +1,6 @@
 package org.dinamizadores.dinaeventos.view;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -16,8 +17,11 @@ import org.dinamizadores.dinaeventos.dao.EntradaDao;
 import org.dinamizadores.dinaeventos.model.DdTipoComplemento;
 import org.dinamizadores.dinaeventos.model.Usuario;
 import org.dinamizadores.dinaeventos.utiles.log.Loggable;
+import org.dinamizadores.dinaeventos.utiles.pdf.FormarPDF;
 import org.dinamizadores.dinaevents.dto.complementoEntero;
 import org.dinamizadores.dinaevents.dto.entradasCompleta;
+
+import com.itextpdf.text.DocumentException;
 
 
 @Named
@@ -89,12 +93,18 @@ public class DdTipoComplementoBean implements Serializable {
 		}
 	
 	
-	public String cambiarPagina(){
+	public void cambiarPagina(){
 		
-		//FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("total", total);
-		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("listaEntradas", listadoEntradas);
 		
-		return "/comprar/comprarEntrada.xhtml?faces-redirect=true";
+			try {
+				FormarPDF.main(null);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (DocumentException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 	}
 	
 
