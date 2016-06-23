@@ -35,12 +35,12 @@ public class DiccionarioDao extends DAOGenerico{
 		return findAllQuery.getResultList();
 	}
 
-	public List<GlobalCodigospostales> actualizaLocalidadesByCP(Integer idCodigoPostal) {
+	public List<GlobalCodigospostales> actualizaLocalidadesByCP(String idCodigoPostal) {
 		TypedQuery<GlobalCodigospostales> findLocalidadesByCP = em.createQuery(
 				"SELECT codp FROM GlobalCodigospostales codp WHERE codp.codigo LIKE :idCodigoPostal ORDER BY codp.localidad",
 				GlobalCodigospostales.class);
 		
-		findLocalidadesByCP.setParameter("idCodigoPostal", idCodigoPostal + "%");
+		findLocalidadesByCP.setParameter("idCodigoPostal",idCodigoPostal + "%");
 		
 		return findLocalidadesByCP.getResultList();
 	}

@@ -1,16 +1,21 @@
 package org.dinamizadores.dinaeventos.view;
 
+import java.io.ByteArrayInputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.dinamizadores.dinaeventos.dao.DiccionarioDao;
@@ -21,6 +26,9 @@ import org.dinamizadores.dinaeventos.model.GlobalProvincias;
 import org.dinamizadores.dinaeventos.model.RrppJefes;
 import org.dinamizadores.dinaeventos.model.Usuario;
 import org.dinamizadores.dinaeventos.utiles.log.Loggable;
+import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
 import org.primefaces.model.UploadedFile;
 
 /**
@@ -54,6 +62,7 @@ public class RrppJefesBean implements Serializable {
 	public void init() {
 		jefeEntity = new RrppJefes();
 		jefeEntity.setUsuario(new Usuario());
+		jefeEntity.getUsuario().setCodigoPostal(new GlobalCodigospostales());
 		ddProvincias = diccionarioDao.getDdGlobalProvincias();
 		codigosPostales = new ArrayList<>();
 		ddSexos = diccionarioDao.getDdSexos();
@@ -61,13 +70,28 @@ public class RrppJefesBean implements Serializable {
 	}
 	
 	public void create() {
-		jefeEntity = usuarioDao.crearRrppJefe(jefeEntity);
-	}
-	
-	public void storeImage() {
+		if (!"".equalsIgnoreCase(imageFile.getFileName())) {
+			try {
+				byte[] bytes;
+				InputStream is = imageFile.getInputstream();
+
+				if (is != null) {
+					bytes = IOUtils.toByteArray(is);
+					is.close();
+				} else {
+					bytes = new byte[0];
+				}
+
+				is.close();
+
+				jefeEntity.getUsuario().setFotoperfil(bytes);
+				jefeEntity.getUsuario().setFotoNombre(imageFile.getFileName());
+			} catch (IOException e) {
+				log.error("Error de conversión al guardar el logo.");
+			}
+		}
 		
-		FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Foto Subida", imageFile.getFileName() + " Se ha subido");
-		FacesContext.getCurrentInstance().addMessage(null, msg);
+		jefeEntity = usuarioDao.crearRrppJefe(jefeEntity);
 	}
 	
 	public List<DdSexo> getDdSexos() {
@@ -102,7 +126,7 @@ public class RrppJefesBean implements Serializable {
 		this.codigosPostales = codigosPostales;
 	}
 	
-	public void actualizaLocalidadesByCP(Integer IdProvincia) {
+	public void actualizaLocalidadesByCP(String IdProvincia) {
 		codigosPostales = diccionarioDao.actualizaLocalidadesByCP(IdProvincia);
 	}
 

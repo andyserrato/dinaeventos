@@ -35,6 +35,7 @@ public class Usuario implements java.io.Serializable {
 	private Date fechanac;
 	private String direccion;
 	private byte[] fotoperfil;
+	private String fotoNombre;
 	private String password;
 	private String cuentacorriente;
 	private String iban;
@@ -157,6 +158,15 @@ public class Usuario implements java.io.Serializable {
 
 	public void setFotoperfil(byte[] fotoperfil) {
 		this.fotoperfil = fotoperfil;
+	}
+	
+	@Column(name = "fotonombre", length = 255)
+	public String getFotoNombre() {
+		return fotoNombre;
+	}
+
+	public void setFotoNombre(String fotonombre) {
+		this.fotoNombre = fotonombre;
 	}
 
 	@Column(name = "password", length = 255)
