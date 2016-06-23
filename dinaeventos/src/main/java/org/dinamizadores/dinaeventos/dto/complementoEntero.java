@@ -1,4 +1,4 @@
-package org.dinamizadores.dinaevents.dto;
+package org.dinamizadores.dinaeventos.dto;
 // Generated 13-jun-2016 11:45:19 by Hibernate Tools 4.3.1.Final
 
 import java.math.BigDecimal;

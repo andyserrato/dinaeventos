@@ -4,24 +4,20 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.Resource;
-import javax.ejb.SessionContext;
-import javax.faces.application.FacesMessage;
-import javax.faces.component.UIComponent;
-import javax.faces.context.FacesContext;
-import javax.faces.convert.Converter;
+import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceContextType;
-import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.dinamizadores.dinaeventos.dao.DiccionarioDao;
+import org.dinamizadores.dinaeventos.dao.UsuarioDao;
+import org.dinamizadores.dinaeventos.model.DdSexo;
+import org.dinamizadores.dinaeventos.model.GlobalCodigospostales;
+import org.dinamizadores.dinaeventos.model.GlobalProvincias;
 import org.dinamizadores.dinaeventos.model.RrppJefes;
+import org.dinamizadores.dinaeventos.model.Usuario;
 import org.dinamizadores.dinaeventos.utiles.log.Loggable;
 
 /**
@@ -34,227 +30,71 @@ import org.dinamizadores.dinaeventos.utiles.log.Loggable;
  * framework or custom base class.
  */
 
-@Named
+@Named("rrppJefe")
 @ViewScoped
 @Loggable
 public class RrppJefesBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-
-	/*
-	 * Support creating and retrieving RrppJefes entities
-	 */
-
-	private Integer id;
-
-	public Integer getId() {
-		return this.id;
+	@EJB
+	private UsuarioDao usuarioDao;
+	@EJB
+	private DiccionarioDao diccionarioDao;
+	private List<DdSexo> ddSexos;
+	private final Logger log = LogManager.getLogger(RrppJefesBean.class);
+	private RrppJefes jefeEntity;
+	
+	private List<GlobalProvincias> ddProvincias;
+	private List<GlobalCodigospostales> codigosPostales; 
+	
+	@PostConstruct
+	public void init() {
+		jefeEntity = new RrppJefes();
+		jefeEntity.setUsuario(new Usuario());
+		ddProvincias = diccionarioDao.getDdGlobalProvincias();
+		codigosPostales = new ArrayList<>();
+		ddSexos = diccionarioDao.getDdSexos();
+		
+	}
+	
+	public void create() {
+		jefeEntity = usuarioDao.crearRrppJefe(jefeEntity);
+	}
+	
+	public List<DdSexo> getDdSexos() {
+		return ddSexos;
 	}
 
-	public void setId(Integer id) {
-		this.id = id;
+	public void setDdSexos(List<DdSexo> ddSexos) {
+		this.ddSexos = ddSexos;
 	}
 
-	private RrppJefes rrppJefes;
-
-	public RrppJefes getRrppJefes() {
-		return this.rrppJefes;
+	public List<GlobalProvincias> getDdProvincias() {
+		return ddProvincias;
 	}
 
-	public void setRrppJefes(RrppJefes rrppJefes) {
-		this.rrppJefes = rrppJefes;
+	public void setDdProvincias(List<GlobalProvincias> ddProvincias) {
+		this.ddProvincias = ddProvincias;
 	}
 
-	@PersistenceContext(unitName = "dinaeventos-persistence-unit", type = PersistenceContextType.EXTENDED)
-	private EntityManager entityManager;
-
-	public void retrieve() {
-
-		if (FacesContext.getCurrentInstance().isPostback()) {
-			return;
-		}
-
-		if (this.id == null) {
-			this.rrppJefes = this.example;
-		} else {
-			this.rrppJefes = findById(getId());
-		}
+	public RrppJefes getJefeEntity() {
+		return jefeEntity;
 	}
 
-	public RrppJefes findById(Integer id) {
-
-		return this.entityManager.find(RrppJefes.class, id);
+	public void setJefeEntity(RrppJefes jefeEntity) {
+		this.jefeEntity = jefeEntity;
+	}
+	
+	public List<GlobalCodigospostales> getCodigosPostales() {
+		return codigosPostales;
 	}
 
-	/*
-	 * Support updating and deleting RrppJefes entities
-	 */
-
-	public String update() {
-		try {
-			if (this.id == null) {
-				this.entityManager.persist(this.rrppJefes);
-				return "search?faces-redirect=true";
-			} else {
-				this.entityManager.merge(this.rrppJefes);
-				return "view?faces-redirect=true&id="
-						+ this.rrppJefes.getIdrrppJefe();
-			}
-		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(e.getMessage()));
-			return null;
-		}
+	public void setCodigosPostales(List<GlobalCodigospostales> codigosPostales) {
+		this.codigosPostales = codigosPostales;
 	}
-
-	public String delete() {
-		try {
-			RrppJefes deletableEntity = findById(getId());
-
-			this.entityManager.remove(deletableEntity);
-			this.entityManager.flush();
-			return "search?faces-redirect=true";
-		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(e.getMessage()));
-			return null;
-		}
+	
+	public void actualizaLocalidadesByCP(Integer IdProvincia) {
+		codigosPostales = diccionarioDao.actualizaLocalidadesByCP(IdProvincia);
 	}
-
-	/*
-	 * Support searching RrppJefes entities with pagination
-	 */
-
-	private int page;
-	private long count;
-	private List<RrppJefes> pageItems;
-
-	private RrppJefes example = new RrppJefes();
-
-	public int getPage() {
-		return this.page;
-	}
-
-	public void setPage(int page) {
-		this.page = page;
-	}
-
-	public int getPageSize() {
-		return 10;
-	}
-
-	public RrppJefes getExample() {
-		return this.example;
-	}
-
-	public void setExample(RrppJefes example) {
-		this.example = example;
-	}
-
-	public String search() {
-		this.page = 0;
-		return null;
-	}
-
-	public void paginate() {
-
-		CriteriaBuilder builder = this.entityManager.getCriteriaBuilder();
-
-		// Populate this.count
-
-		CriteriaQuery<Long> countCriteria = builder.createQuery(Long.class);
-		Root<RrppJefes> root = countCriteria.from(RrppJefes.class);
-		countCriteria = countCriteria.select(builder.count(root)).where(
-				getSearchPredicates(root));
-		this.count = this.entityManager.createQuery(countCriteria)
-				.getSingleResult();
-
-		// Populate this.pageItems
-
-		CriteriaQuery<RrppJefes> criteria = builder
-				.createQuery(RrppJefes.class);
-		root = criteria.from(RrppJefes.class);
-		TypedQuery<RrppJefes> query = this.entityManager.createQuery(criteria
-				.select(root).where(getSearchPredicates(root)));
-		query.setFirstResult(this.page * getPageSize()).setMaxResults(
-				getPageSize());
-		this.pageItems = query.getResultList();
-	}
-
-	private Predicate[] getSearchPredicates(Root<RrppJefes> root) {
-
-		CriteriaBuilder builder = this.entityManager.getCriteriaBuilder();
-		List<Predicate> predicatesList = new ArrayList<Predicate>();
-
-
-		return predicatesList.toArray(new Predicate[predicatesList.size()]);
-	}
-
-	public List<RrppJefes> getPageItems() {
-		return this.pageItems;
-	}
-
-	public long getCount() {
-		return this.count;
-	}
-
-	/*
-	 * Support listing and POSTing back RrppJefes entities (e.g. from inside an
-	 * HtmlSelectOneMenu)
-	 */
-
-	public List<RrppJefes> getAll() {
-
-		CriteriaQuery<RrppJefes> criteria = this.entityManager
-				.getCriteriaBuilder().createQuery(RrppJefes.class);
-		return this.entityManager.createQuery(
-				criteria.select(criteria.from(RrppJefes.class)))
-				.getResultList();
-	}
-
-	@Resource
-	private SessionContext sessionContext;
-
-	public Converter getConverter() {
-
-		final RrppJefesBean ejbProxy = this.sessionContext
-				.getBusinessObject(RrppJefesBean.class);
-
-		return new Converter() {
-
-			@Override
-			public Object getAsObject(FacesContext context,
-					UIComponent component, String value) {
-
-				return ejbProxy.findById(Integer.valueOf(value));
-			}
-
-			@Override
-			public String getAsString(FacesContext context,
-					UIComponent component, Object value) {
-
-				if (value == null) {
-					return "";
-				}
-
-				return String.valueOf(((RrppJefes) value).getIdrrppJefe());
-			}
-		};
-	}
-
-	/*
-	 * Support adding children to bidirectional, one-to-many tables
-	 */
-
-	private RrppJefes add = new RrppJefes();
-
-	public RrppJefes getAdd() {
-		return this.add;
-	}
-
-	public RrppJefes getAdded() {
-		RrppJefes added = this.add;
-		this.add = new RrppJefes();
-		return added;
-	}
+	
 }

@@ -24,7 +24,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
-import org.dinamizadores.dinaeventos.model.GlobalCodigopostales;
+import org.dinamizadores.dinaeventos.model.GlobalCodigospostales;
 
 /**
  * Backing bean for GlobalCodigopostales entities.
@@ -57,14 +57,14 @@ public class GlobalCodigopostalesBean implements Serializable {
 		this.id = id;
 	}
 
-	private GlobalCodigopostales globalCodigopostales;
+	private GlobalCodigospostales globalCodigopostales;
 
-	public GlobalCodigopostales getGlobalCodigopostales() {
+	public GlobalCodigospostales getGlobalCodigopostales() {
 		return this.globalCodigopostales;
 	}
 
 	public void setGlobalCodigopostales(
-			GlobalCodigopostales globalCodigopostales) {
+			GlobalCodigospostales globalCodigopostales) {
 		this.globalCodigopostales = globalCodigopostales;
 	}
 
@@ -99,9 +99,9 @@ public class GlobalCodigopostalesBean implements Serializable {
 		}
 	}
 
-	public GlobalCodigopostales findById(Integer id) {
+	public GlobalCodigospostales findById(Integer id) {
 
-		return this.entityManager.find(GlobalCodigopostales.class, id);
+		return this.entityManager.find(GlobalCodigospostales.class, id);
 	}
 
 	/*
@@ -131,7 +131,7 @@ public class GlobalCodigopostalesBean implements Serializable {
 		this.conversation.end();
 
 		try {
-			GlobalCodigopostales deletableEntity = findById(getId());
+			GlobalCodigospostales deletableEntity = findById(getId());
 
 			this.entityManager.remove(deletableEntity);
 			this.entityManager.flush();
@@ -149,9 +149,9 @@ public class GlobalCodigopostalesBean implements Serializable {
 
 	private int page;
 	private long count;
-	private List<GlobalCodigopostales> pageItems;
+	private List<GlobalCodigospostales> pageItems;
 
-	private GlobalCodigopostales example = new GlobalCodigopostales();
+	private GlobalCodigospostales example = new GlobalCodigospostales();
 
 	public int getPage() {
 		return this.page;
@@ -165,11 +165,11 @@ public class GlobalCodigopostalesBean implements Serializable {
 		return 10;
 	}
 
-	public GlobalCodigopostales getExample() {
+	public GlobalCodigospostales getExample() {
 		return this.example;
 	}
 
-	public void setExample(GlobalCodigopostales example) {
+	public void setExample(GlobalCodigospostales example) {
 		this.example = example;
 	}
 
@@ -185,8 +185,8 @@ public class GlobalCodigopostalesBean implements Serializable {
 		// Populate this.count
 
 		CriteriaQuery<Long> countCriteria = builder.createQuery(Long.class);
-		Root<GlobalCodigopostales> root = countCriteria
-				.from(GlobalCodigopostales.class);
+		Root<GlobalCodigospostales> root = countCriteria
+				.from(GlobalCodigospostales.class);
 		countCriteria = countCriteria.select(builder.count(root)).where(
 				getSearchPredicates(root));
 		this.count = this.entityManager.createQuery(countCriteria)
@@ -194,10 +194,10 @@ public class GlobalCodigopostalesBean implements Serializable {
 
 		// Populate this.pageItems
 
-		CriteriaQuery<GlobalCodigopostales> criteria = builder
-				.createQuery(GlobalCodigopostales.class);
-		root = criteria.from(GlobalCodigopostales.class);
-		TypedQuery<GlobalCodigopostales> query = this.entityManager
+		CriteriaQuery<GlobalCodigospostales> criteria = builder
+				.createQuery(GlobalCodigospostales.class);
+		root = criteria.from(GlobalCodigospostales.class);
+		TypedQuery<GlobalCodigospostales> query = this.entityManager
 				.createQuery(criteria.select(root).where(
 						getSearchPredicates(root)));
 		query.setFirstResult(this.page * getPageSize()).setMaxResults(
@@ -205,7 +205,7 @@ public class GlobalCodigopostalesBean implements Serializable {
 		this.pageItems = query.getResultList();
 	}
 
-	private Predicate[] getSearchPredicates(Root<GlobalCodigopostales> root) {
+	private Predicate[] getSearchPredicates(Root<GlobalCodigospostales> root) {
 
 		CriteriaBuilder builder = this.entityManager.getCriteriaBuilder();
 		List<Predicate> predicatesList = new ArrayList<Predicate>();
@@ -231,7 +231,7 @@ public class GlobalCodigopostalesBean implements Serializable {
 		return predicatesList.toArray(new Predicate[predicatesList.size()]);
 	}
 
-	public List<GlobalCodigopostales> getPageItems() {
+	public List<GlobalCodigospostales> getPageItems() {
 		return this.pageItems;
 	}
 
@@ -244,12 +244,12 @@ public class GlobalCodigopostalesBean implements Serializable {
 	 * inside an HtmlSelectOneMenu)
 	 */
 
-	public List<GlobalCodigopostales> getAll() {
+	public List<GlobalCodigospostales> getAll() {
 
-		CriteriaQuery<GlobalCodigopostales> criteria = this.entityManager
-				.getCriteriaBuilder().createQuery(GlobalCodigopostales.class);
+		CriteriaQuery<GlobalCodigospostales> criteria = this.entityManager
+				.getCriteriaBuilder().createQuery(GlobalCodigospostales.class);
 		return this.entityManager.createQuery(
-				criteria.select(criteria.from(GlobalCodigopostales.class)))
+				criteria.select(criteria.from(GlobalCodigospostales.class)))
 				.getResultList();
 	}
 
@@ -278,7 +278,7 @@ public class GlobalCodigopostalesBean implements Serializable {
 					return "";
 				}
 
-				return String.valueOf(((GlobalCodigopostales) value)
+				return String.valueOf(((GlobalCodigospostales) value)
 						.getIdcodigopostal());
 			}
 		};
@@ -288,15 +288,15 @@ public class GlobalCodigopostalesBean implements Serializable {
 	 * Support adding children to bidirectional, one-to-many tables
 	 */
 
-	private GlobalCodigopostales add = new GlobalCodigopostales();
+	private GlobalCodigospostales add = new GlobalCodigospostales();
 
-	public GlobalCodigopostales getAdd() {
+	public GlobalCodigospostales getAdd() {
 		return this.add;
 	}
 
-	public GlobalCodigopostales getAdded() {
-		GlobalCodigopostales added = this.add;
-		this.add = new GlobalCodigopostales();
+	public GlobalCodigospostales getAdded() {
+		GlobalCodigospostales added = this.add;
+		this.add = new GlobalCodigospostales();
 		return added;
 	}
 }

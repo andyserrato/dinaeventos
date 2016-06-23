@@ -5,4 +5,4 @@
  * @author samuellozanozapata1
  *
  */
-package org.dinamizadores.dinaevents.dto;
+package org.dinamizadores.dinaeventos.dto;

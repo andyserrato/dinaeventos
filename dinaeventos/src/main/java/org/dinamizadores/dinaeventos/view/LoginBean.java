@@ -13,9 +13,9 @@ import javax.faces.context.FacesContext;
 import javax.inject.Named;
 
 import org.dinamizadores.dinaeventos.dao.UsuarioDao;
+import org.dinamizadores.dinaeventos.dto.facebookprofile.PerfilRedSocial;
 import org.dinamizadores.dinaeventos.model.Usuario;
 import org.dinamizadores.dinaeventos.utiles.log.Loggable;
-import org.dinamizadores.dinaevents.dto.facebookprofile.PerfilRedSocial;
 
 import com.github.scribejava.apis.FacebookApi;
 import com.github.scribejava.core.builder.ServiceBuilder;

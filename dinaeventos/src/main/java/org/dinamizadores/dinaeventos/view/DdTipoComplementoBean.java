@@ -13,10 +13,10 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 
 import org.dinamizadores.dinaeventos.dao.EntradaDao;
+import org.dinamizadores.dinaeventos.dto.complementoEntero;
+import org.dinamizadores.dinaeventos.dto.entradasCompleta;
 import org.dinamizadores.dinaeventos.model.DdTipoComplemento;
 import org.dinamizadores.dinaeventos.model.Usuario;
-import org.dinamizadores.dinaevents.dto.complementoEntero;
-import org.dinamizadores.dinaevents.dto.entradasCompleta;
 
 
 @ManagedBean 

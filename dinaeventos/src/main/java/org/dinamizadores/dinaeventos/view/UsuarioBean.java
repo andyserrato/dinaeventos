@@ -13,9 +13,9 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
+import org.dinamizadores.dinaeventos.dto.entradasCompleta;
 import org.dinamizadores.dinaeventos.model.DdTipoEntrada;
 import org.dinamizadores.dinaeventos.model.Usuario;
-import org.dinamizadores.dinaevents.dto.entradasCompleta;
 
 /**
  * Backing bean for Usuario entities.
