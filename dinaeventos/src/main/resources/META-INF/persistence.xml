@@ -4,7 +4,9 @@
   <description>Forge Persistence Unit</description>
     <provider>org.hibernate.ejb.HibernatePersistence</provider>
     <jta-data-source>java:jboss/datasources/MySQLDS</jta-data-source>
+    
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
+    
     <properties>
       <property name="hibernate.hbm2ddl.auto" value="update"/>
       <property name="hibernate.archive.autodetection" value="class"/>

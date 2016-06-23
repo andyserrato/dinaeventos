@@ -15,6 +15,17 @@
 	<ui:define name="main">
 		
 		EN CONSTRUCCIÓN
+		<p:dataTable value="#{lugaresOrigen.listaOrigenes}" var="e" stickyHeader="true">
+			<p:column headerText="Provincia">
+		        <h:outputText value="#{e.provincia}" />
+		    </p:column>
+		    <p:column headerText="Cantidad">
+		        <h:outputText value="#{e.cantidad}" />
+		    </p:column>
+		    <p:column headerText="Porcentaje">
+		        <h:outputText value="#{e.porcentaje}" />
+		    </p:column>
+		</p:dataTable>
 			
 	</ui:define>
 

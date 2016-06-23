@@ -9,15 +9,15 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
 import javax.ejb.EJB;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
+import javax.inject.Named;
 
 import org.dinamizadores.dinaeventos.dao.EntradaDao;
 import org.dinamizadores.dinaeventos.model.DdTipoEntrada;
 import org.dinamizadores.dinaeventos.model.Entrada;
+import org.dinamizadores.dinaeventos.utiles.log.Loggable;
 
 /**
  * Backing bean for Entrada entities.
@@ -29,8 +29,9 @@ import org.dinamizadores.dinaeventos.model.Entrada;
  * framework or custom base class.
  */
 
-@ManagedBean 
+@Named("entradaBean")
 @ViewScoped
+@Loggable
 public class EntradaBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -44,7 +45,8 @@ public class EntradaBean implements Serializable {
 	
 	private Integer id;
 	
-	private Integer cantidad = 0;
+	private int cantidad;
+	
 	
 	private Map<Long,List<BigDecimal>> listaPrecios =  new HashMap<Long,List<BigDecimal>>();
 
@@ -57,32 +59,22 @@ public class EntradaBean implements Serializable {
 	private boolean skip;
 
 
-
-	@PreDestroy
-	public void reiniciar(){
-		System.out.println("Inicio reiniciar");
-		cantidad = 0;
-	}
-
 	@PostConstruct
 	public void init() {
-		System.out.println("Inicio init");
 		
 		//reiniciamos cada vez que cargamos el Bean
 		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("total", total);
 		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("lista", listaPrecios);
-		cantidad = 0;
+		cantidad=0;
 		
 		this.tiposEntrada = tipoEntradaDao.listTipoEntrada();
 		for (DdTipoEntrada tipo : tiposEntrada){
 			listaPrecios.put((long) tipo.getIdtipoentrada(), new ArrayList<BigDecimal>());
 		}
 		
-		System.out.println("Fin init");
 	}
 	
 	public void sumarTotal(Long idTipoEntrada){
-		System.out.println("Inicio sumarTotal");
 		
 		total = new BigDecimal(0);
 		
@@ -94,7 +86,6 @@ public class EntradaBean implements Serializable {
 					listaPrecios.get(idTipoEntrada).add(tipo.getPrecio());
 				}
 		}
-		
 		for (Entry<Long,List<BigDecimal>> e: listaPrecios.entrySet())
 			for (BigDecimal a : e.getValue())
 				total = total.add(a);
@@ -103,11 +94,9 @@ public class EntradaBean implements Serializable {
 		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("lista", listaPrecios);
 		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("tiposEntrada", tiposEntrada);
 		
-		System.out.println("Fin sumarTotal");
 	}
 	
 	public boolean isRendererBoton() {
-		System.out.println("Inicio isRendererBoton");
 		
 		boolean desactivado = true;
         int res;
@@ -125,14 +114,12 @@ public class EntradaBean implements Serializable {
 			desactivado = true;
 		}
 		
-		System.out.println("Fina isRendererBoton");
 		return desactivado;
 	}
 
 	public String cambiarPagina(){
-		System.out.println("Inicio cambiarPagina");
 		
-		cantidad = 0;
+		
 		return "/comprar/formularioCliente.xhtml?faces-redirect=true";
 	}
 	
@@ -144,11 +131,11 @@ public class EntradaBean implements Serializable {
 		this.id = id;
 	}
 
-	public Integer getCantidad() {
+	public int getCantidad() {
 		return cantidad;
 	}
 
-	public void setCantidad(Integer cantidad) {
+	public void setCantidad(int cantidad) {
 		this.cantidad = cantidad;
 	}
 	
@@ -199,5 +186,6 @@ public class EntradaBean implements Serializable {
 	public void setSkip(boolean skip) {
 		this.skip = skip;
 	}
+
 	
 }

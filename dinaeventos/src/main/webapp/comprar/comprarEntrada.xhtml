@@ -22,16 +22,16 @@
 
 	<ui:define name="main">
 		<h:form id="comprar">
-		
+	
 					<p:dataTable styleClass="table table-striped" value="#{entradaBean.tiposEntrada}" var="tipo">
 						<p:column headerText="entrada">
 								<h:outputText value="#{tipo.nombre}" />
 						</p:column>
 						<p:column headerText="cantidad">
-								<p:outputPanel id="panel">
+								
 									<p:selectOneMenu id="cantidad" value="#{entradaBean.cantidad}"  style="width:200px;">
 										<p:ajax update="comprar:total comprar:botonComprar"  listener="#{entradaBean.sumarTotal(tipo.idtipoentrada)}" />
-										<f:selectItem itemLabel="0" itemValue="0"  />
+										<f:selectItem itemLabel="0" itemValue="0" />
 										<f:selectItem itemLabel="1" itemValue="1" />
 										<f:selectItem itemLabel="2" itemValue="2" />
 										<f:selectItem itemLabel="3" itemValue="3" />
@@ -39,26 +39,25 @@
 										<f:selectItem itemLabel="5" itemValue="5" />
 										<f:selectItem itemLabel="6" itemValue="6" />
 									</p:selectOneMenu>
-								</p:outputPanel>
+								
 						</p:column>
 						<p:column headerText="precio">
 								<h:outputText value="#{tipo.precio}" />
 						</p:column>
-						
+				
 					</p:dataTable>
-					<p:outputPanel style="float:right;">
-						<p:outputLabel  value="Total: "></p:outputLabel> <p:outputLabel id="total" value="#{entradaBean.total}"></p:outputLabel>
+					<p:outputPanel id="total" style="float:right;">
+						<p:outputLabel  value="Total: "></p:outputLabel> <p:outputLabel  value="#{entradaBean.total}"></p:outputLabel>
 					</p:outputPanel>
 					<br></br>
 					<p:separator />
 					
-					<p:outputPanel style="margin:auto; width:20%;">
-						<p:commandLink styleClass="btn btn-primary" id="botonComprar"  disabled="#{entradaBean.isRendererBoton()}" action="#{entradaBean.cambiarPagina()}" value="Añadir entrada">
+					<p:outputPanel id="botonComprar"  style="margin:auto; width:20%;">
+						<p:commandLink styleClass="btn btn-primary"  disabled="#{entradaBean.isRendererBoton()}" action="#{entradaBean.cambiarPagina()}" value="Añadir entrada">
 						</p:commandLink>
 					</p:outputPanel>
 		</h:form>
-	
-			
+		
 	</ui:define>
 
 </ui:composition>

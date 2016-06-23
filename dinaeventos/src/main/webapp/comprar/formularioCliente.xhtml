@@ -23,48 +23,42 @@
 	<ui:define name="main">
 		<h:form id="search">
 		    <p:repeat value="#{usuarioBean.listadoEntradas}" var="entrada">
-		        <p:outputLabel value="Entrada #{entrada.nombre}"></p:outputLabel>
+		        <p:outputLabel value="Entrada #{entrada.nombre}"></p:outputLabel> 
 		        <div class="section">
 		        	<div class="container-fluid">
 			        	<div class="row">
-			        		<div class="col-md-2">
-					        	<h:panelGrid  columns="2" cellpadding="10" style="margin-top:20%;" >
-					            
-					                 <p:outputLabel value="Facebook"  />
-					                 <p:commandButton icon="fa fa-facebook" />
-					                 
-					            </h:panelGrid>
-					         </div>
-					         <div class="col-md-6">
+			        		
+					         <div class="col-md-10">
 					         
 					         <p:panel id="panel">
-					            <h:panelGrid columns="3" cellpadding="10" style="width:100%;">
-					            	<div class="input-group ">
-					            	 <span class="label label-default">Nombre</span>
-					                   <p:inputText  id="nombre" value="#{entrada.usuario.nombre}" label="Nombre" required="true"></p:inputText>
+					            <h:panelGrid columns="6" cellpadding="0" style="width:100%;">
+					            	<div class="form-group"> 
+					            	 
+					            	 <label  class="milabel col-sm-2 col-md-6 control-label">Nombre</label>
+					            	    <p:inputText  id="nombre" value="#{entrada.usuario.nombre}" label="Nombre" required="true"></p:inputText>
 					                 <p:message  for="nombre" display="icon" />
 					                 
-					                 <span class="label label-default">Apellidos</span>
+					                 <label class="milabel col-sm-2 col-md-12 control-label">Apellidos</label>
 					                
 					                 <p:inputText  class="" label="apellidos" id="apellidos" value="#{entrada.usuario.apellido1}" required="true"></p:inputText>
 					                 <p:message  for="apellidos" display="icon" />
 
-									 <span class="label label-default">Correo electrónico</span>
+									 <label class="milabel col-sm-2 col-md-12 control-label">Correo electrónico</label>
 					                 <p:inputText  label="email" value="#{entrada.usuario.email}" id="email" required="true"></p:inputText>
 					                 <p:message  for="email" display="icon" />
 
-					                 <span class="label label-default">Fecha de nacimiento</span>
+					                 <label class=" milabel col-md-12 control-label">Fecha de nacimiento</label>
 					                 <p:calendar  label="fecha" id="fecha" value="#{entrada.usuario.fechanac}" pattern="dd/MM/yyyy" required="true" showOn="button"></p:calendar>
 									 <p:message   for="fecha" display="icon" />
 									
-					                 <span class="label label-default">DNI</span>
+					                 <label class=" milabel col-sm-2 col-md-12 control-label">DNI</label>
 					                 <p:inputText  label="dni" id="dni" value="#{entrada.usuario.dni}" required="true"></p:inputText>
 					            	 <p:message  for="dni" display="icon" />
 					            	 </div>
 					            </h:panelGrid>
 					            </p:panel>
 					         </div>
-					         <div class="col-md-3">
+					         <div class="col-md-2">
 			        			<h:outputText style="float:right;" value="Precio entrada: #{entrada.precio}" />
 			        		</div>
 				          </div>
