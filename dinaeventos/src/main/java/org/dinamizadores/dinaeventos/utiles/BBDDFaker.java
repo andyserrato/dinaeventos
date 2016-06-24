@@ -252,11 +252,7 @@ public class BBDDFaker {
 		Usuario u = new Usuario();
 		
 		u.setActivo(true);
-<<<<<<< HEAD
 		u.setApellidos(faker.name().lastName());
-=======
-		u.setApellidos(f.name().lastName());
->>>>>>> branch 'master' of ssh://git@github.com/andyserrato/dinaeventos.git
 		u.setBloqueado(false);
 		u.setCuentacorriente(faker.finance().creditCard());
 		u.setDireccion(faker.address().streetAddress());

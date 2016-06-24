@@ -66,7 +66,6 @@
             			<f:selectItems value="#{rrppJefe.ddSexos}" var="sexos" itemLabel="#{sexos.nombre}" itemValue="#{sexos.idsexo}" />
         			</p:selectOneMenu>
 					
-<<<<<<< HEAD
 					<p:outputLabel for="rrppJefeCodigoPostal" value="Código postal" />
 					<p:inputText id="rrppJefeCodigoPostal" value="#{rrppJefe.jefeEntity.usuario.codigoPostal.codigo}" maxlength="5" required="true">
 						<p:ajax event="blur" update="rrppJefeProvincia" listener="#{rrppJefe.actualizaLocalidadesByCP(rrppJefe.jefeEntity.usuario.codigoPostal.codigo)}" />
@@ -82,25 +81,6 @@
 					<p:message for="rrppJefeImageUpload" />
 					<p:spacer height="5"/>
 					<p:commandButton value="Save" ajax="false" action="#{rrppJefe.create()}" />
-=======
-							<p:outputLabel for="rrppJefeCodigoPostal" value="Código postal" />
-							<p:inputText id="rrppJefeCodigoPostal" value="#{rrppJefe.jefeEntity.usuario.codigoPostal.codigo}" maxlength="5" required="true">
-								<p:ajax event="blur" update="rrppJefeProvincia" listener="#{rrppJefe.actualizaLocalidadesByCP(rrppJefe.jefeEntity.usuario.codigoPostal.codigo)}" />
-							</p:inputText>
-							<p:outputLabel for="rrppJefeProvincia" value="Provincia" />
-							<p:selectOneMenu id="rrppJefeProvincia" value="#{rrppJefe.jefeEntity.usuario.idcodigopostal}" required="true" requiredMessage="Es necesario escoger un Código Postal">
-								<f:selectItem itemValue="#{null}" itemLabel="Seleccionar localidad" />
-								<f:selectItems value="#{rrppJefe.codigosPostales}" var="cp" itemLabel="#{cp.localidad} - #{cp.codigo} - #{cp.provincia.nombre}" itemValue="#{cp.idcodigopostal}" />
-							</p:selectOneMenu>
-					
-					<p:outputLabel for="rrppJefeImageUpload" value="Foto" />
-					<p:fileUpload id="rrppJefeImageUpload" value="#{rrppJefe.imageFile}" auto="true" mode="simple" label="Seleccionar Foto"
-                                  sizeLimit="2097152" fileLimit="300" required="true"
-                                  allowTypes="/(\.|\/)(gif|jpe?g|png)$/"/>
-					<p:message for="rrppJefeImageUpload" />
-					<p:spacer height="5"/>
-					<p:commandButton value="Save" update="@form" action="#{rrppJefe.create()}" />
->>>>>>> branch 'master' of ssh://git@github.com/andyserrato/dinaeventos.git
 					</p:outputPanel>
 					</div>
 					
