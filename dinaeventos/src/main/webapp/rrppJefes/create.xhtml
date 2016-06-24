@@ -22,22 +22,24 @@
 
 	<ui:define name="main">
 		<h:form id="create" enctype="multipart/form-data">
-			<p:growl id="growl" sticky="true" showDetail="true" life="3000" />
-
+			<p:growl id="growl" sticky="false" showDetail="true" life="5000" />
+			<div class="ui-fluid">
+			<p:outputPanel id="zonaDatos" width="100%">
+			
 				<p:outputLabel for="rrppJefeNombre" value="Nombre:"/>
 				<p:inputText id="rrppJefeNombre" maxLength="50" required="true" value="#{rrppJefe.jefeEntity.usuario.nombre}"/>
 				<p:message for="rrppJefeNombre" styleClass="error"/>
 
-					<p:outputLabel for="rrppJefeApellidos" value="Apellidos:"/>
-					<p:inputText id="rrppJefeApellidos" maxLength="255" required="true" value="#{rrppJefe.jefeEntity.usuario.apellidos}"/>
-					<p:message for="rrppJefeApellidos" styleClass="error"/>
-				<h:panelGrid columns="2" id="matchGrid" cellpadding="5"> 
+				<p:outputLabel for="rrppJefeApellidos" value="Apellidos:"/>
+				<p:inputText id="rrppJefeApellidos" maxLength="255" required="true" value="#{rrppJefe.jefeEntity.usuario.apellidos}"/>
+				<p:message for="rrppJefeApellidos" styleClass="error"/>
+			
 					<p:outputLabel for="rrppJefePassword1" value="Password: "/>
 					<p:password id="rrppJefePassword1" match="rrppJefePassword2" label="Password 1" required="true" value="#{rrppJefe.jefeEntity.usuario.password}" />
 					<p:message for="rrppJefePassword1" styleClass="error"/>
 					<p:outputLabel for="rrppJefePassword2" value="Repite Password: "/>
 					<p:password id="rrppJefePassword2"  label="Password 2" required="true" value="#{rrppJefe.jefeEntity.usuario.password}" />
-				</h:panelGrid>
+
 					<p:outputLabel for="rrppJefeDni" value="Dni:"/>
 					<p:inputMask id="rrppJefeDni" required="true" value="#{rrppJefe.jefeEntity.usuario.dni}" maxlength="9"/>
 					<p:message for="rrppJefeDni" styleClass="error"/>
@@ -59,43 +61,29 @@
 					<h:outputText id="display" />
 					<p:message for="rrppJefeDireccion" styleClass="error"/>
 					
-					<p:selectOneMenu id="rrppJefeSexo" value="#{rrppJefe.jefeEntity.usuario.idsexo}">
+					<p:selectOneMenu id="rrppJefeSexo" value="#{rrppJefe.jefeEntity.usuario.idsexo}" required="true">
             			<f:selectItem itemLabel="Sexo" itemValue="" />
             			<f:selectItems value="#{rrppJefe.ddSexos}" var="sexos" itemLabel="#{sexos.nombre}" itemValue="#{sexos.idsexo}" />
         			</p:selectOneMenu>
 					
-        			<div class="ui-grid-row">
-						<div class="ui-grid-col-4">
-							<p:outputLabel for="rrppJefeCodigoPostal" value="Código postal" />
-							<h:inputText id="rrppJefeCodigoPostal" value="#{rrppJefe.jefeEntity.usuario.idcodigopostal}" maxlength="5">
-								<p:ajax event="blur" update="rrppJefeProvincia" listener="#{rrppJefe.actualizaLocalidadesByCP(rrppJefe.jefeEntity.usuario.idcodigopostal)}" />
-							</h:inputText>
-						</div>
-						<div class="ui-grid-col-4">
-							<p:outputLabel for="rrppJefeProvincia" value="Provincia" />
-							<h:selectOneMenu id="rrppJefeProvincia" value="#{rrppJefe.jefeEntity.usuario.idcodigopostal}" required="true" requiredMessage="Es necesario escoger un Código Postal">
-								<f:selectItem itemValue="#{null}" itemLabel="Seleccionar localidad" />
-								<f:selectItems value="#{rrppJefe.codigosPostales}" var="cp" itemLabel="#{cp.localidad} - #{cp.provincia.nombre}" itemValue="#{cp.idcodigopostal}" />
-							</h:selectOneMenu>
-						</div>
+					<p:outputLabel for="rrppJefeCodigoPostal" value="Código postal" />
+					<p:inputText id="rrppJefeCodigoPostal" value="#{rrppJefe.jefeEntity.usuario.codigoPostal.codigo}" maxlength="5" required="true">
+						<p:ajax event="blur" update="rrppJefeProvincia" listener="#{rrppJefe.actualizaLocalidadesByCP(rrppJefe.jefeEntity.usuario.codigoPostal.codigo)}" />
+					</p:inputText>
+					<p:outputLabel for="rrppJefeProvincia" value="Provincia" />
+					<p:selectOneMenu id="rrppJefeProvincia" value="#{rrppJefe.jefeEntity.usuario.idcodigopostal}" required="true" requiredMessage="Es necesario escoger un Código Postal">
+						<f:selectItem itemValue="#{null}" itemLabel="Seleccionar localidad" />
+						<f:selectItems value="#{rrppJefe.codigosPostales}" var="cp" itemLabel="#{cp.localidad} - #{cp.codigo} - #{cp.provincia.nombre}" itemValue="#{cp.idcodigopostal}" />
+					</p:selectOneMenu>
+					
+					<p:outputLabel for="rrppJefeImageUpload" value="Foto" />
+					<p:fileUpload id="rrppJefeImageUpload" value="#{rrppJefe.imageFile}" auto="true" mode="simple" label="Seleccionar Foto" sizeLimit="2097152" fileLimit="30000000" required="true" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"/>
+					<p:message for="rrppJefeImageUpload" />
+					<p:spacer height="5"/>
+					<p:commandButton value="Save" ajax="false" action="#{rrppJefe.create()}" />
+					</p:outputPanel>
 					</div>
-				<!-- file upload 
-					<p:fileUpload value="#{rrppJefe.imageFile}" mdoe="simple"/>
-					<p:commandButton value="Subir Foto" ajax="false" actionListener="#{rrppJefe.storeImage}"/>
 					
-					<h:outputText value="Foto" />
-					<h:panelGrid columns="2" cellpadding="10">
-						<p:graphicImage id="rrppJefeFoto" value="#{logo.logo}" rendered="#{detalleEntes.enteAuxiliar.logo != null}" cache="false" height="90" width="250">
-					       <f:param name="idEnte" value="#{detalleEntes.enteAuxiliar.idente}" />
-					    </p:graphicImage>
-						<p:fileUpload id="imageUpload" value="#{detalleEntes.archivoSubida}" mode="simple" skinSimple="true" label="Seleccionar logo" style="width:100%" />
-					</h:panelGrid>
-							
-					<p:message for="imageUpload" />
-					
-					-->
-					
-					<p:commandLink value="Save" update="@form" action="#{rrppJefe.create()}" styleClass="btn btn-primary"/>
 		</h:form>
 	</ui:define>
 
