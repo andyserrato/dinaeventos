@@ -20,6 +20,8 @@ public class CarPass {
     private String message;
     private List<OdometerReading> odometerReadings;
 
+    private String prueba;
+
     public CarPass() {
         this.vin = "VF154PB5VXA1138BB";
         this.certificateNumber ="0782-7851-9342";
@@ -29,6 +31,7 @@ public class CarPass {
         this.firstRegistrationBe = "22/12/1981";
         this.validUntil = "01/02/2007";
         this.odometerType = "Km";
+        this.prueba = "HOLA";
     }
 
     public String getVin() {
@@ -93,7 +96,13 @@ public class CarPass {
         return odometerReadings;
     }
 
+    public String getPrueba() {
+		return prueba;
+	}
+
+
     public class OdometerReading  {
+
 
         private String date;
         private String value;

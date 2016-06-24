@@ -46,8 +46,7 @@ public class VisionGlobalBean implements Serializable{
 	private float ingresosTotales;
 	
 	@EJB
-	private DAOGenerico dao;
-	private BBDDFaker bd;
+	private BBDDFaker bbddFaker;
 	
 	/**
 	 * Constructor por defecto
@@ -63,21 +62,27 @@ public class VisionGlobalBean implements Serializable{
 		ingresosTotales = (float) 304333.15;
 		
 //		dao = new DAOGenerico();
-		bd = new BBDDFaker();
-		
-		DdFormapago p = bd.crearFormaPago();
-		
-		if(p == null){
-			System.out.println("fuck");
-		} else{
-		
-			try {
-				dao.insertar(p);
-			} catch (Exception e) {
-				System.out.println("Pues YOLO bitches!");
-				e.printStackTrace();
-			}
+		try {
+			bbddFaker.llenarBBDD();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+		
+		
+//		DdFormapago p = bbddFaker.crearFormaPago();
+//		
+//		if(p == null){
+//			System.out.println("fuck");
+//		} else{
+//		
+//			try {
+//				dao.insertar(p);
+//			} catch (Exception e) {
+//				System.out.println("Pues YOLO bitches!");
+//				e.printStackTrace();
+//			}
+//		}
 		
 	}
 	

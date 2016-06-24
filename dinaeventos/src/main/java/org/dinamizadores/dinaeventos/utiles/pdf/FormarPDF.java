@@ -12,6 +12,8 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.logging.Logger;
 
+import javax.faces.context.FacesContext;
+
 /**
  * Created by koen on 9-06-14.
  */
@@ -27,8 +29,10 @@ public class FormarPDF {
         logger.info ( "fetch the Car-Pass PDF template from a mocked database" );
         File pdfTemplate = Repository.findCarPassPDFTemplate();
 
+        String ruta = null;
+        ruta = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/resources/templatesPdf/");
         logger.info ( "define the File to which the completed Car-Pass PDF template should be saved" );
-        File completedCarPassPDF = new File ( "src/main/resources/renderings/car-pass-" + carPass.getVin() + ".pdf" );
+        File completedCarPassPDF = new File ( "car-" + carPass.getVin() + ".pdf" );
 
         logger.info ( "start the rendering of the Car-Pass" );
         renderCarPass ( carPass, pdfTemplate, completedCarPassPDF );
@@ -65,23 +69,7 @@ public class FormarPDF {
             logger.info("insert the QR code as an image on the PDF");
             Image image = qrcode.getImage();
             image.setAbsolutePosition(505f, 735f);
-            content.addImage(image);
-
-            logger.info ( "flatten the PDF form" );
-            stamper.setFormFlattening(true);
-
-            logger.info ( "enable full compression" );
-            stamper.setFullCompression();
-
-            logger.info("remove all embedded fonts");
-            PDFUtil.removeEmbeddedFonts(pdfReader, stamper);
-
-            logger.info ( "close the PDF file" );
-            stamper.close();
-            pdfReader.close();
-
+            //content.addImage(image);
         }
-
     }
-
 }
