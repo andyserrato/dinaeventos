@@ -10,3 +10,7 @@ MANIFEST.MF
 *.iml
 *.idea
 local-stage
+/.forge_settings
+/.gitignore
+/.tern-project
+/cheatsheet.xml
