@@ -214,7 +214,7 @@ public class OrganizadoresBean implements Serializable {
 					builder.lower(root.<String> get("nombre")),
 					'%' + nombre.toLowerCase() + '%'));
 		}
-		String direccion = this.example.getDireccion();
+		String direccion = this.example.getUsuario().getDireccion();
 		if (direccion != null && !"".equals(direccion)) {
 			predicatesList.add(builder.like(
 					builder.lower(root.<String> get("direccion")),
@@ -225,18 +225,6 @@ public class OrganizadoresBean implements Serializable {
 			predicatesList.add(builder.like(
 					builder.lower(root.<String> get("descripcion")),
 					'%' + descripcion.toLowerCase() + '%'));
-		}
-		String enlacefb = this.example.getEnlacefb();
-		if (enlacefb != null && !"".equals(enlacefb)) {
-			predicatesList.add(builder.like(
-					builder.lower(root.<String> get("enlacefb")),
-					'%' + enlacefb.toLowerCase() + '%'));
-		}
-		String enlacetw = this.example.getEnlacetw();
-		if (enlacetw != null && !"".equals(enlacetw)) {
-			predicatesList.add(builder.like(
-					builder.lower(root.<String> get("enlacetw")),
-					'%' + enlacetw.toLowerCase() + '%'));
 		}
 
 		return predicatesList.toArray(new Predicate[predicatesList.size()]);

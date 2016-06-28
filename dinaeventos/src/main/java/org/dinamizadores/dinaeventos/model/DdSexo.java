@@ -15,9 +15,6 @@ import javax.persistence.Table;
 @Table(name = "dd_sexo", catalog = "jbossforge")
 public class DdSexo implements java.io.Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 4645018203711177069L;
 	private int idsexo;
 	private String nombre;
@@ -25,13 +22,12 @@ public class DdSexo implements java.io.Serializable {
 	public DdSexo() {
 	}
 
-	public DdSexo(int idsexo, String nombre) {
-		this.idsexo = idsexo;
+	public DdSexo(String nombre) {
 		this.nombre = nombre;
 	}
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name = "idsexo", unique = true, nullable = false)
 	public int getIdsexo() {
 		return this.idsexo;

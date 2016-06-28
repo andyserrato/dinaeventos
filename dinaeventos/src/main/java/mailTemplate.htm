@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>${Titulo}</title>
+	<style type="text/css">
+		body
+		{
+			background-color: White;
+			font-family: Verdana, Helvetica, sans-serif;
+			font-size: 11px; 
+		}
+
+		#divCabecera
+		{
+			border-bottom: 1px solid #666666;
+		}
+
+		#divCabecera #imgLogo
+		{
+			margin-left: 15px;
+		}
+
+		#divCabecera  #divAccionesTitulo
+		{
+			margin-top: 45px;
+			margin-right: 15px;
+		}
+		#divMensaje
+		{
+			margin: 20px 0px 15px 0px;
+			line-height: 19px;
+			padding-bottom: 20px;
+		}
+		#divMensaje #spanTitulo
+		{
+			font-family: Tahoma, Arial, Helvetica, Sans-Serif;
+			font-size: 19px;
+			color: Black;
+		}
+		#divMensaje table
+		{
+			border-collapse: collapse;
+			width: 100%;
+			border: 1px solid #CCCCCC;
+		}
+		#divMensaje table td
+		{
+			padding: 7px;
+			border-top: 1px solid #CCCCCC;
+		}
+		.tdTituloCampo, .tdTituloCampoAlt
+		{
+			font-family: Tahoma, Arial, Helvetica, Sans-Serif;
+			font-weight: bold;
+			color: Black;
+			text-align: right;
+			width: 175px;
+			border-right: 1px solid #CCCCCC;
+			vertical-align: top;
+		}
+		.tdTituloCampoAlt, .tdVariableAlt
+		{
+			background-color: WhiteSmoke;
+		}
+		.Negrita
+		{
+			font-weight: bold;
+		}
+    </style>
+</head>
+<body>
+	<div id="divCabecera">
+	
+		<div>&nbsp;</div>
+	</div>
+	<div id="divMensaje">
+		<span id="spanTitulo">${Titulo}</span>
+		<p>${Texto}</p>
+		${Lineas}		
+		<p>${Pie}</p>
+	</div>
+</body>
+</html>

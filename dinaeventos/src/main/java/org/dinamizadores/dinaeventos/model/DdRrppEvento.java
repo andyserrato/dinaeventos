@@ -15,9 +15,6 @@ import javax.persistence.Table;
 @Table(name = "dd_rrpp_evento", catalog = "jbossforge")
 public class DdRrppEvento implements java.io.Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -5385338543978897202L;
 	private DdRrppEventoId id;
 

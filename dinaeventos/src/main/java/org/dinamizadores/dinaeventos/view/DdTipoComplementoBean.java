@@ -54,6 +54,8 @@ public class DdTipoComplementoBean implements Serializable {
 	
 	private int cuenta = 0;
 	
+	private Boolean envioConjunto = false;
+	
 
 	
 	@PostConstruct
@@ -93,9 +95,9 @@ public class DdTipoComplementoBean implements Serializable {
 	
 	public void cambiarPagina(){
 		
-		
 			try {
-				FormarPDF.main(null);
+				
+				FormarPDF.main(listadoEntradas, envioConjunto);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -176,6 +178,14 @@ public class DdTipoComplementoBean implements Serializable {
 
 	public void setCuenta(int cuenta) {
 		this.cuenta = cuenta;
+	}
+
+	public Boolean getEnvioConjunto() {
+		return envioConjunto;
+	}
+
+	public void setEnvioConjunto(Boolean envioConjunto) {
+		this.envioConjunto = envioConjunto;
 	}
 
 	

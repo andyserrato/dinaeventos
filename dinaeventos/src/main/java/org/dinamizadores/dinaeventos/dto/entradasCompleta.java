@@ -9,6 +9,8 @@ import org.dinamizadores.dinaeventos.model.Usuario;
 
 public class entradasCompleta {
 	
+	private Long idEntrada;
+	
 	private Long idTipoEntrada;
 	
 	private List<BigDecimal> cantidadEntradas;
@@ -81,6 +83,14 @@ public class entradasCompleta {
 
 	public void setListaComplementos(List<complementoEntero> listaComplementos) {
 		this.listaComplementos = listaComplementos;
+	}
+
+	public Long getIdEntrada() {
+		return idEntrada;
+	}
+
+	public void setIdEntrada(Long idEntrada) {
+		this.idEntrada = idEntrada;
 	}
 
 }

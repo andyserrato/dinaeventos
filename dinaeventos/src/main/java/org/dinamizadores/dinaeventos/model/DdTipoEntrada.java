@@ -17,14 +17,12 @@ import javax.persistence.Table;
 @Table(name = "dd_tipo_entrada", catalog = "jbossforge")
 public class DdTipoEntrada implements java.io.Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -6930581924254393809L;
 	private int idtipoentrada;
 	private String nombre;
 	private BigDecimal precio;
-
+	private Integer cantidad;
+	
 	public DdTipoEntrada() {
 	}
 
@@ -61,5 +59,16 @@ public class DdTipoEntrada implements java.io.Serializable {
 	public void setPrecio(BigDecimal precio) {
 		this.precio = precio;
 	}
+	
+	@Column(name = "cantidad")
+	public Integer getCantidad() {
+		return cantidad;
+	}
+
+	public void setCantidad(Integer cantidad) {
+		this.cantidad = cantidad;
+	}
+	
+	
 
 }

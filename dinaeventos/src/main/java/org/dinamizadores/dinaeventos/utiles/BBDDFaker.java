@@ -1,5 +1,7 @@
 package org.dinamizadores.dinaeventos.utiles;
 
+import com.github.javafaker.Faker;
+
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
@@ -8,35 +10,11 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
 import org.dinamizadores.dinaeventos.dao.DAOGenerico;
-import org.dinamizadores.dinaeventos.model.DdFormapago;
-import org.dinamizadores.dinaeventos.model.DdOrigenEntrada;
-import org.dinamizadores.dinaeventos.model.DdPatrocinadorEvento;
-import org.dinamizadores.dinaeventos.model.DdPatrocinadorEventoId;
-import org.dinamizadores.dinaeventos.model.DdRrppEvento;
-import org.dinamizadores.dinaeventos.model.DdRrppEventoId;
-import org.dinamizadores.dinaeventos.model.DdRrppJefeEntrada;
-import org.dinamizadores.dinaeventos.model.DdRrppJefeEntradaId;
-import org.dinamizadores.dinaeventos.model.DdSexo;
-import org.dinamizadores.dinaeventos.model.DdTipoComplemento;
-import org.dinamizadores.dinaeventos.model.DdTipoEntrada;
-import org.dinamizadores.dinaeventos.model.DdTipoEvento;
-import org.dinamizadores.dinaeventos.model.DdTiposIva;
-import org.dinamizadores.dinaeventos.model.Entrada;
-import org.dinamizadores.dinaeventos.model.Evento;
-import org.dinamizadores.dinaeventos.model.Organizadores;
-import org.dinamizadores.dinaeventos.model.Patrocinadores;
-import org.dinamizadores.dinaeventos.model.Permisos;
-import org.dinamizadores.dinaeventos.model.Redessociales;
-import org.dinamizadores.dinaeventos.model.Roles;
-import org.dinamizadores.dinaeventos.model.RolesPermisos;
-import org.dinamizadores.dinaeventos.model.RolesPermisosId;
-import org.dinamizadores.dinaeventos.model.RrppJefes;
-import org.dinamizadores.dinaeventos.model.RrppMinion;
-import org.dinamizadores.dinaeventos.model.Usuario;
-
-import com.github.javafaker.Faker;
+import org.dinamizadores.dinaeventos.model.*;
+import org.dinamizadores.dinaeventos.utiles.log.Loggable;
 
 @Stateless
+@Loggable
 public class BBDDFaker {
 	/** Clase Faker para generar cosas random. */
 	private Faker faker;
@@ -44,10 +22,6 @@ public class BBDDFaker {
 	/** Acceso a la capa DAO para persistir los datos. */
 	@EJB
 	private DAOGenerico dao;
-	
-	public BBDDFaker(){
-		faker = new Faker();
-	}
 	
 	public DdFormapago crearFormaPago(){
 		DdFormapago formaPago = new DdFormapago();
@@ -62,7 +36,7 @@ public class BBDDFaker {
 	public DdOrigenEntrada crearOrigenEntrada(){
 		DdOrigenEntrada d = new DdOrigenEntrada();
 		
-		d.setNombre(faker.chuckNorris().fact());
+		d.setNombre(faker.color().name());
 		return d;
 	}
 	
@@ -126,12 +100,12 @@ public class BBDDFaker {
 		
 		e.setActiva(true);
 		e.setDentrofuera(false);
-		e.setIdevento(idEvento);
-		e.setIdformapago(idFormaPago);
-		e.setIdorigen(idOrigen);
-		e.setIdtipoentrada(idTipoEntrada);
-		e.setIdtipoiva(idTipoIva);
-		e.setIdusuario(idUsuario);
+//		e.setIdevento(idEvento);
+//		e.setIdformapago(idFormaPago);
+//		e.setIdorigen(idOrigen);
+//		e.setIdtipoentrada(idTipoEntrada);
+//		e.setIdtipoiva(idTipoIva);
+//		e.setIdusuario(idUsuario);
 		e.setNumeroserie(Long.toString(faker.number().randomNumber()));
 		e.setPrecio(Float.valueOf(Double.toString(faker.number().randomDouble(2, 1, 100))));
 		e.setTicketgenerado(false);
@@ -144,8 +118,8 @@ public class BBDDFaker {
 	public Evento crearEvento(int idCodigoPostal, int idOrganizador, int idTipoEvento){
 		Evento e = new Evento();
 		
-		e.setAcitvo(true);
-		e.setAforo(Integer.parseInt(Double.toString(faker.number().randomDouble(0, 100, 25000))));
+		e.setActivo(true);
+		e.setAforo(25000);
 		e.setDescripcion(faker.commerce().department());
 		e.setEntradasDisponibles(e.getAforo());
 		e.setFechaAlta(faker.date().past(63072000, TimeUnit.SECONDS));
@@ -154,10 +128,10 @@ public class BBDDFaker {
 		e.setIdcodigopostal(idCodigoPostal);
 		e.setIdorganizador(idOrganizador);
 		e.setIdtipoevento(idTipoEvento);
-		e.setLatitud(Integer.valueOf(faker.address().latitude()));
-		e.setLongitud(Integer.valueOf(faker.address().longitude()));
-		e.setNombre(faker.superhero().name());
-		e.setNombrelugar(faker.address().cityName());
+		e.setLatitud(0);
+		e.setLongitud(0);
+		e.setNombre(faker.color().name());
+		e.setNombrelugar(faker.address().state());
 		
 		return e;
 	}
@@ -165,22 +139,32 @@ public class BBDDFaker {
 	public Organizadores crearOrganizadores(int idCodigoPostal){
 		Organizadores o = new Organizadores();
 		
-		o.setCuentacorriente(faker.finance().bic());
-		o.setDescripcion(faker.superhero().descriptor());
-		o.setDireccion(faker.address().firstName());
-		o.setEmail(faker.internet().emailAddress());
-		
-		//Con dos cojones jaajajajjaj
-		o.setEnlacefb("http://www.pp.es");
-		o.setEnlacetw("http://www.pp.es");
-		
-		o.setIban(faker.finance().iban("ES"));
-		o.setIdcodigopostal(idCodigoPostal);
 		o.setNombre(faker.name().firstName());
+		o.setDescripcion(faker.superhero().descriptor());
 		
-		//No nos compliquemos, el usuario medio pondrá esta... putos usuarios...
-		o.setPassword("123456");
-		o.setTelefono(faker.phoneNumber().cellPhone());
+		Usuario usuario = new Usuario();
+		
+		usuario.setActivo(true);
+		usuario.setApellidos(faker.name().lastName());
+		usuario.setBloqueado(false);
+//		u.setCuentacorriente(faker.finance().bic());
+		usuario.setDireccion(faker.color().name());
+		usuario.setDni(String.valueOf(faker.number().numberBetween(0, 99999999)));
+		usuario.setEmail(faker.internet().emailAddress());
+		System.out.println("email: " + usuario.getEmail());
+		usuario.setFechanac(faker.date().past(10950, TimeUnit.DAYS));
+		usuario.setFotoperfil(null);
+		usuario.setIban(faker.finance().iban("ES"));
+		usuario.setIdcodigopostal(idCodigoPostal);
+//		u.setIdredessociales(idRedesSociales);
+//		u.setIdrol(idRol);
+		usuario.setIdsexo(faker.number().numberBetween(1,2));
+		usuario.setNombre(faker.name().firstName());
+		usuario.setPassword("123456");
+		usuario.setTelefono("615931639");
+		usuario.setUltimologin(new Date());
+			
+		o.setUsuario(usuario);
 		
 		return o;
 	}
@@ -188,13 +172,13 @@ public class BBDDFaker {
 	public Patrocinadores crearPatrocinador(int idCodigoPostal){
 		Patrocinadores p = new Patrocinadores();
 		
-		p.setCuentacorriente(faker.finance().creditCard());
-		p.setDireccion(faker.address().streetAddress());
+//		p.setCuentacorriente(faker.finance().creditCard());
+		p.setDireccion(faker.address().country());
 		p.setEmail(faker.internet().emailAddress());
 		p.setIban(faker.finance().iban("ES"));
 		p.setIdcodigopostal(idCodigoPostal);
-		p.setNombre(faker.name().fullName());
-		p.setTelefono(faker.phoneNumber().cellPhone());
+		p.setNombre(faker.name().firstName());
+		p.setTelefono("663149759");
 		
 		return p;
 	}
@@ -254,8 +238,8 @@ public class BBDDFaker {
 		u.setActivo(true);
 		u.setApellidos(faker.name().lastName());
 		u.setBloqueado(false);
-		u.setCuentacorriente(faker.finance().creditCard());
-		u.setDireccion(faker.address().streetAddress());
+//		u.setCuentacorriente(faker.finance().bic());
+		u.setDireccion(faker.color().name());
 		u.setDni(String.valueOf(faker.number().numberBetween(0, 99999999)));
 		u.setEmail(faker.internet().emailAddress());
 		u.setFechanac(faker.date().past(10950, TimeUnit.DAYS));
@@ -267,7 +251,7 @@ public class BBDDFaker {
 		u.setIdsexo(idSexo);
 		u.setNombre(faker.name().firstName());
 		u.setPassword("123456");
-		u.setTelefono(faker.phoneNumber().cellPhone());
+		u.setTelefono("615931639");
 		u.setUltimologin(new Date());
 		
 		return u;
@@ -279,25 +263,27 @@ public class BBDDFaker {
 		 * Además, no debería tener ningún dato ninguna tabla para evitar posibles duplicados de claves.
 		 */
 		final int NUM_FORMAPAGO = 2;
-		final int NUM_ORIGENENTRADA = 2;
-		final int NUM_SEXO = 2;
+		final int NUM_ORIGENENTRADA = 3;
+		final int NUM_SEXO = 3;
+		final int NUM_EVENTO = 2;
+		
 		final int NUM_TIPOCOMPLEMENTO = 3;
 		final int NUM_TIPOENTRADA = 3;
 		final int NUM_TIPOEVENTO = 10;
 		final int NUM_TIPOSIVA = 3;
 		final int NUM_ENTRADA = 50;
-		final int NUM_EVENTO = 1;
-		final int NUM_ORGANIZADORES = 1;
-		final int NUM_PATROCINADORES = 1;
+		final int NUM_ORGANIZADORES = 2;
+		final int NUM_PATROCINADORES = 2;
 		final int NUM_PERMISOS= 3;
 		final int NUM_REDESSOCIALES = 3;
 		final int NUM_ROLES = 3;
 		final int NUM_RRPPJEFE = 1;
 		final int NUM_RRPPMINION = 3;
 		final int NUM_USUARIO = 30;
-		final int NUM_CODIGOSPOSTALES = 53169;
+		final int NUM_CODIGOSPOSTALES = 53169; 
 		
-		System.out.println("INICIO DEL LLENADO DE LA BBDD");
+		System.out.println("INICIO DEL LLENADO DE LA   BBDD");
+		faker = new Faker();
 		
 		for(int i = 0; i < NUM_FORMAPAGO; i++){
 			dao.insertar(crearFormaPago());
@@ -311,77 +297,82 @@ public class BBDDFaker {
 			dao.insertar(crearSexo());
 		}
 		
-		for(int i = 0; i < NUM_TIPOCOMPLEMENTO; i++){
-			dao.insertar(crearTipoComplemento());
-		}
-		
-		for(int i = 0; i < NUM_TIPOENTRADA; i++){
-			dao.insertar(crearTipoEntrada());
-		}
-		
 		for(int i = 0; i < NUM_TIPOEVENTO; i++){
 			dao.insertar(crearTipoEvento());
-		}
-		
-		for(int i = 0; i < NUM_TIPOSIVA; i++){
-			dao.insertar(crearTiposIva());
-		}
-		
-		for(int i = 0; i < NUM_PERMISOS; i++){
-			dao.insertar(crearPermisos());
-		}
-		
-		for(int i = 0; i < NUM_ROLES; i++){
-			dao.insertar(crearRol());
-		}
-		
-		for(int i = 0; i < NUM_REDESSOCIALES; i++){
-			dao.insertar(crearRedSocial());
 		}
 		
 		for(int i = 0; i < NUM_ORGANIZADORES; i++){
 			dao.insertar(crearOrganizadores(faker.number().numberBetween(1, NUM_CODIGOSPOSTALES)));
 		}
 		
-		for(int i = 0; i < NUM_PATROCINADORES; i++){
-			dao.insertar(crearPatrocinador(faker.number().numberBetween(1, NUM_CODIGOSPOSTALES)));
-		}
+//		for(int i = 0; i < NUM_EVENTO; i++){
+//			dao.insertar(crearEvento(faker.number().numberBetween(1, NUM_CODIGOSPOSTALES), faker.number().numberBetween(1, NUM_ORGANIZADORES), faker.number().numberBetween(1, NUM_TIPOEVENTO)));
+//		}
 		
-		for(int i = 0; i < NUM_USUARIO; i++){
-			dao.insertar(crearUsuario(faker.number().numberBetween(1, NUM_CODIGOSPOSTALES), faker.number().numberBetween(1, NUM_REDESSOCIALES), faker.number().numberBetween(1, NUM_ROLES), faker.number().numberBetween(1, NUM_SEXO)));
-		}
+//		for(int i = 0; i < NUM_TIPOCOMPLEMENTO; i++){
+//			dao.insertar(crearTipoComplemento());
+//		}
+//		
+//		for(int i = 0; i < NUM_TIPOENTRADA; i++){
+//			dao.insertar(crearTipoEntrada());
+//		}
+//		
+//		
+//		for(int i = 0; i < NUM_TIPOSIVA; i++){
+//			dao.insertar(crearTiposIva());
+//		}
+//		
+//		for(int i = 0; i < NUM_PERMISOS; i++){
+//			dao.insertar(crearPermisos());
+//		}
+//		
+//		for(int i = 0; i < NUM_ROLES; i++){
+//			dao.insertar(crearRol());
+//		}
+//		
+//		for(int i = 0; i < NUM_REDESSOCIALES; i++){
+//			dao.insertar(crearRedSocial());
+//		}
+//		
+
+//		
+//		for(int i = 0; i < NUM_PATROCINADORES; i++){
+//			dao.insertar(crearPatrocinador(faker.number().numberBetween(1, NUM_CODIGOSPOSTALES)));
+//		}
+//		
+//		for(int i = 0; i < NUM_USUARIO; i++){
+//			dao.insertar(crearUsuario(faker.number().numberBetween(1, NUM_CODIGOSPOSTALES), faker.number().numberBetween(1, NUM_REDESSOCIALES), faker.number().numberBetween(1, NUM_ROLES), faker.number().numberBetween(1, NUM_SEXO)));
+//		}
+//		
+
 		
-		for(int i = 0; i < NUM_EVENTO; i++){
-			dao.insertar(crearEvento(faker.number().numberBetween(1, NUM_CODIGOSPOSTALES), faker.number().numberBetween(1, NUM_ORGANIZADORES), faker.number().numberBetween(1, NUM_TIPOEVENTO)));
-		}
-		
-		for(int i = 0; i < NUM_ENTRADA; i++){
-			dao.insertar(crearEntrada(faker.number().numberBetween(1, NUM_EVENTO), faker.number().numberBetween(1, NUM_FORMAPAGO), faker.number().numberBetween(1, NUM_ORIGENENTRADA), faker.number().numberBetween(1, NUM_TIPOENTRADA), faker.number().numberBetween(1, NUM_TIPOSIVA), faker.number().numberBetween(1, NUM_USUARIO)));
-		}
-		
-		for(int i = 0; i < NUM_RRPPJEFE; i++){
-			dao.insertar(crearRRPPJefes(faker.number().numberBetween(1, NUM_ORGANIZADORES), faker.number().numberBetween(1, NUM_USUARIO)));
-		}
-		
-		for(int i = 0; i < NUM_RRPPMINION; i++){
-			dao.insertar(crearRRPPMinion(faker.number().numberBetween(1, NUM_RRPPJEFE), faker.number().numberBetween(1, NUM_USUARIO)));
-		}
-		
-		for(int i = 0; i < NUM_ENTRADA; i++){
-			dao.insertar(crearRRPPJefeEntrada(faker.number().numberBetween(1, NUM_RRPPJEFE), i, NUM_RRPPMINION));
-		}
-		
-		for(int i = 0; i < NUM_EVENTO; i++){
-			dao.insertar(crearRRPPEvento(faker.number().numberBetween(1, NUM_RRPPJEFE), faker.number().numberBetween(1, NUM_EVENTO)));
-		}
-		
-		for(int i = 0; i < NUM_EVENTO; i++){
-			dao.insertar(crearPatrocinadorEvento(faker.number().numberBetween(1, NUM_PATROCINADORES), i));
-		}
-		
-		for(int i = 0; i < NUM_ROLES; i++){
-			dao.insertar(crearRolesPermisos(i, faker.number().numberBetween(1, NUM_PERMISOS)));
-		}
+//		for(int i = 0; i < NUM_ENTRADA; i++){ 
+//			dao.insertar(crearEntrada(faker.number().numberBetween(1, NUM_EVENTO), faker.number().numberBetween(1, NUM_FORMAPAGO), faker.number().numberBetween(1, NUM_ORIGENENTRADA), faker.number().numberBetween(1, NUM_TIPOENTRADA), faker.number().numberBetween(1, NUM_TIPOSIVA), faker.number().numberBetween(1, NUM_USUARIO)));
+//		}
+//		
+//		for(int i = 0; i < NUM_RRPPJEFE; i++){
+//			dao.insertar(crearRRPPJefes(faker.number().numberBetween(1, NUM_ORGANIZADORES), faker.number().numberBetween(1, NUM_USUARIO)));
+//		}
+//		
+//		for(int i = 0; i < NUM_RRPPMINION; i++){
+//			dao.insertar(crearRRPPMinion(NUM_RRPPJEFE, faker.number().numberBetween(1, NUM_USUARIO)));
+//		}
+//		
+//		for(int i = 0; i < NUM_ENTRADA; i++){
+//			dao.insertar(crearRRPPJefeEntrada(NUM_RRPPJEFE, i, NUM_RRPPMINION));
+//		}
+//		
+//		for(int i = 1; i <= NUM_EVENTO; i++){
+//			dao.insertar(crearRRPPEvento(NUM_RRPPJEFE, i));
+//		}
+//		
+//		for(int i = 0; i < NUM_EVENTO; i++){
+//			dao.insertar(crearPatrocinadorEvento(faker.number().numberBetween(1, NUM_PATROCINADORES), i));
+//		}
+//		
+//		for(int i = 0; i < NUM_ROLES; i++){
+//			dao.insertar(crearRolesPermisos(i, faker.number().numberBetween(1, NUM_PERMISOS)));
+//		}
 		
 		System.out.println("FIN DEL LLENADO DE BBDD");
 		
