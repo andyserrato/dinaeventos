@@ -15,9 +15,6 @@ import javax.persistence.Table;
 @Table(name = "dd_formapago", catalog = "jbossforge")
 public class DdFormapago implements java.io.Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -27911572808417628L;
 	private int idformapago;
 	private String nombre;
@@ -25,16 +22,12 @@ public class DdFormapago implements java.io.Serializable {
 	public DdFormapago() {
 	}
 
-	public DdFormapago(int idformapago) {
-		this.idformapago = idformapago;
-	}
-	public DdFormapago(int idformapago, String nombre) {
-		this.idformapago = idformapago;
+	public DdFormapago(String nombre) {
 		this.nombre = nombre;
 	}
-
+	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name = "idformapago", unique = true, nullable = false)
 	public int getIdformapago() {
 		return this.idformapago;

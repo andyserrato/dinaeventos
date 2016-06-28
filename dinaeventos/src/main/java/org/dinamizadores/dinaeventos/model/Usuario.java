@@ -25,9 +25,6 @@ import javax.persistence.Transient;
 @Table(name = "usuario", catalog = "jbossforge")
 public class Usuario implements java.io.Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -8141392932334002184L;
 	private int idusuario;
 	private String nombre;
@@ -52,6 +49,7 @@ public class Usuario implements java.io.Serializable {
 	private String dni;
 
 	public Usuario() {
+		this.email = null;
 	}
 
 	public Usuario(int idusuario, String apellido1, String password) {

@@ -17,27 +17,19 @@ import javax.persistence.Table;
 @Table(name = "dd_tipo_complemento", catalog = "jbossforge")
 public class DdTipoComplemento implements java.io.Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -5169190954994893032L;
-	/**
-	 * 
-	 */
-	
 	private int idcomplemento;
 	private String nombre;
 	private BigDecimal precio;
 	private String descripcion;
-
+	private Integer idTipoEvento;
 
 	public DdTipoComplemento() {
 		nombre = null;
 		precio = new BigDecimal(0);
 		descripcion = null;
+		idTipoEvento = null;
 	}
-
-	
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -50,7 +42,7 @@ public class DdTipoComplemento implements java.io.Serializable {
 		this.idcomplemento = idcomplemento;
 	}
 
-	@Column(name = "nombre", length = 45)
+	@Column(name = "nombre", length = 100)
 	public String getNombre() {
 		return this.nombre;
 	}
@@ -59,6 +51,7 @@ public class DdTipoComplemento implements java.io.Serializable {
 		this.nombre = nombre;
 	}
 
+	@Column(name = "precio", precision = 5, scale = 2)
 	public BigDecimal getPrecio() {
 		return precio;
 	}
@@ -66,14 +59,24 @@ public class DdTipoComplemento implements java.io.Serializable {
 	public void setPrecio(BigDecimal precio) {
 		this.precio = precio;
 	}
+	
+	@Column(name = "descripcion", length = 255)
 	public String getDescripcion() {
 		return descripcion;
 	}
-
-
 
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
 	}
 
+	@Column(name = "idevento")
+	public Integer getIdTipoEvento() {
+		return idTipoEvento;
+	}
+
+	public void setIdTipoEvento(Integer idTipoEvento) {
+		this.idTipoEvento = idTipoEvento;
+	}
+	
+	// TODO Hay que hacer el many to many de las entradas y el many to one de eventos
 }

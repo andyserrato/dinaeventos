@@ -11,10 +11,6 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class DdPatrocinadorEventoId  implements java.io.Serializable {
 
-
-     /**
-	 * 
-	 */
 	private static final long serialVersionUID = 8873218804088621893L;
 	private int idpatrocinador;
      private int idevento;
