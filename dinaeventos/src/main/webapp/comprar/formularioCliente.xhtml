@@ -40,7 +40,7 @@
 					                 
 					                 <label class="milabel col-sm-2 col-md-12 control-label">Apellidos</label>
 					                
-					                 <p:inputText  class="" label="apellidos" id="apellidos" value="#{entrada.usuario.apellido1}" required="true"></p:inputText>
+					                 <p:inputText  class="" label="apellidos" id="apellidos" value="#{entrada.usuario.apellidos}" required="true"></p:inputText>
 					                 <p:message  for="apellidos" display="icon" />
 
 									 <label class="milabel col-sm-2 col-md-12 control-label">Correo electrónico</label>
@@ -48,7 +48,7 @@
 					                 <p:message  for="email" display="icon" />
 
 					                 <label class=" milabel col-md-12 control-label">Fecha de nacimiento</label>
-					                 <p:calendar  label="fecha" id="fecha" value="#{entrada.usuario.fechanac}" pattern="dd/MM/yyyy" required="true" showOn="button"></p:calendar>
+					                 <p:calendar  label="fecha" id="fecha" value="#{entrada.usuario.fechanac}" yearRange="c-90:c+0" navigator="true" pattern="dd/MM/yyyy" required="true" showOn="button"></p:calendar>
 									 <p:message   for="fecha" display="icon" />
 									
 					                 <label class=" milabel col-sm-2 col-md-12 control-label">DNI</label>

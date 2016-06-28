@@ -24,54 +24,70 @@
 	
 		<h:form id="comprar">
 		
-				<div class="row">
+				
 				<p:repeat var="entrada"  value="#{ddTipoComplementoBean.listadoEntradas}" >
 					
 					  <div class="col-sm-6 col-md-6">
 					    <div class="thumbnail">
 					    <div class="section">
-		        			<div class="container">
-							      <div class="col-md-2 caption">
+		        			<div class="container" style="width: 100%">
+							      <div class="col-md-4 ">
 							        <h3>#{entrada.nombre}</h3>
 							        <p>#{entrada.usuario.nombre}</p>
 							        <p>Precio: #{entrada.precio}€</p>
 							      </div>
 							   
-							       <div class="col-md-2 caption">
-							       <p:repeat var="comple"  value="#{entrada.listaComplementos}" >
-								       <h:outputLabel value="#{comple.complemento.nombre}" />
-								       <h:outputLabel value="#{comple.complemento.precio}" />
-								       <h:outputLabel value="#{comple.complemento.descripcion}" />
-								       <p:spinner  value="#{comple.cantidad}" min="0" > 
-								       	<p:ajax update="comprar:totales" listener="#{ddTipoComplementoBean.agregarComplemento}" />
-								       </p:spinner>
+							       <div class="col-md-8" >
+							       <p:repeat var="comple"  value="#{entrada.listaComplementos}" > 
+								       <table class="table">
+								       <tbody>
+									       	<tr>
+										       <td><h:outputLabel value="#{comple.complemento.nombre}" /></td>
+										       <td><h:outputLabel value="#{comple.complemento.precio}" /></td>
+										       <td> <h:outputLabel value="#{comple.complemento.descripcion}" /></td>
+										        <td><p:spinner size="3"  value="#{comple.cantidad}" min="0" > 
+										       	<p:ajax update="comprar:totales" listener="#{ddTipoComplementoBean.agregarComplemento}" />
+										       </p:spinner></td>
+										    </tr>
+									    </tbody>
+								       </table>
 							        </p:repeat>
 							        </div>
-							    </div>
 							 </div>
-					    </div>
-					  </div>	
-				</p:repeat>
-				</div>
+						</div>
+					</div>
+				</div>	
+			</p:repeat>
+				
 				
 					<p:outputPanel id="totales" >
 			        			<div class="col-md-12 ">
 							<p:outputLabel  value="Total: " /> <p:outputLabel id="total" value="#{ddTipoComplementoBean.total} €"></p:outputLabel>
 								</div>
+								<div class="col-md-12">
+									<h:outputText value="Enviar cada entrada a cada amigo: " />
+        							<p:selectBooleanButton id="value1" value="#{ddTipoComplementoBean.envioConjunto}" onLabel="Si" offLabel="No" style="width:60px" />
+        						</div>
 								<div class="col-md-12 ">
-							<p:repeat var="entrada" value="#{ddTipoComplementoBean.listadoEntradas}" >
-								<p:outputPanel rendered="#{!empty entrada.listaComplementos}">
-								<p:outputLabel  value="#{entrada.usuario.nombre} " /> 
-								<p:outputLabel  value=" va ha comprar:" /> 
-								<p:repeat var="complemento" value="#{entrada.listaComplementos}"  >
-									<p:outputPanel rendered="#{complemento.cantidad > 0}">
-									
-									<p:outputLabel  value="Cantidad #{complemento.cantidad} de" /> <p:outputLabel  value=" #{complemento.complemento.nombre} " /> <p:outputLabel  value=" precio: #{complemento.complemento.precio}" /> 	 
-									</p:outputPanel>
-								</p:repeat>
-								</p:outputPanel>
-							</p:repeat>
-							</div>
+									<p:repeat var="entrada" value="#{ddTipoComplementoBean.listadoEntradas}" >
+										<p:outputPanel rendered="#{!empty entrada.listaComplementos}">
+										<p:outputLabel  value="#{entrada.usuario.nombre} " /> 
+										<p:outputLabel  value=" va ha comprar:" /> 
+										<p:repeat var="complemento" value="#{entrada.listaComplementos}"  >
+											<p:outputPanel rendered="#{complemento.cantidad > 0}">
+											
+											<p:outputLabel  value="Cantidad #{complemento.cantidad} de" /> <p:outputLabel  value=" #{complemento.complemento.nombre} " /> <p:outputLabel  value=" precio: #{complemento.complemento.precio}" /> 	 
+											</p:outputPanel>
+										</p:repeat>
+										</p:outputPanel>
+									</p:repeat>
+								</div>
+								<div class="col-md-12">
+								
+								
+								
+								</div>
+								
 					</p:outputPanel>
 					<br></br>
 					<br></br>
