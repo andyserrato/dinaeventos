@@ -1,304 +1,130 @@
 package org.dinamizadores.dinaeventos.view;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.Resource;
-import javax.ejb.SessionContext;
-import javax.ejb.Stateful;
-import javax.enterprise.context.Conversation;
-import javax.enterprise.context.ConversationScoped;
+import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
-import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
-import javax.faces.convert.Converter;
-import javax.inject.Inject;
+import javax.faces.view.ViewScoped;
 import javax.inject.Named;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceContextType;
-import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
 
+import org.apache.commons.io.IOUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.dinamizadores.dinaeventos.dao.DiccionarioDao;
+import org.dinamizadores.dinaeventos.dao.EventoDao;
 import org.dinamizadores.dinaeventos.model.Evento;
+import org.dinamizadores.dinaeventos.model.GlobalCodigospostales;
+import org.dinamizadores.dinaeventos.model.Patrocinadores;
+import org.primefaces.model.UploadedFile;
 
-/**
- * Backing bean for Evento entities.
- * <p/>
- * This class provides CRUD functionality for all Evento entities. It focuses
- * purely on Java EE 6 standards (e.g. <tt>&#64;ConversationScoped</tt> for
- * state management, <tt>PersistenceContext</tt> for persistence,
- * <tt>CriteriaBuilder</tt> for searches) rather than introducing a CRUD
- * framework or custom base class.
- */
 
-@Named
-@Stateful
-@ConversationScoped
+@Named("evento")
+@ViewScoped
 public class EventoBean implements Serializable {
 
-	private static final long serialVersionUID = 1L;
-
-	/*
-	 * Support creating and retrieving Evento entities
-	 */
-
-	private Integer id;
-
-	public Integer getId() {
-		return this.id;
+	private static final long serialVersionUID = 4135525076311614388L;
+	private final Logger log = LogManager.getLogger(EventoBean.class);
+	@EJB
+	private EventoDao eventoDao;
+	@EJB
+	private DiccionarioDao diccionarioDao;
+	private Evento evento = new Evento();
+	private List<GlobalCodigospostales> codigosPostales;
+	private Patrocinadores patrocinador = new Patrocinadores();
+	private List<Patrocinadores> patrocinadores = new ArrayList<>();
+	private UploadedFile imageFile;
+	private UploadedFile imagePatrocinador;
+	
+	public void init() {
+		codigosPostales = new ArrayList<>();
+		evento.setCodigoPostal(new GlobalCodigospostales());
 	}
-
-	public void setId(Integer id) {
-		this.id = id;
+	
+	public void actualizaLocalidadesByCP(String IdProvincia) {
+		codigosPostales = diccionarioDao.actualizaLocalidadesByCP(IdProvincia);
 	}
-
-	private Evento evento;
-
+	
+	public void crearPatrocinador() {
+		FacesMessage message = null;
+		FacesContext facesContext = FacesContext.getCurrentInstance();
+		if (patrocinador.getNombre() != null && !"".equals(patrocinador.getNombre())) {
+			
+			if (!"".equalsIgnoreCase(imagePatrocinador.getFileName())) {
+				log.info("El patrocinador no es nulo");
+				try {
+					byte[] bytes;
+					InputStream is = imagePatrocinador.getInputstream();
+					
+					if (is != null) {
+						bytes = IOUtils.toByteArray(is);
+						is.close();
+						patrocinador.setFotoperfil(bytes);
+						patrocinador.setFotoNombre(imagePatrocinador.getFileName());
+					} else {
+						bytes = new byte[0];
+					}
+				}
+				catch (IOException e) {
+					log.error("algo ha ocurrido con la foto");
+				}
+			}
+			
+			patrocinadores.add(patrocinador);
+			message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Patrocinador", patrocinador.getNombre() + " creado.");
+			facesContext.addMessage(null, message);
+			patrocinador = new Patrocinadores();
+		} else {
+			message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Patrocinador", "No se pudo crear.");
+			facesContext.addMessage(null, message);
+		}
+		
+	}
+	
 	public Evento getEvento() {
-		return this.evento;
+		return evento;
 	}
-
 	public void setEvento(Evento evento) {
 		this.evento = evento;
 	}
 
-	@Inject
-	private Conversation conversation;
-
-	@PersistenceContext(unitName = "dinaeventos-persistence-unit", type = PersistenceContextType.EXTENDED)
-	private EntityManager entityManager;
-
-	public String create() {
-
-		this.conversation.begin();
-		this.conversation.setTimeout(1800000L);
-		return "create?faces-redirect=true";
+	public List<GlobalCodigospostales> getCodigosPostales() {
+		return codigosPostales;
 	}
 
-	public void retrieve() {
-
-		if (FacesContext.getCurrentInstance().isPostback()) {
-			return;
-		}
-
-		if (this.conversation.isTransient()) {
-			this.conversation.begin();
-			this.conversation.setTimeout(1800000L);
-		}
-
-		if (this.id == null) {
-			this.evento = this.example;
-		} else {
-			this.evento = findById(getId());
-		}
+	public void setCodigosPostales(List<GlobalCodigospostales> codigosPostales) {
+		this.codigosPostales = codigosPostales;
+	}
+	
+	public UploadedFile getImageFile() {
+		return imageFile;
 	}
 
-	public Evento findById(Integer id) {
-
-		return this.entityManager.find(Evento.class, id);
+	public void setImageFile(UploadedFile imageFile) {
+		this.imageFile = imageFile;
 	}
 
-	/*
-	 * Support updating and deleting Evento entities
-	 */
-
-	public String update() {
-		this.conversation.end();
-
-		try {
-			if (this.id == null) {
-				this.entityManager.persist(this.evento);
-				return "search?faces-redirect=true";
-			} else {
-				this.entityManager.merge(this.evento);
-				return "view?faces-redirect=true&id="
-						+ this.evento.getIdevento();
-			}
-		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(e.getMessage()));
-			return null;
-		}
+	public Patrocinadores getPatrocinador() {
+		return patrocinador;
 	}
 
-	public String delete() {
-		this.conversation.end();
-
-		try {
-			Evento deletableEntity = findById(getId());
-
-			this.entityManager.remove(deletableEntity);
-			this.entityManager.flush();
-			return "search?faces-redirect=true";
-		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(e.getMessage()));
-			return null;
-		}
+	public void setPatrocinador(Patrocinadores patrocinador) {
+		this.patrocinador = patrocinador;
 	}
 
-	/*
-	 * Support searching Evento entities with pagination
-	 */
-
-	private int page;
-	private long count;
-	private List<Evento> pageItems;
-
-	private Evento example = new Evento();
-
-	public int getPage() {
-		return this.page;
+	public UploadedFile getImagePatrocinador() {
+		return imagePatrocinador;
 	}
 
-	public void setPage(int page) {
-		this.page = page;
+	public void setImagePatrocinador(UploadedFile imagePatrocinador) {
+		this.imagePatrocinador = imagePatrocinador;
 	}
-
-	public int getPageSize() {
-		return 10;
-	}
-
-	public Evento getExample() {
-		return this.example;
-	}
-
-	public void setExample(Evento example) {
-		this.example = example;
-	}
-
-	public String search() {
-		this.page = 0;
-		return null;
-	}
-
-	public void paginate() {
-
-		CriteriaBuilder builder = this.entityManager.getCriteriaBuilder();
-
-		// Populate this.count
-
-		CriteriaQuery<Long> countCriteria = builder.createQuery(Long.class);
-		Root<Evento> root = countCriteria.from(Evento.class);
-		countCriteria = countCriteria.select(builder.count(root)).where(
-				getSearchPredicates(root));
-		this.count = this.entityManager.createQuery(countCriteria)
-				.getSingleResult();
-
-		// Populate this.pageItems
-
-		CriteriaQuery<Evento> criteria = builder.createQuery(Evento.class);
-		root = criteria.from(Evento.class);
-		TypedQuery<Evento> query = this.entityManager.createQuery(criteria
-				.select(root).where(getSearchPredicates(root)));
-		query.setFirstResult(this.page * getPageSize()).setMaxResults(
-				getPageSize());
-		this.pageItems = query.getResultList();
-	}
-
-	private Predicate[] getSearchPredicates(Root<Evento> root) {
-
-		CriteriaBuilder builder = this.entityManager.getCriteriaBuilder();
-		List<Predicate> predicatesList = new ArrayList<Predicate>();
-
-		String nombre = this.example.getNombre();
-		if (nombre != null && !"".equals(nombre)) {
-			predicatesList.add(builder.like(
-					builder.lower(root.<String> get("nombre")),
-					'%' + nombre.toLowerCase() + '%'));
-		}
-		String nombrelugar = this.example.getNombrelugar();
-		if (nombrelugar != null && !"".equals(nombrelugar)) {
-			predicatesList.add(builder.like(
-					builder.lower(root.<String> get("nombrelugar")),
-					'%' + nombrelugar.toLowerCase() + '%'));
-		}
-		String direccion = this.example.getDireccion();
-		if (direccion != null && !"".equals(direccion)) {
-			predicatesList.add(builder.like(
-					builder.lower(root.<String> get("direccion")),
-					'%' + direccion.toLowerCase() + '%'));
-		}
-
-		String descripcion = this.example.getDescripcion();
-		if (descripcion != null && !"".equals(descripcion)) {
-			predicatesList.add(builder.like(
-					builder.lower(root.<String> get("descripcion")),
-					'%' + descripcion.toLowerCase() + '%'));
-		}
-
-		return predicatesList.toArray(new Predicate[predicatesList.size()]);
-	}
-
-	public List<Evento> getPageItems() {
-		return this.pageItems;
-	}
-
-	public long getCount() {
-		return this.count;
-	}
-
-	/*
-	 * Support listing and POSTing back Evento entities (e.g. from inside an
-	 * HtmlSelectOneMenu)
-	 */
-
-	public List<Evento> getAll() {
-
-		CriteriaQuery<Evento> criteria = this.entityManager
-				.getCriteriaBuilder().createQuery(Evento.class);
-		return this.entityManager.createQuery(
-				criteria.select(criteria.from(Evento.class))).getResultList();
-	}
-
-	@Resource
-	private SessionContext sessionContext;
-
-	public Converter getConverter() {
-
-		final EventoBean ejbProxy = this.sessionContext
-				.getBusinessObject(EventoBean.class);
-
-		return new Converter() {
-
-			@Override
-			public Object getAsObject(FacesContext context,
-					UIComponent component, String value) {
-
-				return ejbProxy.findById(Integer.valueOf(value));
-			}
-
-			@Override
-			public String getAsString(FacesContext context,
-					UIComponent component, Object value) {
-
-				if (value == null) {
-					return "";
-				}
-
-				return String.valueOf(((Evento) value).getIdevento());
-			}
-		};
-	}
-
-	/*
-	 * Support adding children to bidirectional, one-to-many tables
-	 */
-
-	private Evento add = new Evento();
-
-	public Evento getAdd() {
-		return this.add;
-	}
-
-	public Evento getAdded() {
-		Evento added = this.add;
-		this.add = new Evento();
-		return added;
-	}
+	
+	
+		
 }
+

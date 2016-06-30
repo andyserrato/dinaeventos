@@ -19,9 +19,6 @@ import javax.persistence.TemporalType;
 @Table(name = "evento", catalog = "jbossforge")
 public class Evento implements java.io.Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -1044399576691985644L;
 	private int idevento;
 	private String nombre;
@@ -39,7 +36,7 @@ public class Evento implements java.io.Serializable {
 	private Integer idtipoevento;
 	private Integer idorganizador;
 	private Date fechaAlta;
-	private Boolean acitvo;
+	private Boolean activo;
 
 	public Evento() {
 	}
@@ -74,7 +71,7 @@ public class Evento implements java.io.Serializable {
 		this.idtipoevento = idtipoevento;
 		this.idorganizador = idorganizador;
 		this.fechaAlta = fechaAlta;
-		this.acitvo = acitvo;
+		this.activo = acitvo;
 	}
 
 	@Id
@@ -227,13 +224,13 @@ public class Evento implements java.io.Serializable {
 		this.fechaAlta = fechaAlta;
 	}
 
-	@Column(name = "acitvo")
-	public Boolean getAcitvo() {
-		return this.acitvo;
+	@Column(name = "activo")
+	public Boolean getActivo() {
+		return this.activo;
 	}
 
-	public void setAcitvo(Boolean acitvo) {
-		this.acitvo = acitvo;
+	public void setActivo(Boolean activo) {
+		this.activo = activo;
 	}
 
 }

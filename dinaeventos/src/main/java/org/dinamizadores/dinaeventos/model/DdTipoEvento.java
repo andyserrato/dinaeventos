@@ -44,7 +44,7 @@ public class DdTipoEvento implements java.io.Serializable {
 		this.idTipoEvento = idTipoEvento;
 	}
 
-	@Column(name = "tipo_evento", length = 45)
+	@Column(name = "tipo_evento", length = 100)
 	public String getTipoEvento() {
 		return this.tipoEvento;
 	}

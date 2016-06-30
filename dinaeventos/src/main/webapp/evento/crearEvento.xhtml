@@ -1,0 +1,105 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	template="/resources/scaffold/templates/eventoTemplate.xhtml"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:param name="pageTitle" value="Crear Evento"/>
+
+	<ui:define name="header">
+		Evento
+	</ui:define>
+
+	<ui:define name="subheader">
+				Crear un evento
+	</ui:define>
+
+	<ui:define name="footer"/>
+
+	<ui:define name="main">
+		<h:form id="crearEvento">
+			<p:growl id="growl" sticky="false" showDetail="true" life="5000" />
+			<div class="ui-fluid">
+				<p:outputPanel id="eventoDatos" width="100%">
+					<h2 style="margin-top:0">1 DETALLES DEL EVENTO</h2>
+					<h3 style="margin-top:0">NOMBRE DEL EVENTO</h3>
+					<p:inputText id="eventoNombre" maxLength="75" required="true" value="#{evento.evento.nombre}" placeholder="Coloca un nombre increible"/>
+					<p:message for="eventoNombre" styleClass="error"/>
+					
+					<h3 style="margin-top:0">UBICACIÓN</h3>
+					<p:inputText id="eventoDireccion1" value="#{evento.evento.direccion}" placeholder="Dirección"/>
+					<p:inputTextarea id="eventoDireccion" counter="display" maxlength="255" required="true" counterTemplate="Quedan {0} caracteres." autoResize="false" value="#{evento.evento.direccion}" placeholder="Dirección"/>
+					<h:outputText id="display" />
+					
+					<p:inputText id="eventoCodigoPostal" value="#{evento.evento.codigoPostal.codigo}" maxlength="5" placeholder="Código postal">
+						<p:ajax event="blur" update="eventoProvincia" listener="#{rrppJefe.actualizaLocalidadesByCP(evento.evento.codigoPostal.codigo)}" />
+					</p:inputText>
+					<p:outputLabel for="eventoProvincia" value="Provincia" />
+					<p:selectOneMenu id="eventoProvincia" value="#{evento.evento.idcodigopostal}">
+						<f:selectItem itemValue="#{null}" itemLabel="Seleccionar localidad" />
+						<f:selectItems value="#{evento.codigosPostales}" var="cp" itemLabel="#{cp.localidad} - #{cp.provincia.nombre}" itemValue="#{cp.idcodigopostal}" />
+					</p:selectOneMenu>
+					
+					<h3 style="margin-top:0">EMPIEZA</h3>
+					<p:calendar id="eventoFechaHoraInicio" value="#{evento.evento.fechaIni}" pattern="MM/dd/yyyy HH:mm:ss" />
+ 
+					<h3 style="margin-top:0">FINALIZA</h3>
+					<p:calendar id="eventoFechaHoraFin" value="#{evento.evento.fechaFin}" pattern="MM/dd/yyyy HH:mm:ss" />
+					
+					<h3 style="margin-top:0">LOGO DEL EVENTO</h3>
+					<p:fileUpload id="eventoImageUpload" value="#{evento.imageFile}" auto="true" mode="simple" label="Seleccionar Foto" sizeLimit="2097152" fileLimit="30000000" required="true" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"/>
+					<p:message for="eventoImageUpload" />
+					
+					<h3 style="margin-top:0">DESCRIPCIÓN DEL EVENTO</h3>
+					<p:editor id="eventoDescripcion" widgetVar="eventoDescripcionWidget" value="#{evento.evento.descripcion}" />
+					
+					<h3 style="margin-top:0">ENLACES REDES SOCIALES</h3>
+					<p:outputLabel for="eventoEnlaceFacebook" value="facebook.com/"/>
+					<p:inputText id="eventoEnlaceFacebook" />
+					<p:message for="eventoEnlaceFacebook" styleClass="error"/>
+					
+					<p:outputLabel for="eventoEnlaceTwitter" value="twitter.com/"/>
+					<p:inputText id="eventoEnlaceTwitter" />
+					<p:message for="eventoEnlaceTwitter" styleClass="error"/>
+					
+					<h3 style="margin-top:0">ORGANIZADOR</h3>
+					<p:inputText value="#{evento.evento.organizador.nombre}" placeholder="¿Quién organiza este evento?"/>
+					<h3 style="margin-top:0">DESCRIPCIÓN DEL ORGANIZADOR</h3>
+					<p:editor value="#{evento.evento.organizador.descripcion}" />
+					
+					<h3 style="margin-top:0">PATROCINADORES</h3>
+					<p:commandButton value="Agregar patrocinador" onclick="PF('patrocinadorDialogo').show()"/>
+					
+					<h2 style="margin-top:0">2. ENTRADAS</h2>
+					<h3 style="margin-top:0">AFORO DEL EVENTO</h3>
+					<p:inputText id="eventoAforo" value="#{evento.evento.aforo}" placeholder="Aforo"/>
+					
+					<h2 style="margin-top:0">COMPLEMENTOS</h2>
+					
+					<p:commandButton value="Crear Evento"/>
+				</p:outputPanel>
+			</div>
+		</h:form>
+		
+		<p:dialog header="Patrocinador" widgetVar="patrocinadorDialogo" resizable="false">
+        <h:panelGrid columns="2" cellpadding="5">
+            <h:outputLabel for="eventoNombrePatrocinador" value="Nombre:" />
+            <p:inputText id="eventoNombrePatrocinador" value="#{evento.patrocinador.nombre}" required="true" label="username" />
+ 
+            <h3 style="margin-top:0">LOGO DEL PATROCINADOR</h3>
+			<p:fileUpload id="eventoImagePatrocinadorUpload" value="#{evento.imagePatrocinador}" auto="true" mode="simple" label="Seleccionar LOGO" sizeLimit="2097152" fileLimit="30000000" required="true" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"/>
+			<p:message for="eventoImagePatrocinadorUpload" />
+					
+            <f:facet name="footer">
+                <p:commandButton value="Crear Patrocinador" actionListener="#{evento.crearPatrocinador}" onclick="PF('patrocinadorDialogo').hide()" />
+            </f:facet>  
+        </h:panelGrid>
+    </p:dialog>
+		
+	</ui:define>
+
+</ui:composition>

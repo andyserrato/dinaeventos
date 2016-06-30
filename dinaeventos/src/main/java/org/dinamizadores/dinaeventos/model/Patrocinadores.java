@@ -30,10 +30,11 @@ public class Patrocinadores implements java.io.Serializable {
 	private String cuentacorriente;
 	private String iban;
 	private byte[] fotoLogo;
+	private String fotoNombre;
 	private String logoNombre;
 	private Integer idcodigopostal;
 	private GlobalCodigospostales codigoPostal;
-	
+	private Integer idEvento;
 
 	public Patrocinadores() {
 	}
@@ -129,6 +130,16 @@ public class Patrocinadores implements java.io.Serializable {
 		this.fotoLogo = fotoLogo;
 	}
 	
+	
+	@Column(name = "fotoNombre")
+	public String getFotoNombre() {
+		return fotoNombre;
+	}
+
+	public void setFotoNombre(String fotoNombre) {
+		this.fotoNombre = fotoNombre;
+	}
+
 	@Column(name = "logonombre", length = 255)
 	public String getLogoNombre() {
 		return logoNombre;
@@ -157,5 +168,16 @@ public class Patrocinadores implements java.io.Serializable {
 	public void setCodigoPostal(GlobalCodigospostales codigoPostal) {
 		this.codigoPostal = codigoPostal;
 	}
+
+	@Column(name = "idevento")
+	public Integer getIdEvento() {
+		return idEvento;
+	}
+
+	public void setIdEvento(Integer idEvento) {
+		this.idEvento = idEvento;
+	}
+	
+	
 
 }

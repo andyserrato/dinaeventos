@@ -48,4 +48,18 @@
     <error-code>500</error-code>
     <location>/faces/error.xhtml</location>
   </error-page>
+  
+   <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Secure Content</web-resource-name>
+            <url-pattern>/comprar/pagarEntradas.xhtml</url-pattern>
+            <http-method>GET</http-method>
+            <http-method>POST</http-method>
+        </web-resource-collection>
+        <auth-constraint />
+        <user-data-constraint>
+            <transport-guarantee>NONE</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+  
 </web-app>

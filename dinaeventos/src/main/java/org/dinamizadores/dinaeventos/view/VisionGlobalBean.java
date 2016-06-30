@@ -11,12 +11,14 @@ import javax.inject.Named;
 import org.dinamizadores.dinaeventos.dao.DAOGenerico;
 import org.dinamizadores.dinaeventos.model.DdFormapago;
 import org.dinamizadores.dinaeventos.utiles.BBDDFaker;
+import org.dinamizadores.dinaeventos.utiles.log.Loggable;
 
 /**
  * @author Raúl "El niño maravilla" del Río
  *
  */
 @Named("visionGlobal")
+@Loggable
 @ViewScoped
 public class VisionGlobalBean implements Serializable{
 	
