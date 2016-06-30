@@ -27,7 +27,7 @@ public class DdFormapago implements java.io.Serializable {
 	}
 	
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name = "idformapago", unique = true, nullable = false)
 	public int getIdformapago() {
 		return this.idformapago;

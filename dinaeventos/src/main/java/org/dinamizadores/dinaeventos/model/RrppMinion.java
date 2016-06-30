@@ -38,7 +38,7 @@ public class RrppMinion implements java.io.Serializable {
 	}
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "idrrpp_minion", unique = true, nullable = false)
 	public int getIdrrppMinion() {
 		return this.idrrppMinion;

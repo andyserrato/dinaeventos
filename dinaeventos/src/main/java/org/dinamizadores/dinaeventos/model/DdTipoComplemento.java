@@ -18,28 +18,28 @@ import javax.persistence.Table;
 public class DdTipoComplemento implements java.io.Serializable {
 
 	private static final long serialVersionUID = -5169190954994893032L;
-	private int idcomplemento;
+	private int idTipoComplemento;
 	private String nombre;
 	private BigDecimal precio;
 	private String descripcion;
-	private Integer idTipoEvento;
+	private Integer idEvento;
 
 	public DdTipoComplemento() {
 		nombre = null;
 		precio = new BigDecimal(0);
 		descripcion = null;
-		idTipoEvento = null;
+		idEvento = null;
 	}
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "idcomplemento", unique = true, nullable = false)
-	public int getIdcomplemento() {
-		return this.idcomplemento;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "idtipocomplemento", unique = true, nullable = false)
+	public int getIdTipoComplemento() {
+		return this.idTipoComplemento;
 	}
 
-	public void setIdcomplemento(int idcomplemento) {
-		this.idcomplemento = idcomplemento;
+	public void setIdTipoComplemento(int idTipoComplemento) {
+		this.idTipoComplemento = idTipoComplemento;
 	}
 
 	@Column(name = "nombre", length = 100)
@@ -70,12 +70,12 @@ public class DdTipoComplemento implements java.io.Serializable {
 	}
 
 	@Column(name = "idevento")
-	public Integer getIdTipoEvento() {
-		return idTipoEvento;
+	public Integer getIdEvento() {
+		return idEvento;
 	}
 
-	public void setIdTipoEvento(Integer idTipoEvento) {
-		this.idTipoEvento = idTipoEvento;
+	public void setIdEvento(Integer idTipoEvento) {
+		this.idEvento = idTipoEvento;
 	}
 	
 	// TODO Hay que hacer el many to many de las entradas y el many to one de eventos

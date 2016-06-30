@@ -27,7 +27,7 @@ public class DdSexo implements java.io.Serializable {
 	}
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name = "idsexo", unique = true, nullable = false)
 	public int getIdsexo() {
 		return this.idsexo;

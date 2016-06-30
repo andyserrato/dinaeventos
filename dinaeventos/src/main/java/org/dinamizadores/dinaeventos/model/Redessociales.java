@@ -15,9 +15,6 @@ import javax.persistence.Table;
 @Table(name = "redessociales", catalog = "jbossforge")
 public class Redessociales implements java.io.Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 8114825636505298077L;
 	private int idredessociales;
 	private String enlacePerfil;
@@ -43,10 +40,9 @@ public class Redessociales implements java.io.Serializable {
 	public Redessociales(int idredessociales) {
 		this.idredessociales = idredessociales;
 	}
-	
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "idredessociales", unique = true, nullable = false)
 	public int getIdredessociales() {
 		return this.idredessociales;
@@ -57,11 +53,11 @@ public class Redessociales implements java.io.Serializable {
 	}
 
 	@Column(name = "enlaceperfil", length = 500)
-	public String getEnlace() {
+	public String getEnlacePerfil() {
 		return this.enlacePerfil;
 	}
 
-	public void setEnlace(String enlacePerfil) {
+	public void setEnlacePerfil(String enlacePerfil) {
 		this.enlacePerfil = enlacePerfil;
 	}
 

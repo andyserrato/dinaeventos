@@ -56,7 +56,7 @@ public class Patrocinadores implements java.io.Serializable {
 	}
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "idpatrocinador", unique = true, nullable = false)
 	public int getIdpatrocinador() {
 		return this.idpatrocinador;

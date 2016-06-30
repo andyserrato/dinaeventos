@@ -42,7 +42,7 @@ public class RrppJefes implements java.io.Serializable {
 	}
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "idrrpp_jefe", unique = true, nullable = false)
 	public int getIdrrppJefe() {
 		return this.idrrppJefe;

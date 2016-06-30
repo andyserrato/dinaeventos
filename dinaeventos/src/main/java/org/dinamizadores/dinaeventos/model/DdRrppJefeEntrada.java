@@ -15,9 +15,6 @@ import javax.persistence.Table;
 @Table(name = "dd_rrpp_jefe_entrada", catalog = "jbossforge")
 public class DdRrppJefeEntrada implements java.io.Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 4951555261824656782L;
 	private DdRrppJefeEntradaId id;
 	private Integer rrppMinionIdrrppMinion;

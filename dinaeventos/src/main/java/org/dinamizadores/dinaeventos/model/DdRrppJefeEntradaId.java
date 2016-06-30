@@ -11,10 +11,6 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class DdRrppJefeEntradaId  implements java.io.Serializable {
 
-
-     /**
-	 * 
-	 */
 	private static final long serialVersionUID = 8932012895039020113L;
 	private int rrppJefeIdrrppJefe;
      private int entradaIdentrada;

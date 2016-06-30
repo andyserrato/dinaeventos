@@ -27,7 +27,7 @@ public class DdOrigenEntrada implements java.io.Serializable {
 	}
 
 	@Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name = "idorigen_entrada", unique = true, nullable = false)
 	public int getIdorigenEntrada() {
 		return this.idorigenEntrada;

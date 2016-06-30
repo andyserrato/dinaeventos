@@ -11,10 +11,6 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class DdRrppEventoId  implements java.io.Serializable {
 
-
-     /**
-	 * 
-	 */
 	private static final long serialVersionUID = -6318874044785318090L;
 	private int idevento;
      private int idrrpp;
@@ -26,8 +22,6 @@ public class DdRrppEventoId  implements java.io.Serializable {
        this.idevento = idevento;
        this.idrrpp = idrrpp;
     }
-   
-
 
     @Column(name="idevento", nullable=false)
     public int getIdevento() {

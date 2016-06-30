@@ -31,7 +31,7 @@
 					<h:panelGrid columnClasses="label,component,required" columns="3">
 						<h:outputLabel for="redessocialesBeanExampleEnlace" value="Enlace:"/>
 						<h:panelGroup>
-							<h:inputText id="redessocialesBeanExampleEnlace" maxLength="45" value="#{redessocialesBean.example.enlace}"/>
+							<h:inputText id="redessocialesBeanExampleEnlace" maxLength="45" value="#{redessocialesBean.example.enlacePerfil}"/>
 							<h:message for="redessocialesBeanExampleEnlace" styleClass="error"/>
 						</h:panelGroup>
 						<h:outputText/>
@@ -50,7 +50,7 @@
 					</f:facet>
 					<h:link outcome="/redessociales/view">
 						<f:param name="id" value="#{_item.idredessociales}"/>
-						<h:outputText id="itemEnlace" value="#{_item.enlace}"/>
+						<h:outputText id="itemEnlace" value="#{_item.enlacePerfil}"/>
 					</h:link>
 				</h:column>
 			</h:dataTable>

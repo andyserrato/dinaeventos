@@ -208,7 +208,7 @@ public class RedessocialesBean implements Serializable {
 		CriteriaBuilder builder = this.entityManager.getCriteriaBuilder();
 		List<Predicate> predicatesList = new ArrayList<Predicate>();
 
-		String enlace = this.example.getEnlace();
+		String enlace = this.example.getEnlacePerfil();
 		if (enlace != null && !"".equals(enlace)) {
 			predicatesList.add(builder.like(
 					builder.lower(root.<String> get("enlace")),
