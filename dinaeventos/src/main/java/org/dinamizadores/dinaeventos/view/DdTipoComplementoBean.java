@@ -16,6 +16,7 @@ import org.dinamizadores.dinaeventos.model.DdTipoComplemento;
 import org.dinamizadores.dinaeventos.model.Usuario;
 import org.dinamizadores.dinaeventos.utiles.log.Loggable;
 import org.dinamizadores.dinaeventos.utiles.pdf.FormarPDF;
+import org.dinamizadores.dinaeventos.utiles.plataformapagos.pagar;
 import org.dinamizadores.dinaeventos.dto.complementoEntero;
 import org.dinamizadores.dinaeventos.dto.entradasCompleta;
 
@@ -93,11 +94,14 @@ public class DdTipoComplementoBean implements Serializable {
 		}
 	
 	
-	public void cambiarPagina(){
+	public String cambiarPagina(){
 		
 			try {
 				
 				FormarPDF.main(listadoEntradas, envioConjunto);
+				pagar pa = new pagar();
+				
+				return "/comprar/pagarEntradas.xhtml?faces-redirect=true";
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -105,6 +109,7 @@ public class DdTipoComplementoBean implements Serializable {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			return "/error.xhtml?faces-redirect=true";
 	}
 	
 
