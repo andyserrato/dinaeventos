@@ -20,9 +20,6 @@ import javax.persistence.Table;
 @Table(name = "permisos", catalog = "jbossforge")
 public class Permisos implements java.io.Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 7552776053878177082L;
 	private int idpermisos;
 	private String nombre;

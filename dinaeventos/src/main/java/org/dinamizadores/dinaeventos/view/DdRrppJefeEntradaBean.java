@@ -209,14 +209,14 @@ public class DdRrppJefeEntradaBean implements Serializable {
 		CriteriaBuilder builder = this.entityManager.getCriteriaBuilder();
 		List<Predicate> predicatesList = new ArrayList<Predicate>();
 
-		Integer rrppMinionIdrrppMinion = this.example
-				.getRrppMinionIdrrppMinion();
-		if (rrppMinionIdrrppMinion != null
-				&& rrppMinionIdrrppMinion.intValue() != 0) {
-			predicatesList
-					.add(builder.equal(root.get("rrppMinionIdrrppMinion"),
-							rrppMinionIdrrppMinion));
-		}
+//		Integer rrppMinionIdrrppMinion = this.example
+//				.getRrppMinionIdrrppMinion();
+//		if (rrppMinionIdrrppMinion != null
+//				&& rrppMinionIdrrppMinion.intValue() != 0) {
+//			predicatesList
+//					.add(builder.equal(root.get("rrppMinionIdrrppMinion"),
+//							rrppMinionIdrrppMinion));
+//		}
 
 		return predicatesList.toArray(new Predicate[predicatesList.size()]);
 	}

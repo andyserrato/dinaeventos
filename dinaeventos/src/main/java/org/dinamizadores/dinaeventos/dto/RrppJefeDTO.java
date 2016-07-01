@@ -7,14 +7,13 @@ import org.dinamizadores.dinaeventos.model.DdRrppJefeEntrada;
 import org.dinamizadores.dinaeventos.model.RrppJefes;
 import org.dinamizadores.dinaeventos.model.RrppMinion;
 import org.dinamizadores.dinaeventos.utiles.log.Loggable;
-import org.dinamizadores.dinaeventos.view.DdRrppEventoBean;
 
 @Loggable
 public class RrppJefeDTO implements Serializable {
 
 	private static final long serialVersionUID = 2475806733497550973L;
 	private RrppJefes rrppJefe;
-	private List<DdRrppEventoBean> eventosDelRrppJefe;
+//	private List<DdRrppEventoBean> eventosDelRrppJefe;
 	private List<DdRrppJefeEntrada> entradasAsignadas;
 	private List<RrppMinion> minionsDelJefe;
 
@@ -22,11 +21,11 @@ public class RrppJefeDTO implements Serializable {
 		super();
 	}
 
-	public RrppJefeDTO(RrppJefes rrppJefe, List<DdRrppEventoBean> eventosDelRrppJefe,
+	public RrppJefeDTO(RrppJefes rrppJefe,
 			List<DdRrppJefeEntrada> entradasAsignadas, List<RrppMinion> minionsDelJefe) {
 		super();
 		this.rrppJefe = rrppJefe;
-		this.eventosDelRrppJefe = eventosDelRrppJefe;
+//		this.eventosDelRrppJefe = eventosDelRrppJefe;
 		this.entradasAsignadas = entradasAsignadas;
 		this.minionsDelJefe = minionsDelJefe;
 	}
@@ -39,13 +38,13 @@ public class RrppJefeDTO implements Serializable {
 		this.rrppJefe = rrppJefe;
 	}
 
-	public List<DdRrppEventoBean> getEventosDelRrppJefe() {
-		return eventosDelRrppJefe;
-	}
-
-	public void setEventosDelRrppJefe(List<DdRrppEventoBean> eventosDelRrppJefe) {
-		this.eventosDelRrppJefe = eventosDelRrppJefe;
-	}
+//	public List<DdRrppEventoBean> getEventosDelRrppJefe() {
+//		return eventosDelRrppJefe;
+//	}
+//
+//	public void setEventosDelRrppJefe(List<DdRrppEventoBean> eventosDelRrppJefe) {
+//		this.eventosDelRrppJefe = eventosDelRrppJefe;
+//	}
 
 	public List<DdRrppJefeEntrada> getEntradasAsignadas() {
 		return entradasAsignadas;

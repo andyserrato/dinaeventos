@@ -2,12 +2,18 @@ package org.dinamizadores.dinaeventos.model;
 // Generated 13-jun-2016 11:45:19 by Hibernate Tools 4.3.1.Final
 
 import java.math.BigDecimal;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
@@ -23,7 +29,9 @@ public class DdTipoComplemento implements java.io.Serializable {
 	private BigDecimal precio;
 	private String descripcion;
 	private Integer idEvento;
-
+	private Evento evento;
+	private Set<Entrada> entradas = new HashSet<Entrada>(0);
+	
 	public DdTipoComplemento() {
 		nombre = null;
 		precio = new BigDecimal(0);
@@ -78,5 +86,23 @@ public class DdTipoComplemento implements java.io.Serializable {
 		this.idEvento = idTipoEvento;
 	}
 	
-	// TODO Hay que hacer el many to many de las entradas y el many to one de eventos
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="idevento", insertable = false, updatable = false)
+    public Evento getEvento() {
+        return this.evento;
+    }
+    
+    public void setEvento(Evento evento) {
+        this.evento = evento;
+    }
+    
+    @ManyToMany(fetch=FetchType.LAZY, mappedBy="ddTipoComplementos")
+    public Set<Entrada> getEntradas() {
+        return this.entradas;
+    }
+    
+    public void setEntradas(Set<Entrada> entradas) {
+        this.entradas = entradas;
+    }
+    
 }

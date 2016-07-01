@@ -2,6 +2,8 @@ package org.dinamizadores.dinaeventos.model;
 // Generated 13-jun-2016 11:45:19 by Hibernate Tools 4.3.1.Final
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -11,8 +13,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.Lob;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -41,10 +46,16 @@ public class Evento implements java.io.Serializable {
 	private Integer idcodigopostal;
 	private GlobalCodigospostales codigoPostal;
 	private Integer idtipoevento;
+	private DdTipoEvento ddTipoEvento;
 	private Integer idorganizador;
+	private Organizadores organizadores;
 	private Date fechaAlta;
 	private Boolean activo;
-
+	private Set<RrppJefes> rrppJefes = new HashSet<RrppJefes>(0);
+    private Set<DdTipoComplemento> ddTipoComplementos = new HashSet<DdTipoComplemento>(0);
+    private Set<Patrocinadores> patrocinadores = new HashSet<Patrocinadores>(0);
+    private Set<Entrada> entradas = new HashSet<Entrada>(0);
+	
 	public Evento() {
 	}
 
@@ -222,6 +233,16 @@ public class Evento implements java.io.Serializable {
 	public void setIdtipoevento(Integer idtipoevento) {
 		this.idtipoevento = idtipoevento;
 	}
+	
+	@ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="idtipoevento", insertable = false, updatable = false)
+    public DdTipoEvento getDdTipoEvento() {
+        return this.ddTipoEvento;
+    }
+    
+    public void setDdTipoEvento(DdTipoEvento ddTipoEvento) {
+        this.ddTipoEvento = ddTipoEvento;
+    }	
 
 	@Column(name = "idorganizador")
 	public Integer getIdorganizador() {
@@ -231,6 +252,16 @@ public class Evento implements java.io.Serializable {
 	public void setIdorganizador(Integer idorganizador) {
 		this.idorganizador = idorganizador;
 	}
+	
+	@ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="idorganizador", insertable = false, updatable = false)
+    public Organizadores getOrganizadores() {
+        return this.organizadores;
+    }
+    
+    public void setOrganizadores(Organizadores organizadores) {
+        this.organizadores = organizadores;
+    }
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "fecha_alta", length = 19)
@@ -250,5 +281,45 @@ public class Evento implements java.io.Serializable {
 	public void setActivo(Boolean activo) {
 		this.activo = activo;
 	}
+	
+    @ManyToMany(fetch=FetchType.LAZY)
+    @JoinTable(name="dd_rrpp_evento", catalog="jbossforge", joinColumns = { 
+        @JoinColumn(name="idevento", nullable=false, updatable=false) }, inverseJoinColumns = { 
+        @JoinColumn(name="idrrpp", nullable=false, updatable=false) })
+    public Set<RrppJefes> getRrppJefes() {
+        return this.rrppJefes;
+    }
+    
+    public void setRrppJefes(Set<RrppJefes> rrppJefeses) {
+        this.rrppJefes = rrppJefeses;
+    }
+
+    @OneToMany(fetch=FetchType.LAZY, mappedBy="evento")
+    public Set<DdTipoComplemento> getDdTipoComplementos() {
+        return this.ddTipoComplementos;
+    }
+    
+    public void setDdTipoComplementos(Set<DdTipoComplemento> ddTipoComplementos) {
+        this.ddTipoComplementos = ddTipoComplementos;
+    }
+
+    @OneToMany(fetch=FetchType.LAZY, mappedBy="evento")
+    public Set<Patrocinadores> getPatrocinadores() {
+        return this.patrocinadores;
+    }
+    
+    public void setPatrocinadores(Set<Patrocinadores> patrocinadoreses) {
+        this.patrocinadores = patrocinadoreses;
+    }
+
+    @OneToMany(fetch=FetchType.LAZY, mappedBy="evento")
+    public Set<Entrada> getEntradas() {
+        return this.entradas;
+    }
+    
+    public void setEntradas(Set<Entrada> entradas) {
+        this.entradas = entradas;
+    }
+
 
 }

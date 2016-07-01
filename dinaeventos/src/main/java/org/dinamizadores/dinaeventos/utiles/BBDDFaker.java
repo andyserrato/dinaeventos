@@ -13,8 +13,6 @@ import javax.ejb.Stateless;
 import org.dinamizadores.dinaeventos.dao.DAOGenerico;
 import org.dinamizadores.dinaeventos.model.DdFormapago;
 import org.dinamizadores.dinaeventos.model.DdOrigenEntrada;
-import org.dinamizadores.dinaeventos.model.DdRrppEvento;
-import org.dinamizadores.dinaeventos.model.DdRrppEventoId;
 import org.dinamizadores.dinaeventos.model.DdRrppJefeEntrada;
 import org.dinamizadores.dinaeventos.model.DdRrppJefeEntradaId;
 import org.dinamizadores.dinaeventos.model.DdSexo;
@@ -65,13 +63,13 @@ public class BBDDFaker {
 		return d;
 	}
 	
-	public DdRrppEvento crearRRPPEvento(int idRRPP, int idEvento){
-		return new DdRrppEvento(new DdRrppEventoId(idEvento, idRRPP));
-	}
-	
-	public DdRrppJefeEntrada crearRRPPJefeEntrada(int idRRPPJefe, int idEntrada, int idRRPPMinion){
-		return new DdRrppJefeEntrada(new DdRrppJefeEntradaId(idRRPPJefe, idEntrada), idRRPPMinion);
-	}
+//	public DdRrppEvento crearRRPPEvento(int idRRPP, int idEvento){
+//		return new DdRrppEvento(new DdRrppEventoId(idEvento, idRRPP));
+//	}
+//	
+//	public DdRrppJefeEntrada crearRRPPJefeEntrada(int idRRPPJefe, int idEntrada, int idRRPPMinion){
+//		return new DdRrppJefeEntrada(new DdRrppJefeEntradaId(idRRPPJefe, idEntrada), idRRPPMinion);
+//	}
 	
 	public DdSexo crearSexo(){
 		DdSexo d = new DdSexo();
