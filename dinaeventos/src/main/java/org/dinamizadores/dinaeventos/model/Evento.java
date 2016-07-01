@@ -48,7 +48,7 @@ public class Evento implements java.io.Serializable {
 	private Integer idtipoevento;
 	private DdTipoEvento ddTipoEvento;
 	private Integer idorganizador;
-	private Organizadores organizadores;
+	private Organizadores organizador;
 	private Date fechaAlta;
 	private Boolean activo;
 	private Set<RrppJefes> rrppJefes = new HashSet<RrppJefes>(0);
@@ -255,12 +255,12 @@ public class Evento implements java.io.Serializable {
 	
 	@ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="idorganizador", insertable = false, updatable = false)
-    public Organizadores getOrganizadores() {
-        return this.organizadores;
+    public Organizadores getOrganizador() {
+        return this.organizador;
     }
     
-    public void setOrganizadores(Organizadores organizadores) {
-        this.organizadores = organizadores;
+    public void setOrganizador(Organizadores organizadores) {
+        this.organizador = organizadores;
     }
 
 	@Temporal(TemporalType.TIMESTAMP)
