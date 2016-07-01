@@ -21,7 +21,7 @@ public class GlobalCodigospostales  implements java.io.Serializable {
 
 	private static final long serialVersionUID = 3272568428662816916L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="idcodigopostal", unique=true, nullable=false)
 	private int idcodigopostal;
     @Column(name="idprovincia")

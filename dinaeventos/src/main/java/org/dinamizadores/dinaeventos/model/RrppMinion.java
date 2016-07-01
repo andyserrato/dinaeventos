@@ -1,11 +1,18 @@
 package org.dinamizadores.dinaeventos.model;
 // Generated 13-jun-2016 11:45:19 by Hibernate Tools 4.3.1.Final
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -18,10 +25,13 @@ public class RrppMinion implements java.io.Serializable {
 	private static final long serialVersionUID = 1697250336808658251L;
 	private int idrrppMinion;
 	private Integer idjefe;
+	private RrppJefes rrppJefes;
 	private Integer idUsuario;
+	private Usuario usuario;
 	private Integer limiteEntradas;
 	private String coigoPromocional;
-
+	private Set<DdRrppJefeEntrada> ddRrppJefeEntradas = new HashSet<DdRrppJefeEntrada>(0);
+	
 	public RrppMinion() {
 	}
 
@@ -38,7 +48,7 @@ public class RrppMinion implements java.io.Serializable {
 	}
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "idrrpp_minion", unique = true, nullable = false)
 	public int getIdrrppMinion() {
 		return this.idrrppMinion;
@@ -57,6 +67,16 @@ public class RrppMinion implements java.io.Serializable {
 		this.idjefe = idjefe;
 	}
 	
+	@ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="idjefe", insertable = false, updatable = false)
+    public RrppJefes getRrppJefes() {
+        return this.rrppJefes;
+    }
+    
+    public void setRrppJefes(RrppJefes rrppJefes) {
+        this.rrppJefes = rrppJefes;
+    }
+	
 	@Column(name = "idUsuario")
 	public Integer getIdUsuario() {
 		return this.idUsuario;
@@ -64,6 +84,16 @@ public class RrppMinion implements java.io.Serializable {
 
 	public void setIdUsuario(Integer idUsuario) {
 		this.idUsuario = idUsuario;
+	}
+	
+	@ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="idusuario", updatable = false, insertable = false)
+    public Usuario getUsuario() {
+        return this.usuario;
+    }
+	
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 
 	@Column(name = "limite_entradas")
@@ -83,5 +113,14 @@ public class RrppMinion implements java.io.Serializable {
 	public void setCoigoPromocional(String coigoPromocional) {
 		this.coigoPromocional = coigoPromocional;
 	}
+	
+	@OneToMany(fetch=FetchType.LAZY, mappedBy="rrppMinion")
+    public Set<DdRrppJefeEntrada> getDdRrppJefeEntradas() {
+        return this.ddRrppJefeEntradas;
+    }
+    
+    public void setDdRrppJefeEntradas(Set<DdRrppJefeEntrada> ddRrppJefeEntradas) {
+        this.ddRrppJefeEntradas = ddRrppJefeEntradas;
+    }
 
 }

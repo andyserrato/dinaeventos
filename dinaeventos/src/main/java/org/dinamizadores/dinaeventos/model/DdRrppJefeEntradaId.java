@@ -1,6 +1,4 @@
 package org.dinamizadores.dinaeventos.model;
-// Generated 13-jun-2016 11:45:19 by Hibernate Tools 4.3.1.Final
-
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
@@ -11,41 +9,35 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class DdRrppJefeEntradaId  implements java.io.Serializable {
 
-
-     /**
-	 * 
-	 */
-	private static final long serialVersionUID = 8932012895039020113L;
-	private int rrppJefeIdrrppJefe;
-     private int entradaIdentrada;
+	private static final long serialVersionUID = 4459539644440674000L;
+	private int idRrppJefe;
+    private int idEntrada;
 
     public DdRrppJefeEntradaId() {
     }
 
-    public DdRrppJefeEntradaId(int rrppJefeIdrrppJefe, int entradaIdentrada) {
-       this.rrppJefeIdrrppJefe = rrppJefeIdrrppJefe;
-       this.entradaIdentrada = entradaIdentrada;
+    public DdRrppJefeEntradaId(int idRrppJefe, int idEntrada) {
+       this.idRrppJefe = idRrppJefe;
+       this.idEntrada = idEntrada;
     }
-   
 
-
-    @Column(name="rrpp_jefe_idrrpp_jefe", nullable=false)
-    public int getRrppJefeIdrrppJefe() {
-        return this.rrppJefeIdrrppJefe;
+    @Column(name="id_rrpp_jefe", nullable=false)
+    public int getIdRrppJefe() {
+        return this.idRrppJefe;
     }
     
-    public void setRrppJefeIdrrppJefe(int rrppJefeIdrrppJefe) {
-        this.rrppJefeIdrrppJefe = rrppJefeIdrrppJefe;
+    public void setIdRrppJefe(int idRrppJefe) {
+        this.idRrppJefe = idRrppJefe;
     }
 
 
-    @Column(name="entrada_identrada", nullable=false)
-    public int getEntradaIdentrada() {
-        return this.entradaIdentrada;
+    @Column(name="id_entrada", nullable=false)
+    public int getIdEntrada() {
+        return this.idEntrada;
     }
     
-    public void setEntradaIdentrada(int entradaIdentrada) {
-        this.entradaIdentrada = entradaIdentrada;
+    public void setIdEntrada(int idEntrada) {
+        this.idEntrada = idEntrada;
     }
 
 
@@ -55,18 +47,17 @@ public class DdRrppJefeEntradaId  implements java.io.Serializable {
 		 if ( !(other instanceof DdRrppJefeEntradaId) ) return false;
 		 DdRrppJefeEntradaId castOther = ( DdRrppJefeEntradaId ) other; 
          
-		 return (this.getRrppJefeIdrrppJefe()==castOther.getRrppJefeIdrrppJefe())
- && (this.getEntradaIdentrada()==castOther.getEntradaIdentrada());
+		 return (this.getIdRrppJefe()==castOther.getIdRrppJefe())
+ && (this.getIdEntrada()==castOther.getIdEntrada());
    }
    
    public int hashCode() {
          int result = 17;
          
-         result = 37 * result + this.getRrppJefeIdrrppJefe();
-         result = 37 * result + this.getEntradaIdentrada();
+         result = 37 * result + this.getIdRrppJefe();
+         result = 37 * result + this.getIdEntrada();
          return result;
    }   
-
 
 }
 

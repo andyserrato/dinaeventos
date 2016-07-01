@@ -1,5 +1,4 @@
 package org.dinamizadores.dinaeventos.model;
-// Generated 13-jun-2016 11:45:19 by Hibernate Tools 4.3.1.Final
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -27,7 +26,7 @@ public class DdFormapago implements java.io.Serializable {
 	}
 	
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name = "idformapago", unique = true, nullable = false)
 	public int getIdformapago() {
 		return this.idformapago;

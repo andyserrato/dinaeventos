@@ -2,12 +2,18 @@ package org.dinamizadores.dinaeventos.model;
 // Generated 13-jun-2016 11:45:19 by Hibernate Tools 4.3.1.Final
 
 import java.math.BigDecimal;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
@@ -18,28 +24,30 @@ import javax.persistence.Table;
 public class DdTipoComplemento implements java.io.Serializable {
 
 	private static final long serialVersionUID = -5169190954994893032L;
-	private int idcomplemento;
+	private int idTipoComplemento;
 	private String nombre;
 	private BigDecimal precio;
 	private String descripcion;
-	private Integer idTipoEvento;
-
+	private Integer idEvento;
+	private Evento evento;
+	private Set<Entrada> entradas = new HashSet<Entrada>(0);
+	
 	public DdTipoComplemento() {
 		nombre = null;
 		precio = new BigDecimal(0);
 		descripcion = null;
-		idTipoEvento = null;
+		idEvento = null;
 	}
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "idcomplemento", unique = true, nullable = false)
-	public int getIdcomplemento() {
-		return this.idcomplemento;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "idtipocomplemento", unique = true, nullable = false)
+	public int getIdTipoComplemento() {
+		return this.idTipoComplemento;
 	}
 
-	public void setIdcomplemento(int idcomplemento) {
-		this.idcomplemento = idcomplemento;
+	public void setIdTipoComplemento(int idTipoComplemento) {
+		this.idTipoComplemento = idTipoComplemento;
 	}
 
 	@Column(name = "nombre", length = 100)
@@ -70,13 +78,31 @@ public class DdTipoComplemento implements java.io.Serializable {
 	}
 
 	@Column(name = "idevento")
-	public Integer getIdTipoEvento() {
-		return idTipoEvento;
+	public Integer getIdEvento() {
+		return idEvento;
 	}
 
-	public void setIdTipoEvento(Integer idTipoEvento) {
-		this.idTipoEvento = idTipoEvento;
+	public void setIdEvento(Integer idTipoEvento) {
+		this.idEvento = idTipoEvento;
 	}
 	
-	// TODO Hay que hacer el many to many de las entradas y el many to one de eventos
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="idevento", insertable = false, updatable = false)
+    public Evento getEvento() {
+        return this.evento;
+    }
+    
+    public void setEvento(Evento evento) {
+        this.evento = evento;
+    }
+    
+    @ManyToMany(fetch=FetchType.LAZY, mappedBy="ddTipoComplementos")
+    public Set<Entrada> getEntradas() {
+        return this.entradas;
+    }
+    
+    public void setEntradas(Set<Entrada> entradas) {
+        this.entradas = entradas;
+    }
+    
 }

@@ -15,9 +15,6 @@ import javax.persistence.Table;
 @Table(name = "dd_tipo_evento", catalog = "jbossforge")
 public class DdTipoEvento implements java.io.Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 4663081648643131014L;
 	private int idTipoEvento;
 	private String tipoEvento;
@@ -34,8 +31,8 @@ public class DdTipoEvento implements java.io.Serializable {
 	}
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "id_tipo_evento", unique = true, nullable = false)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "idtipoevento", unique = true, nullable = false)
 	public int getIdTipoEvento() {
 		return this.idTipoEvento;
 	}

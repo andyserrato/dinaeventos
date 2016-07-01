@@ -32,7 +32,7 @@ public class DdTipoEntrada implements java.io.Serializable {
 	}
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "idtipoentrada", unique = true, nullable = false)
 	public int getIdtipoentrada() {
 		return this.idtipoentrada;
@@ -42,7 +42,7 @@ public class DdTipoEntrada implements java.io.Serializable {
 		this.idtipoentrada = idtipoentrada;
 	}
 
-	@Column(name = "nombre", nullable = false, length = 45)
+	@Column(name = "nombre", nullable = false, length = 100)
 	public String getNombre() {
 		return this.nombre;
 	}
@@ -51,7 +51,7 @@ public class DdTipoEntrada implements java.io.Serializable {
 		this.nombre = nombre;
 	}
 	
-	@Column(name = "precio", nullable = false)
+	@Column(name = "precio", nullable = true)
 	public BigDecimal getPrecio() {
 		return this.precio;
 	}

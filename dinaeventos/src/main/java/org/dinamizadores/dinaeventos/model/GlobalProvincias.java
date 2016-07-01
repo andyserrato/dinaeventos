@@ -15,9 +15,6 @@ import javax.persistence.Table;
 @Table(name = "global_provincias", catalog = "jbossforge")
 public class GlobalProvincias implements java.io.Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -217799023124393281L;
 	private int idprovincia;
 	private String nombre;
@@ -34,7 +31,7 @@ public class GlobalProvincias implements java.io.Serializable {
 	}
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "idprovincia", unique = true, nullable = false)
 	public int getIdprovincia() {
 		return this.idprovincia;

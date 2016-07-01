@@ -27,7 +27,7 @@ import com.itextpdf.text.DocumentException;
 @ViewScoped
 @Loggable
 
-public class DdTipoComplementoBean implements Serializable {
+public class ComprarEntradaBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 

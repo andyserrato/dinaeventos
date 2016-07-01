@@ -35,6 +35,7 @@ public class Patrocinadores implements java.io.Serializable {
 	private Integer idcodigopostal;
 	private GlobalCodigospostales codigoPostal;
 	private Integer idEvento;
+	private Evento evento;
 
 	public Patrocinadores() {
 	}
@@ -56,7 +57,7 @@ public class Patrocinadores implements java.io.Serializable {
 	}
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "idpatrocinador", unique = true, nullable = false)
 	public int getIdpatrocinador() {
 		return this.idpatrocinador;
@@ -178,6 +179,15 @@ public class Patrocinadores implements java.io.Serializable {
 		this.idEvento = idEvento;
 	}
 	
-	
+	@ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="idevento", updatable = false, insertable = false)
+    public Evento getEvento() {
+        return this.evento;
+    }
+    
+    public void setEvento(Evento evento) {
+        this.evento = evento;
+    }
+
 
 }

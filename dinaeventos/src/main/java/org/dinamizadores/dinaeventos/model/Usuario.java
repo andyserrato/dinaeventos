@@ -44,6 +44,7 @@ public class Usuario implements java.io.Serializable {
 	private Integer idsexo;
 	private Integer idredessociales;
 	private Integer idrol;
+	private Roles roles;
 	private Integer idcodigopostal;
 	private GlobalCodigospostales codigoPostal;
 	private String dni;
@@ -85,7 +86,7 @@ public class Usuario implements java.io.Serializable {
 	}
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "idusuario", unique = true, nullable = false)
 	public int getIdUsuario() {
 		return this.idusuario;
@@ -250,6 +251,16 @@ public class Usuario implements java.io.Serializable {
 	public void setIdrol(Integer idrol) {
 		this.idrol = idrol;
 	}
+	
+	@ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="idrol", insertable = false, updatable = false)
+    public Roles getRoles() {
+        return this.roles;
+    }
+    
+    public void setRoles(Roles roles) {
+        this.roles = roles;
+    }
 
 	@Column(name = "idcodigopostal")
 	public Integer getIdcodigopostal() {

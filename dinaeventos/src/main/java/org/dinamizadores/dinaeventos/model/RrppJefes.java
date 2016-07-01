@@ -1,6 +1,9 @@
 package org.dinamizadores.dinaeventos.model;
 // Generated 13-jun-2016 11:45:19 by Hibernate Tools 4.3.1.Final
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -8,6 +11,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -21,11 +27,15 @@ public class RrppJefes implements java.io.Serializable {
 	private static final long serialVersionUID = -2647515921108590406L;
 	private int idrrppJefe;
 	private Integer idOrganizador;
+	private Organizadores organizador;
 	private Integer idUsuario;
 	private Usuario usuario;
 	private Integer limiteEntradas;
 	private String codigoPromocional;
-	
+    private Set<RrppMinion> rrppMinions = new HashSet<RrppMinion>(0);
+    private Set<DdRrppJefeEntrada> ddRrppJefeEntradas = new HashSet<DdRrppJefeEntrada>(0);
+    private Set<Evento> eventos = new HashSet<Evento>(0);
+
 	public RrppJefes() {
 	}
 
@@ -42,7 +52,7 @@ public class RrppJefes implements java.io.Serializable {
 	}
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "idrrpp_jefe", unique = true, nullable = false)
 	public int getIdrrppJefe() {
 		return this.idrrppJefe;
@@ -60,6 +70,16 @@ public class RrppJefes implements java.io.Serializable {
 	public void setIdOrganizador(Integer idOrganizador) {
 		this.idOrganizador = idOrganizador;
 	}
+	
+	@ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="idorganizador", insertable = false, updatable = false)
+    public Organizadores getOrganizador() {
+        return this.organizador;
+    }
+    
+    public void setOrganizador(Organizadores organizador) {
+        this.organizador = organizador;
+    }
 	
 	@Column(name = "idUsuario")
 	public Integer getIdUsuario() {
@@ -97,5 +117,33 @@ public class RrppJefes implements java.io.Serializable {
 	public void setCodigoPromocional(String codigoPromocional) {
 		this.codigoPromocional = codigoPromocional;
 	}
+	
+	@OneToMany(fetch=FetchType.LAZY, mappedBy="rrppJefes")
+    public Set<RrppMinion> getRrppMinions() {
+        return this.rrppMinions;
+    }
+    
+    public void setRrppMinions(Set<RrppMinion> rrppMinions) {
+        this.rrppMinions = rrppMinions;
+    }
+
+    @OneToMany(fetch=FetchType.LAZY, mappedBy="rrppJefes")
+    public Set<DdRrppJefeEntrada> getDdRrppJefeEntradas() {
+        return this.ddRrppJefeEntradas;
+    }
+    
+    public void setDdRrppJefeEntradas(Set<DdRrppJefeEntrada> ddRrppJefeEntradas) {
+        this.ddRrppJefeEntradas = ddRrppJefeEntradas;
+    }
+
+    @ManyToMany(fetch=FetchType.LAZY, mappedBy="rrppJefes")
+    public Set<Evento> getEventos() {
+        return this.eventos;
+    }
+    
+    public void setEventos(Set<Evento> eventos) {
+        this.eventos = eventos;
+    }
+
 
 }

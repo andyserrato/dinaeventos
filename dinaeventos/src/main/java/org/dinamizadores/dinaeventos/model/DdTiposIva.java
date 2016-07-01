@@ -15,9 +15,6 @@ import javax.persistence.Table;
 @Table(name = "dd_tipos_iva", catalog = "jbossforge")
 public class DdTiposIva implements java.io.Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -1784803521447790460L;
 	private int idtipoiva;
 	private String nombre;
@@ -34,7 +31,7 @@ public class DdTiposIva implements java.io.Serializable {
 	}
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "idtipoiva", unique = true, nullable = false)
 	public int getIdtipoiva() {
 		return this.idtipoiva;
