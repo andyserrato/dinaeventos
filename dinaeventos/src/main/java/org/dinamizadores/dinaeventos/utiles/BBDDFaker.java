@@ -1,21 +1,44 @@
 package org.dinamizadores.dinaeventos.utiles;
 
-import com.github.javafaker.Faker;
-
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
 import org.dinamizadores.dinaeventos.dao.DAOGenerico;
-import org.dinamizadores.dinaeventos.model.*;
-import org.dinamizadores.dinaeventos.utiles.log.Loggable;
+import org.dinamizadores.dinaeventos.model.DdFormapago;
+import org.dinamizadores.dinaeventos.model.DdOrigenEntrada;
+import org.dinamizadores.dinaeventos.model.DdRrppJefeEntrada;
+import org.dinamizadores.dinaeventos.model.DdRrppJefeEntradaId;
+import org.dinamizadores.dinaeventos.model.DdSexo;
+import org.dinamizadores.dinaeventos.model.DdTipoComplemento;
+import org.dinamizadores.dinaeventos.model.DdTipoEntrada;
+import org.dinamizadores.dinaeventos.model.DdTipoEvento;
+import org.dinamizadores.dinaeventos.model.DdTiposIva;
+import org.dinamizadores.dinaeventos.model.Entrada;
+import org.dinamizadores.dinaeventos.model.Evento;
+import org.dinamizadores.dinaeventos.model.Organizadores;
+import org.dinamizadores.dinaeventos.model.Patrocinadores;
+import org.dinamizadores.dinaeventos.model.Permisos;
+import org.dinamizadores.dinaeventos.model.Redessociales;
+import org.dinamizadores.dinaeventos.model.Roles;
+import org.dinamizadores.dinaeventos.model.RrppJefes;
+import org.dinamizadores.dinaeventos.model.RrppMinion;
+import org.dinamizadores.dinaeventos.model.Usuario;
+
+import com.github.javafaker.Faker;
 
 @Stateless
-@Loggable
 public class BBDDFaker {
+	// TODO realizar las relaciones de rrppjefe con el evento
+	// TODO realizar las relaciones de ddtipocomplemento con las entradas
+	// TODO realizar relacion entre rrppjefe, rrppminion y evento
+	// TODO prueba commit
 	/** Clase Faker para generar cosas random. */
 	private Faker faker;
 	
@@ -40,17 +63,13 @@ public class BBDDFaker {
 		return d;
 	}
 	
-	public DdPatrocinadorEvento crearPatrocinadorEvento(int idpatrocinador, int idevento){
-		return new DdPatrocinadorEvento(new DdPatrocinadorEventoId(idpatrocinador, idevento));
-	}
-	
-	public DdRrppEvento crearRRPPEvento(int idRRPP, int idEvento){
-		return new DdRrppEvento(new DdRrppEventoId(idEvento, idRRPP));
-	}
-	
-	public DdRrppJefeEntrada crearRRPPJefeEntrada(int idRRPPJefe, int idEntrada, int idRRPPMinion){
-		return new DdRrppJefeEntrada(new DdRrppJefeEntradaId(idRRPPJefe, idEntrada), idRRPPMinion);
-	}
+//	public DdRrppEvento crearRRPPEvento(int idRRPP, int idEvento){
+//		return new DdRrppEvento(new DdRrppEventoId(idEvento, idRRPP));
+//	}
+//	
+//	public DdRrppJefeEntrada crearRRPPJefeEntrada(int idRRPPJefe, int idEntrada, int idRRPPMinion){
+//		return new DdRrppJefeEntrada(new DdRrppJefeEntradaId(idRRPPJefe, idEntrada), idRRPPMinion);
+//	}
 	
 	public DdSexo crearSexo(){
 		DdSexo d = new DdSexo();
@@ -60,13 +79,14 @@ public class BBDDFaker {
 		return d;
 	}
 	
-	public DdTipoComplemento crearTipoComplemento(){
+	public DdTipoComplemento crearTipoComplemento(int idevento){
 		DdTipoComplemento d = new DdTipoComplemento();
 		
 		d.setDescripcion(faker.chuckNorris().fact());
 		d.setNombre(faker.beer().name());
 		d.setPrecio(BigDecimal.valueOf(faker.number().randomDouble(2, 1, 100)));
-		
+		d.setIdEvento(idevento);
+		// TODO no se puede agregar evento la clave marica foránea no me deja
 		return d;
 	}
 	
@@ -75,7 +95,7 @@ public class BBDDFaker {
 		
 		d.setNombre(faker.book().title());
 		d.setPrecio(BigDecimal.valueOf(faker.number().randomDouble(2, 1, 100)));
-		
+		d.setCantidad(faker.number().numberBetween(1, 10000));
 		return d;
 	}
 	
@@ -100,12 +120,12 @@ public class BBDDFaker {
 		
 		e.setActiva(true);
 		e.setDentrofuera(false);
-//		e.setIdevento(idEvento);
-//		e.setIdformapago(idFormaPago);
-//		e.setIdorigen(idOrigen);
-//		e.setIdtipoentrada(idTipoEntrada);
-//		e.setIdtipoiva(idTipoIva);
-//		e.setIdusuario(idUsuario);
+		e.setIdevento(idEvento);
+		e.setIdformapago(idFormaPago);
+		e.setIdorigen(idOrigen);
+		e.setIdtipoentrada(idTipoEntrada);
+		e.setIdtipoiva(idTipoIva);
+		e.setIdusuario(idUsuario);
 		e.setNumeroserie(Long.toString(faker.number().randomNumber()));
 		e.setPrecio(Float.valueOf(Double.toString(faker.number().randomDouble(2, 1, 100))));
 		e.setTicketgenerado(false);
@@ -121,12 +141,14 @@ public class BBDDFaker {
 		e.setActivo(true);
 		e.setAforo(25000);
 		e.setDescripcion(faker.commerce().department());
+		e.setDireccion(faker.color().name());
 		e.setEntradasDisponibles(e.getAforo());
 		e.setFechaAlta(faker.date().past(63072000, TimeUnit.SECONDS));
 		e.setFechaIni(new Date(e.getFechaAlta().getTime() + 1296000000));
 		e.setFechaFin(e.getFechaIni());
 		e.setIdcodigopostal(idCodigoPostal);
 		e.setIdorganizador(idOrganizador);
+		// TODO revisar por qué no se puede agregar un organizador
 		e.setIdtipoevento(idTipoEvento);
 		e.setLatitud(0);
 		e.setLongitud(0);
@@ -169,7 +191,7 @@ public class BBDDFaker {
 		return o;
 	}
 	
-	public Patrocinadores crearPatrocinador(int idCodigoPostal){
+	public Patrocinadores crearPatrocinador(int idCodigoPostal, int idEvento){
 		Patrocinadores p = new Patrocinadores();
 		
 //		p.setCuentacorriente(faker.finance().creditCard());
@@ -179,7 +201,8 @@ public class BBDDFaker {
 		p.setIdcodigopostal(idCodigoPostal);
 		p.setNombre(faker.name().firstName());
 		p.setTelefono("663149759");
-		
+		p.setIdEvento(idEvento);
+		// TODO problema foreign key
 		return p;
 	}
 	
@@ -187,34 +210,34 @@ public class BBDDFaker {
 		Permisos p = new Permisos();
 		
 		p.setNombre(faker.beer().name());
-		
+		// TODO asociar roles + roles_permisos + permisos
 		return p;
 	}
 	
 	public Redessociales crearRedSocial(){
-		Redessociales r = new Redessociales();
+		Redessociales redSocial = new Redessociales();
 		
-		
-		return r;
+		redSocial.setIdUser(String.valueOf(faker.number().randomNumber(17, true)));
+		redSocial.setEnlacePerfil("https:\\/\\/www.facebook.com\\/app_scoped_user_id\\/" + String.valueOf(faker.number().randomNumber(17, true)) + "\\/");
+		redSocial.setToken(faker.finance().bic());
+		redSocial.setEnlaceFoto("https:\\/\\/scontent.xx.fbcdn.net\\/v\\/t1.0-1\\/p50x50\\/10646650_10153778039437512_8141757141401914305_n.jpg?oh=51c634eaf86133df10fd29aac6d0cf36&oe=58094088");
+		redSocial.setRedSocial("Facebook");
+		return redSocial;
 	}
 	
-	public Roles crearRol(){
-		Roles r = new Roles();
+	public Roles crearRol(List<Permisos> permisos){
+		Roles rol = new Roles();
 		
-		r.setNombre(faker.color().name());
-		
-		return r;
-	}
-	
-	public RolesPermisos crearRolesPermisos(int idRol, int idPermisos){
-		return new RolesPermisos(new RolesPermisosId(idRol, idPermisos));
+		rol.setNombre(faker.color().name());
+		rol.getPermisos().add(permisos.get(ThreadLocalRandom.current().nextInt(permisos.size())));
+		return rol;
 	}
 	
 	public RrppJefes crearRRPPJefes(int idOrganizador, int idUsuario){
 		RrppJefes r = new RrppJefes();
 		
 		r.setCodigoPromocional(faker.hacker().verb());
-		r.setIdOrganizador(idOrganizador);
+//		r.setIdOrganizador(idOrganizador);
 		r.setLimiteEntradas(0);
 		r.setIdUsuario(idUsuario);
 		
@@ -232,7 +255,7 @@ public class BBDDFaker {
 		return r;
 	}
 	
-	public Usuario crearUsuario(int idCodigoPostal, int idRedesSociales, int idRol, int idSexo){
+	public Usuario crearUsuario(int idCodigoPostal, int idRedSocial, int idRol, int idSexo){
 		Usuario u = new Usuario();
 		
 		u.setActivo(true);
@@ -246,7 +269,7 @@ public class BBDDFaker {
 		u.setFotoperfil(null);
 		u.setIban(faker.finance().iban("ES"));
 		u.setIdcodigopostal(idCodigoPostal);
-		u.setIdredessociales(idRedesSociales);
+		u.setIdredessociales(idRedSocial);
 		u.setIdrol(idRol);
 		u.setIdsexo(idSexo);
 		u.setNombre(faker.name().firstName());
@@ -266,98 +289,188 @@ public class BBDDFaker {
 		final int NUM_ORIGENENTRADA = 3;
 		final int NUM_SEXO = 3;
 		final int NUM_EVENTO = 2;
-		
-		final int NUM_TIPOCOMPLEMENTO = 3;
-		final int NUM_TIPOENTRADA = 3;
 		final int NUM_TIPOEVENTO = 10;
-		final int NUM_TIPOSIVA = 3;
-		final int NUM_ENTRADA = 50;
 		final int NUM_ORGANIZADORES = 2;
+		final int NUM_TIPOCOMPLEMENTO = 5;
 		final int NUM_PATROCINADORES = 2;
-		final int NUM_PERMISOS= 3;
-		final int NUM_REDESSOCIALES = 3;
+		final int NUM_TIPOENTRADA = 3;
+		final int NUM_TIPOSIVA = 3;
+		final int NUM_PERMISOS = 3;
 		final int NUM_ROLES = 3;
+		final int NUM_USUARIO = 30;
+		final int NUM_ENTRADA = 50;
+		final int NUM_REDESSOCIALES = 3;
 		final int NUM_RRPPJEFE = 1;
 		final int NUM_RRPPMINION = 3;
-		final int NUM_USUARIO = 30;
+		
 		final int NUM_CODIGOSPOSTALES = 53169; 
 		
 		System.out.println("INICIO DEL LLENADO DE LA   BBDD");
 		faker = new Faker();
 		
+		List<DdFormapago> formasDePago = new ArrayList<>();
 		for(int i = 0; i < NUM_FORMAPAGO; i++){
-			dao.insertar(crearFormaPago());
+			DdFormapago formaDePago = crearFormaPago();
+			dao.insertar(formaDePago);
+			formasDePago.add(formaDePago);
 		}
-		
+
+		List<DdOrigenEntrada> origenDeEntradas = new ArrayList<>();
 		for(int i = 0; i < NUM_ORIGENENTRADA; i++){
-			dao.insertar(crearOrigenEntrada());
+			DdOrigenEntrada origenEntrada = crearOrigenEntrada(); 
+			dao.insertar(origenEntrada);
+			origenDeEntradas.add(origenEntrada);
 		}
 		
+		List<DdSexo> sexos = new ArrayList<>();
 		for(int i = 0; i < NUM_SEXO; i++){
-			dao.insertar(crearSexo());
+			DdSexo sexo = crearSexo();
+			dao.insertar(sexo);
+			sexos.add(sexo);
 		}
 		
+		List<DdTipoEvento> tiposEventos = new ArrayList<>();
 		for(int i = 0; i < NUM_TIPOEVENTO; i++){
-			dao.insertar(crearTipoEvento());
+			DdTipoEvento tipoEvento = crearTipoEvento(); 
+			dao.insertar(tipoEvento);
+			tiposEventos.add(tipoEvento);
 		}
 		
+		List<Organizadores> organizadores =  new ArrayList<>();
 		for(int i = 0; i < NUM_ORGANIZADORES; i++){
-			dao.insertar(crearOrganizadores(faker.number().numberBetween(1, NUM_CODIGOSPOSTALES)));
+			Organizadores organizador = crearOrganizadores(faker.number().numberBetween(1, NUM_CODIGOSPOSTALES));
+			dao.insertar(organizador);
+			organizadores.add(organizador);
 		}
 		
-//		for(int i = 0; i < NUM_EVENTO; i++){
-//			dao.insertar(crearEvento(faker.number().numberBetween(1, NUM_CODIGOSPOSTALES), faker.number().numberBetween(1, NUM_ORGANIZADORES), faker.number().numberBetween(1, NUM_TIPOEVENTO)));
-//		}
+		List<Evento> eventos = new ArrayList<>();
+		for(int i = 0; i < NUM_EVENTO; i++){
+			int idOrganizador = organizadores.get(ThreadLocalRandom.current().nextInt(organizadores.size())).getIdorganizador();
+			int idTipoEvento = tiposEventos.get(ThreadLocalRandom.current().nextInt(tiposEventos.size())).getIdTipoEvento();
+			Evento evento = crearEvento(faker.number().numberBetween(1, NUM_CODIGOSPOSTALES), idOrganizador, idTipoEvento);
+			dao.insertar(evento);
+			eventos.add(evento);
+		}
 		
-//		for(int i = 0; i < NUM_TIPOCOMPLEMENTO; i++){
-//			dao.insertar(crearTipoComplemento());
-//		}
-//		
-//		for(int i = 0; i < NUM_TIPOENTRADA; i++){
-//			dao.insertar(crearTipoEntrada());
-//		}
-//		
-//		
-//		for(int i = 0; i < NUM_TIPOSIVA; i++){
-//			dao.insertar(crearTiposIva());
-//		}
-//		
-//		for(int i = 0; i < NUM_PERMISOS; i++){
-//			dao.insertar(crearPermisos());
-//		}
-//		
-//		for(int i = 0; i < NUM_ROLES; i++){
-//			dao.insertar(crearRol());
-//		}
-//		
-//		for(int i = 0; i < NUM_REDESSOCIALES; i++){
-//			dao.insertar(crearRedSocial());
-//		}
-//		
-
-//		
-//		for(int i = 0; i < NUM_PATROCINADORES; i++){
-//			dao.insertar(crearPatrocinador(faker.number().numberBetween(1, NUM_CODIGOSPOSTALES)));
-//		}
-//		
-//		for(int i = 0; i < NUM_USUARIO; i++){
-//			dao.insertar(crearUsuario(faker.number().numberBetween(1, NUM_CODIGOSPOSTALES), faker.number().numberBetween(1, NUM_REDESSOCIALES), faker.number().numberBetween(1, NUM_ROLES), faker.number().numberBetween(1, NUM_SEXO)));
-//		}
-//		
-
+		List<DdTipoComplemento> complementos = new ArrayList<>();
+		for(int i = 0; i < NUM_TIPOCOMPLEMENTO; i++){
+			int idEvento = eventos.get(ThreadLocalRandom.current().nextInt(eventos.size())).getIdevento();
+			DdTipoComplemento complemento = crearTipoComplemento(idEvento);
+			dao.insertar(complemento);
+			complementos.add(complemento);
+		}
 		
-//		for(int i = 0; i < NUM_ENTRADA; i++){ 
-//			dao.insertar(crearEntrada(faker.number().numberBetween(1, NUM_EVENTO), faker.number().numberBetween(1, NUM_FORMAPAGO), faker.number().numberBetween(1, NUM_ORIGENENTRADA), faker.number().numberBetween(1, NUM_TIPOENTRADA), faker.number().numberBetween(1, NUM_TIPOSIVA), faker.number().numberBetween(1, NUM_USUARIO)));
-//		}
-//		
-//		for(int i = 0; i < NUM_RRPPJEFE; i++){
-//			dao.insertar(crearRRPPJefes(faker.number().numberBetween(1, NUM_ORGANIZADORES), faker.number().numberBetween(1, NUM_USUARIO)));
-//		}
-//		
-//		for(int i = 0; i < NUM_RRPPMINION; i++){
-//			dao.insertar(crearRRPPMinion(NUM_RRPPJEFE, faker.number().numberBetween(1, NUM_USUARIO)));
-//		}
-//		
+		List<Patrocinadores> patrocinadores = new ArrayList<>();
+		for(int i = 0; i < NUM_PATROCINADORES; i++){
+			// TODO esto se puede cambiar por una consulta para traerse todos los ids en una lista y hacer un random de esa lista
+			int idEvento = eventos.get(ThreadLocalRandom.current().nextInt(eventos.size())).getIdevento();
+			Patrocinadores patrocinador = crearPatrocinador(faker.number().numberBetween(1, NUM_CODIGOSPOSTALES), idEvento); 
+			dao.insertar(patrocinador);
+			patrocinadores.add(patrocinador);
+		}
+		
+		List<DdTipoEntrada> tiposDeEntrada = new ArrayList<>();
+		for(int i = 0; i < NUM_TIPOENTRADA; i++){
+			DdTipoEntrada tipoEntrada = crearTipoEntrada(); 
+			dao.insertar(tipoEntrada);
+			tiposDeEntrada.add(tipoEntrada);
+		}
+		
+		List<DdTiposIva> tiposDeIva = new ArrayList<>();
+		for(int i = 0; i < NUM_TIPOSIVA; i++){
+			DdTiposIva tipoDeIva = crearTiposIva(); 
+			dao.insertar(tipoDeIva);
+			tiposDeIva.add(tipoDeIva);
+		}
+		
+		List<Permisos> permisos = new ArrayList<>();
+		for(int i = 0; i < NUM_PERMISOS; i++){
+			Permisos permiso = crearPermisos(); 
+			dao.insertar(permiso);
+			permisos.add(permiso);
+		}
+		
+		List<Roles> roles = new ArrayList<>();
+		for(int i = 0; i < NUM_ROLES; i++){
+			Roles rol = crearRol(permisos);
+			dao.insertar(rol);
+			roles.add(rol);
+		}
+		
+		List<Redessociales> redesSociales = new ArrayList<>();
+		for(int i = 0; i < NUM_REDESSOCIALES; i++){
+			Redessociales redSocial = crearRedSocial(); 
+			dao.insertar(redSocial);
+			redesSociales.add(redSocial);
+		}
+		
+		List<Usuario> usuarios = new ArrayList<>();
+		for(int i = 0; i < NUM_USUARIO; i++){
+			int idRedSocial = redesSociales.get(ThreadLocalRandom.current().nextInt(redesSociales.size())).getIdredessociales();
+			int idRol = roles.get(ThreadLocalRandom.current().nextInt(roles.size())).getIdrol();
+			int idSexo = sexos.get(ThreadLocalRandom.current().nextInt(sexos.size())).getIdsexo();
+			
+			Usuario usuario = crearUsuario(faker.number().numberBetween(1, NUM_CODIGOSPOSTALES), idRedSocial, idRol, idSexo);
+			dao.insertar(usuario);
+			usuarios.add(usuario);
+		}
+		
+		List<Entrada> entradas = new ArrayList<>();
+		for(int i = 0; i < NUM_ENTRADA; i++){ 
+			int idEvento = eventos.get(ThreadLocalRandom.current().nextInt(eventos.size())).getIdevento();
+			int idFormaPago = formasDePago.get(ThreadLocalRandom.current().nextInt(formasDePago.size())).getIdformapago();
+			int idOrigenEntrada = origenDeEntradas.get(ThreadLocalRandom.current().nextInt(origenDeEntradas.size())).getIdorigenEntrada();
+			int idTipoEntrada = tiposDeEntrada.get(ThreadLocalRandom.current().nextInt(tiposDeEntrada.size())).getIdtipoentrada();
+			int idTiposIva = tiposDeIva.get(ThreadLocalRandom.current().nextInt(tiposDeIva.size())).getIdtipoiva();
+			// TODO verificar que estos usuarios no están vinculados con otras entidades
+			int idUsuario = usuarios.get(ThreadLocalRandom.current().nextInt(usuarios.size())).getIdUsuario();
+			
+			Entrada entrada = crearEntrada(idEvento, idFormaPago, idOrigenEntrada, idTipoEntrada, idTiposIva, idUsuario); 
+			dao.insertar(entrada);
+			entradas.add(entrada);
+		}
+		
+		List<Usuario> usuariosRrppJefe = new ArrayList<>();
+		for(int i = 0; i < NUM_USUARIO; i++){
+			int idRedSocial = redesSociales.get(ThreadLocalRandom.current().nextInt(redesSociales.size())).getIdredessociales();
+			int idRol = roles.get(ThreadLocalRandom.current().nextInt(roles.size())).getIdrol();
+			int idSexo = sexos.get(ThreadLocalRandom.current().nextInt(sexos.size())).getIdsexo();
+			
+			Usuario usuario = crearUsuario(faker.number().numberBetween(1, NUM_CODIGOSPOSTALES), idRedSocial, idRol, idSexo);
+			dao.insertar(usuario);
+			usuariosRrppJefe.add(usuario);
+		}
+		
+		List<RrppJefes> rrppJefes = new ArrayList<>();
+		for(int i = 0; i < NUM_RRPPJEFE; i++){
+			int idOrganizador = organizadores.get(ThreadLocalRandom.current().nextInt(organizadores.size())).getIdorganizador();
+			int idUsuario = usuariosRrppJefe.get(ThreadLocalRandom.current().nextInt(usuariosRrppJefe.size())).getIdUsuario();
+			RrppJefes rrppJefe = crearRRPPJefes(idOrganizador, idUsuario);  
+			dao.insertar(rrppJefe);
+			rrppJefes.add(rrppJefe);
+		}
+		
+		List<Usuario> usuariosRrppMinion = new ArrayList<>();
+		for(int i = 0; i < NUM_USUARIO; i++){
+			int idRedSocial = redesSociales.get(ThreadLocalRandom.current().nextInt(redesSociales.size())).getIdredessociales();
+			int idRol = roles.get(ThreadLocalRandom.current().nextInt(roles.size())).getIdrol();
+			int idSexo = sexos.get(ThreadLocalRandom.current().nextInt(sexos.size())).getIdsexo();
+			
+			Usuario usuario = crearUsuario(faker.number().numberBetween(1, NUM_CODIGOSPOSTALES), idRedSocial, idRol, idSexo);
+			dao.insertar(usuario);
+			usuariosRrppMinion.add(usuario);
+		}
+		
+		List<RrppMinion> rrppMinions = new ArrayList<>();
+		for(int i = 0; i < NUM_RRPPMINION; i++){
+			int idRrppJefe = rrppJefes.get(ThreadLocalRandom.current().nextInt(rrppJefes.size())).getIdrrppJefe();
+			int idUsuario = usuariosRrppMinion.get(ThreadLocalRandom.current().nextInt(usuariosRrppMinion.size())).getIdUsuario();
+			RrppMinion rrppMinion = crearRRPPMinion(idRrppJefe, idUsuario); 
+			dao.insertar(rrppMinion);
+			rrppMinions.add(rrppMinion);
+		}
+
+				
 //		for(int i = 0; i < NUM_ENTRADA; i++){
 //			dao.insertar(crearRRPPJefeEntrada(NUM_RRPPJEFE, i, NUM_RRPPMINION));
 //		}
@@ -366,13 +479,8 @@ public class BBDDFaker {
 //			dao.insertar(crearRRPPEvento(NUM_RRPPJEFE, i));
 //		}
 //		
-//		for(int i = 0; i < NUM_EVENTO; i++){
-//			dao.insertar(crearPatrocinadorEvento(faker.number().numberBetween(1, NUM_PATROCINADORES), i));
-//		}
-//		
-//		for(int i = 0; i < NUM_ROLES; i++){
-//			dao.insertar(crearRolesPermisos(i, faker.number().numberBetween(1, NUM_PERMISOS)));
-//		}
+
+
 		
 		System.out.println("FIN DEL LLENADO DE BBDD");
 		
