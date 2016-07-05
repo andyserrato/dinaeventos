@@ -38,12 +38,12 @@ public class FormarPDF {
         File pdfTemplate = Repository.findCarPassPDFTemplate();
 
         logger.info ( "start the rendering of the Entrada" );
-        crearPDF(listaEntradas, pdfTemplate);
+        crearPDF(listaEntradas, pdfTemplate, enviarConjunto);
         
 
     }
 
-    private static void crearPDF ( List<entradasCompleta> listaEntrada, File pdfTemplate ) throws IOException, DocumentException {
+    private static void crearPDF ( List<entradasCompleta> listaEntrada, File pdfTemplate, Boolean envioConjunto ) throws IOException, DocumentException {
     	
     	//String ruta = null;
         //loop de listado de entradas a generar
@@ -58,10 +58,21 @@ public class FormarPDF {
     	}
     	//TODO
         //Función que envíe por correo electronico a cada usuario
-    	Email correo = new Email();
-    	EmailBasico datosEmail = new EmailBasico();
-    	correo.enviarEmail(listaEntrada, datosEmail);
-    	
+    	if (!envioConjunto){
+    		Email correo = new Email();
+    		EmailBasico datosEmail = new EmailBasico();
+    		correo.enviarEmail(listaEntrada, datosEmail);
+    	}else if(envioConjunto){
+    		for (entradasCompleta entrada: listaEntrada){
+    			Email correo = new Email();
+    			EmailBasico datosEmail = new EmailBasico();
+    			List<entradasCompleta> auxlista = new ArrayList<entradasCompleta>();
+    			auxlista.add(entrada);
+    			
+    			datosEmail.setMailReceptor(entrada.getUsuario().getEmail());
+    			correo.enviarEmail(auxlista, datosEmail);
+    		}
+    	}
     
     }
 

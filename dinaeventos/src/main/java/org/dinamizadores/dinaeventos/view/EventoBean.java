@@ -42,7 +42,7 @@ public class EventoBean implements Serializable {
 	
 	public void init() {
 		codigosPostales = new ArrayList<>();
-		evento.setCodigoPostal(new GlobalCodigospostales());
+		//evento.setCodigoPostal(new GlobalCodigospostales());
 	}
 	
 	public void actualizaLocalidadesByCP(String IdProvincia) {

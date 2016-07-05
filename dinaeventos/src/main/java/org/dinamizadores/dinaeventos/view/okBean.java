@@ -28,7 +28,7 @@ import com.mangopay.entities.CardRegistration;
 @ViewScoped
 @Loggable
 
-public class DdTipoComplementoBean implements Serializable {
+public class okBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -58,59 +58,45 @@ public class DdTipoComplementoBean implements Serializable {
 	
 	private Boolean envioConjunto = false;
 	
-
+	private String idTarjeta = null;
 	
 	@PostConstruct
 	public void init(){
-	
-		total = (BigDecimal) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("total");
 		listadoEntradas = (List<entradasCompleta>) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("listaEntradas");
+		envioConjunto = (Boolean) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("envioConjunto");
 		
-		calcularInfoComplementos();	
+		
+		cambiarPagina();
 	}
 	
-	private void calcularInfoComplementos(){
-			
-		setListadoComplemento(tipoComplementoDao.listTipoComplemento());
-		
-		for (entradasCompleta entrada : listadoEntradas){
-			entrada.getListaComplementos().clear();
-			for (DdTipoComplemento c : listadoComplemento){
-			complementoEntero comple = new complementoEntero();
-			comple.setComplemento(c);
-			entrada.getListaComplementos().add(comple);
-			}
-		}
-	}
-	
-	public void agregarComplemento(){
-		total = new BigDecimal(0);
-		for (entradasCompleta entrada : listadoEntradas){
-				for (complementoEntero c : entrada.getListaComplementos()){
-					total = total.add(c.getComplemento().getPrecio().multiply(BigDecimal.valueOf(c.getCantidad())));
-				}
-				total = total.add(entrada.getPrecio());
-			}
-		
-		}
 	
 	
-	public String cambiarPagina(){
+	public void cambiarPagina(){
 		
+			try {
 
-				//FormarPDF.main(listadoEntradas, envioConjunto);
-				
 				pagar pa = new pagar();
-				String idUsuario = pa.nuevoUsuario();
-				CardRegistration tarjetaRegistrada = pa.nuevoTarjeta(idUsuario);
+				CardRegistration tarjetaRegistrada = (CardRegistration) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("tarjeta");
+				total = (BigDecimal) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("total");
 				
-				//Enviamos los datos a la nueva pagina
-				FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("tarjeta", tarjetaRegistrada);
-				FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("envioConjunto", envioConjunto);
+				System.out.println("Total: " + total);
+				pa.setTotal(total);
+				String[] lista = null;
+				lista =  FacesContext.getCurrentInstance().getExternalContext().getRequestParameterValuesMap().get("data");
 				
-				
-				return "/comprar/pagarEntradas.xhtml?faces-redirect=true";
+				tarjetaRegistrada.RegistrationData = lista[0];
 			
+				pa.actualizarTarjeta(tarjetaRegistrada);
+				
+				FormarPDF.main(listadoEntradas, envioConjunto);
+				
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (DocumentException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 	}
 	
 
@@ -192,6 +178,14 @@ public class DdTipoComplementoBean implements Serializable {
 
 	public void setEnvioConjunto(Boolean envioConjunto) {
 		this.envioConjunto = envioConjunto;
+	}
+
+	public String getIdTarjeta() {
+		return idTarjeta;
+	}
+
+	public void setIdTarjeta(String idTarjeta) {
+		this.idTarjeta = idTarjeta;
 	}
 
 	

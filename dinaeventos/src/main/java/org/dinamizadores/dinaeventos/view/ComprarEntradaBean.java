@@ -1,15 +1,21 @@
 package org.dinamizadores.dinaeventos.view;
 
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.view.ViewScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
+import javax.net.ssl.HttpsURLConnection;
 
 import org.dinamizadores.dinaeventos.dao.EntradaDao;
 import org.dinamizadores.dinaeventos.model.DdTipoComplemento;
@@ -21,6 +27,7 @@ import org.dinamizadores.dinaeventos.dto.complementoEntero;
 import org.dinamizadores.dinaeventos.dto.entradasCompleta;
 
 import com.itextpdf.text.DocumentException;
+import com.mangopay.entities.CardRegistration;
 
 
 @Named
@@ -47,69 +54,56 @@ public class ComprarEntradaBean implements Serializable {
 	
 	private String nombreEntrada = null;
 	
-	private entradasCompleta entrada = new entradasCompleta();
-	
 	private List<entradasCompleta> listadoEntradas = new ArrayList<entradasCompleta>();
-	
-	private List<DdTipoComplemento> listadoComplemento = new ArrayList<DdTipoComplemento>();
-	
+
 	private int cuenta = 0;
 	
 	private Boolean envioConjunto = false;
 	
-
+	private String data = null;
 	
+	private String accessKeyRef = null;
+	
+	private String returnURL = null;
+	
+	private CardRegistration tarjetaRegistrada;
+	
+	private String cardCvx = null;
+	
+	private String cardExpirationDate = null;
+	
+	private String cardNumber = null;
+	
+	
+	
+
+
 	@PostConstruct
 	public void init(){
 	
-		total = (BigDecimal) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("total");
 		listadoEntradas = (List<entradasCompleta>) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("listaEntradas");
+
 		
-		calcularInfoComplementos();	
+		tarjetaRegistrada  = (CardRegistration) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("tarjeta");
+		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("tarjeta", tarjetaRegistrada);
+		insertarTotal();
+		data = tarjetaRegistrada.PreregistrationData;
+		accessKeyRef = tarjetaRegistrada.AccessKey;
+		returnURL = "http://localhost:8080/dinaeventos/faces/comprar/ok.xhtml?faces-redirect=true";
 	}
-	
-	private void calcularInfoComplementos(){
+
+	public void insertarTotal(){
+		
+		for (entradasCompleta entrada : listadoEntradas){
+			for (complementoEntero c : entrada.getListaComplementos()){
+				total = total.add(c.getComplemento().getPrecio().multiply(BigDecimal.valueOf(c.getCantidad())));
+			}
+			total = total.add(entrada.getPrecio());
+		
 			
-		setListadoComplemento(tipoComplementoDao.listTipoComplemento());
-		
-		for (entradasCompleta entrada : listadoEntradas){
-			entrada.getListaComplementos().clear();
-			for (DdTipoComplemento c : listadoComplemento){
-			complementoEntero comple = new complementoEntero();
-			comple.setComplemento(c);
-			entrada.getListaComplementos().add(comple);
-			}
 		}
-	}
-	
-	public void agregarComplemento(){
-		total = new BigDecimal(0);
-		for (entradasCompleta entrada : listadoEntradas){
-				for (complementoEntero c : entrada.getListaComplementos()){
-					total = total.add(c.getComplemento().getPrecio().multiply(BigDecimal.valueOf(c.getCantidad())));
-				}
-				total = total.add(entrada.getPrecio());
-			}
 		
-		}
-	
-	
-	public String cambiarPagina(){
-		
-			try {
-				
-				FormarPDF.main(listadoEntradas, envioConjunto);
-				pagar pa = new pagar();
-				
-				return "/comprar/pagarEntradas.xhtml?faces-redirect=true";
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (DocumentException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			return "/error.xhtml?faces-redirect=true";
+		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("total", total);
 	}
 	
 
@@ -161,22 +155,6 @@ public class ComprarEntradaBean implements Serializable {
 		this.listadoEntradas = listadoEntradas;
 	}
 
-	public List<DdTipoComplemento> getListadoComplemento() {
-		return listadoComplemento;
-	}
-
-	public void setListadoComplemento(List<DdTipoComplemento> listadoComplemento) {
-		this.listadoComplemento = listadoComplemento;
-	}
-
-	public entradasCompleta getEntrada() {
-		return entrada;
-	}
-
-	public void setEntrada(entradasCompleta entrada) {
-		this.entrada = entrada;
-	}
-
 	public int getCuenta() {
 		return cuenta;
 	}
@@ -193,5 +171,72 @@ public class ComprarEntradaBean implements Serializable {
 		this.envioConjunto = envioConjunto;
 	}
 
+
+
+	public String getData() {
+		return data;
+	}
+
+
+
+	public void setData(String data) {
+		this.data = data;
+	}
+
+
+
+	public String getAccessKeyRef() {
+		return accessKeyRef;
+	}
+
+
+
+	public void setAccessKeyRef(String accessKeyRef) {
+		this.accessKeyRef = accessKeyRef;
+	}
+
+
+
+	public String getReturnURL() {
+		return returnURL;
+	}
+
+
+
+	public void setReturnURL(String returnURL) {
+		this.returnURL = returnURL;
+	}
+
 	
+	public CardRegistration getTarjetaRegistrada() {
+		return tarjetaRegistrada;
+	}
+
+	public void setTarjetaRegistrada(CardRegistration tarjetaRegistrada) {
+		this.tarjetaRegistrada = tarjetaRegistrada;
+	}
+
+	public String getCardNumber() {
+		return cardNumber;
+	}
+
+	public void setCardNumber(String cardNumber) {
+		this.cardNumber = cardNumber;
+	}
+
+	public String getCardExpirationDate() {
+		return cardExpirationDate;
+	}
+
+	public void setCardExpirationDate(String cardExpirationDate) {
+		this.cardExpirationDate = cardExpirationDate;
+	}
+
+	public String getCardCvx() {
+		return cardCvx;
+	}
+
+	public void setCardCvx(String cardCvx) {
+		this.cardCvx = cardCvx;
+	}
 }
