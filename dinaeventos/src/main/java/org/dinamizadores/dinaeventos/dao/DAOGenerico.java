@@ -25,7 +25,7 @@ public class DAOGenerico {
 		try{
 			entidad = em.find(clase, id);
 		} catch (Exception e){
-			throw new Exception("Error consultando la entidad con ID=" + id + " de la clase " + clase.getName());
+			throw new Exception("Error consssultando la entidad con ID=" + id + " de la clase " + clase.getName());
 		}
 		
 		return entidad;
