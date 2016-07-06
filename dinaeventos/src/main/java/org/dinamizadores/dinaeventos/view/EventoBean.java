@@ -58,6 +58,7 @@ public class EventoBean implements Serializable {
 		evento.setCodigoPostal(new GlobalCodigospostales());
 		evento.setOrganizador(new Organizadores());
 		ddTipoEvento = diccionarioDao.getDdTiposDeEvento();
+
 	}
 	
 	@Loggable

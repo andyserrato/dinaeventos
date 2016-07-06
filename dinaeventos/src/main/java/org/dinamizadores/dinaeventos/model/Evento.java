@@ -38,6 +38,7 @@ public class Evento implements java.io.Serializable {
 	private Date fechaIni;
 	private Date fechaFin;
 	private byte[] logo;
+	private String logoNombre;
 	private String descripcion;
 	private int aforo;
 	private Integer latitud;
@@ -159,6 +160,15 @@ public class Evento implements java.io.Serializable {
 	public void setLogo(byte[] logo) {
 		this.logo = logo;
 	}
+	
+	@Column(name = "logonombre")
+	public String getLogoNombre() {
+		return logoNombre;
+	}
+
+	public void setLogoNombre(String logoNombre) {
+		this.logoNombre = logoNombre;
+	}
 
 	@Column(name = "descripcion", length = 140)
 	public String getDescripcion() {
@@ -236,6 +246,7 @@ public class Evento implements java.io.Serializable {
 	
 	@ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="idtipoevento", insertable = false, updatable = false)
+	@Transient
     public DdTipoEvento getDdTipoEvento() {
         return this.ddTipoEvento;
     }
@@ -255,6 +266,7 @@ public class Evento implements java.io.Serializable {
 	
 	@ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="idorganizador", insertable = false, updatable = false)
+	@Transient
     public Organizadores getOrganizador() {
         return this.organizador;
     }
@@ -282,7 +294,7 @@ public class Evento implements java.io.Serializable {
 		this.activo = activo;
 	}
 	
-    @ManyToMany(fetch=FetchType.LAZY)
+	@ManyToMany(fetch=FetchType.LAZY)
     @JoinTable(name="dd_rrpp_evento", catalog="jbossforge", joinColumns = { 
         @JoinColumn(name="idevento", nullable=false, updatable=false) }, inverseJoinColumns = { 
         @JoinColumn(name="idrrpp", nullable=false, updatable=false) })
@@ -308,8 +320,8 @@ public class Evento implements java.io.Serializable {
         return this.patrocinadores;
     }
     
-    public void setPatrocinadores(Set<Patrocinadores> patrocinadoreses) {
-        this.patrocinadores = patrocinadoreses;
+    public void setPatrocinadores(Set<Patrocinadores> patrocinadores) {
+        this.patrocinadores = patrocinadores;
     }
 
     @OneToMany(fetch=FetchType.LAZY, mappedBy="evento")

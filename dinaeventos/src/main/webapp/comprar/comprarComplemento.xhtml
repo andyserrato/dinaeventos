@@ -7,6 +7,18 @@
 	template="/resources/scaffold/pageTemplateCliente.xhtml"
 	xmlns:p="http://primefaces.org/ui">
 
+	
+	<script type="text/javascript" src="js/waitbutton.js"></script> 
+	
+	<script type="text/javascript"> var WaitButton=WaitButton||(function(){var a=true;var b;return{init:function(f,e,c){b=document.createElement("div");b.setAttribute("id","textDiv");b.className="waitButton";b.style.display="none";if(c===undefined||c==""){b.innerHTML=e;}else{b.innerHTML=e+" <img height='20px' src='"+c+"' />";}var d=document.getElementById(f);
+	if(d){d.parentNode.insertBefore(b,d);}},noWaitButton:function(){a=false;},forceUseWaitButton:function(){a=true;},showWaitButton:function(){if(a==true){b.style.display="inline";return true;}else{return false;}}};}());
+	</script>
+	
+	<script type="text/javascript">WaitButton.init('botonComprar', 'Procesando pago...', 'images/wait3.gif')</script>
+		
+		
+		
+
 
 	<ui:param name="pageTitle" value="Compra entradas"/>
 
@@ -24,6 +36,11 @@
 	
 		<h:form id="comprar">
 		
+ 
+		<p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+    		<p:graphicImage name="images/wait3.gif" />
+		</p:dialog>
+				
 				
 				<p:repeat var="entrada"  value="#{ddTipoComplementoBean.listadoEntradas}" >
 					
@@ -46,7 +63,7 @@
 										       <td><h:outputLabel value="#{comple.complemento.precio}" /></td>
 										       <td> <h:outputLabel value="#{comple.complemento.descripcion}" /></td>
 										        <td><p:spinner size="3"  value="#{comple.cantidad}" min="0" > 
-										       	<p:ajax update="comprar:totales" listener="#{ddTipoComplementoBean.agregarComplemento}" />
+										       	<p:ajax  update="comprar:totales" listener="#{ddTipoComplementoBean.agregarComplemento}" />
 										       </p:spinner></td>
 										    </tr>
 									    </tbody>
@@ -66,7 +83,7 @@
 								</div>
 								<div class="col-md-12">
 									<h:outputText value="Enviar cada entrada a cada amigo: " />
-        							<p:selectBooleanButton id="value1" value="#{ddTipoComplementoBean.envioConjunto}" onLabel="Si" offLabel="No" style="width:60px" />
+        							<p:inputSwitch id="value1" value="#{ddTipoComplementoBean.envioConjunto}" />
         						</div>
 								<div class="col-md-12 ">
 									<p:repeat var="entrada" value="#{ddTipoComplementoBean.listadoEntradas}" >
@@ -94,7 +111,7 @@
 					<p:separator />
 					
 					<p:outputPanel style="margin:auto; width:20%;">
-						<p:commandLink styleClass="btn btn-primary" id="botonComprar"  action="#{ddTipoComplementoBean.cambiarPagina()}" value="Finalizar compra">
+						<p:commandLink styleClass="btn btn-primary" id="botonComprar"  action="#{ddTipoComplementoBean.cambiarPagina()}" value="Finalizar compra" onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()">
 						</p:commandLink>
 					</p:outputPanel>
 		</h:form>		

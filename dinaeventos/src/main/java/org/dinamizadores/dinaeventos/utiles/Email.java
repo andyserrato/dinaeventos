@@ -72,7 +72,7 @@ public class Email {
             message.setSubject(datosEmail.getTitulo());
             message.setHeader("Content-Type", "text/html");
  
-            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse("saloza@irtic.uv.es"));
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(datosEmail.getMailReceptor()));
             //message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(datosEmail.getMailReceptor()));
  
             if (!"".equalsIgnoreCase(datosEmail.getMailSegundoReceptor())) {

@@ -9,6 +9,8 @@
 
 
 	<ui:param name="pageTitle" value="Compra entradas"/>
+	
+	
 
 	<ui:define name="header">
 		<h1>Entrada</h1>
@@ -22,25 +24,69 @@
 
 	<ui:define name="main">
 	
-		<h:form id="comprar">
+		<form method="post" action="https://homologation-webpayment.payline.com/webpayment/getToken">
 					
-					<div id="PaylineForm">
+	<h:outputScript name="js/waitbutton.js" />
+    <script type="text/javascript">WaitButton.init('enviarPago', 'Procesando pago...', 'images/wait3.gif')</script> 
+	
+					<div id="PaylineForm" style="width: 50%">
 						<div id="pane">
-							<h2>Pagar</h2>
-							
+
+						<h:inputHidden  id="data" value="#{comprarEntradaBean.data}" />
+						<h:inputHidden id="accessKeyRef" value="#{comprarEntradaBean.accessKeyRef}" />
+						<h:inputHidden id="returnURL" value="#{comprarEntradaBean.returnURL}" />
+						
+						<div class="panel panel-default">
+							<div class="panel-body">
+								<div class="row">
+									<div class="col-md-4"> 
+										<label>Número de tarjeta</label>
+									</div>
+									<div class="col-md-4"> 
+										<h:inputText id="cardNumber" />
+									
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-4"> 
+										<label>Fecha de caducidad</label>
+									</div>
+									<div class="col-md-4"> 
+										<h:inputText id="cardExpirationDate"  />					
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-4"> 
+										<label>CVV</label>
+									</div>
+									<div class="col-md-4"> 
+										<h:inputText id="cardCvx"  />
+									</div>
+								</div>
+							</div>
+								<div class="row">
+									<div class="col-md-4"></div>
+									<div class="col-md-4"> 
+									<button class="btn btn-default"   id="enviarPago" type="submit" >Confirmar pago</button>
+								</div>
+								</div>
 						</div>
+						</div>
+						
 						<div class="spacerB"></div> 
-				      
-				      	
-							<img src="../resources/images/powered-by-mangopay.png" alt="marcoMangoPay" /> 
-					
+				      		
+							
+					</div>
+					<div class="row">
+									<div class="col-md-3"></div>
+									<div class="col-md-6"> 
+										<img width="100%" src="../resources/images/powered-by-mangopay.png" alt="marcoMangoPay" /> 
+									</div>
 					</div>
 					
-					<p:outputPanel style="margin:auto; width:20%;">
-						<p:commandLink styleClass="btn btn-primary" id="botonComprar"  action="#{ddTipoComplementoBean.cambiarPagina()}" value="Finalizar compra">
-						</p:commandLink>
-					</p:outputPanel>
-		</h:form>		
+					
+					
+		</form>		
 	</ui:define>
 
 </ui:composition>

@@ -50,6 +50,7 @@ public class Entrada implements java.io.Serializable {
 	private Boolean vendida;
 	private Date fechaValidada;
 	private Date fechaVendida;
+	private Integer nombreCambiadoTimes;
     private Set<DdRrppJefeEntrada> ddRrppJefeEntradas = new HashSet<DdRrppJefeEntrada>(0);
     // TODO no se mapea con id, sólo con entidad, verificar
     private Set<DdTipoComplemento> ddTipoComplementos = new HashSet<DdTipoComplemento>(0);
@@ -269,7 +270,16 @@ public class Entrada implements java.io.Serializable {
 	public void setFechaVendida(Date fechaVendida) {
 		this.fechaVendida = fechaVendida;
 	}
-	
+
+	@Column(name = "nombrecambiadotimes")
+	public Integer getNombreCambiadoTimes() {
+		return nombreCambiadoTimes;
+	}
+
+	public void setNombreCambiadoTimes(Integer nombreCambiadoTimes) {
+		this.nombreCambiadoTimes = nombreCambiadoTimes;
+	}
+
 	@OneToMany(fetch=FetchType.LAZY, mappedBy="entrada")
     public Set<DdRrppJefeEntrada> getDdRrppJefeEntradas() {
         return this.ddRrppJefeEntradas;
