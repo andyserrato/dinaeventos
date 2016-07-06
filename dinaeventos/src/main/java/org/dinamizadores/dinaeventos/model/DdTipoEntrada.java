@@ -32,27 +32,27 @@ public class DdTipoEntrada implements java.io.Serializable {
 	private Integer cantidad;
 	private Integer idEvento;
 	private Evento evento;
-    private Boolean sobreventa;
-    private Integer maxporpedido;
-    private String canaldeventas;
-    private Date fechainicioventa;
-    private Date fechafinventa;
+    private Boolean sobreVenta;
+    private Integer maxPorPedido;
+    private String canalDeVentas;
+    private Date fechaInicioVenta;
+    private Date fechaFinVenta;
 	private Set<Entrada> entradas = new HashSet<Entrada>(0);
 	
 	
     public DdTipoEntrada() {
     }
 
-    public DdTipoEntrada(Evento evento, String nombre, BigDecimal precio, Integer cantidad, Boolean sobreventa, Integer maxporpedido, String canaldeventas, Date fechainicioventa, Date fechafinventa, Set<Entrada> entradas, Set<Entrada> entradas_1) {
+    public DdTipoEntrada(Evento evento, String nombre, BigDecimal precio, Integer cantidad, Boolean sobreVenta, Integer maxPorPedido, String canalDeVentas, Date fechaInicioVenta, Date fechaFinVenta, Set<Entrada> entradas) {
        this.evento = evento;
        this.nombre = nombre;
        this.precio = precio;
        this.cantidad = cantidad;
-       this.sobreventa = sobreventa;
-       this.maxporpedido = maxporpedido;
-       this.canaldeventas = canaldeventas;
-       this.fechainicioventa = fechainicioventa;
-       this.fechafinventa = fechafinventa;
+       this.sobreVenta = sobreVenta;
+       this.maxPorPedido = maxPorPedido;
+       this.canalDeVentas = canalDeVentas;
+       this.fechaInicioVenta = fechaInicioVenta;
+       this.fechaFinVenta = fechaFinVenta;
        this.entradas = entradas;
     }    
 
@@ -114,52 +114,52 @@ public class DdTipoEntrada implements java.io.Serializable {
     }
     
     @Column(name="sobreventa")
-    public Boolean getSobreventa() {
-        return this.sobreventa;
+    public Boolean getSobreVenta() {
+        return this.sobreVenta;
     }
     
-    public void setSobreventa(Boolean sobreventa) {
-        this.sobreventa = sobreventa;
+    public void setSobreVenta(Boolean sobreVenta) {
+        this.sobreVenta = sobreVenta;
     }
 
     
     @Column(name="maxporpedido")
-    public Integer getMaxporpedido() {
-        return this.maxporpedido;
+    public Integer getMaxPorPedido() {
+        return this.maxPorPedido;
     }
     
-    public void setMaxporpedido(Integer maxporpedido) {
-        this.maxporpedido = maxporpedido;
+    public void setMaxPorPedido(Integer maxPorPedido) {
+        this.maxPorPedido = maxPorPedido;
     }
 
     
     @Column(name="canaldeventas", length=100)
-    public String getCanaldeventas() {
-        return this.canaldeventas;
+    public String getCanalDeVentas() {
+        return this.canalDeVentas;
     }
     
-    public void setCanaldeventas(String canaldeventas) {
-        this.canaldeventas = canaldeventas;
+    public void setCanalDeVentas(String canalDeVentas) {
+        this.canalDeVentas = canalDeVentas;
     }
 
     @Temporal(TemporalType.DATE)
     @Column(name="fechainicioventa", length=10)
-    public Date getFechainicioventa() {
-        return this.fechainicioventa;
+    public Date getFechaInicioVenta() {
+        return this.fechaInicioVenta;
     }
     
-    public void setFechainicioventa(Date fechainicioventa) {
-        this.fechainicioventa = fechainicioventa;
+    public void setFechaInicioVenta(Date fechaInicioVenta) {
+        this.fechaInicioVenta = fechaInicioVenta;
     }
 
     @Temporal(TemporalType.DATE)
     @Column(name="fechafinventa", length=10)
-    public Date getFechafinventa() {
-        return this.fechafinventa;
+    public Date getFechaFinVenta() {
+        return this.fechaFinVenta;
     }
     
-    public void setFechafinventa(Date fechafinventa) {
-        this.fechafinventa = fechafinventa;
+    public void setFechaFinVenta(Date fechaFinVenta) {
+        this.fechaFinVenta = fechaFinVenta;
     }
 
     @OneToMany(fetch=FetchType.LAZY, mappedBy="ddTipoEntrada")
