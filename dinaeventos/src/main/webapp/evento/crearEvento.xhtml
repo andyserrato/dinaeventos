@@ -94,8 +94,20 @@
 				        	<p:spacer height="0"/>
 				        	<p:panelGrid columns="3" layout="grid" styleClass="ui-panelgrid-blank">
 								<p:inputText id="eventoEntradaNombre" maxLength="100" value="#{evento.tipoEntrada.nombre}" placeholder="Compra Anticapada, VIP..."/>
+								
 								<p:inputText id="eventoEntradaCantidad" maxLength="6" value="#{evento.tipoEntrada.cantidad}" placeholder="100"/>
+								<h:outputText value="SobreVenta: " />
+								<p:selectBooleanCheckbox value="#{evento.tipoEntrada.sobreVenta}" />
+								<p:selectOneMenu id="eventoEntradaCanalDeVenta" value="#{evento.tipoEntrada.canalDeVentas}" style="width:125px">
+						            <f:selectItem itemLabel="Selecionar Uno" itemValue="" />
+						            <f:selectItem itemLabel="Online" itemValue="Online" />
+						            <f:selectItem itemLabel="Físico" itemValue="Físico" />
+						        </p:selectOneMenu>
+						        <p:calendar id="eventoEntradaFechaInicioVenta" value="#{evento.tipoEntrada.fechaInicioVenta}" pattern="MM/dd/yyyy" placeholder="Inicio de la venta de entradas"/>
+						        <p:calendar id="eventoEntradaFechaFinVenta" value="#{evento.tipoEntrada.fechaFinVenta}" pattern="MM/dd/yyyy" placeholder="Fin de la venta de entradas"/>
+						        <p:inputNumber id="eventoEntradaMaxPorTransaccion" value="#{evento.tipoEntrada.maxPorPedido}" minValue="1" maxValue="100" placeholder="Entradas permitidas por pedido"/>  
 								<p:inputNumber id="eventoEntradaPrecio" value="#{evento.tipoEntrada.precio}" symbol=" €" symbolPosition="s" decimalSeparator="," thousandSeparator="." placeholder="15,00"/>
+								
 							<p:spacer height="0"/>
 							</p:panelGrid>				        	
 	                		<p:commandButton value="Agregar Entrada" />
@@ -120,23 +132,23 @@
 		</h:form>
 		
 		<p:dialog header="Patrocinador" widgetVar="patrocinadorDialogo" resizable="false" modal="true">
-		<h:form id="eventoPatrocinadorDialogo" enctype="multipart/form-data">
-	        <div class="ui-fluid">
-	        	<p:growl id="patrocinadorGrowl" sticky="false" showDetail="true" life="5000" />
-    			<p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank">
-		            <p:outputLabel for="eventoNombrePatrocinador" value="Nombre: " />
-		            <p:inputText id="eventoNombrePatrocinador" value="#{evento.patrocinador.nombre}" required="true" label="patrocinador"/>
-				</p:panelGrid>
-				<p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank">
-					<p:fileUpload id="eventoImagePatrocinadorUpload" fileUploadListener="#{evento.handleFileUploadPatrocinador}" auto="true" label="Seleccionar Logo" sizeLimit="1000000" fileLimit="1" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
-					
-		            <f:facet name="footer">
-		                <p:commandButton value="Crear Patrocinador" actionListener="#{evento.crearPatrocinador}" oncomplete="handlePatrocinadorRequest(xhr, status, args)" update=":eventoForm:eventoListaPatrocinadores, :eventoForm:eventoPanelListaPatrocinadores, :eventoPatrocinadorDialogo, :eventoPatrocinadorDialogo:patrocinadorGrowl"/>
-		            </f:facet>  
-	        	</p:panelGrid>
-	        </div>
-        </h:form>
-    </p:dialog>
+			<h:form id="eventoPatrocinadorDialogo" enctype="multipart/form-data">
+		        <div class="ui-fluid">
+		        	<p:growl id="patrocinadorGrowl" sticky="false" showDetail="true" life="5000" />
+	    			<p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank">
+			            <p:outputLabel for="eventoNombrePatrocinador" value="Nombre: " />
+			            <p:inputText id="eventoNombrePatrocinador" value="#{evento.patrocinador.nombre}" required="true" label="patrocinador"/>
+					</p:panelGrid>
+					<p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank">
+						<p:fileUpload id="eventoImagePatrocinadorUpload" fileUploadListener="#{evento.handleFileUploadPatrocinador}" auto="true" label="Seleccionar Logo" sizeLimit="1000000" fileLimit="1" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
+						
+			            <f:facet name="footer">
+			                <p:commandButton value="Crear Patrocinador" actionListener="#{evento.crearPatrocinador}" oncomplete="handlePatrocinadorRequest(xhr, status, args)" update=":eventoForm:eventoListaPatrocinadores, :eventoForm:eventoPanelListaPatrocinadores, :eventoPatrocinadorDialogo, :eventoPatrocinadorDialogo:patrocinadorGrowl"/>
+			            </f:facet>  
+		        	</p:panelGrid>
+		        </div>
+	        </h:form>
+    	</p:dialog>
 	<script type="text/javascript">
 	    function handlePatrocinadorRequest(xhr, status, args) {
 	        if(args.validationFailed || !args.patrocinadorCreado) {

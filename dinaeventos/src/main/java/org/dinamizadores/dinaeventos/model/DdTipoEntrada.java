@@ -37,6 +37,7 @@ public class DdTipoEntrada implements java.io.Serializable {
     private String canalDeVentas;
     private Date fechaInicioVenta;
     private Date fechaFinVenta;
+    private Boolean activa;
 	private Set<Entrada> entradas = new HashSet<Entrada>(0);
 	
 	
@@ -161,8 +162,17 @@ public class DdTipoEntrada implements java.io.Serializable {
     public void setFechaFinVenta(Date fechaFinVenta) {
         this.fechaFinVenta = fechaFinVenta;
     }
+    
+    @Column(name ="activa")
+    public Boolean getActiva() {
+		return activa;
+	}
 
-    @OneToMany(fetch=FetchType.LAZY, mappedBy="ddTipoEntrada")
+	public void setActiva(Boolean activa) {
+		this.activa = activa;
+	}
+
+	@OneToMany(fetch=FetchType.LAZY, mappedBy="ddTipoEntrada")
     public Set<Entrada> getEntradas() {
         return this.entradas;
     }
