@@ -53,6 +53,7 @@ public class Evento implements java.io.Serializable {
 	private Date fechaAlta;
 	private Boolean activo;
 	private Set<RrppJefes> rrppJefes = new HashSet<RrppJefes>(0);
+	private Set<DdTipoEntrada> ddTipoEntradas = new HashSet<DdTipoEntrada>(0);
     private Set<DdTipoComplemento> ddTipoComplementos = new HashSet<DdTipoComplemento>(0);
     private Set<Patrocinadores> patrocinadores = new HashSet<Patrocinadores>(0);
     private Set<Entrada> entradas = new HashSet<Entrada>(0);
@@ -305,8 +306,17 @@ public class Evento implements java.io.Serializable {
     public void setRrppJefes(Set<RrppJefes> rrppJefeses) {
         this.rrppJefes = rrppJefeses;
     }
-
+    
     @OneToMany(fetch=FetchType.LAZY, mappedBy="evento")
+    public Set<DdTipoEntrada> getDdTipoEntradas() {
+        return this.ddTipoEntradas;
+    }
+    
+    public void setDdTipoEntradas(Set<DdTipoEntrada> ddTipoEntradas) {
+        this.ddTipoEntradas = ddTipoEntradas;
+    }
+
+    @OneToMany(fetch=FetchType.LAZY, mappedBy="evento") 
     public Set<DdTipoComplemento> getDdTipoComplementos() {
         return this.ddTipoComplementos;
     }

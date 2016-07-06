@@ -12,9 +12,6 @@ import javax.ejb.Stateless;
 
 import org.dinamizadores.dinaeventos.dao.DAOGenerico;
 import org.dinamizadores.dinaeventos.model.DdFormapago;
-import org.dinamizadores.dinaeventos.model.DdOrigenEntrada;
-import org.dinamizadores.dinaeventos.model.DdRrppJefeEntrada;
-import org.dinamizadores.dinaeventos.model.DdRrppJefeEntradaId;
 import org.dinamizadores.dinaeventos.model.DdSexo;
 import org.dinamizadores.dinaeventos.model.DdTipoComplemento;
 import org.dinamizadores.dinaeventos.model.DdTipoEntrada;
@@ -56,13 +53,13 @@ public class BBDDFaker {
 		return formaPago;
 	}
 	
-	public DdOrigenEntrada crearOrigenEntrada(){
-		DdOrigenEntrada d = new DdOrigenEntrada();
-		
-		d.setNombre(faker.color().name());
-		return d;
-	}
-	
+//	public DdOrigenEntrada crearOrigenEntrada(){
+//		DdOrigenEntrada d = new DdOrigenEntrada();
+//		
+//		d.setNombre(faker.color().name());
+//		return d;
+//	}
+//	
 //	public DdRrppEvento crearRRPPEvento(int idRRPP, int idEvento){
 //		return new DdRrppEvento(new DdRrppEventoId(idEvento, idRRPP));
 //	}
@@ -115,14 +112,14 @@ public class BBDDFaker {
 		return d;
 	}
 	
-	public Entrada crearEntrada(int idEvento, int idFormaPago, int idOrigen, int idTipoEntrada, int idTipoIva, int idUsuario){
+	public Entrada crearEntrada(int idEvento, int idFormaPago, int idTipoEntrada, int idTipoIva, int idUsuario){
 		Entrada e = new Entrada();
 		
 		e.setActiva(true);
 		e.setDentrofuera(false);
 		e.setIdevento(idEvento);
 		e.setIdformapago(idFormaPago);
-		e.setIdorigen(idOrigen);
+//		e.setIdorigen(idOrigen);
 		e.setIdtipoentrada(idTipoEntrada);
 		e.setIdtipoiva(idTipoIva);
 		e.setIdusuario(idUsuario);
@@ -315,12 +312,12 @@ public class BBDDFaker {
 			formasDePago.add(formaDePago);
 		}
 
-		List<DdOrigenEntrada> origenDeEntradas = new ArrayList<>();
-		for(int i = 0; i < NUM_ORIGENENTRADA; i++){
-			DdOrigenEntrada origenEntrada = crearOrigenEntrada(); 
-			dao.insertar(origenEntrada);
-			origenDeEntradas.add(origenEntrada);
-		}
+//		List<DdOrigenEntrada> origenDeEntradas = new ArrayList<>();
+//		for(int i = 0; i < NUM_ORIGENENTRADA; i++){
+//			DdOrigenEntrada origenEntrada = crearOrigenEntrada(); 
+//			dao.insertar(origenEntrada);
+//			origenDeEntradas.add(origenEntrada);
+//		}
 		
 		List<DdSexo> sexos = new ArrayList<>();
 		for(int i = 0; i < NUM_SEXO; i++){
@@ -419,13 +416,13 @@ public class BBDDFaker {
 		for(int i = 0; i < NUM_ENTRADA; i++){ 
 			int idEvento = eventos.get(ThreadLocalRandom.current().nextInt(eventos.size())).getIdevento();
 			int idFormaPago = formasDePago.get(ThreadLocalRandom.current().nextInt(formasDePago.size())).getIdformapago();
-			int idOrigenEntrada = origenDeEntradas.get(ThreadLocalRandom.current().nextInt(origenDeEntradas.size())).getIdorigenEntrada();
+//			int idOrigenEntrada = origenDeEntradas.get(ThreadLocalRandom.current().nextInt(origenDeEntradas.size())).getIdorigenEntrada();
 			int idTipoEntrada = tiposDeEntrada.get(ThreadLocalRandom.current().nextInt(tiposDeEntrada.size())).getIdtipoentrada();
 			int idTiposIva = tiposDeIva.get(ThreadLocalRandom.current().nextInt(tiposDeIva.size())).getIdtipoiva();
 			// TODO verificar que estos usuarios no están vinculados con otras entidades
 			int idUsuario = usuarios.get(ThreadLocalRandom.current().nextInt(usuarios.size())).getIdUsuario();
 			
-			Entrada entrada = crearEntrada(idEvento, idFormaPago, idOrigenEntrada, idTipoEntrada, idTiposIva, idUsuario); 
+			Entrada entrada = crearEntrada(idEvento, idFormaPago, idTipoEntrada, idTiposIva, idUsuario); 
 			dao.insertar(entrada);
 			entradas.add(entrada);
 		}

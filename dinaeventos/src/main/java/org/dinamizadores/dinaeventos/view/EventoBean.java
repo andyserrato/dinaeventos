@@ -20,6 +20,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.dinamizadores.dinaeventos.dao.DiccionarioDao;
 import org.dinamizadores.dinaeventos.dao.EventoDao;
+import org.dinamizadores.dinaeventos.model.DdTipoEntrada;
 import org.dinamizadores.dinaeventos.model.DdTipoEvento;
 import org.dinamizadores.dinaeventos.model.Evento;
 import org.dinamizadores.dinaeventos.model.GlobalCodigospostales;
@@ -48,6 +49,7 @@ public class EventoBean implements Serializable {
 	private Evento evento = new Evento();
 	private List<GlobalCodigospostales> codigosPostales;
 	private Patrocinadores patrocinador = new Patrocinadores();
+	private DdTipoEntrada tipoEntrada = new DdTipoEntrada();
 	private UploadedFile imageFile;
 	private UploadedFile imagePatrocinador;
 	private List<DdTipoEvento> ddTipoEvento = new ArrayList<>(); 
@@ -218,6 +220,14 @@ public class EventoBean implements Serializable {
 
 	public void setCodigosPostales(List<GlobalCodigospostales> codigosPostales) {
 		this.codigosPostales = codigosPostales;
+	}
+
+	public DdTipoEntrada getTipoEntrada() {
+		return tipoEntrada;
+	}
+
+	public void setTipoEntrada(DdTipoEntrada tipoEntrada) {
+		this.tipoEntrada = tipoEntrada;
 	}
 	
 }

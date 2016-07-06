@@ -44,8 +44,6 @@ public class Entrada implements java.io.Serializable {
 	private DdFormapago ddFormapago;
 	private Integer idtipoentrada;
 	private DdTipoEntrada ddTipoEntrada;
-	private Integer idorigen;
-	private DdOrigenEntrada ddOrigenEntrada;
 	private Boolean dentrofuera;
 	private Boolean vendida;
 	private Date fechaValidada;
@@ -212,25 +210,6 @@ public class Entrada implements java.io.Serializable {
     
     public void setDdTipoEntrada(DdTipoEntrada ddTipoEntrada) {
         this.ddTipoEntrada = ddTipoEntrada;
-    }
-
-	@Column(name = "idorigen", nullable = true)
-	public Integer getIdorigen() {
-		return this.idorigen;
-	}
-
-	public void setIdorigen(Integer idorigen) {
-		this.idorigen = idorigen;
-	}
-	
-	@ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="idorigen", insertable = false, updatable = false)
-    public DdOrigenEntrada getDdOrigenEntrada() {
-        return this.ddOrigenEntrada;
-    }
-	
-	public void setDdOrigenEntrada(DdOrigenEntrada ddOrigenEntrada) {
-        this.ddOrigenEntrada = ddOrigenEntrada;
     }
 
 	@Column(name = "dentrofuera")
