@@ -121,14 +121,13 @@ public class BBDDFaker {
 		return d;
 	}
 	
-	public Entrada crearEntrada(int idEvento, int idFormaPago, int idTipoEntrada, int idTipoIva, int idUsuario){
+	public Entrada crearEntrada(int idEvento, int idFormaPago, int idTipoEntrada, int idTipoIva, int idUsuario, DdTipoComplemento tipoComplemento){
 		Entrada e = new Entrada();
 		
 		e.setActiva(true);
 		e.setDentrofuera(false);
 		e.setIdevento(idEvento);
 		e.setIdformapago(idFormaPago);
-//		e.setIdorigen(idOrigen);
 		e.setIdtipoentrada(idTipoEntrada);
 		e.setIdtipoiva(idTipoIva);
 		e.setIdusuario(idUsuario);
@@ -137,6 +136,7 @@ public class BBDDFaker {
 		e.setTicketgenerado(false);
 		e.setValidada(false);
 		e.setVendida(true);
+		e.getDdTipoComplementos().add(tipoComplemento);
 				
 		return e;
 	}
@@ -423,7 +423,7 @@ public class BBDDFaker {
 			// TODO verificar que estos usuarios no están vinculados con otras entidades
 			int idUsuario = usuarios.get(ThreadLocalRandom.current().nextInt(usuarios.size())).getIdUsuario();
 			
-			Entrada entrada = crearEntrada(idEvento, idFormaPago, idTipoEntrada, idTiposIva, idUsuario); 
+			Entrada entrada = crearEntrada(idEvento, idFormaPago, idTipoEntrada, idTiposIva, idUsuario, complementos.get(ThreadLocalRandom.current().nextInt(complementos.size()))); 
 			dao.insertar(entrada);
 			entradas.add(entrada);
 		}
