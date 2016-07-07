@@ -2,19 +2,21 @@ package org.dinamizadores.dinaeventos.utiles;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.dinamizadores.dinaeventos.dao.DAOGenerico;
 import org.dinamizadores.dinaeventos.model.DdFormapago;
-import org.dinamizadores.dinaeventos.model.DdOrigenEntrada;
-import org.dinamizadores.dinaeventos.model.DdRrppJefeEntrada;
-import org.dinamizadores.dinaeventos.model.DdRrppJefeEntradaId;
 import org.dinamizadores.dinaeventos.model.DdSexo;
 import org.dinamizadores.dinaeventos.model.DdTipoComplemento;
 import org.dinamizadores.dinaeventos.model.DdTipoEntrada;
@@ -30,6 +32,7 @@ import org.dinamizadores.dinaeventos.model.Roles;
 import org.dinamizadores.dinaeventos.model.RrppJefes;
 import org.dinamizadores.dinaeventos.model.RrppMinion;
 import org.dinamizadores.dinaeventos.model.Usuario;
+import org.dinamizadores.dinaeventos.view.EventoBean;
 
 import com.github.javafaker.Faker;
 
@@ -38,9 +41,14 @@ public class BBDDFaker {
 	// TODO realizar las relaciones de rrppjefe con el evento
 	// TODO realizar las relaciones de ddtipocomplemento con las entradas
 	// TODO realizar relacion entre rrppjefe, rrppminion y evento
-	// TODO prueba commit
 	/** Clase Faker para generar cosas random. */
 	private Faker faker;
+	private final Logger log = LogManager.getLogger(EventoBean.class);
+	
+	@PostConstruct
+	public void init() {
+		faker = new Faker(new Locale("es"));
+	}
 	
 	/** Acceso a la capa DAO para persistir los datos. */
 	@EJB
@@ -55,21 +63,6 @@ public class BBDDFaker {
 		
 		return formaPago;
 	}
-	
-	public DdOrigenEntrada crearOrigenEntrada(){
-		DdOrigenEntrada d = new DdOrigenEntrada();
-		
-		d.setNombre(faker.color().name());
-		return d;
-	}
-	
-//	public DdRrppEvento crearRRPPEvento(int idRRPP, int idEvento){
-//		return new DdRrppEvento(new DdRrppEventoId(idEvento, idRRPP));
-//	}
-//	
-//	public DdRrppJefeEntrada crearRRPPJefeEntrada(int idRRPPJefe, int idEntrada, int idRRPPMinion){
-//		return new DdRrppJefeEntrada(new DdRrppJefeEntradaId(idRRPPJefe, idEntrada), idRRPPMinion);
-//	}
 	
 	public DdSexo crearSexo(){
 		DdSexo d = new DdSexo();
@@ -95,7 +88,20 @@ public class BBDDFaker {
 		
 		d.setNombre(faker.book().title());
 		d.setPrecio(BigDecimal.valueOf(faker.number().randomDouble(2, 1, 100)));
-		d.setCantidad(faker.number().numberBetween(1, 10000));
+		d.setCantidad(faker.number().numberBetween(100, 10000));
+		d.setSobreVenta(Boolean.valueOf(faker.bool().bool()));
+		d.setMaxPorPedido(Integer.valueOf(faker.number().numberBetween(1, 20)));
+		d.setCanalDeVentas("online");
+		d.setFechaInicioVenta(new Date());
+		
+		Calendar today = Calendar.getInstance(); 
+		Calendar nextYearToday = today;
+		Calendar tomorrow = today;
+		tomorrow.add(Calendar.MONTH, 1);
+		nextYearToday.add(Calendar.YEAR, 1);
+		
+//		d.setFechaFinVenta(faker.date().between(tomorrow.getTime(), nextYearToday.getTime()));
+		d.setFechaFinVenta(nextYearToday.getTime());
 		return d;
 	}
 	
@@ -115,14 +121,13 @@ public class BBDDFaker {
 		return d;
 	}
 	
-	public Entrada crearEntrada(int idEvento, int idFormaPago, int idOrigen, int idTipoEntrada, int idTipoIva, int idUsuario){
+	public Entrada crearEntrada(int idEvento, int idFormaPago, int idTipoEntrada, int idTipoIva, int idUsuario, DdTipoComplemento tipoComplemento){
 		Entrada e = new Entrada();
 		
 		e.setActiva(true);
 		e.setDentrofuera(false);
 		e.setIdevento(idEvento);
 		e.setIdformapago(idFormaPago);
-		e.setIdorigen(idOrigen);
 		e.setIdtipoentrada(idTipoEntrada);
 		e.setIdtipoiva(idTipoIva);
 		e.setIdusuario(idUsuario);
@@ -131,6 +136,7 @@ public class BBDDFaker {
 		e.setTicketgenerado(false);
 		e.setValidada(false);
 		e.setVendida(true);
+		e.getDdTipoComplementos().add(tipoComplemento);
 				
 		return e;
 	}
@@ -286,7 +292,6 @@ public class BBDDFaker {
 		 * Además, no debería tener ningún dato ninguna tabla para evitar posibles duplicados de claves.
 		 */
 		final int NUM_FORMAPAGO = 2;
-		final int NUM_ORIGENENTRADA = 3;
 		final int NUM_SEXO = 3;
 		final int NUM_EVENTO = 2;
 		final int NUM_TIPOEVENTO = 10;
@@ -305,7 +310,7 @@ public class BBDDFaker {
 		
 		final int NUM_CODIGOSPOSTALES = 53169; 
 		
-		System.out.println("INICIO DEL LLENADO DE LA   BBDD");
+		log.debug("INICIO DEL LLENADO DE LA   BBDD");
 		faker = new Faker();
 		
 		List<DdFormapago> formasDePago = new ArrayList<>();
@@ -315,13 +320,6 @@ public class BBDDFaker {
 			formasDePago.add(formaDePago);
 		}
 
-		List<DdOrigenEntrada> origenDeEntradas = new ArrayList<>();
-		for(int i = 0; i < NUM_ORIGENENTRADA; i++){
-			DdOrigenEntrada origenEntrada = crearOrigenEntrada(); 
-			dao.insertar(origenEntrada);
-			origenDeEntradas.add(origenEntrada);
-		}
-		
 		List<DdSexo> sexos = new ArrayList<>();
 		for(int i = 0; i < NUM_SEXO; i++){
 			DdSexo sexo = crearSexo();
@@ -419,13 +417,13 @@ public class BBDDFaker {
 		for(int i = 0; i < NUM_ENTRADA; i++){ 
 			int idEvento = eventos.get(ThreadLocalRandom.current().nextInt(eventos.size())).getIdevento();
 			int idFormaPago = formasDePago.get(ThreadLocalRandom.current().nextInt(formasDePago.size())).getIdformapago();
-			int idOrigenEntrada = origenDeEntradas.get(ThreadLocalRandom.current().nextInt(origenDeEntradas.size())).getIdorigenEntrada();
+//			int idOrigenEntrada = origenDeEntradas.get(ThreadLocalRandom.current().nextInt(origenDeEntradas.size())).getIdorigenEntrada();
 			int idTipoEntrada = tiposDeEntrada.get(ThreadLocalRandom.current().nextInt(tiposDeEntrada.size())).getIdtipoentrada();
 			int idTiposIva = tiposDeIva.get(ThreadLocalRandom.current().nextInt(tiposDeIva.size())).getIdtipoiva();
 			// TODO verificar que estos usuarios no están vinculados con otras entidades
 			int idUsuario = usuarios.get(ThreadLocalRandom.current().nextInt(usuarios.size())).getIdUsuario();
 			
-			Entrada entrada = crearEntrada(idEvento, idFormaPago, idOrigenEntrada, idTipoEntrada, idTiposIva, idUsuario); 
+			Entrada entrada = crearEntrada(idEvento, idFormaPago, idTipoEntrada, idTiposIva, idUsuario, complementos.get(ThreadLocalRandom.current().nextInt(complementos.size()))); 
 			dao.insertar(entrada);
 			entradas.add(entrada);
 		}

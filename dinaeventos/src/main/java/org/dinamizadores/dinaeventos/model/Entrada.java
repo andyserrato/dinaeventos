@@ -44,12 +44,11 @@ public class Entrada implements java.io.Serializable {
 	private DdFormapago ddFormapago;
 	private Integer idtipoentrada;
 	private DdTipoEntrada ddTipoEntrada;
-	private Integer idorigen;
-	private DdOrigenEntrada ddOrigenEntrada;
 	private Boolean dentrofuera;
 	private Boolean vendida;
 	private Date fechaValidada;
 	private Date fechaVendida;
+	private Integer nombreCambiadoTimes;
     private Set<DdRrppJefeEntrada> ddRrppJefeEntradas = new HashSet<DdRrppJefeEntrada>(0);
     // TODO no se mapea con id, sólo con entidad, verificar
     private Set<DdTipoComplemento> ddTipoComplementos = new HashSet<DdTipoComplemento>(0);
@@ -213,25 +212,6 @@ public class Entrada implements java.io.Serializable {
         this.ddTipoEntrada = ddTipoEntrada;
     }
 
-	@Column(name = "idorigen", nullable = true)
-	public Integer getIdorigen() {
-		return this.idorigen;
-	}
-
-	public void setIdorigen(Integer idorigen) {
-		this.idorigen = idorigen;
-	}
-	
-	@ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="idorigen", insertable = false, updatable = false)
-    public DdOrigenEntrada getDdOrigenEntrada() {
-        return this.ddOrigenEntrada;
-    }
-	
-	public void setDdOrigenEntrada(DdOrigenEntrada ddOrigenEntrada) {
-        this.ddOrigenEntrada = ddOrigenEntrada;
-    }
-
 	@Column(name = "dentrofuera")
 	public Boolean getDentrofuera() {
 		return this.dentrofuera;
@@ -269,7 +249,16 @@ public class Entrada implements java.io.Serializable {
 	public void setFechaVendida(Date fechaVendida) {
 		this.fechaVendida = fechaVendida;
 	}
-	
+
+	@Column(name = "nombrecambiadotimes")
+	public Integer getNombreCambiadoTimes() {
+		return nombreCambiadoTimes;
+	}
+
+	public void setNombreCambiadoTimes(Integer nombreCambiadoTimes) {
+		this.nombreCambiadoTimes = nombreCambiadoTimes;
+	}
+
 	@OneToMany(fetch=FetchType.LAZY, mappedBy="entrada")
     public Set<DdRrppJefeEntrada> getDdRrppJefeEntradas() {
         return this.ddRrppJefeEntradas;

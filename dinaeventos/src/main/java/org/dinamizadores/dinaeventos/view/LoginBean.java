@@ -1,9 +1,12 @@
 package org.dinamizadores.dinaeventos.view;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
@@ -12,10 +15,15 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.dinamizadores.dinaeventos.dao.UsuarioDao;
 import org.dinamizadores.dinaeventos.dto.facebookprofile.PerfilRedSocial;
 import org.dinamizadores.dinaeventos.model.Usuario;
 import org.dinamizadores.dinaeventos.utiles.log.Loggable;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
+import org.primefaces.model.UploadedFile;
 
 import com.github.scribejava.apis.FacebookApi;
 import com.github.scribejava.core.builder.ServiceBuilder;
@@ -30,7 +38,7 @@ import com.google.gson.Gson;
 @SessionScoped
 @Loggable
 public class LoginBean implements Serializable {
- 
+	private final Logger log = LogManager.getLogger(EventoBean.class);
 	private static final long serialVersionUID = -1161277308459762945L;
 	private String email;
     private String password;
@@ -44,6 +52,7 @@ public class LoginBean implements Serializable {
     private OAuth2AccessToken accessToken = null;
     private boolean checkFacebookLogin = false;
     private String paginaOriginal = "";
+    private Map<String, StreamedContent> imagenes = new HashMap<>();
     
     public void recordOriginalURL(String originalURL) {
         this.originalURL = originalURL;
@@ -262,5 +271,14 @@ public class LoginBean implements Serializable {
 		}
     }
     
+    public StreamedContent getPhoto(String nombre) throws IOException {
+    	return imagenes.get(nombre);
+    }
     
+    public void setPhoto(UploadedFile imagen) throws IOException {
+    	if (imagen != null && imagen.getFileName() != null && !"".equals(imagen.getFileName())) {
+    		String nombreImagen = null;
+    		imagenes.put(nombreImagen, new DefaultStreamedContent(imagen.getInputstream()));
+    	}
+    }
 }
