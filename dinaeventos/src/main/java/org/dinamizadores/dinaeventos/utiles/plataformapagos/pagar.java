@@ -1,7 +1,15 @@
 package org.dinamizadores.dinaeventos.utiles.plataformapagos;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+
+import org.dinamizadores.dinaeventos.model.Usuario;
 
 import com.mangopay.MangoPayApi;
 import com.mangopay.core.Address;
@@ -53,25 +61,29 @@ public class pagar {
 	}
 	
 	
-	public String nuevoUsuario (){
+	public String nuevoUsuario (Usuario miUser){
 		
 		UserNatural sam = new UserNatural();
 		User creado = null;
 		
-		sam.Tag = "custom meta";
-		sam.FirstName = "adminWallet";
-		sam.LastName = "lozano";
-		sam.Address = new Address();
-		sam.Address.AddressLine1 = "antonio aparisi";
-		sam.Address.City = "valencia";
-		sam.Address.PostalCode = "46920";
-		sam.Address.Country = CountryIso.ES;
+		sam.Tag = "usuario compra";
+		sam.FirstName = miUser.getNombre();
+		sam.LastName = miUser.getApellidos();
+		//sam.Address = new Address();
+		//sam.Address.AddressLine1 = miUser.getDireccion();
+		//sam.Address.City = miUser.getCodigoPostal().getLocalidad();
+		//sam.Address.PostalCode = miUser.getCodigoPostal().getCodigo();
+		//sam.Address.Country = CountryIso.ES;
 		sam.IncomeRange = 1;
-		sam.Email = "saloza@irtic.uv.es";
-		sam.Birthday = 24091990;
+		sam.Email = miUser.getEmail();
+		
+		Calendar c = Calendar.getInstance();
+		c.setTime(miUser.getFechanac());
+		c.set(Calendar.MILLISECOND, 0);
+		
+		sam.Birthday = c.getTimeInMillis() / 1000;
 		sam.Nationality = CountryIso.ES;
 		sam.CountryOfResidence = CountryIso.ES;
-		sam.Occupation = "ingeniero";
 
 		try {
 		creado = api.Users.create(sam);
@@ -126,7 +138,7 @@ public class pagar {
 		//Ejecución del pago Directa
 		PayInExecutionDetailsDirect p = new PayInExecutionDetailsDirect();
 		p.CardId = tarjeta.Id;
-		p.SecureModeReturnURL = "http://localhost:8080/dinaeventos/faces/comprar/ok.xhtml";
+		p.SecureModeReturnURL = "http://localhost:8080/dinaeventos/faces/comprar/finalizarPago.xhtml";
 		pago.ExecutionDetails = p;
 
 		try {

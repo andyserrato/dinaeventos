@@ -42,6 +42,8 @@ public class BeanUtils {
                     beanMap.putAll(convertAll(Arrays.asList((Object[]) value), prefix + property, cache));
                 } else if (Map.class.isAssignableFrom(value.getClass())) {
                     beanMap.putAll(convertMap((Map) value, prefix + property, cache));
+                }else if (HashSet.class.isAssignableFrom(value.getClass())){
+                	//Si es un set no hacemos nada
                 } else {
                     beanMap.putAll(convertObject(value, prefix + property, cache));
                 }

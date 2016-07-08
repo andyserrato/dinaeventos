@@ -21,6 +21,7 @@ import javax.faces.context.FacesContext;
 
 import org.dinamizadores.dinaeventos.dto.EmailBasico;
 import org.dinamizadores.dinaeventos.dto.entradasCompleta;
+import org.dinamizadores.dinaeventos.model.Evento;
 import org.dinamizadores.dinaeventos.utiles.Email;
 
 /**
@@ -31,19 +32,19 @@ public class FormarPDF {
     private static Logger logger = Logger.getLogger ( FormarPDF.class.getName() );
    
 
-    public static void main ( List<entradasCompleta> listaEntradas, Boolean enviarConjunto ) throws IOException, DocumentException {
+    public static void main ( List<entradasCompleta> listaEntradas,Evento evento, Boolean enviarConjunto ) throws IOException, DocumentException {
 
 
         logger.info ( "fetch the Car-Pass PDF template from a mocked database" );
         File pdfTemplate = Repository.findCarPassPDFTemplate();
 
         logger.info ( "start the rendering of the Entrada" );
-        crearPDF(listaEntradas, pdfTemplate, enviarConjunto);
+        crearPDF(listaEntradas,evento, pdfTemplate, enviarConjunto);
         
 
     }
 
-    private static void crearPDF ( List<entradasCompleta> listaEntrada, File pdfTemplate, Boolean envioConjunto ) throws IOException, DocumentException {
+    private static void crearPDF ( List<entradasCompleta> listaEntrada,Evento evento, File pdfTemplate, Boolean envioConjunto ) throws IOException, DocumentException {
     	
     	//String ruta = null;
         //loop de listado de entradas a generar
@@ -53,14 +54,15 @@ public class FormarPDF {
             logger.info ( "define the File to which the completed Car-Pass PDF template should be saved" );
             File entradaCompletaPDF = new File ( "entrada-" + entrada.getUsuario().getDni() + ".pdf" );
          
-    		hacerEntrada(entrada, pdfTemplate, entradaCompletaPDF);
+    		hacerEntrada(entrada,evento, pdfTemplate, entradaCompletaPDF);
     			
     	}
-    	//TODO
-        //Función que envíe por correo electronico a cada usuario
+
     	if (!envioConjunto){
     		Email correo = new Email();
     		EmailBasico datosEmail = new EmailBasico();
+    		datosEmail.setNombreUsuario(listaEntrada.get(0).getUsuario().getNombre());
+    		datosEmail.setMailReceptor(listaEntrada.get(0).getUsuario().getEmail());
     		correo.enviarEmail(listaEntrada, datosEmail);
     	}else if(envioConjunto){
     		for (entradasCompleta entrada: listaEntrada){
@@ -68,7 +70,7 @@ public class FormarPDF {
     			EmailBasico datosEmail = new EmailBasico();
     			List<entradasCompleta> auxlista = new ArrayList<entradasCompleta>();
     			auxlista.add(entrada);
-    			
+    			datosEmail.setNombreUsuario(entrada.getUsuario().getNombre());
     			datosEmail.setMailReceptor(entrada.getUsuario().getEmail());
     			correo.enviarEmail(auxlista, datosEmail);
     		}
@@ -76,7 +78,7 @@ public class FormarPDF {
     
     }
 
-    private static void hacerEntrada (entradasCompleta entrada, File pdfTemplate, File entradaCompletaPDF ) throws IOException, DocumentException {
+    private static void hacerEntrada (entradasCompleta entrada,Evento evento , File pdfTemplate, File entradaCompletaPDF ) throws IOException, DocumentException {
 
        
     	try (
@@ -89,12 +91,17 @@ public class FormarPDF {
 
                 logger.info ( "convert the Car-Pass POJO in to a Key-Value pair Map" );
                 Map<String, String> model = BeanUtils.recursiveDescribe ( entrada, "entrada" );
-
+                Map<String, String> model2 = BeanUtils.recursiveDescribe ( evento, "evento" );
+                
                 logger.info ( "get the fields from the PDF template" );
                 AcroFields fields = stamper.getAcroFields();
 
                 logger.info ( "set all the Key-Value pairs of the Car-Pass POJO on the AcroField object" );
                 for ( Map.Entry<String, String> entry : model.entrySet() ) {
+                    fields.setField ( entry.getKey(), entry.getValue() );
+                }
+                
+                for ( Map.Entry<String, String> entry : model2.entrySet() ) {
                     fields.setField ( entry.getKey(), entry.getValue() );
                 }
 

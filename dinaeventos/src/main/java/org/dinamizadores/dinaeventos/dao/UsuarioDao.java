@@ -37,6 +37,15 @@ public class UsuarioDao {
 	public Usuario findById(int id) {
 		return em.find(Usuario.class, id);
 	}
+	
+	public Usuario getUsuarioDni(String dni) {
+		TypedQuery<Usuario> findAllQuery = em.createQuery(
+				"SELECT u FROM Usuario u WHERE u.dni = :dni",
+				Usuario.class);
+		findAllQuery.setParameter("dni", dni);
+		return findAllQuery.getSingleResult();
+	}
+
 
 	public Usuario update(Usuario entity) {
 		return em.merge(entity);

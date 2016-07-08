@@ -2,6 +2,7 @@ package org.dinamizadores.dinaeventos.dto;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.dinamizadores.dinaeventos.model.DdTipoComplemento;
@@ -10,6 +11,10 @@ import org.dinamizadores.dinaeventos.model.Usuario;
 public class entradasCompleta {
 	
 	private Long idEntrada;
+	
+	private String numeroserie;
+	
+	private Date fechaVendida;
 	
 	private Long idTipoEntrada;
 	
@@ -91,6 +96,22 @@ public class entradasCompleta {
 
 	public void setIdEntrada(Long idEntrada) {
 		this.idEntrada = idEntrada;
+	}
+
+	public Date getFechaVendida() {
+		return fechaVendida;
+	}
+
+	public void setFechaVendida(Date fechaVendida) {
+		this.fechaVendida = fechaVendida;
+	}
+
+	public String getNumeroserie() {
+		return numeroserie;
+	}
+
+	public void setNumeroserie(String numeroserie) {
+		this.numeroserie = numeroserie;
 	}
 
 }

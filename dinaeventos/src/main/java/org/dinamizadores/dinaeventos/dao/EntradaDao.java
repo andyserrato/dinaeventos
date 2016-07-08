@@ -10,6 +10,7 @@ import javax.persistence.TypedQuery;
 import org.dinamizadores.dinaeventos.model.DdTipoComplemento;
 import org.dinamizadores.dinaeventos.model.DdTipoEntrada;
 import org.dinamizadores.dinaeventos.model.Entrada;
+import org.dinamizadores.dinaeventos.model.Usuario;
 import org.dinamizadores.dinaeventos.utiles.log.Loggable;
 import org.dinamizadores.dinaeventos.view.DdTipoEntradaBean;
 
@@ -25,6 +26,7 @@ public class EntradaDao {
 	public void create(Entrada entity) {
 		em.persist(entity);
 	}
+	
 
 	public void deleteById(int id) {
 		Entrada entity = em.find(Entrada.class, id);
@@ -69,4 +71,16 @@ public class EntradaDao {
 		
 		return findAllQuery.getResultList();
 	}
+	
+	
+	
+	public Integer getEntradaDniEvento(Integer idUsuario, Integer idEvento) {
+		TypedQuery<Integer> findAllQuery = em.createQuery(
+				"SELECT e.identrada FROM Entrada e WHERE e.idusuario = :idUsuario AND e.idevento = :idEvento",
+				Integer.class);
+		findAllQuery.setParameter("idUsuario", idUsuario);
+		findAllQuery.setParameter("idEvento", idEvento);
+		return findAllQuery.getSingleResult();
+	}
+	
 }
