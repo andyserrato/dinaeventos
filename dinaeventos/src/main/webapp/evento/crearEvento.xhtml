@@ -24,7 +24,7 @@
 		<h:form id="eventoForm" enctype="multipart/form-data">
 			<p:growl id="growl" sticky="false" showDetail="true" life="5000" />
 			<div class="ui-fluid">
-				<p:outputPanel id="eventoDatos" width="100%">
+				<p:outputPanel  width="100%">
 					<h2 style="margin-top:0">1 DETALLES DEL EVENTO</h2>
 					<h3 style="margin-top:0">NOMBRE DEL EVENTO</h3>
 					<p:inputText id="eventoNombre" maxLength="75" required="true" value="#{evento.evento.nombre}" placeholder="Coloca un nombre increible"/>
@@ -81,27 +81,32 @@
 					<h2 style="margin-top:20px">2. ENTRADAS</h2>
 					<h3 style="margin-top:0">AFORO DEL EVENTO</h3>
 					<p:inputText id="eventoAforo" value="#{evento.evento.aforo}" placeholder="Aforo"/>
-					<p:panel header="Crea Entradas" style="margin-top:20px">
-				        <p:panelGrid columns="2" columnClasses="ui-grid-col-4,ui-grid-col-8" layout="grid" styleClass="ui-panelgrid-blank">
-				            <p:graphicImage name="demo/images/godfather/godfather1.jpg" />
-				            <h:outputText
-				                value="The story begins as Don Vito Corleone, the head of a New York Mafia family, oversees his daughter's wedding. 
-				                His beloved son Michael has just come home from the war, but does not intend to become part of his father's business.
-				                Through Michael's life the nature of the family business becomes clear. The business of the family is just like the head of the family, kind and benevolent to those who give respect, 
-				                but given to ruthless violence whenever anything stands against the good of the family." />
-				        </p:panelGrid>
+					<p:panel id="eventoEntradaPanel" header="Crea Entradas" style="margin-top:20px">
+						<p:dataList id="eventoListaEntrada" value="#{evento.evento.ddTipoEntradas}" var="tipoEntrada" type="unordered" emptyMessage="Agrega un Tipo de Entrada" itemType="none" >
+					       #{tipoEntrada.nombre} #{tipoEntrada.precio} #{tipoEntrada.cantidad} #{tipoEntrada.sobreVenta} #{tipoEntrada.maxPorPedido} #{tipoEntrada.canalDeVentas} #{tipoEntrada.fechaInicioVenta} #{tipoEntrada.fechaFinVenta}
+						</p:dataList>
 				        <f:facet name="footer">
 				        	<p:spacer height="0"/>
 				        	<p:panelGrid columns="3" layout="grid" styleClass="ui-panelgrid-blank">
 								<p:inputText id="eventoEntradaNombre" maxLength="100" value="#{evento.tipoEntrada.nombre}" placeholder="Compra Anticapada, VIP..."/>
 								<p:inputText id="eventoEntradaCantidad" maxLength="6" value="#{evento.tipoEntrada.cantidad}" placeholder="100"/>
+								<h:outputText value="SobreVenta: " />
+								<p:selectBooleanCheckbox value="#{evento.tipoEntrada.sobreVenta}" />
+								<p:selectOneMenu id="eventoEntradaCanalDeVenta" value="#{evento.tipoEntrada.canalDeVentas}" style="width:125px">
+						            <f:selectItem itemLabel="Selecionar Uno" itemValue="" />
+						            <f:selectItem itemLabel="online" itemValue="online" />
+						            <f:selectItem itemLabel="papel" itemValue="papel" />
+						        </p:selectOneMenu>
+						        <p:calendar id="eventoEntradaFechaInicioVenta" value="#{evento.tipoEntrada.fechaInicioVenta}" pattern="MM/dd/yyyy" placeholder="Inicio de la venta de entradas"/>
+						        <p:calendar id="eventoEntradaFechaFinVenta" value="#{evento.tipoEntrada.fechaFinVenta}" pattern="MM/dd/yyyy" placeholder="Fin de la venta de entradas"/>
+						        <p:inputNumber id="eventoEntradaMaxPorTransaccion" value="#{evento.tipoEntrada.maxPorPedido}" minValue="1" maxValue="100" placeholder="Entradas permitidas por pedido"/>  
 								<p:inputNumber id="eventoEntradaPrecio" value="#{evento.tipoEntrada.precio}" symbol=" €" symbolPosition="s" decimalSeparator="," thousandSeparator="." placeholder="15,00"/>
 							<p:spacer height="0"/>
-							</p:panelGrid>				        	
-	                		<p:commandButton value="Agregar Entrada" />
+							</p:panelGrid>
+							<p:commandButton value="Agregar Entrada" actionListener="#{evento.crearTipoEntrada}" process="eventoEntradaPanel"  update="eventoEntradaPanel" />				        	
 	            		</f:facet>
 			    	</p:panel>
-					<p:panel header="Complementos" style="margin-top:20px">
+					<p:panel id="eventoComplementoPanel" header="Complementos" style="margin-top:20px">
 				        <p:panelGrid columns="2" columnClasses="ui-grid-col-4,ui-grid-col-8" layout="grid" styleClass="ui-panelgrid-blank">
 				            <p:graphicImage name="demo/images/godfather/godfather1.jpg" />
 				            <h:outputText
@@ -110,33 +115,46 @@
 				                Through Michael's life the nature of the family business becomes clear. The business of the family is just like the head of the family, kind and benevolent to those who give respect, 
 				                but given to ruthless violence whenever anything stands against the good of the family." />
 				        </p:panelGrid>
+				        <p:panelGrid columns="3" layout="grid" styleClass="ui-panelgrid-blank">
+							<p:inputText id="eventoComplementoNombre" maxLength="100" value="#{evento.complemento.nombre}" placeholder="Cerveza, papas, pulsera..."/>
+							<p:inputText id="eventoComplementoDescripcion" value="#{evento.complemento.descripcion}" placeholder="Breve Descripción"/>
+							<p:inputNumber id="eventoComplementoPrecio" value="#{evento.complemento.precio}" symbol=" €" symbolPosition="s" decimalSeparator="," thousandSeparator="." placeholder="15,00"/>
+						</p:panelGrid>
+							<p:fileUpload id="eventoComplementoImagenUpload" update="eventoComplementoImagenUpload, :eventoForm:growl" label="Seleccionar Imagen" uploadLabel="Subir" cancelLabel="Cancelar" sizeLimit="1000000" fileLimit="1" fileUploadListener="#{evento.handleFileUploadComplementoImagen}" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"/>
+							<p:message for="eventoComplementoImagenUpload" />
 				        <f:facet name="footer">
-	                		<p:commandButton value="Crear Complemento" />
+	                		<p:commandButton value="Crear Complemento" action="#{evento.crearComplemento}" process="eventoComplementoPanel" update="eventoComplementoPanel"/>
 	            		</f:facet>
 			    	</p:panel>
-					<p:commandButton value="Crear Evento" action="#{evento.crearEvento}"/>
+			    	
+			    	<p:panel header="Imagen Prueba3" style="margin-bottom:20px">
+			    		<p:graphicImage value="#{evento.obtenerImagenPrueba()}"/>
+			    		<p:graphicImage value="#{loginBean.obtenerImagenPrueba()}"/>
+			    	</p:panel>
+			    	
+					<p:commandButton value="Crear Evento" action="#{evento.crearEvento}" />
 				</p:outputPanel>
 			</div>
 		</h:form>
 		
 		<p:dialog header="Patrocinador" widgetVar="patrocinadorDialogo" resizable="false" modal="true">
-		<h:form id="eventoPatrocinadorDialogo" enctype="multipart/form-data">
-	        <div class="ui-fluid">
-	        	<p:growl id="patrocinadorGrowl" sticky="false" showDetail="true" life="5000" />
-    			<p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank">
-		            <p:outputLabel for="eventoNombrePatrocinador" value="Nombre: " />
-		            <p:inputText id="eventoNombrePatrocinador" value="#{evento.patrocinador.nombre}" required="true" label="patrocinador"/>
-				</p:panelGrid>
-				<p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank">
-					<p:fileUpload id="eventoImagePatrocinadorUpload" fileUploadListener="#{evento.handleFileUploadPatrocinador}" auto="true" label="Seleccionar Logo" sizeLimit="1000000" fileLimit="1" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
-					
-		            <f:facet name="footer">
-		                <p:commandButton value="Crear Patrocinador" actionListener="#{evento.crearPatrocinador}" oncomplete="handlePatrocinadorRequest(xhr, status, args)" update=":eventoForm:eventoListaPatrocinadores, :eventoForm:eventoPanelListaPatrocinadores, :eventoPatrocinadorDialogo, :eventoPatrocinadorDialogo:patrocinadorGrowl"/>
-		            </f:facet>  
-	        	</p:panelGrid>
-	        </div>
-        </h:form>
-    </p:dialog>
+			<h:form id="eventoPatrocinadorDialogo" enctype="multipart/form-data">
+		        <div class="ui-fluid">
+		        	<p:growl id="patrocinadorGrowl" sticky="false" showDetail="true" life="5000" />
+	    			<p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank">
+			            <p:outputLabel for="eventoNombrePatrocinador" value="Nombre: " />
+			            <p:inputText id="eventoNombrePatrocinador" value="#{evento.patrocinador.nombre}" required="true" label="patrocinador"/>
+					</p:panelGrid>
+					<p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank">
+						<p:fileUpload id="eventoImagePatrocinadorUpload" fileUploadListener="#{evento.handleFileUploadPatrocinador}" auto="true" label="Seleccionar Logo" sizeLimit="1000000" fileLimit="1" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
+						
+			            <f:facet name="footer">
+			                <p:commandButton value="Crear Patrocinador" actionListener="#{evento.crearPatrocinador}" oncomplete="handlePatrocinadorRequest(xhr, status, args)" update=":eventoForm:eventoListaPatrocinadores, :eventoForm:eventoPanelListaPatrocinadores, :eventoPatrocinadorDialogo, :eventoPatrocinadorDialogo:patrocinadorGrowl"/>
+			            </f:facet>  
+		        	</p:panelGrid>
+		        </div>
+	        </h:form>
+    	</p:dialog>
 	<script type="text/javascript">
 	    function handlePatrocinadorRequest(xhr, status, args) {
 	        if(args.validationFailed || !args.patrocinadorCreado) {

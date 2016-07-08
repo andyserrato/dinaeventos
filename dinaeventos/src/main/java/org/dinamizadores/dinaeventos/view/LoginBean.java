@@ -281,4 +281,14 @@ public class LoginBean implements Serializable {
     		imagenes.put(nombreImagen, new DefaultStreamedContent(imagen.getInputstream()));
     	}
     }
+    
+	public StreamedContent obtenerImagenPrueba() {
+		StreamedContent file = null;
+		
+		ClassLoader classloader = Thread.currentThread().getContextClassLoader();
+		InputStream is = classloader.getResourceAsStream("/img/placeholder.png");
+		file = new DefaultStreamedContent(is, "image/png");
+		
+		return file;
+	}
 }
