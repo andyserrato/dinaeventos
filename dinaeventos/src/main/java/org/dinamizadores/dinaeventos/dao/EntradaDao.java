@@ -64,7 +64,7 @@ public class EntradaDao {
 	
 	public List<DdTipoComplemento> listTipoComplemento() {
 		TypedQuery<DdTipoComplemento> findAllQuery = em.createQuery(
-				"SELECT DISTINCT te FROM DdTipoComplemento te ORDER BY te.idtipocomplemento",
+				"SELECT DISTINCT te FROM DdTipoComplemento te ORDER BY te.idTipoComplemento",
 				DdTipoComplemento.class);
 		
 		return findAllQuery.getResultList();
