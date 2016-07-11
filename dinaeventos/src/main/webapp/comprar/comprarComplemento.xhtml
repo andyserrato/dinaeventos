@@ -4,7 +4,7 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	template="/resources/scaffold/pageTemplateCliente.xhtml"
+	template="/WEB-INF/templateCliente.xhtml"
 	xmlns:p="http://primefaces.org/ui">
 
 	
@@ -32,88 +32,92 @@
 
 	<ui:define name="footer"/>
 
-	<ui:define name="main">
-	
-		<h:form id="comprar">
-		
- 
-		<p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
-    		<p:graphicImage name="images/wait3.gif" />
-		</p:dialog>
-				
-				<p:repeat var="entrada"  value="#{ddTipoComplementoBean.listadoEntradas}" >
-					
-					  <div class="col-sm-6 col-md-6">
-					    <div class="thumbnail">
-					    <div class="section">
-		        			<div class="container" style="width: 100%">
-							      <div class="col-md-4 ">
-							        <h3>#{entrada.nombre}</h3>
-							        <p>#{entrada.usuario.nombre}</p>
-							        <p>Precio: #{entrada.precio}€</p>
-							      </div>
-							   
-							       <div class="col-md-8" >
-							       <p:repeat var="comple"  value="#{entrada.listaComplementos}" > 
-								       <table class="table">
-								       <tbody>
-									       	<tr>
-										       <td><h:outputLabel value="#{comple.complemento.nombre}" /></td>
-										       <td><h:outputLabel value="#{comple.complemento.precio}" /></td>
-										       <td> <h:outputLabel value="#{comple.complemento.descripcion}" /></td>
-										        <td><p:spinner size="3"  value="#{comple.cantidad}" min="0" > 
-										       	<p:ajax  update="comprar:totales" listener="#{ddTipoComplementoBean.agregarComplemento}" />
-										       </p:spinner></td>
-										    </tr>
-									    </tbody>
-								       </table>
-							        </p:repeat>
-							        </div>
-							 </div>
-						</div>
-					</div>
-				</div>	
-			</p:repeat>
-				
-				
-					<p:outputPanel id="totales" >
-			        			<div class="col-md-12 ">
-							<p:outputLabel  value="Total: " /> <p:outputLabel id="total" value="#{ddTipoComplementoBean.total} €"></p:outputLabel>
+	<ui:define name="content">
+	<div class="Container100">
+            <div class="ContainerIndent">
+                <div class="Card ShadowEffect TexAlCenter">
+					<h:form id="comprar">
+
+					<p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+			    		<p:graphicImage name="images/wait3.gif" />
+					</p:dialog>
+							
+							<p:repeat var="entrada"  value="#{ddTipoComplementoBean.listadoEntradas}" >
+								
+								  <div class="col-sm-6 col-md-6">
+								    <div class="thumbnail">
+								    <div class="section">
+					        			<div class="container" style="width: 100%">
+										      <div class="col-md-4 ">
+										        <h3>#{entrada.nombre}</h3>
+										        <p>#{entrada.usuario.nombre}</p>
+										        <p>Precio: #{entrada.precio}€</p>
+										      </div>
+										   
+										       <div class="col-md-8" >
+										       <p:repeat var="comple"  value="#{entrada.listaComplementos}" > 
+											       <table class="table">
+											       <tbody>
+												       	<tr>
+													       <td><h:outputLabel value="#{comple.complemento.nombre}" /></td>
+													       <td><h:outputLabel value="#{comple.complemento.precio}" /></td>
+													       <td> <h:outputLabel value="#{comple.complemento.descripcion}" /></td>
+													        <td><p:spinner size="5"  value="#{comple.cantidad}" min="0" > 
+													       	<p:ajax  update="comprar:totales" listener="#{ddTipoComplementoBean.agregarComplemento}" />
+													       </p:spinner></td>
+													    </tr>
+												    </tbody>
+											       </table>
+										        </p:repeat>
+										        </div>
+										 </div>
+									</div>
 								</div>
-								<div class="col-md-12">
-									<h:outputText value="Enviar cada entrada a cada amigo: " />
-        							<p:inputSwitch id="value1" value="#{ddTipoComplementoBean.envioConjunto}" />
-        						</div>
-								<div class="col-md-12 ">
-									<p:repeat var="entrada" value="#{ddTipoComplementoBean.listadoEntradas}" >
-										<p:outputPanel rendered="#{!empty entrada.listaComplementos}">
-										<p:outputLabel  value="#{entrada.usuario.nombre} " /> 
-										<p:outputLabel  value=" va ha comprar:" /> 
-										<p:repeat var="complemento" value="#{entrada.listaComplementos}"  >
-											<p:outputPanel rendered="#{complemento.cantidad > 0}">
+							</div>	
+						</p:repeat>
+							
+							
+								<p:outputPanel id="totales" >
+						        			<div class="col-md-12 ">
+										<p:outputLabel  value="Total: " /> <p:outputLabel id="total" value="#{ddTipoComplementoBean.total} €"></p:outputLabel>
+											</div>
+											<div class="col-md-12">
+												<h:outputText value="Enviar cada entrada a cada amigo: " />
+			        							<p:inputSwitch id="value1" value="#{ddTipoComplementoBean.envioConjunto}" />
+			        						</div>
+											<div class="col-md-12 ">
+												<p:repeat var="entrada" value="#{ddTipoComplementoBean.listadoEntradas}" >
+													<p:outputPanel rendered="#{!empty entrada.listaComplementos}">
+													<p:outputLabel  value="#{entrada.usuario.nombre} " /> 
+													<p:outputLabel  value=" va ha comprar:" /> 
+													<p:repeat var="complemento" value="#{entrada.listaComplementos}"  >
+														<p:outputPanel rendered="#{complemento.cantidad > 0}">
+														
+														<p:outputLabel  value="Cantidad #{complemento.cantidad} de" /> <p:outputLabel  value=" #{complemento.complemento.nombre} " /> <p:outputLabel  value=" precio: #{complemento.complemento.precio}" /> 	 
+														</p:outputPanel>
+													</p:repeat>
+													</p:outputPanel>
+												</p:repeat>
+											</div>
+											<div class="col-md-12">
 											
-											<p:outputLabel  value="Cantidad #{complemento.cantidad} de" /> <p:outputLabel  value=" #{complemento.complemento.nombre} " /> <p:outputLabel  value=" precio: #{complemento.complemento.precio}" /> 	 
-											</p:outputPanel>
-										</p:repeat>
-										</p:outputPanel>
-									</p:repeat>
-								</div>
-								<div class="col-md-12">
+											
+											
+											</div>
+											
+								</p:outputPanel>
+								<br></br>
+								<br></br>
+								<p:separator />
 								
-								
-								
-								</div>
-								
-					</p:outputPanel>
-					<br></br>
-					<br></br>
-					<p:separator />
-					
-					<p:outputPanel style="margin:auto; width:20%;">
-						<p:commandLink styleClass="btn btn-primary" id="botonComprar"  action="#{ddTipoComplementoBean.cambiarPagina()}" value="Finalizar compra" onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()">
-						</p:commandLink>
-					</p:outputPanel>
-		</h:form>		
+								<p:outputPanel style="margin:auto; width:20%;">
+									<p:commandButton id="botonComprar"  action="#{ddTipoComplementoBean.cambiarPagina()}" value="Finalizar compra" onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()">
+									</p:commandButton>
+								</p:outputPanel>
+					</h:form>	
+				</div>
+	   		</div>
+		</div>	
 	</ui:define>
 
 </ui:composition>

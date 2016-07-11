@@ -4,7 +4,7 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	template="/resources/scaffold/pageTemplateCliente.xhtml"
+	template="/WEB-INF/templateCliente.xhtml"
 	xmlns:p="http://primefaces.org/ui">
 
 
@@ -20,44 +20,50 @@
 
 	<ui:define name="footer"/>
 
-	<ui:define name="main">
-		<h:form id="comprar">
-	
-					<p:dataTable styleClass="table table-striped" value="#{entradaBean.tiposEntrada}" var="tipo">
-						<p:column headerText="entrada">
-								<h:outputText value="#{tipo.nombre}" />
-						</p:column>
-						<p:column headerText="cantidad">
-								
-									<p:selectOneMenu id="cantidad" value="#{entradaBean.cantidad}"  style="width:200px;">
-										<p:ajax update="comprar:total comprar:botonComprar"  listener="#{entradaBean.sumarTotal(tipo.idtipoentrada)}" />
-										<f:selectItem itemLabel="0" itemValue="0" />
-										<f:selectItem itemLabel="1" itemValue="1" />
-										<f:selectItem itemLabel="2" itemValue="2" />
-										<f:selectItem itemLabel="3" itemValue="3" />
-										<f:selectItem itemLabel="4" itemValue="4" />
-										<f:selectItem itemLabel="5" itemValue="5" />
-										<f:selectItem itemLabel="6" itemValue="6" />
-									</p:selectOneMenu>
-								
-						</p:column>
-						<p:column headerText="precio">
-								<h:outputText value="#{tipo.precio}" />
-						</p:column>
-				
-					</p:dataTable>
-					<p:outputPanel id="total" style="float:right;">
-						<p:outputLabel  value="Total: "></p:outputLabel> <p:outputLabel  value="#{entradaBean.total}"></p:outputLabel>
-					</p:outputPanel>
-					<br></br>
-					<p:separator />
+	<ui:define name="content">
+	<div class="Container100">
+            <div class="ContainerIndent">
+                <div class="Card ShadowEffect TexAlCenter">
+				<h:form id="comprar">
 					
-					<p:outputPanel id="botonComprar"  style="margin:auto; width:20%;">
-						<p:commandLink styleClass="btn btn-primary"  disabled="#{entradaBean.isRendererBoton()}" action="#{entradaBean.cambiarPagina()}" value="Añadir entrada">
-						</p:commandLink>
-					</p:outputPanel>
-		</h:form>
-		
+							<p:dataTable styleClass="table table-striped" value="#{entradaBean.tiposEntrada}" var="tipo">
+								<p:column headerText="entrada">
+										<h:outputText value="#{tipo.nombre}" />
+								</p:column>
+								<p:column headerText="cantidad">
+										
+											<p:selectOneMenu id="cantidad" value="#{entradaBean.cantidad}"   style="width:200px;">
+											
+												<p:ajax update="comprar:total comprar:botonComprar"  listener="#{entradaBean.sumarTotal(tipo.idtipoentrada)}" />
+												<f:selectItem itemLabel="0" itemValue="0" />
+												<f:selectItem itemLabel="1" itemValue="1" />
+												<f:selectItem itemLabel="2" itemValue="2" />
+												<f:selectItem itemLabel="3" itemValue="3" />
+												<f:selectItem itemLabel="4" itemValue="4" />
+												<f:selectItem itemLabel="5" itemValue="5" />
+												<f:selectItem itemLabel="6" itemValue="6" />
+											</p:selectOneMenu>
+										
+								</p:column>
+								<p:column headerText="precio">
+										<h:outputText value="#{tipo.precio}" />
+								</p:column>
+						
+							</p:dataTable>
+							<p:outputPanel id="total" style="float:right;">
+								<p:outputLabel  value="Total: "></p:outputLabel> <p:outputLabel  value="#{entradaBean.total}"></p:outputLabel>
+							</p:outputPanel>
+							<br></br>
+							<p:separator />			
+												
+							<p:outputPanel id="botonComprar"  style="margin:auto; width:20%;">
+								<p:commandButton  disabled="#{entradaBean.isRendererBoton()}" action="#{entradaBean.cambiarPagina()}" value="Añadir entrada">
+								</p:commandButton>
+							</p:outputPanel>
+				</h:form>
+			</div>
+		</div>
+	</div>
 	</ui:define>
 
 </ui:composition>

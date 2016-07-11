@@ -19,7 +19,7 @@
         <h:outputScript name="js/perfect-scrollbar.js" library="rio-layout" />
         <h:outputScript name="js/layout.js" library="rio-layout" />
 
-        <ui:insert name="header" />
+        <ui:insert name="head" />
     </h:head>
 
     <h:body>
@@ -29,9 +29,7 @@
         <div id="wrapper">
             <div id="wrapperIndent">
 
-                <ui:include src="layoutmenu.xhtml" />
-
-                <div id="layout-portlets-cover">
+                <div id="layout-portlets-cover" style="margin-left: 0px!important;">
                     
                      <ui:insert name="content">
                         Template

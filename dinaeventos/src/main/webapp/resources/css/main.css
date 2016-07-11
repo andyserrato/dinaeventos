@@ -1011,19 +1011,3 @@ ul.nostyle i {
 	padding-left:10px;
 }
 
-.ui-selectonemenu-trigger.ui-state-default.ui-corner-right {
-	
-	width: 36px!important;
-	
-}
-
-.ui-selectonemenu.ui-widget.ui-state-default.ui-corner-all {
-	
-	padding: 0px 0px 0px 0px !important;
-}
-
-.ui-spinner.ui-spinner-button.ui-state-hover.ui-button-text {
-	
-	height: 17px!important;
-}
-

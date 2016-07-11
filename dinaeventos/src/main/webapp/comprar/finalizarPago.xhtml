@@ -4,7 +4,7 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	template="/resources/scaffold/pageTemplateCliente.xhtml"
+	template="/WEB-INF/templateCliente.xhtml"
 	xmlns:p="http://primefaces.org/ui">
 
 
@@ -20,12 +20,17 @@
 
 	<ui:define name="footer"/>
 
-	<ui:define name="main">
-	
-		<h:form id="comprar">
-		
-				Ha comprado las entradas, las encontrará en su correo. #{finalizarPagoBean.idTarjeta}
-		</h:form>		
+	<ui:define name="content">
+	<div class="Container100">
+            <div class="ContainerIndent">
+                <div class="Card ShadowEffect TexAlCenter">
+					<h:form id="comprar">
+					
+							Ha comprado las entradas, las encontrará en su correo. #{finalizarPagoBean.idTarjeta}
+					</h:form>	
+				</div>
+			</div>
+		</div>	
 	</ui:define>
 
 </ui:composition>
