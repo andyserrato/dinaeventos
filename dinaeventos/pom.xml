@@ -114,5 +114,10 @@
    	<artifactId>mangopay2-java-sdk</artifactId>
    	<version>1.1.0</version>
    </dependency>
+   <dependency>
+   	<groupId>org.primefaces.themes</groupId>
+   	<artifactId>rio</artifactId>
+   	<version>3.11</version>
+   </dependency>
   </dependencies>
 </project>

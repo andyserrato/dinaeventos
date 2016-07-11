@@ -20,6 +20,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.dinamizadores.dinaeventos.dao.DiccionarioDao;
 import org.dinamizadores.dinaeventos.dao.EventoDao;
+import org.dinamizadores.dinaeventos.model.DdTipoComplemento;
 import org.dinamizadores.dinaeventos.model.DdTipoEntrada;
 import org.dinamizadores.dinaeventos.model.DdTipoEvento;
 import org.dinamizadores.dinaeventos.model.Evento;
@@ -53,6 +54,7 @@ public class EventoBean implements Serializable {
 	private UploadedFile imageFile;
 	private UploadedFile imagePatrocinador;
 	private List<DdTipoEvento> ddTipoEvento = new ArrayList<>(); 
+	private DdTipoComplemento complemento = new DdTipoComplemento();
 	
 	@PostConstruct
 	public void init() {
@@ -60,7 +62,6 @@ public class EventoBean implements Serializable {
 		evento.setCodigoPostal(new GlobalCodigospostales());
 		evento.setOrganizador(new Organizadores());
 		ddTipoEvento = diccionarioDao.getDdTiposDeEvento();
-
 	}
 	
 	@Loggable
@@ -145,6 +146,33 @@ public class EventoBean implements Serializable {
 		}
 	}
 	
+	@Loggable
+	public void handleFileUploadComplementoImagen(FileUploadEvent event) {
+		UploadedFile file = event.getFile();
+		FacesMessage message = null;
+		FacesContext facesContext = FacesContext.getCurrentInstance();
+		if (file != null && !"".equalsIgnoreCase(file.getFileName())) {
+			log.info("La imagen del evento no es nula");
+			try {
+				byte[] bytes;
+				InputStream is = file.getInputstream();
+
+				if (is != null) {
+					bytes = IOUtils.toByteArray(is);
+					is.close();
+					complemento.setImagen(bytes);
+					complemento.setNombreImagen(file.getFileName());
+					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Imagen", "agregada");
+					facesContext.addMessage(null, message);
+				} else {
+					bytes = new byte[0];
+				}
+			} catch (IOException e) {
+				log.error("algo ha ocurrido con la foto del evento");
+			}
+		}
+	}
+	
 	public StreamedContent obtenerImagen(String nombre, byte[] datos) {
 		StreamedContent file = null;
 		ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
@@ -158,11 +186,41 @@ public class EventoBean implements Serializable {
 		return file;
 	}
 	
+	public StreamedContent obtenerImagenPrueba() {
+		StreamedContent file = null;
+		
+		ClassLoader classloader = Thread.currentThread().getContextClassLoader();
+		InputStream is = classloader.getResourceAsStream("/img/placeholder.png");
+		file = new DefaultStreamedContent(is, "image/png");
+		
+		return file;
+	}
+	
 	public void crearEvento() {
 		FacesMessage message = null;
 		FacesContext facesContext = FacesContext.getCurrentInstance();
 		eventoDao.crearEvento(evento);
 		message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Evento", evento.getIdevento() + " creado.");
+		facesContext.addMessage(null, message);
+	}
+	
+	public void crearComplemento() {
+		FacesMessage message = null;
+		FacesContext facesContext = FacesContext.getCurrentInstance();
+		evento.getDdTipoComplementos().add(complemento);
+		complemento = new DdTipoComplemento();
+		message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Complemento", " creado.");
+		facesContext.addMessage(null, message);
+	}
+	
+	@Loggable
+	public void crearTipoEntrada() {
+		FacesMessage message = null;
+		FacesContext facesContext = FacesContext.getCurrentInstance();
+		// TODO crear comprobaciones para no crearlo vacío del todo
+		evento.getDdTipoEntradas().add(tipoEntrada);
+		tipoEntrada = new DdTipoEntrada();
+		message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Tipo de Entrada",  "Creada.");
 		facesContext.addMessage(null, message);
 	}
 
@@ -181,7 +239,7 @@ public class EventoBean implements Serializable {
 	public void setPatrocinador(Patrocinadores patrocinador) {
 		this.patrocinador = patrocinador;
 	}
-
+ 
 	public UploadedFile getImagePatrocinador() {
 		return imagePatrocinador;
 	}
@@ -228,6 +286,14 @@ public class EventoBean implements Serializable {
 
 	public void setTipoEntrada(DdTipoEntrada tipoEntrada) {
 		this.tipoEntrada = tipoEntrada;
+	}
+
+	public DdTipoComplemento getComplemento() {
+		return complemento;
+	}
+
+	public void setComplemento(DdTipoComplemento complemento) {
+		this.complemento = complemento;
 	}
 	
 }

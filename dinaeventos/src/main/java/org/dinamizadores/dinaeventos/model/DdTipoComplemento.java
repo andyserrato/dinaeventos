@@ -12,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -30,6 +31,8 @@ public class DdTipoComplemento implements java.io.Serializable {
 	private String descripcion;
 	private Integer idEvento;
 	private Evento evento;
+	private byte[] imagen;
+	private String nombreImagen;
 	private Set<Entrada> entradas = new HashSet<Entrada>(0);
 	
 	public DdTipoComplemento() {
@@ -96,7 +99,26 @@ public class DdTipoComplemento implements java.io.Serializable {
         this.evento = evento;
     }
     
-    @ManyToMany(fetch=FetchType.LAZY, mappedBy="ddTipoComplementos")
+    @Lob
+    @Column(name = "imagen")
+    public byte[] getImagen() {
+		return imagen;
+	}
+
+	public void setImagen(byte[] imagen) {
+		this.imagen = imagen;
+	}
+	
+	@Column(name = "nombreimagen")
+	public String getNombreImagen() {
+		return nombreImagen;
+	}
+
+	public void setNombreImagen(String nombreImagen) {
+		this.nombreImagen = nombreImagen;
+	}
+
+	@ManyToMany(fetch=FetchType.LAZY, mappedBy="ddTipoComplementos")
     public Set<Entrada> getEntradas() {
         return this.entradas;
     }

@@ -40,9 +40,13 @@
    <param-name>primefaces.FONT_AWESOME</param-name>
    <param-value>true</param-value>
   </context-param>
+  <context-param>
+   <param-name>primefaces.THEME</param-name>
+   <param-value>rio</param-value>
+</context-param>
   <error-page>
     <error-code>404</error-code>
-    <location>/faces/error.xhtml</location>
+    <location>/faces/404.xhtml</location>
   </error-page>
   <error-page>
     <error-code>500</error-code>

@@ -32,7 +32,7 @@
 					         
 					         <p:panel id="panel">
 					            <h:panelGrid columns="6" cellpadding="0" style="width:100%;">
-					            	<div class="form-group"> 
+					            	<div class="form-group" > 
 					            	 
 					            	 <label  class="milabel col-sm-2 col-md-6 control-label">Nombre</label>
 					            	    <p:inputText  id="nombre" value="#{entrada.usuario.nombre}" label="Nombre" required="true"></p:inputText>
@@ -44,18 +44,26 @@
 					                 <p:message  for="apellidos" display="icon" />
 
 									 <label class="milabel col-sm-2 col-md-12 control-label">Correo electrónico</label>
-					                 <p:inputText  label="email" value="#{entrada.usuario.email}" id="email" required="true"></p:inputText>
+					                 <p:inputText  label="email" value="#{entrada.usuario.email}" id="email" required="true">
+					                 	<f:validateRegex pattern="^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$"></f:validateRegex>
+					                 </p:inputText>
 					                 <p:message  for="email" display="icon" />
 
 					                 <label class=" milabel col-md-12 control-label">Fecha de nacimiento</label>
-					                 <p:calendar  label="fecha" id="fecha" value="#{entrada.usuario.fechanac}" yearRange="c-90:c+0" navigator="true" pattern="dd/MM/yyyy" required="true" showOn="button"></p:calendar>
+					                 <p:calendar  label="fecha" id="fecha" value="#{entrada.usuario.fechanac}" mask="99/99/9999" yearRange="c-90:c+0" navigator="true" pattern="dd/MM/yyyy" required="true" showOn="button"></p:calendar>
 									 <p:message   for="fecha" display="icon" />
 									
 					                 <label class=" milabel col-sm-2 col-md-12 control-label">DNI</label>
-					                 <p:inputText  label="dni" id="dni" value="#{entrada.usuario.dni}" required="true"></p:inputText>
+					                 <p:inputMask  label="dni" id="dni" value="#{entrada.usuario.dni}" mask="*********"  required="true">
+					                 	<f:validateRegex pattern="(([X-Z]{1})([-]?)(\d{7})([-]?)([A-Z]{1}))|((\d{8})([-]?)([A-Z]{1}))"></f:validateRegex>
+					                 </p:inputMask>
 					            	 <p:message  for="dni" display="icon" />
+					            	 
+					            	 
 					            	 </div>
+
 					            </h:panelGrid>
+					            	
 					            </p:panel>
 					         </div>
 					         <div class="col-md-2">
@@ -66,6 +74,7 @@
 		         </div>
 		       	<hr />
 		    </p:repeat>
+		   
 		    <p:outputPanel style="float:right;">
 						<p:outputLabel  value="Total: "></p:outputLabel> <p:outputLabel id="total" value="#{usuarioBean.total}"></p:outputLabel>
 			</p:outputPanel>

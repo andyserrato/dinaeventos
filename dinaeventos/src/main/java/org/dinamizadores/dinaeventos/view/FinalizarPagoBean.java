@@ -3,8 +3,15 @@ package org.dinamizadores.dinaeventos.view;
 import java.io.IOException;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Formatter;
+import java.util.GregorianCalendar;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.view.ViewScoped;
@@ -12,8 +19,13 @@ import javax.faces.context.FacesContext;
 import javax.inject.Named;
 
 import org.dinamizadores.dinaeventos.dao.EntradaDao;
+import org.dinamizadores.dinaeventos.dao.EventoDao;
+import org.dinamizadores.dinaeventos.dao.UsuarioDao;
 import org.dinamizadores.dinaeventos.model.DdTipoComplemento;
+import org.dinamizadores.dinaeventos.model.Entrada;
+import org.dinamizadores.dinaeventos.model.Evento;
 import org.dinamizadores.dinaeventos.model.Usuario;
+import org.dinamizadores.dinaeventos.utiles.ConversorNumeroSerie;
 import org.dinamizadores.dinaeventos.utiles.log.Loggable;
 import org.dinamizadores.dinaeventos.utiles.pdf.FormarPDF;
 import org.dinamizadores.dinaeventos.utiles.plataformapagos.pagar;
@@ -28,7 +40,7 @@ import com.mangopay.entities.CardRegistration;
 @ViewScoped
 @Loggable
 
-public class okBean implements Serializable {
+public class FinalizarPagoBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -37,7 +49,15 @@ public class okBean implements Serializable {
 	 */
 	
 	@EJB
-	private EntradaDao tipoComplementoDao; 
+	private EntradaDao entradaDao; 
+	
+	@EJB
+	private UsuarioDao usuarioDao;
+	
+	@EJB 
+	private EventoDao eventoDao;
+	
+	private ConversorNumeroSerie con = new ConversorNumeroSerie();
 
 	private Integer id;
 	private Usuario usuario;
@@ -52,7 +72,7 @@ public class okBean implements Serializable {
 	
 	private List<entradasCompleta> listadoEntradas = new ArrayList<entradasCompleta>();
 	
-	private List<DdTipoComplemento> listadoComplemento = new ArrayList<DdTipoComplemento>();
+	private Evento evento = new Evento();
 	
 	private int cuenta = 0;
 	
@@ -64,22 +84,27 @@ public class okBean implements Serializable {
 	public void init(){
 		listadoEntradas = (List<entradasCompleta>) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("listaEntradas");
 		envioConjunto = (Boolean) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("envioConjunto");
+		evento = eventoDao.findById(1);
+		//evento = (Evento) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("evento");
+
 		
+		efectuarPago();
 		
-		cambiarPagina();
+		FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
 	}
 	
 	
 	
-	public void cambiarPagina(){
+	public void efectuarPago(){
 		
 			try {
 
+				crearEntradasUsuarios();
+				
 				pagar pa = new pagar();
 				CardRegistration tarjetaRegistrada = (CardRegistration) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("tarjeta");
 				total = (BigDecimal) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("total");
 				
-				System.out.println("Total: " + total);
 				pa.setTotal(total);
 				String[] lista = null;
 				lista =  FacesContext.getCurrentInstance().getExternalContext().getRequestParameterValuesMap().get("data");
@@ -88,7 +113,7 @@ public class okBean implements Serializable {
 			
 				pa.actualizarTarjeta(tarjetaRegistrada);
 				
-				FormarPDF.main(listadoEntradas, envioConjunto);
+				FormarPDF.main(listadoEntradas, evento, envioConjunto);	
 				
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
@@ -97,6 +122,75 @@ public class okBean implements Serializable {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+	}
+	
+	public void crearEntradasUsuarios(){
+		
+		for (entradasCompleta entrada : listadoEntradas){
+			
+			crearUsuario(entrada.getUsuario());
+			crearEntrada(entrada);		
+		}
+		
+	}
+	public void crearUsuario(Usuario usuario){
+		
+		usuario.setActivo(true);
+		usuario.setBloqueado(false);
+		
+		usuarioDao.create(usuario);
+		
+	}
+	
+	public void crearEntrada(entradasCompleta entrada){
+		
+		try {
+		Entrada en = new Entrada();
+		en.setActiva(true);
+		en.setDentrofuera(false);
+		en.setValidada(false);
+		en.setVendida(true);
+		
+		
+		en.setIdformapago(1);
+		en.setIdtipoiva(1);
+		en.setIdevento(1);
+		Calendar cal = new GregorianCalendar();
+		
+		String numeroserie = entrada.getUsuario().getDni() + "" + cal.getTimeInMillis();
+		numeroserie = con.convertirNumero(numeroserie);
+		en.setNumeroserie(numeroserie);
+		
+		BigDecimal total = new BigDecimal(0);
+		en.setFechaVendida(cal.getTime());
+		Set<DdTipoComplemento> listacomplemento = new HashSet<DdTipoComplemento>(0);
+		for (complementoEntero com : entrada.getListaComplementos()){
+			if (com.getCantidad() > 0){
+			listacomplemento.add(com.getComplemento());
+			total = total.add(com.getComplemento().getPrecio());
+			}
+			
+		}
+		entrada.setNumeroserie(en.getNumeroserie());
+		total = total.add(entrada.getPrecio());
+		en.setPrecio(total);
+		en.setDdTipoComplementos(listacomplemento);
+		
+		Usuario usu = usuarioDao.getUsuarioDni(entrada.getUsuario().getDni());
+		en.setIdusuario(usu.getIdUsuario());
+		
+		entradaDao.create(en);
+		
+		entrada.setIdEntrada((long) entradaDao.getEntradaDniEvento(en.getIdusuario(),en.getIdevento()));
+		System.out.println("El valor: " + entrada.getIdEntrada());
+		String format = String.format("%03d", entrada.getIdEntrada());
+		entrada.setIdEntrada(Long.valueOf(format));
+		
+		} catch (NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 	
 
@@ -146,14 +240,6 @@ public class okBean implements Serializable {
 
 	public void setListadoEntradas(List<entradasCompleta> listadoEntradas) {
 		this.listadoEntradas = listadoEntradas;
-	}
-
-	public List<DdTipoComplemento> getListadoComplemento() {
-		return listadoComplemento;
-	}
-
-	public void setListadoComplemento(List<DdTipoComplemento> listadoComplemento) {
-		this.listadoComplemento = listadoComplemento;
 	}
 
 	public entradasCompleta getEntrada() {

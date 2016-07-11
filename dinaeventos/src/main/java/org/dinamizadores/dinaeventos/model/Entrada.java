@@ -33,7 +33,7 @@ public class Entrada implements java.io.Serializable {
 	private String numeroserie;
 	private Boolean validada;
 	private Boolean ticketgenerado;
-	private Float precio;
+	private BigDecimal precio;
 	private Boolean activa;
 	private Integer idevento;
 	private Evento evento;
@@ -146,7 +146,7 @@ public class Entrada implements java.io.Serializable {
 		this.idusuario = idusuario;
 	}
 	
-	@ManyToOne(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
+	@ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="idusuario", insertable = false, updatable = false)
     public Usuario getUsuario() {
         return this.usuario;

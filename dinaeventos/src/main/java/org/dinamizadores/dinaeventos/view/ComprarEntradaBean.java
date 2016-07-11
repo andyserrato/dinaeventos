@@ -42,8 +42,6 @@ public class ComprarEntradaBean implements Serializable {
 	 * Support creating and retrieving DdTipoComplementoBean entities
 	 */
 	
-	@EJB
-	private EntradaDao tipoComplementoDao; 
 
 	private Integer id;
 	private Usuario usuario;
@@ -74,10 +72,6 @@ public class ComprarEntradaBean implements Serializable {
 	
 	private String cardNumber = null;
 	
-	
-	
-
-
 	@PostConstruct
 	public void init(){
 	
@@ -89,7 +83,7 @@ public class ComprarEntradaBean implements Serializable {
 		insertarTotal();
 		data = tarjetaRegistrada.PreregistrationData;
 		accessKeyRef = tarjetaRegistrada.AccessKey;
-		returnURL = "http://localhost:8080/dinaeventos/faces/comprar/ok.xhtml?faces-redirect=true";
+		returnURL = "http://localhost:8080/dinaeventos/faces/comprar/finalizarPago.xhtml?faces-redirect=true";
 	}
 
 	public void insertarTotal(){
@@ -99,8 +93,6 @@ public class ComprarEntradaBean implements Serializable {
 				total = total.add(c.getComplemento().getPrecio().multiply(BigDecimal.valueOf(c.getCantidad())));
 			}
 			total = total.add(entrada.getPrecio());
-		
-			
 		}
 		
 		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("total", total);

@@ -97,17 +97,15 @@ public class DdTipoComplementoBean implements Serializable {
 	
 	public String cambiarPagina(){
 		
-
-				//FormarPDF.main(listadoEntradas, envioConjunto);
-				
 				pagar pa = new pagar();
-				String idUsuario = pa.nuevoUsuario();
+				String idUsuario = pa.nuevoUsuario(listadoEntradas.get(0).getUsuario());
 				CardRegistration tarjetaRegistrada = pa.nuevoTarjeta(idUsuario);
+				
+				FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("listaEntradas", listadoEntradas);
 				
 				//Enviamos los datos a la nueva pagina
 				FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("tarjeta", tarjetaRegistrada);
 				FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("envioConjunto", envioConjunto);
-				
 				
 				return "/comprar/pagarEntradas.xhtml?faces-redirect=true";
 			
