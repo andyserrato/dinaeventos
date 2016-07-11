@@ -41,7 +41,7 @@ public class EntradaDao {
 
 	public Entrada findByNumeroSerie(String numeroSerie) {
 		TypedQuery<Entrada> findByNumeroSerie = em.createQuery(
-				"SELECT distinct e FROM Entrada e JOIN FETCH e.usuario where e.numeroserie = :numeroSerie",
+				"SELECT distinct e FROM Entrada e JOIN FETCH e.usuario where e.numeroserie = :numerosSerie",
 				Entrada.class);
 		
 		findByNumeroSerie.setParameter("numeroSerie", numeroSerie);
