@@ -1,6 +1,7 @@
 package org.dinamizadores.dinaeventos.model;
 // Generated 13-jun-2016 11:45:19 by Hibernate Tools 4.3.1.Final
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -101,11 +102,11 @@ public class Entrada implements java.io.Serializable {
 	}
 
 	@Column(name = "precio", precision = 12, scale = 0)
-	public Float getPrecio() {
+	public BigDecimal getPrecio() {
 		return this.precio;
 	}
 
-	public void setPrecio(Float precio) {
+	public void setPrecio(BigDecimal precio) {
 		this.precio = precio;
 	}
 
