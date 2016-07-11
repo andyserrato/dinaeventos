@@ -134,7 +134,7 @@ public class BBDDFaker {
 		e.setIdtipoiva(idTipoIva);
 		e.setIdusuario(idUsuario);
 		e.setNumeroserie(Long.toString(faker.number().randomNumber()));
-		e.setPrecio(Float.valueOf(Double.toString(faker.number().randomDouble(2, 1, 100))));
+		e.setPrecio(BigDecimal.valueOf(faker.number().randomDouble(2, 1, 100)));
 		e.setTicketgenerado(false);
 		e.setValidada(false);
 		e.setVendida(true);

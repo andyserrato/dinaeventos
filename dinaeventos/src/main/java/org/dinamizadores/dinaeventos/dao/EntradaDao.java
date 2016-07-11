@@ -1,16 +1,17 @@
 package org.dinamizadores.dinaeventos.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceContextType;
 import javax.persistence.TypedQuery;
 
 import org.dinamizadores.dinaeventos.model.DdTipoComplemento;
 import org.dinamizadores.dinaeventos.model.DdTipoEntrada;
 import org.dinamizadores.dinaeventos.model.Entrada;
-import org.dinamizadores.dinaeventos.model.Usuario;
 import org.dinamizadores.dinaeventos.utiles.log.Loggable;
 import org.dinamizadores.dinaeventos.view.DdTipoEntradaBean;
 
@@ -26,7 +27,6 @@ public class EntradaDao {
 	public void create(Entrada entity) {
 		em.persist(entity);
 	}
-	
 
 	public void deleteById(int id) {
 		Entrada entity = em.find(Entrada.class, id);
@@ -41,6 +41,21 @@ public class EntradaDao {
 
 	public Entrada update(Entrada entity) {
 		return em.merge(entity);
+	}
+	
+	public List<Entrada> findByField(String textoBusqueda){
+		TypedQuery<Entrada> findByField = em.createQuery(
+				"SELECT distinct e FROM Entrada e where e.usuario.dni LIKE :dni OR usuario.nombre LIKE :nombre" + 
+				" OR usuario.apellidos LIKE :apellidos OR usuario.email LIKE :email",
+				Entrada.class);
+		
+		findByField.setParameter("dni", "%" + textoBusqueda + "%");
+		findByField.setParameter("nombre", "%" + textoBusqueda + "%");
+		findByField.setParameter("apellidos", "%" + textoBusqueda + "%");
+		findByField.setParameter("email", "%" + textoBusqueda + "%");
+
+		
+		return findByField.getResultList();
 	}
 
 	public List<Entrada> listAll(Integer startPosition, Integer maxResult) {
@@ -66,13 +81,11 @@ public class EntradaDao {
 	
 	public List<DdTipoComplemento> listTipoComplemento() {
 		TypedQuery<DdTipoComplemento> findAllQuery = em.createQuery(
-				"SELECT DISTINCT te FROM DdTipoComplemento te ORDER BY te.idTipoComplemento",
+				"SELECT DISTINCT te FROM DdTipoComplemento te ORDER BY te.idtipocomplemento",
 				DdTipoComplemento.class);
 		
 		return findAllQuery.getResultList();
 	}
-	
-	
 	
 	public Integer getEntradaDniEvento(Integer idUsuario, Integer idEvento) {
 		TypedQuery<Integer> findAllQuery = em.createQuery(
@@ -82,5 +95,4 @@ public class EntradaDao {
 		findAllQuery.setParameter("idEvento", idEvento);
 		return findAllQuery.getSingleResult();
 	}
-	
 }

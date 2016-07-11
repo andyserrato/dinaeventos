@@ -34,6 +34,10 @@ public class panelAdministracionBean implements Serializable {
 		return Constantes.Rutas.Administracion.VISION_GLOBAL;
 	}
 	
+	public String irAGestionEntradas(){
+		return Constantes.Rutas.Administracion.GESTION_ENTRADAS;
+	}
+	
 	/**
 	 * Método que redirige a la página de Lugares de Origen.
 	 * 
