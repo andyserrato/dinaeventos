@@ -36,15 +36,17 @@ public class BeanUtils {
             try {
                 if (value == null) {
                     //ignore nulls
+                } else if (Set.class.isAssignableFrom(value.getClass())){
+                	//Si es un set no hacemos nada
+                } else if (HashSet.class.isAssignableFrom(value.getClass())){
+                	//Si es un hashset no hacemos nada
                 } else if (Collection.class.isAssignableFrom(value.getClass())) {
                     beanMap.putAll(convertAll((Collection) value, prefix + property, cache));
                 } else if (value.getClass().isArray()) {
                     beanMap.putAll(convertAll(Arrays.asList((Object[]) value), prefix + property, cache));
                 } else if (Map.class.isAssignableFrom(value.getClass())) {
                     beanMap.putAll(convertMap((Map) value, prefix + property, cache));
-                }else if (HashSet.class.isAssignableFrom(value.getClass())){
-                	//Si es un set no hacemos nada
-                } else {
+                } else  {
                     beanMap.putAll(convertObject(value, prefix + property, cache));
                 }
             } catch (Exception e) {

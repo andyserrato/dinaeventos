@@ -6,20 +6,7 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	template="/WEB-INF/templateCliente.xhtml"
 	xmlns:p="http://primefaces.org/ui">
-
 	
-	<script type="text/javascript" src="js/waitbutton.js"></script> 
-	
-	<script type="text/javascript"> var WaitButton=WaitButton||(function(){var a=true;var b;return{init:function(f,e,c){b=document.createElement("div");b.setAttribute("id","textDiv");b.className="waitButton";b.style.display="none";if(c===undefined||c==""){b.innerHTML=e;}else{b.innerHTML=e+" <img height='20px' src='"+c+"' />";}var d=document.getElementById(f);
-	if(d){d.parentNode.insertBefore(b,d);}},noWaitButton:function(){a=false;},forceUseWaitButton:function(){a=true;},showWaitButton:function(){if(a==true){b.style.display="inline";return true;}else{return false;}}};}());
-	</script>
-	
-	<script type="text/javascript">WaitButton.init('botonComprar', 'Procesando pago...', 'images/wait3.gif')</script>
-		
-		
-		
-
-
 	<ui:param name="pageTitle" value="Compra entradas"/>
 
 	<ui:define name="header">
@@ -33,9 +20,7 @@
 	<ui:define name="footer"/>
 
 	<ui:define name="content">
-	<div class="Container100">
-            <div class="ContainerIndent">
-                <div class="Card ShadowEffect TexAlCenter">
+	
 					<h:form id="comprar">
 
 					<p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
@@ -43,49 +28,49 @@
 					</p:dialog>
 							
 							<p:repeat var="entrada"  value="#{ddTipoComplementoBean.listadoEntradas}" >
-								
-								  <div class="col-sm-6 col-md-6">
-								    <div class="thumbnail">
-								    <div class="section">
-					        			<div class="container" style="width: 100%">
-										      <div class="col-md-4 ">
-										        <h3>#{entrada.nombre}</h3>
-										        <p>#{entrada.usuario.nombre}</p>
-										        <p>Precio: #{entrada.precio}€</p>
-										      </div>
-										   
-										       <div class="col-md-8" >
+								<div class="Container33 Responsive33">
+            						<div class="ContainerIndent">
+                					<div class="Card ShadowEffect ">
+								<div class="Container35 Responsive35">
+            							<div class="ContainerIndent">
+            							<p:panelGrid columns="2" layout="grid" style="border:0px!important;">
+										        <p:outputLabel styleClass="Fs20" value="#{entrada.nombre}" />	
+										        <div class="Container40 Responsive40">
+            										<div class="ContainerIndent">
+										        <p:outputLabel value="#{entrada.usuario.nombre}" />
+										        <p:outputLabel value="#{entrada.precio}€" />
+										        </div></div>
+										</p:panelGrid>
+								        </div>
+								</div>
+									<div class="Container65 Responsive65">
+            							<div class="ContainerIndent">
 										       <p:repeat var="comple"  value="#{entrada.listaComplementos}" > 
-											       <table class="table">
-											       <tbody>
-												       	<tr>
-													       <td><h:outputLabel value="#{comple.complemento.nombre}" /></td>
-													       <td><h:outputLabel value="#{comple.complemento.precio}" /></td>
-													       <td> <h:outputLabel value="#{comple.complemento.descripcion}" /></td>
-													        <td><p:spinner size="5"  value="#{comple.cantidad}" min="0" > 
+											       <p:panelGrid columns="4" layout="grid" style="border:0px!important;">
+													       <p:outputLabel value="#{comple.complemento.nombre}" />
+													      	<p:outputLabel value="#{comple.complemento.precio}€" />
+													        <p:outputLabel value="#{comple.complemento.descripcion}" />
+													        <p:spinner size="5"  value="#{comple.cantidad}" min="0" > 
 													       	<p:ajax  update="comprar:totales" listener="#{ddTipoComplementoBean.agregarComplemento}" />
-													       </p:spinner></td>
-													    </tr>
-												    </tbody>
-											       </table>
+													       </p:spinner>
+													</p:panelGrid>
 										        </p:repeat>
-										        </div>
+										       </div>
+										     </div>
 										 </div>
 									</div>
-								</div>
-							</div>	
+									</div>
+								
 						</p:repeat>
-							
-							
+							<div class="Container100 Responsive100">
+            						<div class="ContainerIndent">
+                					<div class="Card ShadowEffect TexAlCenter">
 								<p:outputPanel id="totales" >
-						        			<div class="col-md-12 ">
-										<p:outputLabel  value="Total: " /> <p:outputLabel id="total" value="#{ddTipoComplementoBean.total} €"></p:outputLabel>
-											</div>
-											<div class="col-md-12">
-												<h:outputText value="Enviar cada entrada a cada amigo: " />
-			        							<p:inputSwitch id="value1" value="#{ddTipoComplementoBean.envioConjunto}" />
-			        						</div>
-											<div class="col-md-12 ">
+						        			
+													
+			        						<div class="Container50 Responsive50 TexAlLeft">
+            									<div class="ContainerIndent">
+			        						
 												<p:repeat var="entrada" value="#{ddTipoComplementoBean.listadoEntradas}" >
 													<p:outputPanel rendered="#{!empty entrada.listaComplementos}">
 													<p:outputLabel  value="#{entrada.usuario.nombre} " /> 
@@ -93,31 +78,37 @@
 													<p:repeat var="complemento" value="#{entrada.listaComplementos}"  >
 														<p:outputPanel rendered="#{complemento.cantidad > 0}">
 														
-														<p:outputLabel  value="Cantidad #{complemento.cantidad} de" /> <p:outputLabel  value=" #{complemento.complemento.nombre} " /> <p:outputLabel  value=" precio: #{complemento.complemento.precio}" /> 	 
+														<p:outputLabel  value="#{complemento.cantidad} de" /> <p:outputLabel  value=" #{complemento.complemento.nombre} " /> <p:outputLabel  value=" precio: #{complemento.complemento.precio}€" /> 	 
 														</p:outputPanel>
 													</p:repeat>
 													</p:outputPanel>
 												</p:repeat>
-											</div>
-											<div class="col-md-12">
-											
-											
-											
-											</div>
+												<p:outputLabel  value="Total: " /> <p:outputLabel id="total" value="#{ddTipoComplementoBean.total} €"></p:outputLabel>
+										
+												</div></div>
+												
+												<div class="Container50 Responsive50 TexAlRight">
+            											<div class="ContainerIndent">
+														<h:outputText value="Enviar cada entrada a cada amigo: " />
+			        									<p:inputSwitch id="value1" value="#{ddTipoComplementoBean.envioConjunto}" />
+			        							</div></div>
 											
 								</p:outputPanel>
-								<br></br>
-								<br></br>
-								<p:separator />
+											
 								
-								<p:outputPanel style="margin:auto; width:20%;">
-									<p:commandButton id="botonComprar"  action="#{ddTipoComplementoBean.cambiarPagina()}" value="Finalizar compra" onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()">
+								
+								<div class="Container100 Responsive100 TexAlCenter">
+            						<div class="ContainerIndent">
+            						<p:separator />
+									<p:commandButton style="width:auto;" id="botonComprar"  action="#{ddTipoComplementoBean.cambiarPagina()}" value="Finalizar compra">
 									</p:commandButton>
-								</p:outputPanel>
+									</div></div>
+									</div>
+									</div>
+									</div>
+								
 					</h:form>	
-				</div>
-	   		</div>
-		</div>	
+					
 	</ui:define>
 
 </ui:composition>
