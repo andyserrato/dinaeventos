@@ -91,7 +91,7 @@ public class FormarPDF {
 
                 logger.info ( "convert the Car-Pass POJO in to a Key-Value pair Map" );
                 Map<String, String> model = BeanUtils.recursiveDescribe ( entrada, "entrada" );
-                Map<String, String> model2 = BeanUtils.recursiveDescribe ( evento, "evento" );
+                // Map<String, String> model2 = BeanUtils.recursiveDescribe ( evento, "evento" );
                 
                 logger.info ( "get the fields from the PDF template" );
                 AcroFields fields = stamper.getAcroFields();
@@ -101,9 +101,9 @@ public class FormarPDF {
                     fields.setField ( entry.getKey(), entry.getValue() );
                 }
                 
-                for ( Map.Entry<String, String> entry : model2.entrySet() ) {
-                    fields.setField ( entry.getKey(), entry.getValue() );
-                }
+                //for ( Map.Entry<String, String> entry : model2.entrySet() ) {
+                  //  fields.setField ( entry.getKey(), entry.getValue() );
+                //}
 
                 logger.info ( "create QR code" );
                // BarcodeQRCode qrcode = new BarcodeQRCode("https://ws.car-pass.be/verify/" + carPass.getCertificateNumber(), 75, 75, null);
