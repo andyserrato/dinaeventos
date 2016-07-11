@@ -118,6 +118,8 @@ public class LoginBean implements Serializable {
             message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Iniciar la sesión", "Correo/Contraseña incorrecta");
         }
          
+       email = "";
+       password = "";
        context.addMessage(null, message);
     }
     

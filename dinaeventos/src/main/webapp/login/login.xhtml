@@ -23,23 +23,26 @@
                 <h:graphicImage name="images/logo.svg" library="rio-layout" style="width:40%; max-width:200px;"/>
                 <div class="EmptyBox30"></div>
                 <div class="Card ShadowEffect">
-                    <div class="EmptyBox20"></div>
-                    <div class="Wid100 OvHidden BigTopic Fs30"><i class="icon-users Fs40"></i> Inicio de Sesión</div>
-                    <div class="EmptyBox20"></div>
-                    <div class="Wid100"><p:inputText placeholder="Email" styleClass="Wid80 TexAlCenter Fs18"/></div>
-                    <div class="EmptyBox10"></div>
-                    <div class="Wid100"><p:inputText type="password" placeholder="Password" styleClass="Wid80 TexAlCenter Fs18"/></div>
-                    <div class="EmptyBox30"></div>
-                    <p:selectBooleanCheckbox value="accept" itemLabel="Acepto Todos Los Términos y Condiciones"/>
-                    <div class="EmptyBox30"></div>
-                    <div class="Wid100"><p:button value="Inicio de Sesión" icon="fa fa-sign-in" styleClass="Wid60 Fs18 White RaisedButton" href="dashboard.xhtml"/></div>
-                    <div class="EmptyBox5"></div>
-                    <div class="Wid100"><p:button value="Recordar contraseña?" icon="fa fa-lock" styleClass="RedButton Wid60 Fs18 White RaisedButton"/></div>
-                    <div class="EmptyBox20"></div>
-                    <div class="Separator"></div>
-                    <div class="EmptyBox10"></div>
-                    <div class="Wid100"><p:button value="Crear una Cuenta ?" icon="fa fa-key" styleClass="GreenButton Wid60 Fs18 White RaisedButton"/></div>
-                    <div class="EmptyBox20"></div>
+                	<h:form id="loginForm">
+                		<p:growl id="growl" sticky="false" showDetail="false" life="5000" />
+	                    <div class="EmptyBox20"></div>
+	                    <div class="Wid100 OvHidden BigTopic Fs30"><i class="icon-users Fs40"></i> Inicio de Sesión</div>
+	                    <div class="EmptyBox20"></div>
+	                    <div class="Wid100"><p:inputText placeholder="Email" value="#{loginBean.email}" styleClass="Wid80 TexAlCenter Fs18" required="true" requiredMessage="Debes Colocar tu Email"/></div>
+	                    <div class="EmptyBox10"></div>
+	                    <div class="Wid100"><p:inputText type="password" placeholder="Password" value="#{loginBean.password}" styleClass="Wid80 TexAlCenter Fs18" required="true" requiredMessage="Debes Colocar tu Contraseña" /></div>
+	                    <div class="EmptyBox30"></div>
+	                    <p:selectBooleanCheckbox value="accept" itemLabel="Acepto Todos Los Términos y Condiciones"/>
+	                    <div class="EmptyBox30"></div>
+	                    <div class="Wid100"><p:commandButton value="Inicio de Sesión" icon="fa fa-sign-in" process="@form" update="@form" action="#{loginBean.login}" styleClass="Wid60 Fs18 White RaisedButton" /></div>
+	                    <div class="EmptyBox5"></div>
+	                    <div class="Wid100"><p:commandButton value="Recordar contraseña?" icon="fa fa-lock" styleClass="RedButton Wid60 Fs18 White RaisedButton"/></div>
+	                    <div class="EmptyBox20"></div>
+	                    <div class="Separator"></div>
+	                    <div class="EmptyBox10"></div>
+	                    <div class="Wid100"><p:button value="Crear una Cuenta ?" icon="fa fa-key" styleClass="GreenButton Wid60 Fs18 White RaisedButton"/></div>
+	                    <div class="EmptyBox20"></div>
+                    </h:form>
                 </div>
                 <div class="Wid100 TexAlCenter MarTop20 Fs14 FontRobotoRegular WhiteBlue">
                         <i class="fa fa-copyright"></i>  DinaEventos es una Empresa de Dinamizadores Group. <br/> Todos Los Derechos Reservados.

@@ -26,9 +26,9 @@
                 <div class="Card ShadowEffect TexAlCenter">
 				<h:form id="comprar">
 					
-							<p:dataTable styleClass="table table-striped" value="#{entradaBean.tiposEntrada}" var="tipo">
+							<p:dataTable  value="#{entradaBean.tiposEntrada}" var="tipo">
 								<p:column headerText="entrada">
-										<h:outputText value="#{tipo.nombre}" />
+										<h2 class="BigTopic" >#{tipo.nombre}</h2>
 								</p:column>
 								<p:column headerText="cantidad">
 										
@@ -46,18 +46,18 @@
 										
 								</p:column>
 								<p:column headerText="precio">
-										<h:outputText value="#{tipo.precio}" />
+										<h2 class="BigTopic" >#{tipo.precio}€</h2>
 								</p:column>
 						
 							</p:dataTable>
 							<p:outputPanel id="total" style="float:right;">
-								<p:outputLabel  value="Total: "></p:outputLabel> <p:outputLabel  value="#{entradaBean.total}"></p:outputLabel>
+								<p:outputLabel  value="Total: "></p:outputLabel> <p:outputLabel  value="#{entradaBean.total}€"></p:outputLabel>
 							</p:outputPanel>
 							<br></br>
 							<p:separator />			
 												
-							<p:outputPanel id="botonComprar"  style="margin:auto; width:20%;">
-								<p:commandButton  disabled="#{entradaBean.isRendererBoton()}" action="#{entradaBean.cambiarPagina()}" value="Añadir entrada">
+							<p:outputPanel id="botonComprar" >
+								<p:commandButton  style="width:auto;"   disabled="#{entradaBean.isRendererBoton()}" action="#{entradaBean.cambiarPagina()}" value="Añadir entrada">
 								</p:commandButton>
 							</p:outputPanel>
 				</h:form>

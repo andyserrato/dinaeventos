@@ -4,64 +4,74 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	template="/resources/scaffold/panelAdministracionTemplate.xhtml"
+	template="/WEB-INF/template.xhtml"
 	xmlns:p="http://primefaces.org/ui">
 	
 	<ui:define name="header">
 		<h1>Visión Global</h1>
 	</ui:define>
 
-	<ui:define name="main">
-		<h:panelGrid id="panelTop" columns="1" class="nav nav-tabs nav-stacked">
+	<ui:define name="content">
+		<p:panelGrid id="panelTop" columns="1" class="nav nav-tabs nav-stacked">
 		
-			<h:panelGrid id="panelEntradasTV" columns="2">
+			<p:panelGrid id="panelEntradasTV" columns="2">
 			
-				<h:outputLabel value="Entradas totales vendidas" style="float: left"/>
+				<h:outputLabel value="Entradas totales vendidas " style="float: left"/>
 				
-				<h:panelGrid columns="3" style="float: right">
-					<p:outputLabel id="labelEntradasVendidas" style="bold: true; float:left" value="#{visionGlobal.entradasVendidas}"/>
-					<b>/</b>
-					<p:outputLabel id="labelEntradasTotales" style="float: right" value="#{visionGlobal.entradasTotales}"/>
-				</h:panelGrid>
-			</h:panelGrid>
+				<p:panelGrid columns="3" style="float: right">
+					<p:outputLabel id="labelEntradasVendidas" style="bold: true; float:left" value="#{visionGlobal.evento.entradasVendidas}"/>
+					<b> / </b>
+					<p:outputLabel id="labelEntradasTotales" style="float: right" value="#{visionGlobal.evento.entradasTotales}"/>
+				</p:panelGrid>
+			</p:panelGrid>
 			
-			<h:panelGrid id="panelIngresosTotales" columns="2">
-				<h:outputLabel value="Ingresos totales" style="float: left"/>
-				<p:outputLabel id="labelIngresosTotales" style="float: right" value="#{visionGlobal.ingresosTotales}€"/>
-			</h:panelGrid>
-		</h:panelGrid>
+			<p:panelGrid id="panelIngresosTotales" columns="2">
+				<h:outputLabel value="Ingresos totales " style="float: left"/>
+				<p:outputLabel id="labelIngresosTotales" style="float: right" value="#{visionGlobal.evento.ingresosTotales}€"/>
+			</p:panelGrid>
+		</p:panelGrid>
 		
 		<br/>
 		
-		<h:panelGrid id="panelMid" columns="1" class="nav nav-tabs nav-stacked">
+		<p:panelGrid id="panelMid" columns="1" class="nav nav-tabs nav-stacked">
 		
-			<h:panelGrid id="panelVendidasPapel" columns="2">
-				<h:outputLabel value="Entradas validadas vendidas en papel" style="float: left"/>
-				<p:outputLabel id="labelVendidasPapel" style="float: right" value="#{visionGlobal.entradasPapel}"/>
-			</h:panelGrid>
+			<p:panelGrid id="panelVendidasPapel" columns="2">
+				<h:outputLabel value="Entradas validadas vendidas en papel " style="float: left"/>
+				<p:outputLabel id="labelVendidasPapel" style="float: right" value="#{visionGlobal.evento.entradasValidadasPapel}"/>
+			</p:panelGrid>
 			
-			<h:panelGrid id="panelVendidasOnline" columns="2">
-				<h:outputLabel value="Entradas vendidas online" style="float: left"/>
-				<p:outputLabel id="labelVendidasOnline" style="float: right" value="#{visionGlobal.entradasOnline}"/>
-			</h:panelGrid>
+			<p:panelGrid id="panelVendidasOnline" columns="2">
+				<h:outputLabel value="Entradas vendidas online " style="float: left"/>
+				<p:outputLabel id="labelVendidasOnline" style="float: right" value="#{visionGlobal.evento.entradasOnline}"/>
+			</p:panelGrid>
 			
-			<h:panelGrid id="panelVendidasSMS" columns="2">
-				<h:outputLabel value="Entradas vendidas por SMS" style="float: left"/>
+			<p:panelGrid id="panelVendidasSMS" columns="2">
+				<h:outputLabel value="Entradas vendidas por SMS " style="float: left"/>
 				<p:outputLabel id="labelVendidasSMS" style="float: right" value="#{visionGlobal.entradasSMS}"/>
-			</h:panelGrid>
+			</p:panelGrid>
 			
-		</h:panelGrid>
+		</p:panelGrid>
 		
 		<br/>
 		
-		<h:panelGrid id="panelBot" columns="1" class="nav nav-tabs nav-stacked">
+		<p:panelGrid id="panelBot" columns="1" class="nav nav-tabs nav-stacked" style="width: 75%;">
 			
-			<h:panelGrid id="panelCambiosNombre" columns="2">
-				<h:outputLabel value="Cambios de nombre" style="float: left"/>
+			<p:panelGrid id="panelCambiosNombre" columns="2" style="width: 100%;">
+				<h:outputLabel value="Cambios de nombre " style="float: left"/>
 				<p:outputLabel id="labelCambiosNombre" style="float: right" value="#{visionGlobal.cambiosNombre}(1058€)"/>
-			</h:panelGrid>
+			</p:panelGrid>
 			
-		</h:panelGrid>
+			<p:panelGrid id="panelChartPie" columns="1" style="width: 100%;">
+				<p:chart type="line" model="#{visionGlobal.entradasTiempo}" style="height:300px;"/>
+				<br/>
+				<p:panelGrid id="panelQuesitos" columns="2" style="width: 100%">
+					<p:chart type="pie" model="#{visionGlobal.quesoEdad}" style="width: 50%; height: 100%; left: 25%"/>
+					<p:chart type="pie" model="#{visionGlobal.quesoSexual}" style="width: 50%; height: 100%; left: 25%"/>
+				</p:panelGrid>
+			</p:panelGrid>
+			
+			
+		</p:panelGrid>
 			
 	</ui:define>
 
