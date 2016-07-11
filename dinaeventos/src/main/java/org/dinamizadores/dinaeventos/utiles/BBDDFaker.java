@@ -1,6 +1,5 @@
 package org.dinamizadores.dinaeventos.utiles;
 
-import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -13,8 +12,6 @@ import java.util.concurrent.TimeUnit;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import javax.mail.util.ByteArrayDataSource;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.dinamizadores.dinaeventos.dao.DAOGenerico;

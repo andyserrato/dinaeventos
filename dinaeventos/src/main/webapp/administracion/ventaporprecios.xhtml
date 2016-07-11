@@ -4,16 +4,40 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	template="/resources/scaffold/panelAdministracionTemplate.xhtml"
+	template="/WEB-INF/template.xhtml"
 	xmlns:p="http://primefaces.org/ui">
 
 	<ui:define name="header">
 		<h1>Venta por precios</h1>
 	</ui:define>
 
-	<ui:define name="main">
+	<ui:define name="content">
 		
-		EN CONSTRUCCIÓN
+		<p:panelGrid id="panelChartPie" columns="1" class="nav nav-tabs nav-stacked">
+			<p:chart type="line" model="#{ventasPrecios.entradasTiempo}" style="height:300px;"/>
+		</p:panelGrid>
+		
+		<p:panelGrid id="panelTabla" columns="1" class="nav nav-tabs nav-stacked">
+
+			<p:dataTable id="tablaTiposEntradas" value="#{ventasPrecios.listaVentas}" var="tipo">
+				<p:column>
+					<p:panelGrid columns="1">
+						<h:outputLabel value="#{tipo.nombreTipoEntrada}" style="float: left"/>
+					</p:panelGrid>
+				</p:column>
+				<p:column>
+					<p:panelGrid columns="1" style="float: right">
+						<p:outputLabel id="cantidadVendida" value="#{tipo.total} €"/>
+						<p:dataTable id="tablaInterna" value="#{tipo.ventas}" var="venta">
+							<p:column>
+								<p:outputLabel id="detalleTipoVenta" value="#{venta.precio} €: #{venta.cantidad} entradas"/>
+							</p:column>
+						</p:dataTable>
+					</p:panelGrid>
+				</p:column>
+			</p:dataTable>
+			
+		</p:panelGrid>
 					
 	</ui:define>
 
