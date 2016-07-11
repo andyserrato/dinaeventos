@@ -39,6 +39,22 @@ public class EntradaDao {
 		return em.find(Entrada.class, id);
 	}
 
+	public Entrada findByNumeroSerie(String numeroSerie) {
+		TypedQuery<Entrada> findByNumeroSerie = em.createQuery(
+				"SELECT distinct e FROM Entrada e JOIN FETCH e.usuario where e.numeroserie = :numeroSerie",
+				Entrada.class);
+		
+		findByNumeroSerie.setParameter("numeroSerie", numeroSerie);
+		
+		
+		if (!findByNumeroSerie.getResultList().isEmpty())
+			return findByNumeroSerie.getResultList().get(0);
+		else
+			return null;
+			
+	}
+
+	
 	public Entrada update(Entrada entity) {
 		return em.merge(entity);
 	}
@@ -58,6 +74,17 @@ public class EntradaDao {
 		return findByField.getResultList();
 	}
 
+	//Este método devuelve las entradas para un determinado evento
+	public List<Entrada> listByEventID(int idEvento){
+		TypedQuery<Entrada> findByEventID = em.createQuery(
+				"SELECT distinct e FROM Entrada e JOIN FETCH e.usuario where e.evento.idevento = :idevento",
+				Entrada.class);
+		
+		findByEventID.setParameter("idevento", idEvento);
+		
+		return findByEventID.getResultList();
+	}
+	
 	public List<Entrada> listAll(Integer startPosition, Integer maxResult) {
 		TypedQuery<Entrada> findAllQuery = em.createQuery(
 				"SELECT DISTINCT e FROM Entrada e ORDER BY e.identrada",
@@ -81,7 +108,7 @@ public class EntradaDao {
 	
 	public List<DdTipoComplemento> listTipoComplemento() {
 		TypedQuery<DdTipoComplemento> findAllQuery = em.createQuery(
-				"SELECT DISTINCT te FROM DdTipoComplemento te ORDER BY te.idtipocomplemento",
+				"SELECT DISTINCT te FROM DdTipoComplemento te ORDER BY te.idTipoComplemento",
 				DdTipoComplemento.class);
 		
 		return findAllQuery.getResultList();
