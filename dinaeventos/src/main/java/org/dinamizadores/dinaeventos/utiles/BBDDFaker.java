@@ -136,6 +136,8 @@ public class BBDDFaker {
 		e.setValidada(false);
 		e.setVendida(true);
 		e.getDdTipoComplementos().add(tipoComplemento);
+		e.setFechaVendida(new Date());
+		e.setFechaValidada(new Date());
 				
 		return e;
 	}
@@ -294,7 +296,7 @@ public class BBDDFaker {
 		 * Además, no debería tener ningún dato ninguna tabla para evitar posibles duplicados de claves.
 		 */
 		final int NUM_FORMAPAGO = 2;
-		final int NUM_SEXO = 3;
+		final int NUM_SEXO = 2;
 		final int NUM_EVENTO = 2;
 		final int NUM_TIPOEVENTO = 10;
 		final int NUM_ORGANIZADORES = 2;
