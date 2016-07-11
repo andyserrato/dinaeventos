@@ -47,7 +47,7 @@
         	<ul class="nav nav-tabs nav-stacked">
         		<li><p:commandLink value="Gestión de precios" id="btn9" /></li>
         		<li><p:commandLink value="Gestión de RRPP" id="btn10" /></li>
-        		<li><p:commandLink value="Gestión de entradas" id="btn11" /></li>
+        		<li><p:commandLink value="Gestión de entradas" id="btn11" action="#{panelAdministracion.irAGestionEntradas()}"/></li>
         		<li><p:commandLink value="Generar invitación" id="btn12" /></li>
         		<li><p:commandLink value="Ver VIP's e invitaciones" id="btn13" /></li>
         		<li><p:commandLink value="Facturación" id="btn14" /></li>
@@ -59,6 +59,8 @@
         		<ui:insert name="main" />
         	</h:form>
         </div>
+        
+       
           
     </h:body> 
 </html>

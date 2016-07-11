@@ -1,10 +1,12 @@
 package org.dinamizadores.dinaeventos.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceContextType;
 import javax.persistence.TypedQuery;
 
 import org.dinamizadores.dinaeventos.model.DdTipoComplemento;
@@ -39,6 +41,21 @@ public class EntradaDao {
 
 	public Entrada update(Entrada entity) {
 		return em.merge(entity);
+	}
+	
+	public List<Entrada> findByField(String textoBusqueda){
+		TypedQuery<Entrada> findByField = em.createQuery(
+				"SELECT distinct e FROM Entrada e where e.usuario.dni LIKE :dni OR usuario.nombre LIKE :nombre" + 
+				" OR usuario.apellidos LIKE :apellidos OR usuario.email LIKE :email",
+				Entrada.class);
+		
+		findByField.setParameter("dni", "%" + textoBusqueda + "%");
+		findByField.setParameter("nombre", "%" + textoBusqueda + "%");
+		findByField.setParameter("apellidos", "%" + textoBusqueda + "%");
+		findByField.setParameter("email", "%" + textoBusqueda + "%");
+
+		
+		return findByField.getResultList();
 	}
 
 	public List<Entrada> listAll(Integer startPosition, Integer maxResult) {

@@ -1,0 +1,140 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	template="/resources/scaffold/templates/eventoTemplate.xhtml"
+	xmlns:p="http://primefaces.org/ui">
+	
+	<ui:define name="header">
+		<h1>Gestión de entradas</h1>
+	</ui:define>
+
+
+
+	<ui:define name="main">
+		
+		<br></br>		
+		
+		<div id="motor_busqueda" style="padding: 10px; background-color: rgba(129, 190, 247, 0.3); 
+ margin-bottom: 10px; border-radius: 5px">
+			El motor de búsqueda de entradas busca por los campos de nombre, apellidos, dni y correo electrónico. No es necesario introducir
+			el valor completo del campo por el cuál vayas a buscar. Por ejemplo, para una entrada asociada al correo example@gmail.com, buscando
+			por exa aparecerá la entrada.
+		</div>
+		
+		<h:form id="holaMundo">
+   	       <p:messages id="estado" showDetail="true" autoUpdate="true" closable="true" />
+ 			
+			<p:panelGrid styleClass="ui-noborder" style="width:100%;" columnClasses="no-border, no-border">
+   	
+   				<p:column>
+   					<p:outputLabel for="busqueda" value="Buscar:" style="width: 10%"/>
+   				</p:column>
+   				
+   				<p:column style="width: 50%">
+   					<p:inputText style="text-align: center; width:95%; margin-left: 20px; margin-right: 20px" id="busqueda" value="#{gestionEntradasBean.textoBusqueda}"> </p:inputText>
+   				</p:column>
+   				
+		   		<p:column>
+		   			<p:outputLabel for="mostrar" value="Mostrar: " />
+		   		</p:column>
+		   		
+		   		<p:column style="width: 30%">
+		   			<p:selectOneMenu id="mostrar" value="#{gestionEntradasBean.opcionSeleccionadaMostrar}" style="width:90%">
+			            <f:selectItem itemLabel="Todas" itemValue="" />
+			            <f:selectItems value="#{gestionEntradasBean.opcionesComboMostrar}" />
+		        	</p:selectOneMenu>
+		   		</p:column>
+		   		
+		   		<p:column>
+		   			<h:commandButton value="Aceptar" style="display: none">
+		   				<f:ajax execute="holaMundo" render="output" />
+		   			</h:commandButton>
+		   		</p:column>
+		   		
+		   	</p:panelGrid>
+		   
+		   <br></br>
+		   
+		   	<p:dataTable style="width: 100%" id="output" var="entrada" value="#{gestionEntradasBean.entradas}" editable="true">
+			    
+			   <p:ajax event="rowEdit" listener="#{gestionEntradasBean.onRowEdit}" update="@form:estado" />
+		       <p:ajax event="rowEditCancel" listener="#{gestionEntradasBean.onRowCancel}" update="@form:estado" />
+		 
+		       <p:column headerText="Nombre">
+		           <p:cellEditor>
+		               <f:facet name="output"><h:outputText value="#{entrada.usuario.nombre}" /></f:facet>
+		               <f:facet name="input"><p:inputText id="modelInput" value="#{entrada.usuario.nombre}" style="width:100%"/></f:facet>
+		           </p:cellEditor>
+		       </p:column>
+		 
+		       <p:column headerText="Apellidos">
+		           <p:cellEditor>
+		               <f:facet name="output"><h:outputText value="#{entrada.usuario.apellidos}" /></f:facet>
+		               <f:facet name="input"><p:inputText value="#{entrada.usuario.apellidos}" style="width:100%" label="Year"/></f:facet>
+		           </p:cellEditor>
+		       </p:column>
+		       
+		       <p:column headerText="DNI">
+		           <p:cellEditor>
+		               <f:facet name="output"><h:outputText value="#{entrada.usuario.dni}" /></f:facet>
+		               <f:facet name="input"><p:inputText value="#{entrada.usuario.dni}" style="width:100%" label="Year"/></f:facet>
+		           </p:cellEditor>
+		       </p:column>
+		       
+		       <p:column headerText="Precio">
+		           <p:cellEditor>
+		               <f:facet name="output"><h:outputText value="#{entrada.precio}" /></f:facet>
+		               <f:facet name="input"><p:inputText value="#{entrada.precio}" style="width:100%"/></f:facet>
+		           </p:cellEditor>
+		       </p:column>
+			 	
+			 	
+			 	<p:column width="30%">
+<!-- 		           <p:panelGrid columns="3" styleClass="ui-noborder"> -->
+		           		<p:rowEditor style="width: 20%"/>
+		           		<p:commandButton value="D" actionListener="#{gestionEntradasBean.setItemSeleccionado(entrada)}" update="diss diss2" oncomplete="PF('dlg2').show()" ajax="true"/>
+		           		<p:commandButton value="R" actionListener="#{gestionEntradasBean.setItemSeleccionado(entrada)}" update=":formCorreo:correo_regenerar" oncomplete="$('#correo_regenerar').attr('value', '#{entrada.usuario.email}')
+ 		           		;PF('dlgRegenerarEntrada').show(); 
+		           		" ajax="true"/>
+<!-- 		           </p:panelGrid> -->
+		       </p:column>
+			 
+			</p:dataTable>
+		   	
+    	
+  		</h:form>
+			
+		<h:form id="formCorreo">
+			<p:dialog header="Regenerar entrada" widgetVar="dlgRegenerarEntrada" style="width:400px" height="200" modal="true" resizable="false">
+			    <div style="background-color: #FAFAFA; width: 400px; padding: 10px; border-radius: 5px; border: 1px solid #CCC">
+		    		Si el correo que aparece en el campo es correcto haz clic en reenviar entrada, de lo contrario modifica el correo y haz clic.
+		    	</div>
+			    
+			    <h:panelGrid columns="2" style="margin-top: 15px; width: 100%;">
+		    		<h:outputText value="Email: " />
+		    		<p:inputText id="correo_regenerar" value="#{gestionEntradasBean.emailSeleccionado}" style="width: 100%; text-alignment: center"></p:inputText>
+			    </h:panelGrid>
+			    
+			    <div style="text-align:center; margin-top: 20px; margin-bottom: 20px">
+			    	<p:commandButton  value="Reenviar entrada" actionListener="#{gestionEntradasBean.regenerarEntrada()}"></p:commandButton>
+			    </div>
+			</p:dialog>	
+		</h:form>
+		
+		<p:dialog header="Detalles de la entrada" widgetVar="dlg2" height="100" modal="true" resizable="false">
+		    
+		    <h:panelGrid columns="2" cellpadding="5">
+		    	<h:outputText id="diss" value="El id es: #{gestionEntradasBean.itemSeleccionado.usuario.nombre}" />
+		    	<h:outputText id="diss2" value="El App es: #{gestionEntradasBean.itemSeleccionado.usuario.apellidos}" />
+			</h:panelGrid>
+		</p:dialog>
+		
+		
+	</ui:define>
+
+</ui:composition>

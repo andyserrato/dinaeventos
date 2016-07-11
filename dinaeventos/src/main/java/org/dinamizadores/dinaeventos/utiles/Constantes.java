@@ -31,6 +31,8 @@ public final class Constantes {
 			public static final String VENTAS_ONLINE = "/administracion/ventasonline.xhtml?faces-redirect=true";
 			
 			public static final String VENTAS_TIPO_ENTRADAS = "/administracion/ventasportiposdeentradas.xhtml?faces-redirect=true";
+			
+			public static final String GESTION_ENTRADAS = "/administracion/gestionentradas.xhtml?faces-redirect=true";
 		}
 	}
 }
