@@ -37,6 +37,7 @@ public class DdTipoEntrada implements java.io.Serializable {
     private String canalDeVentas;
     private Date fechaInicioVenta;
     private Date fechaFinVenta;
+    private BigDecimal costeCambioDeNombre;
     private Boolean activa;
 	private Set<Entrada> entradas = new HashSet<Entrada>(0);
 	
@@ -170,6 +171,16 @@ public class DdTipoEntrada implements java.io.Serializable {
 
 	public void setActiva(Boolean activa) {
 		this.activa = activa;
+	}
+	
+	
+	@Column(name = "costecambionombre", precision = 5, scale = 2)
+	public BigDecimal getCosteCambioDeNombre() {
+		return costeCambioDeNombre;
+	}
+
+	public void setCosteCambioDeNombre(BigDecimal costeCambioDeNombre) {
+		this.costeCambioDeNombre = costeCambioDeNombre;
 	}
 
 	@OneToMany(fetch=FetchType.LAZY, mappedBy="ddTipoEntrada")

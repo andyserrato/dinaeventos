@@ -40,6 +40,7 @@ public class Usuario implements java.io.Serializable {
 	private String iban;
 	private Boolean bloqueado;
 	private Boolean activo;
+	private Boolean cliente;
 	private Date ultimologin;
 	private Integer idsexo;
 	private Integer idredessociales;
@@ -213,6 +214,15 @@ public class Usuario implements java.io.Serializable {
 
 	public void setActivo(Boolean activo) {
 		this.activo = activo;
+	}
+	
+	@Column(name = "iscliente")
+	public Boolean getCliente() {
+		return cliente;
+	}
+
+	public void setCliente(Boolean cliente) {
+		this.cliente = cliente;
 	}
 
 	@Temporal(TemporalType.DATE)

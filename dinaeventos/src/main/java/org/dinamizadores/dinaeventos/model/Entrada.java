@@ -101,7 +101,7 @@ public class Entrada implements java.io.Serializable {
 		this.ticketgenerado = ticketgenerado;
 	}
 
-	@Column(name = "precio", precision = 12, scale = 0)
+	@Column(name = "precio", precision = 12, scale = 2)
 	public BigDecimal getPrecio() {
 		return this.precio;
 	}
