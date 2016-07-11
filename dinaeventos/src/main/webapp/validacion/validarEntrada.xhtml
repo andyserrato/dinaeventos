@@ -1,0 +1,93 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="content">
+		
+		<div class="Container100">
+			<div class="ContainerIndent">
+				<div class="Card ShadowEffect ui-fluid">
+					<h2 class="BigTopic"> Validación de entradas</h2>
+					<h:form>
+						<p:outputPanel >
+							<p:messages id="messages" showDetail="false" autoUpdate="true" closable="true" />
+							
+							<p:inputText id="inNumeroSerie" rendered="#{validarEntradaBean.renderedInNumeroSerie}" class="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all" role="textbox" required="true" value="#{validarEntradaBean.numeroSerie}" placeholder="Número de serie"></p:inputText>
+							
+							<div style="margin-top: 10px" class="Container100 ui-fluid TexAlCenter">
+								<p:commandButton id="botonValidar" rendered="#{validarEntradaBean.renderedBotonValidar}" update="@form" style="width: 20%" value="Validar entrada" actionListener="#{validarEntradaBean.validarEntradaPaso1()}"></p:commandButton>
+							</div>	
+						</p:outputPanel>
+						
+						<p:outputPanel id="datosRestantes" rendered="#{validarEntradaBean.renderedFormularioDatos}">
+								
+									<p:outputLabel value="Para poder validar correcamente tu entrada es necesario que introduzcas los siguientes datos: "></p:outputLabel>
+									
+									<p:inputText style="margin-top: 10px" id="inNombre" class="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all" role="textbox" required="true"  requiredMessage="Es necesario proporcionar un nombre" value="#{validarEntradaBean.nombre}" placeholder="Nombre"></p:inputText>
+									<p:inputText style="margin-top: 10px" id="inApellidos" class="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all" role="textbox" required="true" requiredMessage="Es necesario proporcionar unos apellidos" value="#{validarEntradaBean.apellidos}" placeholder="Apellidos"></p:inputText>
+									
+									<div class="ui-grid-row">
+										<div class="ui-panelgrid-cell ui-grid-col-4">
+											<p:inputText style="margin-top: 10px" id="inCodPostal" class="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all" role="textbox" required="true" requiredMessage="Es necesario proporcionar el código postal" value="#{validarEntradaBean.codPostal}" placeholder="Código Postal"></p:inputText>
+											
+										</div>
+										
+										<div class="ui-panelgrid-cell ui-grid-col-8">
+											<p:inputText style="margin-top: 10px; margin-left: 10px" id="inDireccion" class="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all" role="textbox" value="#{validarEntradaBean.direccion}" placeholder="Dirección. Opcional"></p:inputText>
+										</div>
+									</div>
+									
+									<div class="ui-grid-row">
+										<div style="margin-top: 10px" class="ui-panelgrid-cell ui-grid-col-4">
+											<p:calendar style="margin-top: 20px" id="popup" value="#{validarEntradaBean.fechaNacimiento}" placeholder="Fecha de nacimiento" requiredMessage="Es necesario proporcionar la fecha de nacimiento"/>
+										</div>
+									
+										<div class="ui-panelgrid-cell ui-grid-col-8" >
+												<p:inputText style="margin-top: 10px; margin-left: 10px" id="inDNI" class="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all" role="textbox" required="true" requiredMessage="Es necesario proporcionar el DNI" value="#{validarEntradaBean.dni}" placeholder="DNI"></p:inputText>
+										</div>
+									</div>
+									
+									
+									<p:inputText style="margin-top: 10px" id="inEmail" class="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all" role="textbox" required="true" requiredMessage="Es necesario proporcionar tu dirección de correo electrónico" value="#{validarEntradaBean.email}" placeholder="Dirección de correo electrónico"></p:inputText>
+									
+									<p:inputText style="margin-top: 10px" id="inTelefono" class="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all" role="textbox" value="#{validarEntradaBean.telefono}" placeholder="Teléfono. Opcional"></p:inputText>
+								
+									<div style="margin-top: 10px" class="Container100 ui-fluid TexAlCenter">
+											<p:commandButton id="botonGuardarDatos" update="@form" style="width: 20%" value="Validar entrada" actionListener="#{validarEntradaBean.validarEntradaPaso2()}"></p:commandButton>
+									</div>
+								
+								
+						</p:outputPanel>
+						
+						<p:outputPanel id="datosEntrada" rendered="#{validarEntradaBean.renderedDatosEntrada}">
+							<p:outputLabel>Entrada validada correctamente. Estos son los datos de su entrada</p:outputLabel>
+							<p:panelGrid columns="2">
+								<p:outputLabel value="Nombre: "></p:outputLabel>
+								<p:outputLabel value="#{validarEntradaBean.entradaSeleccionada.usuario.nombre}"></p:outputLabel>
+							
+								<p:outputLabel value="Apellidos: "></p:outputLabel>
+								<p:outputLabel value="#{validarEntradaBean.entradaSeleccionada.usuario.apellidos}"></p:outputLabel>
+								
+								<p:outputLabel value="Numero de serie: "></p:outputLabel>
+								<p:outputLabel value="#{validarEntradaBean.entradaSeleccionada.numeroserie}"></p:outputLabel>
+								
+								<p:outputLabel value="Precio: "></p:outputLabel>
+								<p:outputLabel value="#{validarEntradaBean.entradaSeleccionada.precio} €"></p:outputLabel>
+							</p:panelGrid>
+							
+						</p:outputPanel>	
+					</h:form>
+					
+					
+					
+					
+				</div>
+			</div>
+		</div>
+		
+	</ui:define>
+	
+</ui:composition>	
