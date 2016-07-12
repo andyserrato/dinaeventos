@@ -1,5 +1,3 @@
-<?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
@@ -7,68 +5,130 @@
 	template="/WEB-INF/template.xhtml"
 	xmlns:p="http://primefaces.org/ui">
 	
+	<ui:define name="header">
+		<script type="text/javascript">
+            function skinChart() {
+                this.cfg.shadow = false;
+                this.cfg.title='';
+                this.cfg.seriesColors = ['#FF4081', '#FBB040', '#1C75BC'];
+                this.cfg.grid = {
+                    background: '#ffffff',
+                    borderColor: '#ffffff',
+                    gridLineColor: '#E8E8E8',
+                    shadow: false,
+                };
+                this.cfg.axesDefaults = {
+                    rendererOptions: {
+                        textColor: '#778D9B'
+                    }
+                };
+                this.cfg.seriesDefaults = {
+                    shadow: false,
+                    markerOptions: {
+                        shadow: false
+                    }
+                }
+            }
+
+            function skinPie() {
+                this.cfg.seriesColors = ['#dae8ef', '#27aae1', '#33ccff', '#9fadb5'];
+                this.cfg.grid = {
+                    background: '#ffffff',
+                    borderColor: '#eaeaea',
+                    gridLineColor: '#e5ebf0',
+                    shadow: false,
+                    borderWidth: 0
+                };
+                this.cfg.seriesDefaults.shadow = false;
+            }
+        </script>
+        <style type="text/css">
+            .jqplot-target, .jqplot-axis {
+                color: #778D9B;
+            }
+        </style>
+	</ui:define>
+
 	<ui:define name="content">
-		<p:panelGrid id="panelTop" columns="1" class="nav nav-tabs nav-stacked">
+		<div class="Container100">
+			<div class="Container100 Responsive100 Wid90">
+				<div class="ContainerIndent">
+					<div class="Card ShadowEffect">
+						<p:panelGrid columns="2" layout="grid" style="border: 0px !important; ">
+							<p:outputLabel value="Entradas totales vendidas " styleClass="Fleft"/>
+							<p:outputLabel id="labelEntradasVendidas" styleClass="Fright" value="#{visionGlobal.evento.entradasVendidas} / #{visionGlobal.evento.entradasTotales}"/>
+							<p:outputLabel value="Ingresos totales " styleClass="Fleft"/>
+							<p:outputLabel id="labelIngresosTotales" styleClass="Fright" value="#{visionGlobal.evento.ingresosTotales}€"/>
+						</p:panelGrid>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="Container100">	
+			<div class="Container100 Responsive100 Wid90">
+				<div class="ContainerIndent">
+					<div class="Card ShadowEffect">
+						<p:panelGrid columns="2" layout="grid" style="border: 0px !important; ">
+							<p:outputLabel value="Entradas validadas vendidas en papel " styleClass="Fleft"/>
+							<p:outputLabel id="labelVendidasPapel" styleClass="Fright" value="#{visionGlobal.evento.entradasValidadasPapel}"/>
+							<p:outputLabel value="Entradas vendidas online " styleClass="Fleft"/>
+							<p:outputLabel id="labelVendidasOnline" styleClass="Fright" value="#{visionGlobal.evento.entradasOnline}"/>
+							<p:outputLabel value="Entradas vendidas por SMS " styleClass="Fleft"/>
+							<p:outputLabel id="labelVendidasSMS" styleClass="Fright" value="#{visionGlobal.entradasSMS}"/>
+						</p:panelGrid>
+					</div>
+				</div>
+			</div>
+		</div>
 		
-			<p:panelGrid id="panelEntradasTV" columns="2">
-			
-				<h:outputLabel value="Entradas totales vendidas " style="float: left"/>
-				
-				<p:panelGrid columns="3" style="float: right">
-					<p:outputLabel id="labelEntradasVendidas" style="bold: true; float:left" value="#{visionGlobal.evento.entradasVendidas}"/>
-					<b> / </b>
-					<p:outputLabel id="labelEntradasTotales" style="float: right" value="#{visionGlobal.evento.entradasTotales}"/>
-				</p:panelGrid>
-			</p:panelGrid>
-			
-			<p:panelGrid id="panelIngresosTotales" columns="2">
-				<h:outputLabel value="Ingresos totales " style="float: left"/>
-				<p:outputLabel id="labelIngresosTotales" style="float: right" value="#{visionGlobal.evento.ingresosTotales}€"/>
-			</p:panelGrid>
-		</p:panelGrid>
+		<div class="Container100">	
+			<div class="Container100 Responsive100 Wid90">
+				<div class="ContainerIndent">
+					<div class="Card ShadowEffect">
+						<p:panelGrid columns="2" layout="grid" style="border: 0px !important; ">
+							<p:outputLabel value="Cambios de nombre " styleClass="Fleft"/>
+							<p:outputLabel id="labelCambiosNombre" styleClass="Fright" value="#{visionGlobal.cambiosNombre}(1058€)"/>
+						</p:panelGrid>
+					</div>
+				</div>
+			</div>
+		</div>
 		
-		<br/>
+		<div class="Container100">	
+			<div class="Container100 Responsive100 Wid90">
+				<div class="ContainerIndent">
+					<div class="Card ShadowEffect HeiAutoOnMobile">
+						<h:form>
+						<p:panel header="ABONOS VENDIDOS" style="height:100%; min-height:348px;" styleClass="HeiAutoOnMobile">
+                            <p:chart type="line" model="#{visionGlobal.entradasTiempo}"  responsive="true"/>
+                        </p:panel>
+                        </h:form>
+					</div>
+				</div>
+			</div>
+		</div>
 		
-		<p:panelGrid id="panelMid" columns="1" class="nav nav-tabs nav-stacked">
+		<div class="Container100">	
+			<div class="Container50 Responsive100 Wid90">
+				<div class="ContainerIndent">
+					<div class="Card ShadowEffect HeiAutoOnMobile">
+						<p:panel header="DISTRIBUCIÓN POR EDAD" style="height:100%; min-height:348px;" styleClass="HeiAutoOnMobile">
+                            <p:chart type="pie" model="#{visionGlobal.quesoEdad}" responsive="true"/>
+                        </p:panel>
+					</div>
+				</div>
+			</div>
+			<div class="Container50 Responsive100 Wid90">
+				<div class="ContainerIndent">
+					<div class="Card ShadowEffect HeiAutoOnMobile">
+						<p:panel header="DISTRIBUCIÓN POR SEXO" style="height:100%; min-height:348px;" styleClass="HeiAutoOnMobile">
+                            <p:chart type="pie" model="#{visionGlobal.quesoSexual}" styleClass="Wid100" responsive="true"/>
+                        </p:panel>
+					</div>
+				</div>
+			</div>
+		</div>
 		
-			<p:panelGrid id="panelVendidasPapel" columns="2">
-				<h:outputLabel value="Entradas validadas vendidas en papel " style="float: left"/>
-				<p:outputLabel id="labelVendidasPapel" style="float: right" value="#{visionGlobal.evento.entradasValidadasPapel}"/>
-			</p:panelGrid>
-			
-			<p:panelGrid id="panelVendidasOnline" columns="2">
-				<h:outputLabel value="Entradas vendidas online " style="float: left"/>
-				<p:outputLabel id="labelVendidasOnline" style="float: right" value="#{visionGlobal.evento.entradasOnline}"/>
-			</p:panelGrid>
-			
-			<p:panelGrid id="panelVendidasSMS" columns="2">
-				<h:outputLabel value="Entradas vendidas por SMS " style="float: left"/>
-				<p:outputLabel id="labelVendidasSMS" style="float: right" value="#{visionGlobal.entradasSMS}"/>
-			</p:panelGrid>
-			
-		</p:panelGrid>
-		
-		<br/>
-		
-		<p:panelGrid id="panelBot" columns="1" class="nav nav-tabs nav-stacked" style="width: 75%;">
-			
-			<p:panelGrid id="panelCambiosNombre" columns="2" style="width: 100%;">
-				<h:outputLabel value="Cambios de nombre " style="float: left"/>
-				<p:outputLabel id="labelCambiosNombre" style="float: right" value="#{visionGlobal.cambiosNombre}(1058€)"/>
-			</p:panelGrid>
-			
-			<p:panelGrid id="panelChartPie" columns="1" style="width: 100%;">
-				<p:chart type="line" model="#{visionGlobal.entradasTiempo}" style="height:300px;"/>
-				<br/>
-				<p:panelGrid id="panelQuesitos" columns="2" style="width: 100%">
-					<p:chart type="pie" model="#{visionGlobal.quesoEdad}" style="width: 50%; height: 100%; left: 25%"/>
-					<p:chart type="pie" model="#{visionGlobal.quesoSexual}" style="width: 50%; height: 100%; left: 25%"/>
-				</p:panelGrid>
-			</p:panelGrid>
-			
-			
-		</p:panelGrid>
-			
 	</ui:define>
 
 </ui:composition>

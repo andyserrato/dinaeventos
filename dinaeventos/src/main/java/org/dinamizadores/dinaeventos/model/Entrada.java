@@ -275,4 +275,7 @@ public class Entrada implements java.io.Serializable {
     public void setEntradaComplementos(Set<EntradaComplemento> entradaComplementos) {
         this.entradaComplementos = entradaComplementos;
     }
+
+    
+    
 }

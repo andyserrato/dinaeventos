@@ -107,7 +107,7 @@ public class DdTipoComplementoBean implements Serializable {
 				FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("tarjeta", tarjetaRegistrada);
 				FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("envioConjunto", envioConjunto);
 				
-				return "/comprar/pagarEntradas.xhtml?faces-redirect=true";
+				return "/comprar/pagarCambioNombre.xhtml?faces-redirect=true";
 			
 	}
 	

@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/WEB-INF/templateCliente.xhtml"
+	xmlns:p="http://primefaces.org/ui">
+
+
+	<ui:param name="pageTitle" value="Compra entradas"/>
+
+	<ui:define name="header">
+		<h1></h1>
+	</ui:define>
+
+	<ui:define name="subheader">
+		<h3>Felicidades</h3>
+	</ui:define>
+
+	<ui:define name="footer"/>
+
+	<ui:define name="content">
+	
+		<h:form id="comprar">
+		 <div class="Container100 ">
+            <div class="ContainerIndent">
+                <div class="Card ShadowEffect ui-fluid ">
+                	<div class="Container100 Responsive100">
+            			<div class="ContainerIndent">
+				Ha comprado las entradas, las encontrará en su correo. #{finalizarPagoCambioNombreBean.juas}
+				
+				</div></div></div></div></div>
+		</h:form>		
+	</ui:define>
+
+</ui:composition>
