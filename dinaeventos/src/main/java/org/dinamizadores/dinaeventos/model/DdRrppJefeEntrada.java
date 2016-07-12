@@ -1,10 +1,11 @@
 package org.dinamizadores.dinaeventos.model;
-import javax.persistence.AttributeOverride;
-import javax.persistence.AttributeOverrides;
+import static javax.persistence.GenerationType.IDENTITY;
+
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -16,69 +17,65 @@ import javax.persistence.Table;
 @Table(name="dd_rrpp_jefe_entrada", catalog="jbossforge")
 public class DdRrppJefeEntrada  implements java.io.Serializable {
 
-	private static final long serialVersionUID = -332369320880420937L;
-	private DdRrppJefeEntradaId id;
+	private static final long serialVersionUID = 1044531646797285709L;
+	private Integer idRrppJefeEntrada;
     private Entrada entrada;
     private RrppJefes rrppJefes;
     private RrppMinion rrppMinion;
 
-    public DdRrppJefeEntrada() {
-    }
+   public DdRrppJefeEntrada() {
+   }
 
 	
-    public DdRrppJefeEntrada(DdRrppJefeEntradaId id, Entrada entrada, RrppJefes rrppJefes) {
-        this.id = id;
-        this.entrada = entrada;
-        this.rrppJefes = rrppJefes;
-    }
-    public DdRrppJefeEntrada(DdRrppJefeEntradaId id, Entrada entrada, RrppJefes rrppJefes, RrppMinion rrppMinion) {
-       this.id = id;
+   public DdRrppJefeEntrada(Entrada entrada, RrppJefes rrppJefes) {
        this.entrada = entrada;
        this.rrppJefes = rrppJefes;
-       this.rrppMinion = rrppMinion;
-    }
+   }
+   public DdRrppJefeEntrada(Entrada entrada, RrppJefes rrppJefes, RrppMinion rrppMinion) {
+      this.entrada = entrada;
+      this.rrppJefes = rrppJefes;
+      this.rrppMinion = rrppMinion;
+   }
+  
+   @Id @GeneratedValue(strategy=IDENTITY)
+   @Column(name="id_rrpp_jefe_entrada", unique=true, nullable=false)
+   public Integer getIdRrppJefeEntrada() {
+       return this.idRrppJefeEntrada;
+   }
    
-    @EmbeddedId
-    @AttributeOverrides( {
-        @AttributeOverride(name="idRrppJefe", column=@Column(name="id_rrpp_jefe", nullable=false) ), 
-        @AttributeOverride(name="idEntrada", column=@Column(name="id_entrada", nullable=false) ) } )
-    public DdRrppJefeEntradaId getId() {
-        return this.id;
-    }
-    
-    public void setId(DdRrppJefeEntradaId id) {
-        this.id = id;
-    }
+   public void setIdRrppJefeEntrada(Integer idRrppJefeEntrada) {
+       this.idRrppJefeEntrada = idRrppJefeEntrada;
+   }
 
-    @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="id_entrada", nullable=false, insertable=false, updatable=false)
-    public Entrada getEntrada() {
-        return this.entrada;
-    }
-    
-    public void setEntrada(Entrada entrada) {
-        this.entrada = entrada;
-    }
+   @ManyToOne(fetch=FetchType.LAZY)
+   @JoinColumn(name="id_entrada", nullable=false)
+   public Entrada getEntrada() {
+       return this.entrada;
+   }
+   
+   public void setEntrada(Entrada entrada) {
+       this.entrada = entrada;
+   }
 
-    @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="id_rrpp_jefe", nullable=false, insertable=false, updatable=false)
-    public RrppJefes getRrppJefes() {
-        return this.rrppJefes;
-    }
-    
-    public void setRrppJefes(RrppJefes rrppJefes) {
-        this.rrppJefes = rrppJefes;
-    }
+   @ManyToOne(fetch=FetchType.LAZY)
+   @JoinColumn(name="id_rrpp_jefe", nullable=false)
+   public RrppJefes getRrppJefes() {
+       return this.rrppJefes;
+   }
+   
+   public void setRrppJefes(RrppJefes rrppJefes) {
+       this.rrppJefes = rrppJefes;
+   }
 
-    @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="id_rrpp_minion")
-    public RrppMinion getRrppMinion() {
-        return this.rrppMinion;
-    }
-    
-    public void setRrppMinion(RrppMinion rrppMinion) {
-        this.rrppMinion = rrppMinion;
-    }
+   @ManyToOne(fetch=FetchType.LAZY)
+   @JoinColumn(name="id_rrpp_minion")
+   public RrppMinion getRrppMinion() {
+       return this.rrppMinion;
+   }
+   
+   public void setRrppMinion(RrppMinion rrppMinion) {
+       this.rrppMinion = rrppMinion;
+   }
 }
 
 

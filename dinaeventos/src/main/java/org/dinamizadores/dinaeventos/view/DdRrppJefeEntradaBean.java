@@ -117,7 +117,7 @@ public class DdRrppJefeEntradaBean implements Serializable {
 			} else {
 				this.entityManager.merge(this.ddRrppJefeEntrada);
 				return "view?faces-redirect=true&id="
-						+ this.ddRrppJefeEntrada.getId();
+						+ this.ddRrppJefeEntrada.getIdRrppJefeEntrada();
 			}
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null,
@@ -268,7 +268,7 @@ public class DdRrppJefeEntradaBean implements Serializable {
 					return "";
 				}
 
-				return String.valueOf(((DdRrppJefeEntrada) value).getId());
+				return String.valueOf(((DdRrppJefeEntrada) value).getIdRrppJefeEntrada());
 			}
 		};
 	}
