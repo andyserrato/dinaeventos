@@ -43,12 +43,6 @@ public class pagar {
 		//api.Config.BaseUrl = "https://api.mangopay.com";
 
 		try {
-			//Crear un usuario nuevo
-			//nuevoUsuario();
-			//Crear una nueva wallet para el usuario
-			//nuevaWallet();
-			//Crear nuevo pago sin tarjeta de credito
-			//nuevoPago();
 			
 			//nuevoTarjeta();
 			//User sam = api.Users.get("14371680");
@@ -96,7 +90,7 @@ public class pagar {
 	
 	public void nuevaWallet(){
 		
-		 cartera = new Wallet();
+		cartera = new Wallet();
 		
 		cartera.Tag = "custom meta";
 		ArrayList<String> usuarios = new ArrayList<String>();
@@ -118,8 +112,9 @@ public class pagar {
 		pago = new PayIn();
 		
 		pago.AuthorId = tarjetaRegistrada.UserId;
-		pago.CreditedWalletId = cartera.Id;
 		
+		pago.CreditedWalletId = "14373138";
+		pago.CreditedUserId = "14372969";
 		//Tipo de pago
 		PayInPaymentDetailsCard s = new PayInPaymentDetailsCard();
 		s.CardType = CardType.CB_VISA_MASTERCARD;

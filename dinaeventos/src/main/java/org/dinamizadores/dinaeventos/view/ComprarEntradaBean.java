@@ -74,9 +74,7 @@ public class ComprarEntradaBean implements Serializable {
 	
 	@PostConstruct
 	public void init(){
-	
 		listadoEntradas = (List<entradasCompleta>) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("listaEntradas");
-
 		
 		tarjetaRegistrada  = (CardRegistration) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("tarjeta");
 		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("tarjeta", tarjetaRegistrada);

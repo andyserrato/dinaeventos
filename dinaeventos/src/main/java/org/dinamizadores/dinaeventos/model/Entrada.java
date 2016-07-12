@@ -6,7 +6,6 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -14,8 +13,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -53,7 +50,7 @@ public class Entrada implements java.io.Serializable {
 	private Integer nombreCambiadoTimes;
     private Set<DdRrppJefeEntrada> ddRrppJefeEntradas = new HashSet<DdRrppJefeEntrada>(0);
     // TODO no se mapea con id, sólo con entidad, verificar
-    private Set<DdTipoComplemento> ddTipoComplementos = new HashSet<DdTipoComplemento>(0);
+    private Set<EntradaComplemento> entradaComplementos = new HashSet<EntradaComplemento>(0);
     // TODO probar la relación many to many que no se hace con ID
     
 	public Entrada() {
@@ -270,17 +267,15 @@ public class Entrada implements java.io.Serializable {
         this.ddRrppJefeEntradas = ddRrppJefeEntradas;
     }
 
-    @ManyToMany(fetch=FetchType.LAZY)
-    @JoinTable(name="entrada_complemento", catalog="jbossforge", joinColumns = { 
-        @JoinColumn(name="identrada", nullable=false, updatable=false) }, inverseJoinColumns = { 
-        @JoinColumn(name="idtipocomplemento", nullable=false, updatable=false) })
-    public Set<DdTipoComplemento> getDdTipoComplementos() {
-        return this.ddTipoComplementos;
+    @OneToMany(fetch=FetchType.LAZY, mappedBy="entrada")
+    public Set<EntradaComplemento> getEntradaComplementos() {
+        return this.entradaComplementos;
     }
     
-    public void setDdTipoComplementos(Set<DdTipoComplemento> ddTipoComplementos) {
-        this.ddTipoComplementos = ddTipoComplementos;
+    public void setEntradaComplementos(Set<EntradaComplemento> entradaComplementos) {
+        this.entradaComplementos = entradaComplementos;
     }
 
-
+    
+    
 }
