@@ -8,6 +8,8 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
@@ -21,6 +23,7 @@ import org.dinamizadores.dinaeventos.model.GlobalCodigospostales;
 import org.dinamizadores.dinaeventos.model.RrppJefes;
 import org.dinamizadores.dinaeventos.model.Usuario;
 import org.dinamizadores.dinaeventos.utiles.log.Loggable;
+import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 
 @Named("rrppJefe")
@@ -72,6 +75,33 @@ public class RrppJefesBean implements Serializable {
 		}
 		
 		jefeEntity = usuarioDao.crearRrppJefe(jefeEntity);
+	}
+	
+	@Loggable
+	public void handleFileUploadFotoEvento(FileUploadEvent event) {
+		UploadedFile file = event.getFile();
+		FacesMessage message = null;
+		FacesContext facesContext = FacesContext.getCurrentInstance();
+		if (file != null && !"".equalsIgnoreCase(file.getFileName())) {
+			log.info("La imagen del evento no es nula");
+			try {
+				byte[] bytes;
+				InputStream is = file.getInputstream();
+
+				if (is != null) {
+					bytes = IOUtils.toByteArray(is);
+					is.close();
+					jefeEntity.getUsuario().setFotoperfil(bytes);
+					jefeEntity.getUsuario().setFotoNombre(file.getFileName());
+					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Imagen", "agregada");
+					facesContext.addMessage(null, message);
+				} else {
+					bytes = new byte[0];
+				}
+			} catch (IOException e) {
+				log.error("algo ha ocurrido con la foto del evento");
+			}
+		}
 	}
 	
 	public List<DdSexo> getDdSexos() {
