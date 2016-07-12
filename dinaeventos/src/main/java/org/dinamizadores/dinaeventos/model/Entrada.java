@@ -282,5 +282,6 @@ public class Entrada implements java.io.Serializable {
         this.ddTipoComplementos = ddTipoComplementos;
     }
 
-
+    
+    
 }
