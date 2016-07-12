@@ -3,6 +3,7 @@ package org.dinamizadores.dinaeventos.utiles;
 import java.io.IOException;
 
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -22,6 +23,8 @@ import org.dinamizadores.dinaeventos.view.LoginBean;
 
 public class FiltroLogin implements Filter {
 	private static final Logger LOG = LogManager.getLogger(FiltroLogin.class);
+	@Inject
+	private LoginBean loginBean;
 
 	@Override
 	public void destroy() {
@@ -32,27 +35,16 @@ public class FiltroLogin implements Filter {
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
 		HttpServletRequest req = (HttpServletRequest) request;
-		LoginBean loginBean = (LoginBean) req.getSession().getAttribute("userActual");
+		
+		// Si loginBean es nulo, o no hay ningun usuario logueado los remitimos
+		// al login
+		if (loginBean == null || !(loginBean.isLoggedIn() || loginBean.isLoggedInWithFacebook())) {
 
-		if (loginBean == null) {
-			LOG.debug("Nulo");
-		}
-
-		// For the first application request there is no loginBean in the
-		// session so user needs to log in
-		// For other requests loginBean is present but we need to check if user
-		// has logged in successfully
-		if (loginBean == null || !loginBean.isLoggedIn()) {
-
-			// /dinaeventos/secured/superSeguro.xhtml
-			req.getSession().setAttribute("salto_uri_filtro",
-					req.getRequestURI().substring(req.getContextPath().length()));
-
+			// Recuperamos la url desde la que se llama, para que cuando se haga
+			// Login, se vuelva a la pagina de acceso inicial
+			loginBean.setOriginalURL(req.getRequestURI().substring(req.getContextPath().length()));
 			String contextPath = ((HttpServletRequest) request).getContextPath();
-			// System.out.println(contextPath);
-
 			((HttpServletResponse) response).sendRedirect(contextPath + "/login/login.xhtml");
-			// loginBean.setOriginalURL(request.get);
 		}
 
 		chain.doFilter(request, response);

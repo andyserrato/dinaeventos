@@ -174,7 +174,7 @@ public class FinalizarPagoBean implements Serializable {
 		entrada.setNumeroserie(en.getNumeroserie());
 		total = total.add(entrada.getPrecio());
 		en.setPrecio(total);
-		en.setDdTipoComplementos(listacomplemento);
+//		en.setDdTipoComplementos(listacomplemento);
 		
 		Usuario usu = usuarioDao.getUsuarioDni(entrada.getUsuario().getDni());
 		en.setIdusuario(usu.getIdUsuario());
