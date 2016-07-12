@@ -4,6 +4,23 @@
   <session-config>
   <session-timeout>30</session-timeout>
   </session-config>
+  
+  <!-- Filtro del login -->
+	<filter>
+		<filter-name>FiltroLogin</filter-name>
+		<filter-class>org.dinamizadores.dinaeventos.utiles.FiltroLogin</filter-class>
+	</filter>
+	<!--Ponemos el filtro que hemos creado a todas las paginas incluidas en /secured/*   -->
+	<filter-mapping>
+		<filter-name>FiltroLogin</filter-name>
+		<url-pattern>/faces/secured/*</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>FiltroLogin</filter-name>
+		<url-pattern>/secured/*</url-pattern>
+	</filter-mapping>
+	
+	
   <mime-mapping>
   <extension>ico</extension>
     <mime-type>image/x-icon</mime-type>

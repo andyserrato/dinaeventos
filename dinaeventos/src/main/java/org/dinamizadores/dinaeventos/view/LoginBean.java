@@ -91,40 +91,55 @@ public class LoginBean implements Serializable {
     public Boolean isLoggedIn() {
 		return loggedIn;
 	}
-    
+
 	public void setLoggedIn(Boolean loggedIn) {
 		this.loggedIn = loggedIn;
 	}
-	
+
 	public boolean isCheckFacebookLogin() {
 		return checkFacebookLogin;
 	}
-    
+
 	public void setCheckFacebookLogin(boolean checkFacebookLogin) {
 		this.checkFacebookLogin = checkFacebookLogin;
 	}
 
 	public void login() {
 		System.out.println("Login normal");
-        Usuario usuario = usuarioDao.login(email, password);
-        FacesContext context = FacesContext.getCurrentInstance();
-        FacesMessage message = null;
-        
-        if(usuario != null && usuario.getEmail().equals(email) && usuario.getPassword().equals(password)) {
-            loggedIn = true;
-            message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Bienvenido", usuario.getNombre());
-        } else {
-            loggedIn = false;
-            message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Iniciar la sesión", "Correo/Contraseña incorrecta");
-        }
-         
-       email = "";
-       password = "";
-       context.addMessage(null, message);
-    }
-    
-	
-    public void loginFacebook() {
+		Usuario usuario = usuarioDao.login(email, password);
+		FacesContext context = FacesContext.getCurrentInstance();
+		FacesMessage message = null;
+
+		if (usuario != null && usuario.getEmail().equals(email) && usuario.getPassword().equals(password)) {
+			loggedIn = true;
+			message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Bienvenido", usuario.getNombre());
+			String salto = (String) context.getExternalContext().getSessionMap().get("salto_uri_filtro");
+
+			context.getExternalContext().getSessionMap().put("userActual", this);
+
+			System.out.println("SALTOO" + salto);
+			// String outcome = "grupal.xhtml?faces-redirect=true&id=" +
+			// sec.getId() + "&nombre=" + sec.getNombre();
+			// context.getApplication().getNavigationHandler().handleNavigation(context,
+			// null, originalURL);
+			ExternalContext econtext = FacesContext.getCurrentInstance().getExternalContext();
+			try {
+
+				econtext.redirect(econtext.getRequestContextPath() + salto);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} else {
+			loggedIn = false;
+			message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Iniciar la sesión",
+					"Correo/Contraseña incorrecta");
+		}
+		email = "";
+		password = "";
+		context.addMessage(null, message);
+	}
+
+	public void loginFacebook() {
     	final String clientId = "1065091143540194";
         final String clientSecret = "51cd238b5a3a10d2b9e0ec51c862c091";
         final String secretState = "secret" + new Random().nextInt(999_999);
