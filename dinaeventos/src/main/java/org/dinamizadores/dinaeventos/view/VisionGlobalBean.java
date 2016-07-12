@@ -10,6 +10,8 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.dinamizadores.dinaeventos.dao.EventoDao;
 import org.dinamizadores.dinaeventos.dto.EntradasTiempoDTO;
 import org.dinamizadores.dinaeventos.dto.EventoDTO;
@@ -31,13 +33,16 @@ public class VisionGlobalBean implements Serializable{
 	
 	/** UID. */
 	private static final long serialVersionUID = 3554407724413902217L;
+	
+	/** Comentario inútil. */
+	private final Logger log = LogManager.getLogger(EventoBean.class);
 
 	/** LoginBean inyectado para poder recoger datos globales de la aplicación. */
 	@Inject
 	private LoginBean loginBean;
 
 	/** Objeto DTO que contiene datos relativos al Evento. */
-	private EventoDTO evento;
+	private EventoDTO eventoDTO;
 	
 	/** Objeto modelador que define el gráfico de ventas por sexo. */
 	private PieChartModel quesoSexual;
@@ -59,7 +64,7 @@ public class VisionGlobalBean implements Serializable{
 	private EventoDao eventoDAO;
 	
 	@EJB
-	private BBDDFaker bd;
+	private BBDDFaker bbddFaker;
 	
 	/**
 	 * Constructor por defecto
@@ -69,11 +74,16 @@ public class VisionGlobalBean implements Serializable{
 		entradasSMS = 6988;
 		cambiosNombre = 529;
 		
-		//Posteriormente ese 1 'hardcodeado' se sacará del loginBean
-		evento = eventoDAO.getVisionGlobal(1);
-		crearModeloSexual();
-		crearGraficoEntradasTiempo();
-		crearModeloEdades();
+		//TODO Posteriormente ese 1 'hardcodeado' se sacará del loginBean
+		eventoDTO = eventoDAO.getVisionGlobal(1);
+		
+		if (eventoDTO !=  null) {
+			crearModeloSexual();
+			crearGraficoEntradasTiempo();
+			crearModeloEdades();
+		}
+		
+		return;
 	}
 	
 	/**
@@ -82,10 +92,11 @@ public class VisionGlobalBean implements Serializable{
 	private void crearModeloSexual(){
 		quesoSexual = new PieChartModel();
 		
-		quesoSexual.setTitle("Distribución por Sexo");
-		quesoSexual.set("Hombre", evento.getNumHombres());
-		quesoSexual.set("Mujer", evento.getNumMujeres());
-		quesoSexual.setLegendPosition("s");
+		//quesoSexual.setTitle("Distribución por Sexo");
+		quesoSexual.set("Hombre", eventoDTO.getNumHombres());
+		quesoSexual.set("Mujer", eventoDTO.getNumMujeres());
+		quesoSexual.setLegendPosition("w");
+		quesoSexual.setExtender("skinPie");
 
 		return;
 	}
@@ -93,12 +104,15 @@ public class VisionGlobalBean implements Serializable{
 	private void crearModeloEdades(){
 		quesoEdad = new PieChartModel();
 		
-		quesoEdad.setTitle("Distribución por edades");
+		//quesoEdad.setTitle("Distribución por edades");
 		quesoEdad.set("18 y 19", eventoDAO.getNumeroVentasPorRangoEdad(1, 18, 19));
 		quesoEdad.set("20 y 21", eventoDAO.getNumeroVentasPorRangoEdad(1, 20, 21));
 		quesoEdad.set("22 - 24", eventoDAO.getNumeroVentasPorRangoEdad(1, 22, 24));
 		quesoEdad.set("> 25", eventoDAO.getNumeroVentasPorRangoEdad(1, 25, 100));
-		quesoEdad.setLegendPosition("s");
+		quesoEdad.setLegendPosition("w");
+		quesoEdad.setExtender("skinPie");
+		
+		return;
 	}
 	
 	/**
@@ -108,33 +122,38 @@ public class VisionGlobalBean implements Serializable{
 		ArrayList<EntradasTiempoDTO> lista = eventoDAO.getNumEntradasTiempo(1);
 		entradasTiempo = new LineChartModel();
 		LineChartSeries serieGrafico = new LineChartSeries();
-		Calendar c = Calendar.getInstance();
+		Calendar calendar = Calendar.getInstance();
 		
 		serieGrafico.setLabel("Cantidad de entradas vendidas.");
 		
-		for(EntradasTiempoDTO e : lista){
-			c.setTime(e.getFecha());
-			String f = (c.get(Calendar.YEAR)) + "-";
+		String fecha = null;
+		for(EntradasTiempoDTO entrada : lista){
 			
-			if((c.get(Calendar.MONTH) + 1) <= 9){
-				f += "0";
+			if (entrada != null && entrada.getFecha() != null && entrada.getCantidad() != 0) {
+				calendar.setTime(entrada.getFecha());
+				fecha = (calendar.get(Calendar.YEAR)) + "-";
+				
+				if((calendar.get(Calendar.MONTH) + 1) <= 9){
+					fecha += "0";
+				}
+				
+				fecha+= (calendar.get(Calendar.MONTH) + 1) + "-";
+				
+				if(calendar.get(Calendar.DAY_OF_MONTH) <= 9){
+					fecha+= "0";
+				}
+				
+				fecha += calendar.get(Calendar.DAY_OF_MONTH);
+				
+				log.debug("La fecha vale: " + fecha + " la cantidad: " + entrada.getCantidad());
+				
+				serieGrafico.set(fecha, entrada.getCantidad());
 			}
-			
-			f+= (c.get(Calendar.MONTH) + 1) + "-";
-			
-			if(c.get(Calendar.DAY_OF_MONTH) <= 9){
-				f+= "0";
-			}
-			
-			f += c.get(Calendar.DAY_OF_MONTH);
-			
-			System.out.println("La fecha vale: " + f + " la cantidad: " + e.getCantidad());
-			
-			serieGrafico.set(f, e.getCantidad());
 		}
 		
 		entradasTiempo.addSeries(serieGrafico);
-		entradasTiempo.getAxis(AxisType.Y).setLabel("Abonos Vendidos");
+		//entradasTiempo.getAxis(AxisType.Y).setLabel("Abonos Vendidos");
+		entradasTiempo.setExtender("skinChart");
 		
 		DateAxis axis = new DateAxis("Fecha");
         axis.setTickAngle(-45);
@@ -142,7 +161,7 @@ public class VisionGlobalBean implements Serializable{
         axis.setTickFormat("%b %#d, %y");
         entradasTiempo.getAxes().put(AxisType.X, axis);
 		
-		entradasTiempo.setTitle("Número de entradas vendidas por tiempo");
+		//entradasTiempo.setTitle("Número de entradas vendidas por tiempo");
         entradasTiempo.setLegendPosition("e");
         Axis yAxis = entradasTiempo.getAxis(AxisType.Y);
         yAxis.setMin(0);
@@ -162,14 +181,14 @@ public class VisionGlobalBean implements Serializable{
 	 * @return the evento
 	 */
 	public EventoDTO getEvento() {
-		return evento;
+		return eventoDTO;
 	}
 
 	/**
 	 * @param evento the evento to set
 	 */
 	public void setEvento(EventoDTO evento) {
-		this.evento = evento;
+		this.eventoDTO = evento;
 	}
 
 	/**
