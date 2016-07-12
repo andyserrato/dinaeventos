@@ -1,0 +1,42 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="content">
+		
+		<div class="Container100">
+			<div class="ContainerIndent">
+				<div class="Card ShadowEffect ui-fluid">
+					<h2 class="BigTopic"> Cambio de nombre de tu entrada</h2>
+					
+					<h:form>
+						<p:outputPanel >
+							<p:messages id="messages" showDetail="false" autoUpdate="true" closable="true" />
+							
+							<p:inputText id="inNumeroSerie" class="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all" role="textbox" required="true" requiredMessage="Es necesario proporcionar el número de serie de la entrada" value="#{cambiarNombreBean.numeroSerie}" placeholder="Número de serie"></p:inputText>
+							<p:inputText style="margin-top: 10px" id="inNuevoNombre" class="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all" role="textbox" required="true" requiredMessage="Es necesario proporcionar el nuevo nombre asociado a la entrada" value="#{cambiarNombreBean.nombre}" placeholder="Nuevo nombre asociado a la entrada"></p:inputText>
+							
+							<div style="margin-top: 10px" class="Container100 ui-fluid TexAlCenter">
+								
+								<p:confirmDialog header="Confirmación" message="¿Estás seguro?" widgetVar="juas" global="true" showEffect="fade" hideEffect="fade">
+							       <p:commandButton value="Si" actionListener="#{cambiarNombreBean.cambiarNombre()}" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" onclick="PF('juas').hide()" />
+							       <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+							    </p:confirmDialog>
+								
+								<p:commandButton id="botonCambioNombre" update="@form" style="width: 20%" value="Cambiar nombre" oncomplete="if (args &amp;&amp; !args.validationFailed) PF('juas').show()">
+								</p:commandButton>
+								
+								
+	
+							</div>	
+						</p:outputPanel>
+					</h:form>
+				</div>
+			</div>
+		</div>
+	</ui:define>
+	
+	</ui:composition>

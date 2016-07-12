@@ -47,6 +47,10 @@ public class panelAdministracionBean implements Serializable {
 		return Constantes.Rutas.Administracion.LUGARES_ORIGEN;
 	}
 	
+	public String irADescargarDatosEntrada(){
+		return Constantes.Rutas.Administracion.DESCARGAR_DATOS_ENTRADAS;
+	}
+	
 	/**
 	 * Método que redirige a la página de Venta por precios.
 	 * 

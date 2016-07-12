@@ -5,10 +5,10 @@ import java.io.InputStream;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
@@ -20,6 +20,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.dinamizadores.dinaeventos.dao.UsuarioDao;
 import org.dinamizadores.dinaeventos.dto.facebookprofile.PerfilRedSocial;
+import org.dinamizadores.dinaeventos.model.Evento;
 import org.dinamizadores.dinaeventos.model.Usuario;
 import org.dinamizadores.dinaeventos.utiles.FacebookAppCredential;
 import org.dinamizadores.dinaeventos.utiles.log.Loggable;
@@ -44,6 +45,8 @@ public class LoginBean implements Serializable {
 	private static final long serialVersionUID = -1161277308459762945L;
 	private String email;
     private String password;
+    private List<Evento> eventosList;
+    private Evento evento;
     @EJB
     private UsuarioDao usuarioDao;
     @EJB
@@ -102,6 +105,22 @@ public class LoginBean implements Serializable {
 
 	public void setCheckFacebookLogin(boolean checkFacebookLogin) {
 		this.checkFacebookLogin = checkFacebookLogin;
+	}
+	
+	public List<Evento> getEventosList() {
+		return eventosList;
+	}
+
+	public void setEventosList(List<Evento> eventosList) {
+		this.eventosList = eventosList;
+	}
+
+	public Evento getEvento() {
+		return evento;
+	}
+
+	public void setEvento(Evento evento) {
+		this.evento = evento;
 	}
 
 	public void login() {

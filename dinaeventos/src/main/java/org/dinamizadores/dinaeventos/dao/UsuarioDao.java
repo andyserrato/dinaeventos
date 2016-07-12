@@ -5,13 +5,14 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.dinamizadores.dinaeventos.model.RrppJefes;
 import org.dinamizadores.dinaeventos.model.Usuario;
 import org.dinamizadores.dinaeventos.utiles.log.Loggable;
-import org.apache.logging.log4j.Logger;
 /**
  * DAO for Usuario
  */
@@ -20,7 +21,7 @@ import org.apache.logging.log4j.Logger;
 public class UsuarioDao {
 	@PersistenceContext(unitName = "dinaeventos-persistence-unit")
 	private EntityManager em;
-	private static final Logger LOG = LogManager.getLogger(UsuarioDao.class); 
+	private static final Logger log = LogManager.getLogger(UsuarioDao.class); 
 	
 	
 	public void create(Usuario entity) {
@@ -73,20 +74,32 @@ public class UsuarioDao {
 		try {
 			usuario = query.setParameter("email", email).getSingleResult();
 		} catch (Exception e) {
-			// TODO [ANDY] Colocar login en el sistema
-			System.err.println("Error: " + e.getMessage());
+			log.error("Error: " + e.getMessage());
 		}
 		
 		return usuario;
 	}
 	
+	public int isEmailUnique(String email) {
+		int count = 0;
+		Query query = em.createQuery(
+				"SELECT COUNT(u) FROM Usuario u WHERE u.email = :email");
+
+		try {
+			count = ((Number)query.setParameter("email", email).getSingleResult()).intValue();
+		} catch (Exception e) {
+			log.error("Error: " + e.getMessage());
+		}
+		
+		return count;
+	}
 	
 	public RrppJefes crearRrppJefe(RrppJefes rrppJefe) {
 		em.persist(rrppJefe.getUsuario());
-		LOG.debug("idUsuario: " + rrppJefe.getUsuario().getIdUsuario());
+		log.debug("idUsuario: " + rrppJefe.getUsuario().getIdUsuario());
 		rrppJefe.setIdUsuario(rrppJefe.getUsuario().getIdUsuario());
 		em.persist(rrppJefe);
-		LOG.debug("idrrppJefe: " + rrppJefe.getIdrrppJefe());
+		log.debug("idrrppJefe: " + rrppJefe.getIdrrppJefe());
 		return rrppJefe;
 	}
 }

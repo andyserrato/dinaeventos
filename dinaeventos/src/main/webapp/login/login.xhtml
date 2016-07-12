@@ -39,8 +39,12 @@
 	                    <div class="Wid100"><p:commandButton value="Recordar contraseña?" icon="fa fa-lock" styleClass="RedButton Wid60 Fs18 White RaisedButton"/></div>
 	                    <div class="EmptyBox20"></div>
 	                    <div class="Separator"></div>
+	                </h:form>
+	                <h:form id="redirectionForm">
 	                    <div class="EmptyBox10"></div>
-	                    <div class="Wid100"><p:button value="Crear una Cuenta ?" icon="fa fa-key" styleClass="GreenButton Wid60 Fs18 White RaisedButton"/></div>
+	                    <div class="Wid100"><p:commandButton value="Crear una Cuenta?" icon="fa fa-key" action="#{navigationBean.redirectToCrearUsuario}" styleClass="GreenButton Wid60 Fs18 White RaisedButton"/></div>
+	                    <div class="EmptyBox5"></div>
+	                    <div class="Wid100"><p:commandButton value="Entrar con Facebook?" icon="fa fa-facebook Fs16"  styleClass="Wid60 Fs18 White RaisedButton"/></div>
 	                    <div class="EmptyBox20"></div>
                     </h:form>
                 </div>
