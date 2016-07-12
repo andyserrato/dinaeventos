@@ -71,12 +71,6 @@ public class VisionGlobalBean implements Serializable{
 	 */
 	@PostConstruct
 	public void init() {
-		try {
-			bbddFaker.llenarBBDD();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		entradasSMS = 6988;
 		cambiosNombre = 529;
 		
@@ -88,6 +82,8 @@ public class VisionGlobalBean implements Serializable{
 			crearGraficoEntradasTiempo();
 			crearModeloEdades();
 		}
+		
+		return;
 	}
 	
 	/**
@@ -96,21 +92,27 @@ public class VisionGlobalBean implements Serializable{
 	private void crearModeloSexual(){
 		quesoSexual = new PieChartModel();
 		
-		quesoSexual.setTitle("Distribución por Sexo");
+		//quesoSexual.setTitle("Distribución por Sexo");
 		quesoSexual.set("Hombre", eventoDTO.getNumHombres());
 		quesoSexual.set("Mujer", eventoDTO.getNumMujeres());
-		quesoSexual.setLegendPosition("s");
+		quesoSexual.setLegendPosition("w");
+		quesoSexual.setExtender("skinPie");
+
+		return;
 	}
 	
 	private void crearModeloEdades(){
 		quesoEdad = new PieChartModel();
 		
-		quesoEdad.setTitle("Distribución por edades");
+		//quesoEdad.setTitle("Distribución por edades");
 		quesoEdad.set("18 y 19", eventoDAO.getNumeroVentasPorRangoEdad(1, 18, 19));
 		quesoEdad.set("20 y 21", eventoDAO.getNumeroVentasPorRangoEdad(1, 20, 21));
 		quesoEdad.set("22 - 24", eventoDAO.getNumeroVentasPorRangoEdad(1, 22, 24));
 		quesoEdad.set("> 25", eventoDAO.getNumeroVentasPorRangoEdad(1, 25, 100));
-		quesoEdad.setLegendPosition("s");
+		quesoEdad.setLegendPosition("w");
+		quesoEdad.setExtender("skinPie");
+		
+		return;
 	}
 	
 	/**
@@ -150,7 +152,8 @@ public class VisionGlobalBean implements Serializable{
 		}
 		
 		entradasTiempo.addSeries(serieGrafico);
-		entradasTiempo.getAxis(AxisType.Y).setLabel("Abonos Vendidos");
+		//entradasTiempo.getAxis(AxisType.Y).setLabel("Abonos Vendidos");
+		entradasTiempo.setExtender("skinChart");
 		
 		DateAxis axis = new DateAxis("Fecha");
         axis.setTickAngle(-45);
@@ -158,12 +161,13 @@ public class VisionGlobalBean implements Serializable{
         axis.setTickFormat("%b %#d, %y");
         entradasTiempo.getAxes().put(AxisType.X, axis);
 		
-		entradasTiempo.setTitle("Número de entradas vendidas por tiempo");
+		//entradasTiempo.setTitle("Número de entradas vendidas por tiempo");
         entradasTiempo.setLegendPosition("e");
         Axis yAxis = entradasTiempo.getAxis(AxisType.Y);
         yAxis.setMin(0);
         yAxis.setMax(10);
 		
+		return;
 	}
 	
 	/**
