@@ -2,6 +2,7 @@ package org.dinamizadores.dinaeventos.utiles;
 
 import java.io.Serializable;
 
+import javax.ejb.Startup;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -11,6 +12,8 @@ import org.dinamizadores.dinaeventos.view.LoginBean;
 
 @Named(value = "navigationBean")
 @SessionScoped
+@Startup
+@Loggable
 public class NavigationController implements Serializable {
  
 	private static final long serialVersionUID = -702447984621676850L;
@@ -88,5 +91,17 @@ public class NavigationController implements Serializable {
 
 	public void setOriginalUrl(String originalUrl) {
 		this.originalUrl = originalUrl;
+	}
+	
+	@Loggable
+	public String redirectToCrearUsuario() {
+		// TODO colocar flag de tipo de usuario a crear
+		return "/usuario/crearUsuario.xhtml?faces-redirect=true";
+	}
+	
+	@Loggable
+	public String toCrearUsuario() {
+		// TODO colocar flag de tipo de usuario a crear123
+		return "/usuario/crearUsuario.xhtml";
 	}
 }

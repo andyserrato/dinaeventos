@@ -33,14 +33,9 @@ import org.dinamizadores.dinaeventos.dto.entradasCompleta;
 @Named("usuarioBean")
 @ViewScoped
 @Loggable
-
 public class UsuarioBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-
-	/*
-	 * Support creating and retrieving Usuario entities
-	 */
 
 	private Integer id;
 	private Usuario usuario;
@@ -89,11 +84,12 @@ public class UsuarioBean implements Serializable {
 	
 	public String cambiarPagina(){
 		
-		//FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("total", total);
 		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("listaEntradas", listadoEntradas);
-		
-		
 		return "/comprar/comprarComplemento.xhtml?faces-redirect=true";
+	}
+	
+	public void crearUsuarioBasico() {
+		
 	}
 
 	public BigDecimal getTotal() {

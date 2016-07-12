@@ -173,7 +173,6 @@ public class DdTipoEntrada implements java.io.Serializable {
 		this.activa = activa;
 	}
 	
-	
 	@Column(name = "costecambionombre", precision = 5, scale = 2)
 	public BigDecimal getCosteCambioDeNombre() {
 		return costeCambioDeNombre;
