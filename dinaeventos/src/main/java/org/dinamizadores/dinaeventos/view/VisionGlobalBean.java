@@ -64,13 +64,19 @@ public class VisionGlobalBean implements Serializable{
 	private EventoDao eventoDAO;
 	
 	@EJB
-	private BBDDFaker bd;
+	private BBDDFaker bbddFaker;
 	
 	/**
 	 * Constructor por defecto
 	 */
 	@PostConstruct
 	public void init() {
+		try {
+			bbddFaker.llenarBBDD();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		entradasSMS = 6988;
 		cambiosNombre = 529;
 		
