@@ -3,13 +3,20 @@
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
-                template="/WEB-INF/template.xhtml">
+                template="/WEB-INF/templateCliente.xhtml">
 
     <ui:define name="content">
 		
 		<div class="Container100">
 			<div class="ContainerIndent">
-				<div class="Card ShadowEffect ui-fluid">
+					
+					<div class="Container100 MarAuto WidAutoOnMobile">
+ <div class="Wid90 DispBlock MarAuto MarTopPerc1 " >
+            
+            <div class="Wid33 MarAuto WidAutoOnMobile">
+            <div class="EmptyBox30"></div>
+								<div class="Card ShadowEffect ui-fluid">
+					
 					<h2 class="BigTopic"> Validación de entradas</h2>
 					<h:form>
 						<p:outputPanel >
@@ -18,7 +25,7 @@
 							<p:inputText id="inNumeroSerie" rendered="#{validarEntradaBean.renderedInNumeroSerie}" class="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all" role="textbox" required="true" value="#{validarEntradaBean.numeroSerie}" placeholder="Número de serie"></p:inputText>
 							
 							<div style="margin-top: 10px" class="Container100 ui-fluid TexAlCenter">
-								<p:commandButton id="botonValidar" rendered="#{validarEntradaBean.renderedBotonValidar}" update="@form" style="width: 20%" value="Validar entrada" actionListener="#{validarEntradaBean.validarEntradaPaso1()}"></p:commandButton>
+								<p:commandButton id="botonValidar" rendered="#{validarEntradaBean.renderedBotonValidar}" update="@form" style="width: auto;" value="Validar entrada" actionListener="#{validarEntradaBean.validarEntradaPaso1()}"></p:commandButton>
 							</div>	
 						</p:outputPanel>
 						
@@ -26,8 +33,8 @@
 								
 									<p:outputLabel value="Para poder validar correcamente tu entrada es necesario que introduzcas los siguientes datos: "></p:outputLabel>
 									
-									<p:inputText style="margin-top: 10px" id="inNombre" class="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all" role="textbox" required="true"  requiredMessage="Es necesario proporcionar un nombre" value="#{validarEntradaBean.nombre}" placeholder="Nombre"></p:inputText>
-									<p:inputText style="margin-top: 10px" id="inApellidos" class="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all" role="textbox" required="true" requiredMessage="Es necesario proporcionar unos apellidos" value="#{validarEntradaBean.apellidos}" placeholder="Apellidos"></p:inputText>
+									<p:inputText style="margin-top: 10px" disabled="#{validarEntradaBean.camposDeshabilitados}" id="inNombre" class="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all" role="textbox" required="true"  requiredMessage="Es necesario proporcionar un nombre" value="#{validarEntradaBean.nombre}" placeholder="Nombre"></p:inputText>
+									<p:inputText style="margin-top: 10px" id="inApellidos" disabled="#{validarEntradaBean.camposDeshabilitados}" class="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all" role="textbox" required="true" requiredMessage="Es necesario proporcionar unos apellidos" value="#{validarEntradaBean.apellidos}" placeholder="Apellidos"></p:inputText>
 									
 									<div class="ui-grid-row">
 										<div class="ui-panelgrid-cell ui-grid-col-4">
@@ -42,41 +49,58 @@
 									
 									<div class="ui-grid-row">
 										<div style="margin-top: 10px" class="ui-panelgrid-cell ui-grid-col-4">
-											<p:calendar style="margin-top: 20px" id="popup" value="#{validarEntradaBean.fechaNacimiento}" placeholder="Fecha de nacimiento" requiredMessage="Es necesario proporcionar la fecha de nacimiento"/>
+											<p:calendar style="margin-top: 20px" id="popup" disabled="#{validarEntradaBean.camposDeshabilitados}" value="#{validarEntradaBean.fechaNacimiento}" placeholder="Fecha de nacimiento" requiredMessage="Es necesario proporcionar la fecha de nacimiento"/>
 										</div>
 									
 										<div class="ui-panelgrid-cell ui-grid-col-8" >
-												<p:inputText style="margin-top: 10px; margin-left: 10px" id="inDNI" class="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all" role="textbox" required="true" requiredMessage="Es necesario proporcionar el DNI" value="#{validarEntradaBean.dni}" placeholder="DNI"></p:inputText>
+												<p:inputText style="margin-top: 10px; margin-left: 10px" id="inDNI" disabled="#{validarEntradaBean.camposDeshabilitados}" class="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all" role="textbox" required="true" requiredMessage="Es necesario proporcionar el DNI" value="#{validarEntradaBean.dni}" placeholder="DNI"></p:inputText>
 										</div>
 									</div>
 									
 									
-									<p:inputText style="margin-top: 10px" id="inEmail" class="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all" role="textbox" required="true" requiredMessage="Es necesario proporcionar tu dirección de correo electrónico" value="#{validarEntradaBean.email}" placeholder="Dirección de correo electrónico"></p:inputText>
+									<p:inputText style="margin-top: 10px" id="inEmail" disabled="#{validarEntradaBean.camposDeshabilitados}" class="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all" role="textbox" required="true" requiredMessage="Es necesario proporcionar tu dirección de correo electrónico" value="#{validarEntradaBean.email}" placeholder="Dirección de correo electrónico"></p:inputText>
 									
 									<p:inputText style="margin-top: 10px" id="inTelefono" class="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all" role="textbox" value="#{validarEntradaBean.telefono}" placeholder="Teléfono. Opcional"></p:inputText>
 								
 									<div style="margin-top: 10px" class="Container100 ui-fluid TexAlCenter">
-											<p:commandButton id="botonGuardarDatos" update="@form" style="width: 20%" value="Validar entrada" actionListener="#{validarEntradaBean.validarEntradaPaso2()}"></p:commandButton>
+											<p:commandButton id="botonGuardarDatos" update="@form" style="width: auto;" value="Validar entrada" actionListener="#{validarEntradaBean.validarEntradaPaso2()}"></p:commandButton>
 									</div>
 								
 								
 						</p:outputPanel>
 						
 						<p:outputPanel id="datosEntrada" rendered="#{validarEntradaBean.renderedDatosEntrada}">
-							<p:outputLabel>Entrada validada correctamente. Estos son los datos de su entrada</p:outputLabel>
-							<p:panelGrid columns="2">
+							<p:outputLabel>Entrada validada correctamente. Estos son los datos de tu entrada</p:outputLabel>
+							<br></br>
+							<div class="ui-grid-row">
 								<p:outputLabel value="Nombre: "></p:outputLabel>
 								<p:outputLabel value="#{validarEntradaBean.entradaSeleccionada.usuario.nombre}"></p:outputLabel>
-							
+							</div>
+								
+							<div class="ui-grid-row">
 								<p:outputLabel value="Apellidos: "></p:outputLabel>
 								<p:outputLabel value="#{validarEntradaBean.entradaSeleccionada.usuario.apellidos}"></p:outputLabel>
-								
+							</div>
+							
+							<div class="ui-grid-row">	
 								<p:outputLabel value="Numero de serie: "></p:outputLabel>
 								<p:outputLabel value="#{validarEntradaBean.entradaSeleccionada.numeroserie}"></p:outputLabel>
-								
+							</div>
+							
+							<div class="ui-grid-row">
 								<p:outputLabel value="Precio: "></p:outputLabel>
 								<p:outputLabel value="#{validarEntradaBean.entradaSeleccionada.precio} €"></p:outputLabel>
-							</p:panelGrid>
+							</div>
+							
+							<div>
+								<p:outputLabel value="Evento: "></p:outputLabel>
+								<p:outputLabel value="#{validarEntradaBean.entradaSeleccionada.evento.nombre}"></p:outputLabel>
+							</div>
+							
+							<div>
+								<p:outputLabel value="Lugar del evento: "></p:outputLabel>
+								<p:outputLabel value="#{validarEntradaBean.entradaSeleccionada.evento.nombrelugar}"></p:outputLabel>
+							</div>
 							
 						</p:outputPanel>	
 					</h:form>
@@ -88,6 +112,9 @@
 			</div>
 		</div>
 		
+		</div>
+		</div>
+		</div>
 	</ui:define>
 	
 </ui:composition>	

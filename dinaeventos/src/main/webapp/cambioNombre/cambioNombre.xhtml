@@ -3,37 +3,56 @@
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
-                template="/WEB-INF/template.xhtml">
+                template="/WEB-INF/templateCliente.xhtml">
 
     <ui:define name="content">
 		
 		<div class="Container100">
 			<div class="ContainerIndent">
 				<div class="Card ShadowEffect ui-fluid">
-					<h2 class="BigTopic"> Cambio de nombre de tu entrada</h2>					
 					
 					<p:outputPanel id="contenedorFormularios">
 					
 						<h:form >
 							<p:outputPanel rendered="#{!cambiarNombreBean.renderedFormularioPago}" >
 								<p:messages id="messages" showDetail="false" autoUpdate="true" closable="true" />
-								<p:inputText id="inNumeroSerie" class="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all" role="textbox" required="true" requiredMessage="Es necesario proporcionar el número de serie de la entrada" value="#{cambiarNombreBean.numeroSerie}" placeholder="Número de serie"></p:inputText>
 								
-								<div class="Container50">
-									<div class="ui-grid-row">
-										<div>
-											<p:inputText style="margin-top: 10px" id="inNuevoNombre" class="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all" role="textbox" required="true" requiredMessage="Es necesario proporcionar el nuevo nombre asociado a la entrada" value="#{cambiarNombreBean.nombre}" placeholder="Nombre"></p:inputText>
+								<div class="Container100">
+									<div class="ContainerIndent">
+										<h2 class="BigTopic"> Cambio de nombre de tu entrada</h2>					
+								
+								
+										<div class="ui-grid-row">
+											<p:inputText id="inNumeroSerie" class="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all" role="textbox" required="true" requiredMessage="Es necesario proporcionar el número de serie de la entrada" value="#{cambiarNombreBean.numeroSerie}" placeholder="Número de serie"></p:inputText>
 										</div>
+										
 									</div>
+										<div class="Container50">
+											<div class="ContainerIndent">
+											
+												<div class="ui-grid-row">
+													
+													<div>
+														<p:inputText id="inNuevoNombre" class="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all" role="textbox" required="true" requiredMessage="Es necesario proporcionar el nuevo nombre asociado a la entrada" value="#{cambiarNombreBean.nombre}" placeholder="Nombre"></p:inputText>
+													</div>
+												</div>
+											</div>
+										</div>
+								
+										<div class="Container50">		
+											<div class="ContainerIndent">
+		
+												<div class="ui-grid-row">
+														<div>
+															<p:inputText id="inNuevosApellidos" class="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all" role="textbox" required="true" requiredMessage="Es necesario proporcionar los apellidos asociados a la entrada" value="#{cambiarNombreBean.apellidos}" placeholder="Apellidos"></p:inputText>
+														</div>
+													</div>
+												</div>
+										</div>
+										
 								</div>
 								
-								<div class="Container50">		
-									<div class="ui-grid-row">
-										<div>
-											<p:inputText style="margin-top: 10px; margin-left: 10px" id="inNuevosApellidos" class="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all" role="textbox" required="true" requiredMessage="Es necesario proporcionar los apellidos asociados a la entrada" value="#{cambiarNombreBean.apellidos}" placeholder="Apellidos"></p:inputText>
-										</div>
-									</div>
-								</div>
+								
 								
 								<div style="margin-top: 10px" class="Container100 ui-fluid TexAlCenter">
 									
