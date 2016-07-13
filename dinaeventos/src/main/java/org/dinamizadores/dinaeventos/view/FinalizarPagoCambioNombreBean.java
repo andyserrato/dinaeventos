@@ -13,7 +13,7 @@ import javax.inject.Named;
 import org.dinamizadores.dinaeventos.dao.DAOGenerico;
 import org.dinamizadores.dinaeventos.model.Entrada;
 import org.dinamizadores.dinaeventos.utiles.pdf.FormarPDF;
-import org.dinamizadores.dinaeventos.utiles.plataformapagos.pagar;
+import org.dinamizadores.dinaeventos.utiles.plataformapagos.Pagar;
 
 import com.itextpdf.text.DocumentException;
 import com.mangopay.entities.CardRegistration;
@@ -38,7 +38,7 @@ public class FinalizarPagoCambioNombreBean implements Serializable{
 	public void efectuarPago(){
 		
 		//crearEntradasUsuarios();
-		pagar pa = new pagar();
+		Pagar pa = new Pagar();
 		CardRegistration tarjetaRegistrada = (CardRegistration) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("tarjeta");
 		total = (BigDecimal)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("total");
 		

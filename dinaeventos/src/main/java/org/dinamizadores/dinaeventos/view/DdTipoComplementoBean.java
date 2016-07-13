@@ -16,9 +16,9 @@ import org.dinamizadores.dinaeventos.model.DdTipoComplemento;
 import org.dinamizadores.dinaeventos.model.Usuario;
 import org.dinamizadores.dinaeventos.utiles.log.Loggable;
 import org.dinamizadores.dinaeventos.utiles.pdf.FormarPDF;
-import org.dinamizadores.dinaeventos.utiles.plataformapagos.pagar;
-import org.dinamizadores.dinaeventos.dto.complementoEntero;
-import org.dinamizadores.dinaeventos.dto.entradasCompleta;
+import org.dinamizadores.dinaeventos.utiles.plataformapagos.Pagar;
+import org.dinamizadores.dinaeventos.dto.ComplementoEntero;
+import org.dinamizadores.dinaeventos.dto.EntradasCompleta;
 
 import com.itextpdf.text.DocumentException;
 import com.mangopay.entities.CardRegistration;
@@ -48,9 +48,9 @@ public class DdTipoComplementoBean implements Serializable {
 	
 	private String nombreEntrada = null;
 	
-	private entradasCompleta entrada = new entradasCompleta();
+	private EntradasCompleta entrada = new EntradasCompleta();
 	
-	private List<entradasCompleta> listadoEntradas = new ArrayList<entradasCompleta>();
+	private List<EntradasCompleta> listadoEntradas = new ArrayList<EntradasCompleta>();
 	
 	private List<DdTipoComplemento> listadoComplemento = new ArrayList<DdTipoComplemento>();
 	
@@ -64,7 +64,7 @@ public class DdTipoComplementoBean implements Serializable {
 	public void init(){
 	
 		total = (BigDecimal) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("total");
-		listadoEntradas = (List<entradasCompleta>) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("listaEntradas");
+		listadoEntradas = (List<EntradasCompleta>) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("listaEntradas");
 		
 		calcularInfoComplementos();	
 	}
@@ -73,10 +73,10 @@ public class DdTipoComplementoBean implements Serializable {
 			
 		setListadoComplemento(tipoComplementoDao.listTipoComplemento());
 		
-		for (entradasCompleta entrada : listadoEntradas){
+		for (EntradasCompleta entrada : listadoEntradas){
 			entrada.getListaComplementos().clear();
 			for (DdTipoComplemento c : listadoComplemento){
-			complementoEntero comple = new complementoEntero();
+			ComplementoEntero comple = new ComplementoEntero();
 			comple.setComplemento(c);
 			entrada.getListaComplementos().add(comple);
 			}
@@ -85,19 +85,18 @@ public class DdTipoComplementoBean implements Serializable {
 	
 	public void agregarComplemento(){
 		total = new BigDecimal(0);
-		for (entradasCompleta entrada : listadoEntradas){
-				for (complementoEntero c : entrada.getListaComplementos()){
+		for (EntradasCompleta entrada : listadoEntradas){
+				for (ComplementoEntero c : entrada.getListaComplementos()){
 					total = total.add(c.getComplemento().getPrecio().multiply(BigDecimal.valueOf(c.getCantidad())));
 				}
 				total = total.add(entrada.getPrecio());
 			}
 		
 		}
-	
-	
+
 	public String cambiarPagina(){
 		
-				pagar pa = new pagar();
+				Pagar pa = new Pagar();
 				String idUsuario = pa.nuevoUsuario(listadoEntradas.get(0).getUsuario());
 				CardRegistration tarjetaRegistrada = pa.nuevoTarjeta(idUsuario);
 				
@@ -152,11 +151,11 @@ public class DdTipoComplementoBean implements Serializable {
 		this.nombreEntrada = nombreEntrada;
 	}
 
-	public List<entradasCompleta> getListadoEntradas() {
+	public List<EntradasCompleta> getListadoEntradas() {
 		return listadoEntradas;
 	}
 
-	public void setListadoEntradas(List<entradasCompleta> listadoEntradas) {
+	public void setListadoEntradas(List<EntradasCompleta> listadoEntradas) {
 		this.listadoEntradas = listadoEntradas;
 	}
 
@@ -168,11 +167,11 @@ public class DdTipoComplementoBean implements Serializable {
 		this.listadoComplemento = listadoComplemento;
 	}
 
-	public entradasCompleta getEntrada() {
+	public EntradasCompleta getEntrada() {
 		return entrada;
 	}
 
-	public void setEntrada(entradasCompleta entrada) {
+	public void setEntrada(EntradasCompleta entrada) {
 		this.entrada = entrada;
 	}
 

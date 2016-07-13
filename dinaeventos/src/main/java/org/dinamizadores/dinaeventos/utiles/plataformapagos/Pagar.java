@@ -26,7 +26,7 @@ import com.mangopay.entities.Wallet;
 import com.mangopay.entities.subentities.PayInExecutionDetailsDirect;
 import com.mangopay.entities.subentities.PayInPaymentDetailsCard;
 
-public class pagar {
+public class Pagar {
 	private MangoPayApi api;
 	private CardRegistration tarjetaRegistrada;
 	private Wallet cartera;
@@ -34,7 +34,7 @@ public class pagar {
 	private PayIn pago;
 	private BigDecimal total = new BigDecimal(0);
 	
-	public pagar(){
+	public Pagar(){
 		api = new MangoPayApi();
 		// configuration
 		api.Config.ClientId = "dinaevents1";
