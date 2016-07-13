@@ -18,7 +18,22 @@
 							<p:outputPanel rendered="#{!cambiarNombreBean.renderedFormularioPago}" >
 								<p:messages id="messages" showDetail="false" autoUpdate="true" closable="true" />
 								<p:inputText id="inNumeroSerie" class="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all" role="textbox" required="true" requiredMessage="Es necesario proporcionar el número de serie de la entrada" value="#{cambiarNombreBean.numeroSerie}" placeholder="Número de serie"></p:inputText>
-								<p:inputText style="margin-top: 10px" id="inNuevoNombre" class="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all" role="textbox" required="true" requiredMessage="Es necesario proporcionar el nuevo nombre asociado a la entrada" value="#{cambiarNombreBean.nombre}" placeholder="Nuevo nombre asociado a la entrada"></p:inputText>
+								
+								<div class="Container50">
+									<div class="ui-grid-row">
+										<div>
+											<p:inputText style="margin-top: 10px" id="inNuevoNombre" class="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all" role="textbox" required="true" requiredMessage="Es necesario proporcionar el nuevo nombre asociado a la entrada" value="#{cambiarNombreBean.nombre}" placeholder="Nombre"></p:inputText>
+										</div>
+									</div>
+								</div>
+								
+								<div class="Container50">		
+									<div class="ui-grid-row">
+										<div>
+											<p:inputText style="margin-top: 10px; margin-left: 10px" id="inNuevosApellidos" class="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all" role="textbox" required="true" requiredMessage="Es necesario proporcionar los apellidos asociados a la entrada" value="#{cambiarNombreBean.apellidos}" placeholder="Apellidos"></p:inputText>
+										</div>
+									</div>
+								</div>
 								
 								<div style="margin-top: 10px" class="Container100 ui-fluid TexAlCenter">
 									
@@ -38,7 +53,7 @@
 						
 						<p:outputPanel id="formularioPago" rendered="#{cambiarNombreBean.renderedFormularioPago}">
 								
-							<p:outputLabel id="costeCambioNombre" value="El coste asociado para cambiar tu tipo de entrada es: #{cambiarNombreBean.costeCambioNombre}"></p:outputLabel>
+							<p:outputLabel id="costeCambioNombre" value="El coste asociado para cambiar tu tipo de entrada es: #{cambiarNombreBean.costeCambioNombre} €"></p:outputLabel>
 											
 							<form id="mainform" method="post" action="https://homologation-webpayment.payline.com/webpayment/getToken">
 		 						<h:inputHidden  id="data" value="#{cambiarNombreBean.data}" /> 

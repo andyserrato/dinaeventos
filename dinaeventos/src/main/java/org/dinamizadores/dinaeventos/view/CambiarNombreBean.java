@@ -13,7 +13,7 @@ import javax.inject.Named;
 import org.dinamizadores.dinaeventos.dao.EntradaDao;
 import org.dinamizadores.dinaeventos.model.DdTipoEntrada;
 import org.dinamizadores.dinaeventos.model.Entrada;
-import org.dinamizadores.dinaeventos.utiles.plataformapagos.pagar;
+import org.dinamizadores.dinaeventos.utiles.plataformapagos.Pagar;
 
 import com.mangopay.entities.CardRegistration;
 
@@ -22,7 +22,7 @@ import com.mangopay.entities.CardRegistration;
 public class CambiarNombreBean implements Serializable{
 
 	private String numeroSerie;
-	private String nombre;
+	private String nombre, apellidos;
 	
 	private String data = "";
 	
@@ -72,8 +72,9 @@ public class CambiarNombreBean implements Serializable{
 			//Ponemos en la sesion los datos de la entrada y el nombre
 			FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("entrada", entrada);
 			FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("nuevoNombre", nombre);			
-			
-			pagar pa = new pagar();
+			FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("nuevosApellidos", apellidos);			
+
+			Pagar pa = new Pagar();
 			
 			String idUsuario = pa.nuevoUsuario(entrada.getUsuario());
 			tarjetaRegistrada = pa.nuevoTarjeta(idUsuario);
@@ -125,9 +126,10 @@ public class CambiarNombreBean implements Serializable{
 	public void setCosteCambioNombre(BigDecimal costeCambioNombre) {
 		this.costeCambioNombre = costeCambioNombre;
 	}
-	
-	
-	
-	
-	
+	public String getApellidos() {
+		return apellidos;
+	}
+	public void setApellidos(String apellidos) {
+		this.apellidos = apellidos;
+	}
 }
