@@ -16,7 +16,7 @@ import org.dinamizadores.dinaeventos.model.DdTipoComplemento;
 import org.dinamizadores.dinaeventos.model.Usuario;
 import org.dinamizadores.dinaeventos.utiles.log.Loggable;
 import org.dinamizadores.dinaeventos.utiles.pdf.FormarPDF;
-import org.dinamizadores.dinaeventos.utiles.plataformapagos.pagar;
+import org.dinamizadores.dinaeventos.utiles.plataformapagos.Pagar;
 import org.dinamizadores.dinaeventos.dto.complementoEntero;
 import org.dinamizadores.dinaeventos.dto.entradasCompleta;
 
@@ -97,7 +97,7 @@ public class DdTipoComplementoBean implements Serializable {
 	
 	public String cambiarPagina(){
 		
-				pagar pa = new pagar();
+				Pagar pa = new Pagar();
 				String idUsuario = pa.nuevoUsuario(listadoEntradas.get(0).getUsuario());
 				CardRegistration tarjetaRegistrada = pa.nuevoTarjeta(idUsuario);
 				

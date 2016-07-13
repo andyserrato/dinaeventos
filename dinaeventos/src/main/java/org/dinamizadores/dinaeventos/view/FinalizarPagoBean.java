@@ -28,7 +28,7 @@ import org.dinamizadores.dinaeventos.model.Usuario;
 import org.dinamizadores.dinaeventos.utiles.ConversorNumeroSerie;
 import org.dinamizadores.dinaeventos.utiles.log.Loggable;
 import org.dinamizadores.dinaeventos.utiles.pdf.FormarPDF;
-import org.dinamizadores.dinaeventos.utiles.plataformapagos.pagar;
+import org.dinamizadores.dinaeventos.utiles.plataformapagos.Pagar;
 import org.dinamizadores.dinaeventos.dto.complementoEntero;
 import org.dinamizadores.dinaeventos.dto.entradasCompleta;
 
@@ -101,7 +101,7 @@ public class FinalizarPagoBean implements Serializable {
 
 				crearEntradasUsuarios();
 				
-				pagar pa = new pagar();
+				Pagar pa = new Pagar();
 				CardRegistration tarjetaRegistrada = (CardRegistration) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("tarjeta");
 				total = (BigDecimal) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("total");
 				

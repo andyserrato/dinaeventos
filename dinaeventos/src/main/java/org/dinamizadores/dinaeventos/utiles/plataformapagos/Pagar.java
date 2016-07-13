@@ -26,7 +26,7 @@ import com.mangopay.entities.Wallet;
 import com.mangopay.entities.subentities.PayInExecutionDetailsDirect;
 import com.mangopay.entities.subentities.PayInPaymentDetailsCard;
 
-public class pagar {
+public class Pagar {
 	private MangoPayApi api;
 	private CardRegistration tarjetaRegistrada;
 	private Wallet cartera;
@@ -34,7 +34,7 @@ public class pagar {
 	private PayIn pago;
 	private BigDecimal total = new BigDecimal(0);
 	
-	public pagar(){
+	public Pagar(){
 		api = new MangoPayApi();
 		// configuration
 		api.Config.ClientId = "dinaevents1";
@@ -107,8 +107,7 @@ public class pagar {
 		}
 	}
 	
-	public void nuevoPago(){
-		
+	public PayIn nuevoPago(){
 		pago = new PayIn();
 		
 		pago.AuthorId = tarjetaRegistrada.UserId;
@@ -144,6 +143,8 @@ public class pagar {
 			e.printStackTrace();
 		}
 		
+		return pago;
+		
 	}
 	
 	public CardRegistration nuevoTarjeta(String idUsuario){
@@ -165,8 +166,8 @@ public class pagar {
 		return nuevaTarjeta;	
 	}
 	
-	public void actualizarTarjeta(CardRegistration tarjetaRegi){
-		
+	public PayIn actualizarTarjeta(CardRegistration tarjetaRegi){
+		PayIn resultadoPago = null;
 		try {
 			
 			tarjetaRegistrada = new CardRegistration();
@@ -181,17 +182,18 @@ public class pagar {
 			
 			//Nos traemos la tarjeta registrada
 			tarjeta = api.Cards.get(updateTarjeta.CardId);
-			crearPago();
+			resultadoPago = crearPago();
 				
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		
+		return resultadoPago;
 	}
 	
-public void crearPago(){
+public PayIn crearPago(){
+		PayIn resultadoPago = null;
 		
 		try {
 			
@@ -199,14 +201,14 @@ public void crearPago(){
 			nuevaWallet();
 			
 			//Crear nuevo pago
-			nuevoPago();
+			resultadoPago = nuevoPago();
 				
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		
+		return resultadoPago;
 	}
 
 public BigDecimal getTotal() {
