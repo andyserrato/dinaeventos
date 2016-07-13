@@ -14,8 +14,8 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
 import org.dinamizadores.dinaeventos.dao.DAOGenerico;
-import org.dinamizadores.dinaeventos.dto.complementoEntero;
-import org.dinamizadores.dinaeventos.dto.entradasCompleta;
+import org.dinamizadores.dinaeventos.dto.ComplementoEntero;
+import org.dinamizadores.dinaeventos.dto.EntradasCompleta;
 import org.dinamizadores.dinaeventos.model.Entrada;
 import org.dinamizadores.dinaeventos.model.EntradaComplemento;
 import org.dinamizadores.dinaeventos.utiles.Constantes;
@@ -83,9 +83,9 @@ public class FinalizarPagoCambioNombreBean implements Serializable{
 				genericoDao.modificar(e.getUsuario());
 				
 				//Creamos el pdf con la nueva entrada y se la enviamos por correo
-				ArrayList<entradasCompleta> entradas = new ArrayList<entradasCompleta>();
+				ArrayList<EntradasCompleta> entradas = new ArrayList<EntradasCompleta>();
 				
-				entradasCompleta eentradaCompleta = new entradasCompleta();
+				EntradasCompleta eentradaCompleta = new EntradasCompleta();
 				
 				eentradaCompleta.setNombre(e.getUsuario().getNombre());
 				eentradaCompleta.setNumeroserie(e.getNumeroserie());
@@ -97,12 +97,12 @@ public class FinalizarPagoCambioNombreBean implements Serializable{
 				
 				
 				Iterator it = e.getEntradaComplementos().iterator();
-				ArrayList<complementoEntero> listaComplementos = new ArrayList<>(); 
+				ArrayList<ComplementoEntero> listaComplementos = new ArrayList<>(); 
 				
 				while (it.hasNext()){
 					EntradaComplemento complemento = (EntradaComplemento) it.next();
 					System.out.println("Descripcion:" + complemento.getDdTipoComplemento().getDescripcion());
-					complementoEntero compl = new complementoEntero();
+					ComplementoEntero compl = new ComplementoEntero();
 					compl.setComplemento(complemento.getDdTipoComplemento());
 					//TODO BIEN
 					compl.setCantidad(1);

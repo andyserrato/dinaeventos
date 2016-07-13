@@ -19,7 +19,7 @@ import javax.inject.Named;
 import org.dinamizadores.dinaeventos.model.DdTipoEntrada;
 import org.dinamizadores.dinaeventos.model.Usuario;
 import org.dinamizadores.dinaeventos.utiles.log.Loggable;
-import org.dinamizadores.dinaeventos.dto.entradasCompleta;
+import org.dinamizadores.dinaeventos.dto.EntradasCompleta;
 
 /**
  * Backing bean for Usuario entities.
@@ -48,7 +48,7 @@ public class UsuarioBean implements Serializable {
 	
 	private Map<Long,List<BigDecimal>> listaPrecios =  new HashMap<Long,List<BigDecimal>>();
 	
-	private List<entradasCompleta> listadoEntradas = new ArrayList<entradasCompleta>();
+	private List<EntradasCompleta> listadoEntradas = new ArrayList<EntradasCompleta>();
 	
 	private List<DdTipoEntrada> tiposEntrada = new ArrayList<DdTipoEntrada>();
 	
@@ -68,7 +68,7 @@ public class UsuarioBean implements Serializable {
 		
 		for (Entry<Long,List<BigDecimal>> e: listaPrecios.entrySet()){
 			for (int i = 0; i < e.getValue().size(); i++){
-				entradasCompleta entrada = new entradasCompleta();
+				EntradasCompleta entrada = new EntradasCompleta();
 				entrada.setIdTipoEntrada(e.getKey());
 				entrada.setCantidadEntradas(e.getValue());
 				for (DdTipoEntrada d : tiposEntrada)
@@ -140,11 +140,11 @@ public class UsuarioBean implements Serializable {
 		this.nombreEntrada = nombreEntrada;
 	}
 
-	public List<entradasCompleta> getListadoEntradas() {
+	public List<EntradasCompleta> getListadoEntradas() {
 		return listadoEntradas;
 	}
 
-	public void setListadoEntradas(List<entradasCompleta> listadoEntradas) {
+	public void setListadoEntradas(List<EntradasCompleta> listadoEntradas) {
 		this.listadoEntradas = listadoEntradas;
 	}
 

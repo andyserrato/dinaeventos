@@ -8,7 +8,7 @@ import java.util.List;
 import org.dinamizadores.dinaeventos.model.DdTipoComplemento;
 import org.dinamizadores.dinaeventos.model.Usuario;
 
-public class entradasCompleta {
+public class EntradasCompleta {
 	
 	private Long idEntrada;
 	
@@ -26,16 +26,16 @@ public class entradasCompleta {
 	
 	private Usuario usuario;
 	
-	private List<complementoEntero> listaComplementos;
+	private List<ComplementoEntero> listaComplementos;
 	
 	
-	public entradasCompleta(){
+	public EntradasCompleta(){
 		idTipoEntrada = null;
 		cantidadEntradas = new ArrayList<BigDecimal>() ;
 		precio = new BigDecimal(0);
 		nombre = null;
 		usuario = new Usuario();
-		listaComplementos = new ArrayList<complementoEntero>();
+		listaComplementos = new ArrayList<ComplementoEntero>();
 	}
 	
 	public Long getIdTipoEntrada() {
@@ -82,11 +82,11 @@ public class entradasCompleta {
 		this.usuario = usuario;
 	}
 
-	public List<complementoEntero> getListaComplementos() {
+	public List<ComplementoEntero> getListaComplementos() {
 		return listaComplementos;
 	}
 
-	public void setListaComplementos(List<complementoEntero> listaComplementos) {
+	public void setListaComplementos(List<ComplementoEntero> listaComplementos) {
 		this.listaComplementos = listaComplementos;
 	}
 

@@ -72,8 +72,8 @@ public class CambiarNombreBean implements Serializable{
 			//Ponemos en la sesion los datos de la entrada y el nombre
 			FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("entrada", entrada);
 			FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("nuevoNombre", nombre);			
-			FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("nuevosApellidos", apellidos);			
-
+			FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("nuevosApellidos", apellidos);				
+			
 			Pagar pa = new Pagar();
 			
 			String idUsuario = pa.nuevoUsuario(entrada.getUsuario());

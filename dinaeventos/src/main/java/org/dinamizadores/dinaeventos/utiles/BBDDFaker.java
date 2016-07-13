@@ -138,22 +138,9 @@ public class BBDDFaker {
 		e.setTicketgenerado(false);
 		e.setValidada(faker.bool().bool());
 		e.setVendida(true);
-		e.setFechaVendida(new Date());
-		e.setFechaValidada(new Date());
+		e.setFechaVendida(faker.date().between(faker.date().past(30, TimeUnit.DAYS), new Date()));
+		e.setFechaValidada(faker.date().between(e.getFechaVendida(), new Date()));
 		
-//		DdTipoComplemento complemento = complementos.get(ThreadLocalRandom.current().nextInt(complementos.size()));
-//		
-//		EntradaComplemento entradaComplemento = new EntradaComplemento();
-//		entradaComplemento.setDdTipoComplemento(complemento);
-//		e.getEntradaComplementos().add(entradaComplemento);
-//		
-//		entradaComplemento = new EntradaComplemento();
-//		entradaComplemento.setDdTipoComplemento(complemento);
-//		e.getEntradaComplementos().add(entradaComplemento);
-//		
-//		entradaComplemento = new EntradaComplemento();
-//		entradaComplemento.setDdTipoComplemento(complemento);
-//		e.getEntradaComplementos().add(entradaComplemento);
 		return e;
 	}
 	
@@ -319,7 +306,6 @@ public class BBDDFaker {
 		final int NUM_PATROCINADORES = 2;
 		final int NUM_TIPOENTRADA = 3;
 		final int NUM_TIPOSIVA = 3;
-		final int NUM_PERMISOS = 3;
 		final int NUM_ROLES = 3;
 		final int NUM_USUARIO = 30;
 		final int NUM_ENTRADA = 50;
@@ -394,11 +380,15 @@ public class BBDDFaker {
 		}
 		
 		List<Permisos> permisos = new ArrayList<>();
-		for(int i = 0; i < NUM_PERMISOS; i++){
-			Permisos permiso = crearPermisos(); 
-			dao.insertar(permiso);
-			permisos.add(permiso);
-		}
+		Permisos permiso = new Permisos();
+		permiso.setNombre("Lectura");
+		dao.insertar(permiso);
+		permisos.add(permiso);
+		
+		permiso = new Permisos();
+		permiso.setNombre("Escritura");
+		dao.insertar(permiso);
+		permisos.add(permiso);
 		
 		List<Roles> roles = new ArrayList<>();
 		for(int i = 0; i < NUM_ROLES; i++){
@@ -406,6 +396,13 @@ public class BBDDFaker {
 			dao.insertar(rol);
 			roles.add(rol);
 		}
+		
+		Roles rol = new Roles();
+		rol.setNombre("Administrador");
+		rol.getPermisos().add(permisos.get(0));
+		rol.getPermisos().add(permisos.get(1));
+		dao.insertar(rol);
+		roles.add(rol);
 		
 		List<Redessociales> redesSociales = new ArrayList<>();
 		for(int i = 0; i < NUM_REDESSOCIALES; i++){
@@ -418,7 +415,7 @@ public class BBDDFaker {
 		for(int i = 0; i < NUM_USUARIO; i++){
 			int idRedSocial = redesSociales.get(ThreadLocalRandom.current().nextInt(redesSociales.size())).getIdredessociales();
 			int idRol = roles.get(ThreadLocalRandom.current().nextInt(roles.size())).getIdrol();
-			int idSexo = sexos.get(ThreadLocalRandom.current().nextInt(sexos.size())).getIdsexo();
+			int idSexo = faker.number().numberBetween(1, 2);
 			
 			Usuario usuario = crearUsuario(faker.number().numberBetween(1, NUM_CODIGOSPOSTALES), idRedSocial, idRol, idSexo);
 			dao.insertar(usuario);
@@ -475,7 +472,7 @@ public class BBDDFaker {
 		for(int i = 0; i < NUM_USUARIO; i++){
 			int idRedSocial = redesSociales.get(ThreadLocalRandom.current().nextInt(redesSociales.size())).getIdredessociales();
 			int idRol = roles.get(ThreadLocalRandom.current().nextInt(roles.size())).getIdrol();
-			int idSexo = sexos.get(ThreadLocalRandom.current().nextInt(sexos.size())).getIdsexo();
+			int idSexo = faker.number().numberBetween(1, 2);
 			
 			Usuario usuario = crearUsuario(faker.number().numberBetween(1, NUM_CODIGOSPOSTALES), idRedSocial, idRol, idSexo);
 			dao.insertar(usuario);
@@ -495,7 +492,7 @@ public class BBDDFaker {
 		for(int i = 0; i < NUM_USUARIO; i++){
 			int idRedSocial = redesSociales.get(ThreadLocalRandom.current().nextInt(redesSociales.size())).getIdredessociales();
 			int idRol = roles.get(ThreadLocalRandom.current().nextInt(roles.size())).getIdrol();
-			int idSexo = sexos.get(ThreadLocalRandom.current().nextInt(sexos.size())).getIdsexo();
+			int idSexo = faker.number().numberBetween(1, 2);
 			
 			Usuario usuario = crearUsuario(faker.number().numberBetween(1, NUM_CODIGOSPOSTALES), idRedSocial, idRol, idSexo);
 			dao.insertar(usuario);
@@ -511,21 +508,8 @@ public class BBDDFaker {
 			rrppMinions.add(rrppMinion);
 		}
 
-				
-//		for(int i = 0; i < NUM_ENTRADA; i++){
-//			dao.insertar(crearRRPPJefeEntrada(NUM_RRPPJEFE, i, NUM_RRPPMINION));
-//		}
-//		
-//		for(int i = 1; i <= NUM_EVENTO; i++){
-//			dao.insertar(crearRRPPEvento(NUM_RRPPJEFE, i));
-//		}
-//		
-
-
-		
 		log.debug("FIN DEL LLENADO DE BBDD");
 		
-		return;
 	}
 	
 }
