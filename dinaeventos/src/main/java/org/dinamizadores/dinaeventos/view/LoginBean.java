@@ -48,6 +48,8 @@ public class LoginBean implements Serializable {
 	private String password;
 	private List<Evento> eventosList;
 	private Evento evento;
+	private Usuario usuario;
+	
 	@EJB
 	private UsuarioDao usuarioDao;
 	@EJB
@@ -127,6 +129,14 @@ public class LoginBean implements Serializable {
 		this.evento = evento;
 	}
 
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
+
 	/**
 	 * Esto sirve para cuando se hace un login forzoso al intentar acceder a una
 	 * pagina protegida sin haberse logueado
@@ -158,6 +168,7 @@ public class LoginBean implements Serializable {
 		if (usuario != null && usuario.getEmail().equals(email) && usuario.getPassword().equals(password)) {
 			loggedIn = true;
 			message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Bienvenido", usuario.getNombre());
+			this.usuario = usuario;
 			gestinarRedireccion();
 		} else {
 			loggedIn = false;
