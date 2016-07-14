@@ -98,19 +98,20 @@ public class EntradaDao {
 		return findAllQuery.getResultList();
 	}
 	
-	public List<DdTipoEntrada> listTipoEntrada() {
+	public List<DdTipoEntrada> listTipoEntrada(Integer idEvento) {
 		TypedQuery<DdTipoEntrada> findAllQuery = em.createQuery(
-				"SELECT DISTINCT te FROM DdTipoEntrada te ORDER BY te.idtipoentrada",
+				"SELECT DISTINCT te FROM DdTipoEntrada te, Evento e WHERE e.idevento = :idEvento ORDER BY te.idtipoentrada",
 				DdTipoEntrada.class);
+		findAllQuery.setParameter("idEvento", idEvento);
 		
 		return findAllQuery.getResultList();
 	}
 	
-	public List<DdTipoComplemento> listTipoComplemento() {
+	public List<DdTipoComplemento> listTipoComplemento(Integer idEvento) {
 		TypedQuery<DdTipoComplemento> findAllQuery = em.createQuery(
-				"SELECT DISTINCT te FROM DdTipoComplemento te ORDER BY te.idTipoComplemento",
+				"SELECT DISTINCT te FROM DdTipoComplemento te, Evento e WHERE e.idevento = :idEvento ORDER BY te.idTipoComplemento ",
 				DdTipoComplemento.class);
-		
+		findAllQuery.setParameter("idEvento", idEvento);
 		return findAllQuery.getResultList();
 	}
 	

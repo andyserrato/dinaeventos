@@ -1,26 +1,25 @@
 package org.dinamizadores.dinaeventos.view;
 
-import java.io.IOException;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.faces.view.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
 import org.dinamizadores.dinaeventos.dao.EntradaDao;
-import org.dinamizadores.dinaeventos.model.DdTipoComplemento;
-import org.dinamizadores.dinaeventos.model.Usuario;
-import org.dinamizadores.dinaeventos.utiles.log.Loggable;
-import org.dinamizadores.dinaeventos.utiles.pdf.FormarPDF;
-import org.dinamizadores.dinaeventos.utiles.plataformapagos.Pagar;
 import org.dinamizadores.dinaeventos.dto.ComplementoEntero;
 import org.dinamizadores.dinaeventos.dto.EntradasCompleta;
+import org.dinamizadores.dinaeventos.model.DdTipoComplemento;
+import org.dinamizadores.dinaeventos.model.Evento;
+import org.dinamizadores.dinaeventos.model.Usuario;
+import org.dinamizadores.dinaeventos.utiles.log.Loggable;
+import org.dinamizadores.dinaeventos.utiles.plataformapagos.Pagar;
 
-import com.itextpdf.text.DocumentException;
 import com.mangopay.entities.CardRegistration;
 
 
@@ -58,6 +57,8 @@ public class DdTipoComplementoBean implements Serializable {
 	
 	private Boolean envioConjunto = false;
 	
+	private Evento evento;
+	
 
 	
 	@PostConstruct
@@ -65,13 +66,14 @@ public class DdTipoComplementoBean implements Serializable {
 	
 		total = (BigDecimal) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("total");
 		listadoEntradas = (List<EntradasCompleta>) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("listaEntradas");
+		evento = (Evento) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("evento");
 		
 		calcularInfoComplementos();	
 	}
 	
 	private void calcularInfoComplementos(){
 			
-		setListadoComplemento(tipoComplementoDao.listTipoComplemento());
+		setListadoComplemento(tipoComplementoDao.listTipoComplemento(evento.getIdevento()));
 		
 		for (EntradasCompleta entrada : listadoEntradas){
 			entrada.getListaComplementos().clear();
@@ -106,7 +108,7 @@ public class DdTipoComplementoBean implements Serializable {
 				FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("tarjeta", tarjetaRegistrada);
 				FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("envioConjunto", envioConjunto);
 				
-				return "/comprar/pagarCambioNombre.xhtml?faces-redirect=true";
+				return "/comprar/pagarEntradas.xhtml?faces-redirect=true";
 			
 	}
 	

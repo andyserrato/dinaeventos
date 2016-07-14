@@ -13,10 +13,16 @@ import javax.inject.Named;
 import org.dinamizadores.dinaeventos.dao.DAOGenerico;
 import org.dinamizadores.dinaeventos.dao.EntradaDao;
 import org.dinamizadores.dinaeventos.model.Entrada;
+import org.dinamizadores.dinaeventos.model.Evento;
 
 @Named("validarEntradaBean")
 @ViewScoped
 public class ValidarEntradaBean implements Serializable{
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4564849372186584402L;
 	
 	private String numeroSerie;
 	private boolean renderedInNumeroSerie;
@@ -26,6 +32,7 @@ public class ValidarEntradaBean implements Serializable{
 	private Entrada entradaSeleccionada;
 	private String nombre, apellidos, codPostal, direccion, email, dni, telefono;
 	private Date fechaNacimiento;
+	private Evento evento;
 	private boolean camposDeshabilitados = false;
 	private boolean cambioDeNombre = false;
 	@EJB
@@ -69,6 +76,9 @@ public class ValidarEntradaBean implements Serializable{
 		fechaNacimiento = entradaSeleccionada.getUsuario().getFechanac();
 		
 		camposDeshabilitados = true;
+		
+		setEvento((Evento) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("evento"));
+		
 	}
 	
 	public void validarEntradaPaso1(){
@@ -224,6 +234,15 @@ public class ValidarEntradaBean implements Serializable{
 		this.telefono = telefono;
 	}
 
+	public Evento getEvento() {
+		return evento;
+	}
+
+	public void setEvento(Evento evento) {
+		this.evento = evento;
+	}
+	
+
 	public boolean isCamposDeshabilitados() {
 		return camposDeshabilitados;
 	}
@@ -239,7 +258,5 @@ public class ValidarEntradaBean implements Serializable{
 	public void setCambioDeNombre(boolean cambioDeNombre) {
 		this.cambioDeNombre = cambioDeNombre;
 	}
-	
-	
 	
 }

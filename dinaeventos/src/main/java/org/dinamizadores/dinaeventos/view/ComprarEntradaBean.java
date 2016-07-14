@@ -83,7 +83,7 @@ public class ComprarEntradaBean implements Serializable {
 		insertarTotal();
 		data = tarjetaRegistrada.PreregistrationData;
 		accessKeyRef = tarjetaRegistrada.AccessKey;
-		returnURL = "http://localhost:8080/dinaeventos/faces/comprar/finalizarPago.xhtml?faces-redirect=true";
+		returnURL = "http://localhost:8080/dinaeventos/faces/comprar/finalizarPago.xhtml?faces-redirect=true";	
 	}
 
 	public void insertarTotal(){

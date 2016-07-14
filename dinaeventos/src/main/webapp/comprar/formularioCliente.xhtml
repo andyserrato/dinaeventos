@@ -1,5 +1,3 @@
-<?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
@@ -43,13 +41,15 @@
 								                   
 								                 <p:calendar placeholder="Fecha nacimiento" label="fecha" id="fecha" value="#{entrada.usuario.fechanac}" mask="99/99/9999" yearRange="c-90:c+0" navigator="true" pattern="dd/MM/yyyy" required="true" showOn="button"></p:calendar>
 																		                 
-								                 <p:inputMask placeholder="DNI"  label="dni" id="dni" value="#{entrada.usuario.dni}" mask="*********"  required="true">
+								                 <p:inputMask  placeholder="DNI"  label="dni" id="dni" value="#{entrada.usuario.dni}" mask="*********"  required="true">
 								                 	<f:validateRegex pattern="(([X-Z]|[x-z]{1})([-]?)(\d{7})([-]?)([a-z]|[A-Z]{1}))|((\d{8})([-]?)([a-z]|[A-Z]{1}))"></f:validateRegex>
+								                 	<p:ajax event="blur" listener="#{usuarioBean.verificarDNI}" update="messages"></p:ajax>
 								                 </p:inputMask>
 								             	 
 								            	 <h2 align="center" >#{entrada.precio}€</h2>
 			
 								            </p:panelGrid>
+								            <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true"></p:messages>
 								           </div>
 										</div>
 									</div>

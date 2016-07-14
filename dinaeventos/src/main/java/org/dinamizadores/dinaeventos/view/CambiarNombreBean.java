@@ -13,6 +13,7 @@ import javax.inject.Named;
 import org.dinamizadores.dinaeventos.dao.EntradaDao;
 import org.dinamizadores.dinaeventos.model.DdTipoEntrada;
 import org.dinamizadores.dinaeventos.model.Entrada;
+import org.dinamizadores.dinaeventos.model.Evento;
 import org.dinamizadores.dinaeventos.utiles.plataformapagos.Pagar;
 
 import com.mangopay.entities.CardRegistration;
@@ -36,9 +37,12 @@ public class CambiarNombreBean implements Serializable{
 	
 	private BigDecimal costeCambioNombre;
 	
+	private Evento evento;
+	
 	@PostConstruct
 	public void init(){
 		renderedFormularioPago = false;
+		setEvento((Evento) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("evento"));
 	}
 	
 	@EJB 
@@ -136,6 +140,12 @@ public class CambiarNombreBean implements Serializable{
 	}
 	public void setCosteCambioNombre(BigDecimal costeCambioNombre) {
 		this.costeCambioNombre = costeCambioNombre;
+	}
+	public Evento getEvento() {
+		return evento;
+	}
+	public void setEvento(Evento evento) {
+		this.evento = evento;
 	}
 	public String getApellidos() {
 		return apellidos;
