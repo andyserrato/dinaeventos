@@ -8,59 +8,132 @@
 	xmlns:p="http://primefaces.org/ui">
 
 	<ui:define name="header">
-		<h1>Ventas en papel</h1>
+		<script type="text/javascript">
+            function skinChart() {
+                this.cfg.shadow = false;
+                this.cfg.title='';
+                this.cfg.seriesColors = ['#FF4081', '#FBB040', '#1C75BC'];
+                this.cfg.grid = {
+                    background: '#ffffff',
+                    borderColor: '#ffffff',
+                    gridLineColor: '#E8E8E8',
+                    shadow: false,
+                };
+                this.cfg.axesDefaults = {
+                    rendererOptions: {
+                        textColor: '#778D9B'
+                    }
+                };
+                this.cfg.seriesDefaults = {
+                    shadow: false,
+                    markerOptions: {
+                        shadow: false
+                    }
+                }
+            }
+
+            function skinPie() {
+                this.cfg.seriesColors = ['#dae8ef', '#27aae1', '#33ccff', '#9fadb5'];
+                this.cfg.grid = {
+                    background: '#ffffff',
+                    borderColor: '#eaeaea',
+                    gridLineColor: '#e5ebf0',
+                    shadow: false,
+                    borderWidth: 0
+                };
+                this.cfg.seriesDefaults.shadow = false;
+            }
+        </script>
+        <style type="text/css">
+            .jqplot-target, .jqplot-axis {
+                color: #778D9B;
+            }
+        </style>
 	</ui:define>
 
 	<ui:define name="content">
-		
-		<p:panelGrid id="panelTop" columns="1" class="nav nav-tabs nav-stacked">
-		
-			<p:panelGrid id="panelEntradasTV" columns="2">
-			
-				<h:outputLabel value="Entradas totales vendidas " style="float: left"/>
-				
-				<p:panelGrid columns="3" style="float: right">
-					<p:outputLabel id="labelEntradasVendidas" style="bold: true; float:left" value="#{ventasPapel.evento.entradasValidadasPapel}"/>
-					<b> / </b>
-					<p:outputLabel id="labelEntradasTotales" style="float: right" value="#{ventasPapel.evento.entradasVendidas}"/>
-				</p:panelGrid>
-			</p:panelGrid>
-			
-			<p:panelGrid id="panelIngresosTotales" columns="2">
-				<h:outputLabel value="Recaudación de las entradas validadas " style="float: left"/>
-				<p:outputLabel id="labelIngresosValidados" style="float: right" value="#{ventasPapel.evento.ingresosTotales}€"/>
-			</p:panelGrid>
-			
-			<p:panelGrid id="panelAreaChart" columns="1" class="nav nav-tabs nav-stacked">
-				<p:chart type="line" model="#{ventasPapel.entradasTiempo}" style="height:300px;"/>
-			</p:panelGrid>
-			
-			<p:panelGrid id="panelTabla" columns="1" class="nav nav-tabs nav-stacked">
-				<p:dataTable id="tablaTiposEntradas" value="#{ventasPapel.listaVentas}" var="tipo">
-					<p:column>
-						<p:panelGrid columns="1">
-							<h:outputLabel value="#{tipo.nombreTipoEntrada}" style="float: left"/>
+	
+		<div class="Container100">
+			<div class="Container100 Responsive100 Wid90">
+				<div class="ContainerIndent">
+					<div class="Card ShadowEffect">
+						<p:panelGrid columns="2" layout="grid" style="border: 0px !important; ">
+							<p:outputLabel value="Entradas totales vendidas " styleClass="Fleft"/>
+							<p:outputLabel id="labelEntradasVendidas" styleClass="Fright" value="#{ventasPapel.evento.entradasValidadasPapel} / #{ventasPapel.evento.entradasVendidas}"/>
+							<p:outputLabel value="Recaudación de las entradas validadas " styleClass="Fleft"/>
+							<p:outputLabel id="labelIngresosTotales" styleClass="Fright" value="#{ventasPapel.evento.ingresosTotales}€"/>
 						</p:panelGrid>
-					</p:column>
-					<p:column>
-						<p:panelGrid columns="1" style="float: right">
-							<p:outputLabel id="cantidadVendida" value="#{tipo.total} €"/>
-							<p:dataTable id="tablaInterna" value="#{tipo.ventas}" var="venta">
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="Container100">	
+			<div class="Container100 Responsive100 Wid90">
+				<div class="ContainerIndent">
+					<div class="Card ShadowEffect HeiAutoOnMobile">
+						<p:panel header="ABONOS VENDIDOS" style="height:100%; min-height:348px;" styleClass="HeiAutoOnMobile">
+                            <p:chart type="line" model="#{ventasPapel.entradasTiempo}"  responsive="true"/>
+                        </p:panel>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="Container100">
+            <div class="ContainerIndent">
+                <div class="Card ShadowEffect  ">
+                    <div class="Container100">
+                        <div class="ContainerIndent">
+                        	<p:dataTable id="tablaTiposEntradas" value="#{ventasPapel.listaVentas}" var="tipo">
+								<f:facet name="header">
+									VENTAS EN PAPEL POR PRECIO DE ENTRADA
+								</f:facet>
+								<p:columnGroup type="header" style="display:none;"></p:columnGroup>
 								<p:column>
-									<p:outputLabel id="detalleTipoVenta" value="#{venta.precio} €: #{venta.cantidad} entradas"/>
+									<h:outputLabel value="#{tipo.nombreTipoEntrada}" styleClass="Fleft"/>
+								</p:column>
+								<p:column>
+									<div class="Container100">
+										<div class="ContainerIndent">
+											<p:outputLabel id="cantidadVendida" value="#{tipo.total} €" styleClass="Fright"/>
+										</div>
+									</div>
+									<div class="Container100">
+										<div class="ContainerIndent">
+											<p:dataTable id="tablaInterna" value="#{tipo.ventas}" var="venta" rendered="#{!tipo.ventas.isEmpty() and tipo.ventas != null}">
+												<p:columnGroup type="header" style="display:none;"></p:columnGroup>
+												<p:column>
+													<p:outputLabel id="detalleTipoVenta" value="#{venta.precio} €: #{venta.cantidad} entradas" styleClass="Fright"/>
+												</p:column>
+											</p:dataTable>
+										</div>
+									</div>
 								</p:column>
 							</p:dataTable>
-						</p:panelGrid>
-					</p:column>
-				</p:dataTable>
-			</p:panelGrid>
-			
-			<p:panelGrid id="panelQuesitos" columns="2" style="width: 100%">
-				<p:chart type="pie" model="#{ventasPapel.quesoEdad}" style="width: 50%; height: 100%; left: 25%"/>
-				<p:chart type="pie" model="#{ventasPapel.quesoSexual}" style="width: 50%; height: 100%; left: 25%"/>
-			</p:panelGrid>
-		</p:panelGrid>
-					
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="Container100">	
+			<div class="Container50 Responsive100 Wid90">
+				<div class="ContainerIndent">
+					<div class="Card ShadowEffect HeiAutoOnMobile">
+						<p:panel header="DISTRIBUCIÓN POR EDAD" style="height:100%; min-height:348px;" styleClass="HeiAutoOnMobile">
+                            <p:chart type="pie" model="#{ventasPapel.quesoEdad}" responsive="true"/>
+                        </p:panel>
+					</div>
+				</div>
+			</div>
+			<div class="Container50 Responsive100 Wid90">
+				<div class="ContainerIndent">
+					<div class="Card ShadowEffect HeiAutoOnMobile">
+						<p:panel header="DISTRIBUCIÓN POR SEXO" style="height:100%; min-height:348px;" styleClass="HeiAutoOnMobile">
+                            <p:chart type="pie" model="#{ventasPapel.quesoSexual}" styleClass="Wid100" responsive="true"/>
+                        </p:panel>
+					</div>
+				</div>
+			</div>
+		</div>
 	</ui:define>
 
 </ui:composition>

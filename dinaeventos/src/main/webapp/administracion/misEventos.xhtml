@@ -1,0 +1,52 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/templateCliente.xhtml">
+
+	<ui:define name="content">
+		<div class="Container100">
+            <div class="Container100">
+             <div class="ContainerIndent">
+                 <div class="Card ShadowEffect HeiAutoOnMobile" style="min-height:816px;">
+                     <h2 class="CardTopic"><i class="icon-google132 Fs20 Fleft MarRight10 OvHidden"></i> MIS EVENTOS
+                         <h:form>
+                             <p:commandButton id="salesMenu" type="button" icon="fa fa-ellipsis-v Gray Fs20" styleClass="Fright GrayButton" style="margin-top:-30px !important;"/>
+                             <p:menu overlay="true" trigger="salesMenu" my="left top" at="left bottom">
+                                 <p:menuitem value=" Get Full Report" icon="ui-icon-disk fa fa-file-pdf-o" />
+                                 <p:menuitem value=" Send With Email" icon="ui-icon-disk fa fa-send" />
+                                 <p:menuitem value=" Print Report" icon="ui-icon-disk fa fa-print" />
+                             </p:menu>
+                         </h:form>
+                     </h2>
+                     <div class="Separator"></div>
+                     <h:form id="form">
+                         <p:dataTable id="singleDT" var="eventucho" value="#{misEventosBean.eventos}" selection="#{misEventosBean.evento}" selectionMode="single" rowKey="#{eventucho.idevento}"
+                                      rows="12" paginator="true" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                      rowsPerPageTemplate="12,15,22" emptyMessage="No Hay Eventos" reflow="true">
+                             <f:facet name="header">
+                                 MIS EVENTOS
+                             </f:facet>
+                             
+                             <p:ajax event="rowSelect" listener="#{misEventosBean.onRowSelect}" update="@form"/>
+
+                             <p:column headerText="Id" sortBy="#{eventucho.idevento}" footerText="Id">
+                                 <h:outputText value="#{eventucho.idevento}" />
+                             </p:column>
+                             <p:column headerText="Fecha" sortBy="#{eventucho.fechaIni}" footerText="Fecha">
+                                 <h:outputText value="#{eventucho.fechaIni}" />
+                             </p:column>
+                             <p:column headerText="Nombre" sortBy="#{eventucho.nombre}" footerText="Nombre">
+                                 <h:outputText value="#{eventucho.nombre}" />
+                             </p:column>
+                             <p:column headerText="Lugar" sortBy="#{eventucho.codigoPostal.localidad}" footerText="Lugar">
+                                 <h:outputText value="#{eventucho.codigoPostal.localidad}" />
+                             </p:column>
+                         </p:dataTable>
+                     </h:form>
+                 </div>
+             </div>
+         </div>
+		</div>
+	</ui:define>
+</ui:composition>

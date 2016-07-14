@@ -1,17 +1,13 @@
-<?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	template="/WEB-INF/templateCliente.xhtml"
-	xmlns:p="http://primefaces.org/ui">
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templateCliente.xhtml">
 
 
 	<ui:param name="pageTitle" value="Compra entradas"/>
 	
-	
-
 	<ui:define name="header">
 		<h1>Entrada</h1>
 	</ui:define>
@@ -23,80 +19,58 @@
 	<ui:define name="footer"/>
 
 	<ui:define name="content">
-	<div class="Container100">
-            <div class="ContainerIndent">
-                <div class="Card ShadowEffect TexAlCenter">
-					<form id="mainform" method="post" action="https://homologation-webpayment.payline.com/webpayment/getToken">
-	
-								<div id="PaylineForm" style="width: 100%">
-									<div id="pane">
-			
-									<h:inputHidden  id="data" value="#{comprarEntradaBean.data}" />
-									<h:inputHidden id="accessKeyRef" value="#{comprarEntradaBean.accessKeyRef}" />
-									<h:inputHidden id="returnURL" value="#{comprarEntradaBean.returnURL}" />
-									
-									<div class="panel panel-default">
-										<div class="panel-body">
-											<div class="row">
-												<div class="col-md-4"> 
-													<label>Número de tarjeta</label>
-												</div>
-												<div class="col-md-4"> 
-													<h:inputText id="cardNumber" />
+	<div class="Container100 MarAuto WidAutoOnMobile">
+	<div class="Wid90 DispBlock MarAuto MarTopPerc1 TexAlCenter" >
+            
+            <div class="Wid33 MarAuto WidAutoOnMobile">
+            <div class="EmptyBox30"></div>
+                <div class="Card ShadowEffect">
+                <div class="Wid100 OvHidden BigTopic Fs30"><i class="fa fa-credit-card Fs40"></i> Panel de pago</div>
+					<form method="post" action="https://homologation-webpayment.payline.com/webpayment/getToken" >
+		 						
+		 						<h:inputHidden id="data" value="#{comprarEntradaBean.data}" /> 
+								<h:inputHidden id="accessKeyRef" value="#{comprarEntradaBean.accessKeyRef}" /> 
+		 						<h:inputHidden id="returnURL" value="#{comprarEntradaBean.returnURL}" /> 
+								
+								
+								<div class="Container100"> 	
+								<p:panelGrid columns="1" layout="grid" style="border:0px!important;"> 
+											<p:inputText id="cardNumber" style="margin-top: 10px"  required="true" requiredMessage="Es necesario proporcionar el número de la tarjeta" placeholder="Número de tarjeta"></p:inputText>
+										
+											<p:inputMask mask="9999" id="cardExpirationDate" style="margin-top: 10px;"  placeholder="Fecha de caducidad" required="true"></p:inputMask>
+										
+											<p:inputMask mask="999" id="cardCvx" style="margin-top: 10px;" placeholder="Código de seguridad" required="true"></p:inputMask>
+								</p:panelGrid> 
+								</div>
+								
+										<div id="procesar" style="visibility: hidden" class="col-md-2">Procesando el pago...<img src="../resources/images/wait3.gif" alt="wait" /></div>
+											
+											<div style="margin-top: 20px" class="Container100 ui-fluid TexAlCenter">
+												<button style="width: auto;" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only GreenButton" id="enviarPago" type="submit" onclick="verImagen()" ><span class="ui-button-text ui-c">Confirmar pago</span></button>
 												
-												</div>
 											</div>
-											<div class="row">
-												<div class="col-md-4"> 
-													<label>Fecha de caducidad</label>
-												</div>
-												<div class="col-md-4"> 
-													<h:inputText id="cardExpirationDate"  />					
-												</div>
-											</div>
-											<div class="row">
-												<div class="col-md-4"> 
-													<label>CVV</label>
-												</div>
-												<div class="col-md-4"> 
-													<h:inputText id="cardCvx"  />
-												</div>
-											</div>
-										</div>
-											<div class="row">
-												<div class="col-md-4"></div>
-												<div class="col-md-4"> 
-												<button class="btn btn-default"   id="enviarPago" type="submit" onclick="verImagen()" >Confirmar pago</button>
-												<div id="procesar" style="visibility: hidden" class="col-md-2">Procesando el pago...<img src="../resources/images/wait3.gif" alt="wait" /></div>
-											</div>
-											</div>
-									</div>
-									</div>
-									
+								</form>	
 									<div class="spacerB"></div> 
 										<script type="text/javascript">
 										function verImagen(){
 											document.getElementById("procesar").style.visibility="visible";
 										}
 										</script>	
-							      		
-										
-								</div>
-								<div class="Container33 TexAlCenter">
+		
+								<div class="Container100 TexAlCenter">
            							 <div class="ContainerIndent">
-           							 </div></div>
-								<div class="Container33 TexAlCenter">
-           							 <div class="ContainerIndent">
-													<img width="100%" src="../resources/images/powered-by-mangopay.png" alt="marcoMangoPay" /> 
+											<img width="100%" src="../resources/images/powered-by-mangopay.png" alt="marcoMangoPay" /> 
 									</div>
+									
 								</div>
-								
-								
-								
-					</form>		
+										
+						</div>
 				</div>
 			</div>
+			<br></br>
 		</div>
+		
+		
 	</ui:define>
 
 </ui:composition>

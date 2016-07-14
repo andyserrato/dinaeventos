@@ -18,21 +18,10 @@ public class NavigationController implements Serializable {
  
 	private static final long serialVersionUID = -702447984621676850L;
 	private String originalUrl;
-	@Inject
-	private LoginBean loginBean;
 	
 	@Loggable
 	public String toCrearEvento() {
-		String destinoUrl;
-		
-		if (loginBean.isLoggedIn()) {
-			destinoUrl = "/evento/crearEvento.xhtml";
-		} else {
-			originalUrl = "/evento/crearEvento.xhtml";
-			destinoUrl = redirectToLogin();
-		}
-		
-		return destinoUrl;
+		return Constantes.Rutas.Evento.CREAR_EVENTO;
     }
 	
 	/**

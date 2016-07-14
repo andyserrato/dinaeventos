@@ -1,0 +1,101 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:h="http://java.sun.com/jsf/html"
+				xmlns:f="http://java.sun.com/jsf/core"
+				xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:p="http://primefaces.org/ui" 
+				template="/WEB-INF/templateCliente.xhtml">
+
+	<ui:define name="content">
+		<div class="Container100">
+			<div class="ContainerIndent">
+				<div class="Card ShadowEffect ui-fluid">
+					<div class="Container100 Responsive100">
+						<div class="ContainerIndent">
+							<h2 class="BigTopic">Crear Usuario Básico</h2>
+							<p:growl id="growl" sticky="false" showDetail="true" life="5000" />
+							<h:form id="crearUsuarioBasicoForm">
+								<p:panelGrid columns="2" layout="grid" style="border:0px !important; background:none;" styleClass="ui-panelgrid-blank">
+									<p:panelGrid columns="2" layout="grid" style="border:0px !important; background:none;" styleClass="ui-panelgrid-blank">
+										<p:inputText id="usuarioBasicoNombre" value="#{usuarioCrearBean.usuario.nombre}" placeholder="Nombre" required="true" />
+										<p:inputText id="usuarioBasicoApellidos" placeholder="Apellidos" value="#{usuarioCrearBean.usuario.apellidos}" required="true"/>
+										<p:inputText id="usuarioBasicoEmail" placeholder="Email" value="#{usuarioCrearBean.usuario.email}" required="true">
+											<f:validateRegex pattern="^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$"/>
+										</p:inputText>
+										<p:inputMask id="usuarioBasicoDni" placeholder="DNI/NIE" value="#{usuarioCrearBean.usuario.dni}" mask="*********" required="true">
+											<f:validateRegex pattern="(([X-Z]|[x-z]{1})([-]?)(\d{7})([-]?)([a-z]|[A-Z]{1}))|((\d{8})([-]?)([a-z]|[A-Z]{1}))"/>
+										</p:inputMask>
+										<p:calendar id="usuarioBasicoFecha" placeholder="Cumpleaños??" value="#{usuarioCrearBean.usuario.fechanac}" mask="99/99/9999" yearRange="c-90:c+0" navigator="true" pattern="dd/MM/yyyy" required="true" showOn="button"/>
+									</p:panelGrid> 
+									<p:inputTextarea id="usuarioBasicoDireccion" rows="5" placeholder="Dirección" required="true" value="#{usuarioCrearBean.usuario.direccion}"/>
+								</p:panelGrid>
+								<div class="Container100 ui-fluid TexAlCenter">
+									<p:commandButton value="Crear Usuario (redirige a crear evento)" process="crearUsuarioBasicoForm" update="crearUsuarioBasicoForm growl" action="#{usuarioCrearBean.crearUsuarioBasico}" style="width:auto;"/>
+								</div>
+							</h:form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="Container100">
+            <div class="ContainerIndent">
+                 <div class="Card ShadowEffect ui-fluid">
+                 	<h:form id="create" enctype="multipart/form-data">
+                 		<h2 class="BigTopic">Crear Usuario Medio (Compatible con RRPP Jefe)</h2>
+                    	<div class="Container50 Responsive50">
+	                        <div class="ContainerIndent">
+								<p:growl id="growl" sticky="false" showDetail="true" life="5000" />
+								<p:panelGrid columns="2" layout="grid" style="border:0px !important; background:none;" styleClass="ui-panelgrid-blank">
+									<p:inputText id="usuarioMedioNombre" placeholder="Nombre" maxLength="50" required="true" value="#{usuarioCrearBean.usuario.nombre}"/>
+							
+									<p:password id="usuarioMedioPassword1" placeholder="Password" match="usuarioMedioPassword2" label="Password 1" required="true" value="#{usuarioCrearBean.usuario.password}" />
+									
+									<p:inputText id="usuarioMedioApellidos" placeholder="Apellidos" maxLength="255" required="true" value="#{usuarioCrearBean.usuario.apellidos}"/>
+									
+									<p:password id="usuarioMedioPassword2" placeholder="Repite Passwird" label="Password 2" required="true" value="#{usuarioCrearBean.usuario.password}" />
+				
+									<p:inputMask id="usuarioMedioDni" placeholder="DNI" required="true" value="#{usuarioCrearBean.usuario.dni}" maxlength="9"/>
+				
+									<p:inputText id="usuarioMedioEmail" placeholder="Email" maxLength="100" required="true" value="#{usuarioCrearBean.usuario.email}"/>
+				
+									<p:inputMask id="usuarioMedioTelefono" placeholder="Teléfono" maxLength="9" required="true" value="#{usuarioCrearBean.usuario.telefono}" mask="999999999"/>
+				
+									<p:calendar id="usuarioMedioFechaNac" placeholder="Fecha de Nacimiento" pattern="dd-MM-yyyy" mask="true" navigator="true" required="true" value="#{usuarioCrearBean.usuario.fechanac}" />
+				
+									<p:selectOneMenu id="usuarioMedioSexo" value="#{usuarioCrearBean.usuario.idsexo}" required="true">
+				            			<f:selectItem itemLabel="Sexo" itemValue="" />
+				            			<f:selectItems value="#{usuarioCrearBean.ddSexos}" var="sexos" itemLabel="#{sexos.nombre}" itemValue="#{sexos.idsexo}" />
+				        			</p:selectOneMenu>
+									
+									<p:fileUpload id="usuarioMedioImageUpload" value="#{usuarioMedio.imageFile}" label="Seleccionar Foto" auto="true" sizeLimit="2097152" fileLimit="30000000" required="true" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"/>
+									<p:spacer height="5"/>
+								</p:panelGrid>
+							</div>
+						</div>
+						<div class="Container50 Responsive50">
+                        	<div class="ContainerIndent">
+                        		<p:panelGrid columns="1" layout="grid" style="border:0px !important; background:none;" styleClass="ui-panelgrid-blank">
+									<p:inputTextarea id="usuarioMedioDireccion" placeholder="Dirección" rows="3" cols="30" counter="display" maxlength="255" required="true" counterTemplate="Quedan {0} caracteres." autoResize="false" value="#{usuarioCrearBean.usuario.direccion}" />
+									<h:outputText id="display" />
+									<p:inputText id="usuarioMedioCodigoPostal" placeholder="Código Postal" value="#{usuarioCrearBean.usuario.codigoPostal.codigo}" maxlength="5" required="true">
+										<p:ajax event="blur" update="usuarioMedioProvincia" listener="#{usuarioMedio.actualizaLocalidadesByCP(usuarioCrearBean.usuario.codigoPostal.codigo)}" />
+									</p:inputText>
+									<p:selectOneMenu id="usuarioMedioProvincia" value="#{usuarioCrearBean.usuario.idcodigopostal}" required="true" requiredMessage="Es necesario escoger un Código Postal">
+										<f:selectItem itemValue="#{null}" itemLabel="Seleccionar localidad" />
+										<f:selectItems value="#{usuarioCrearBean.codigosPostales}" var="cp" itemLabel="#{cp.localidad} - #{cp.codigo} - #{cp.provincia.nombre}" itemValue="#{cp.idcodigopostal}" />
+									</p:selectOneMenu>
+								</p:panelGrid>
+							</div>
+						</div>
+						<div class="Container100 ui-fluid TexAlCenter">
+							<p:commandButton value="Crear Usuario" ajax="false" action="#{usuarioCrearBean.crearUsuarioMedio}" />
+						</div>
+					</h:form>
+					</div>
+				</div>
+			</div>
+		
+	</ui:define>
+
+</ui:composition>

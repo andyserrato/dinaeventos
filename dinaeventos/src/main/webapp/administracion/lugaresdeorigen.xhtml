@@ -8,24 +8,36 @@
 	xmlns:p="http://primefaces.org/ui">
 
 	<ui:define name="header">
-		<h1>Lugares de origen</h1>
 	</ui:define>
 
 
 	<ui:define name="content">
 		
-		<p:dataTable value="#{lugaresOrigen.listaLugaresDeOrigen}" var="e" stickyHeader="true">
-			<p:column headerText="Provincia" style="width: 50%; text-align: left">
-		        <h:outputText value="#{e.descripcion}" />
-		    </p:column>
-		    <p:column headerText="Cantidad" style="width: 25%; text-align: left">
-		        <h:outputText value="#{e.cantidad}" />
-		    </p:column>
-		    <p:column headerText="Porcentaje" style="width: 25%; text-align: left">
-		        <h:outputText value="#{e.precio}%" />
-		    </p:column>
-		</p:dataTable>
-			
+		<div class="Container100">
+            <div class="ContainerIndent">
+                <div class="Card ShadowEffect  ">
+                    <div class="Container100">
+                        <div class="ContainerIndent">
+                            <p:dataTable value="#{lugaresOrigen.listaLugaresDeOrigen}" var="e" emptyMessage="No hay definidos lugares de origen para las entradas venidas.">
+								<f:facet name="header">
+									Lugares de origen
+								</f:facet>
+								<p:column headerText="Provincia" footerText="Provincia" style="width: 50%; text-align: left">
+							        <h:outputText value="#{e.descripcion}" />
+							    </p:column>
+							    <p:column headerText="Cantidad" footerText="Cantidad" style="width: 25%; text-align: left">
+							        <h:outputText value="#{e.cantidad}" />
+							    </p:column>
+							    <p:column headerText="Porcentaje" footerText="Porcentaje" style="width: 25%; text-align: left">
+							        <h:outputText value="#{e.precio}%" />
+							    </p:column>
+							</p:dataTable>
+        				</div>
+        			</div>
+        		</div>
+        	</div>
+        </div>
+		
 	</ui:define>
 
 </ui:composition>

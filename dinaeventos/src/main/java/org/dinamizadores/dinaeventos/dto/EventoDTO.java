@@ -29,12 +29,48 @@ public class EventoDTO implements Serializable{
 	
 	public EventoDTO(int entradasTotales, BigInteger entradasVendidas, BigInteger entradasValidadasPapel, BigInteger entradasOnline, BigDecimal ingresosTotales, BigInteger numHombres, BigInteger numMujeres){
 		this.entradasTotales = entradasTotales;
-		this.entradasVendidas = entradasVendidas.intValueExact();
-		this.entradasValidadasPapel = entradasValidadasPapel.intValueExact();
-		this.entradasOnline = entradasOnline.intValueExact();
-		this.ingresosTotales = ingresosTotales.floatValue();
-		this.numHombres = numHombres.intValueExact();
-		this.numMujeres = numMujeres.intValueExact();
+		
+		if(entradasVendidas != null) {
+			this.entradasVendidas = entradasVendidas.intValueExact();
+		}
+		else {
+			this.entradasVendidas = 0;
+		}
+		
+		if(entradasValidadasPapel != null) {
+			this.entradasValidadasPapel = entradasValidadasPapel.intValueExact();
+		}
+		else {
+			this.entradasValidadasPapel = 0;
+		}
+		
+		if(entradasOnline != null) {
+			this.entradasOnline = entradasOnline.intValueExact();
+		}
+		else {
+			this.entradasOnline = 0;
+		}
+		
+		if(ingresosTotales != null) {
+			this.ingresosTotales = ingresosTotales.floatValue();
+		}
+		else {
+			this.ingresosTotales = 0;
+		}
+		
+		if(numHombres != null) {
+			this.numHombres = numHombres.intValueExact();
+		}
+		else {
+			this.numHombres = 0;
+		}
+		
+		if(numMujeres != null) {
+			this.numMujeres = numMujeres.intValueExact();
+		}
+		else {
+			this.numMujeres = 0;
+		}
 	}
 
 	/**

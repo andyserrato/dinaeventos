@@ -39,5 +39,14 @@ public final class Constantes {
 
 			public static final String DESCARGAR_DATOS_ENTRADAS = "/administracion/descargarDatosEntradas.xhtml?faces-redirect=true";
 		}
+		
+		public final class Evento {
+			public static final String CREAR_EVENTO = "/secured/evento/crearEvento.xhtml?faces-redirect=true";
+		}
 	}
+	
+	public final class MangoPay {
+		public static final String PAGO_OK = "SUCCEEDED";
+		public static final String PAGO_FALLIDO = "FAILED";
+	}	
 }
