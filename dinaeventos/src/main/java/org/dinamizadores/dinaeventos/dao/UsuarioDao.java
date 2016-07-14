@@ -67,12 +67,13 @@ public class UsuarioDao {
 
 	public Usuario login(String email, String password) {
 		Usuario usuario = null;
+		//TODO [IVAN] Habría que filtrar también para que solo aparezcan resultados de usuarios administradores, no clientes
 		TypedQuery<Usuario> query = em.createQuery(
-				"SELECT u FROM Usuario u WHERE u.email = :email",
+				"SELECT u FROM Usuario u WHERE u.email = :email AND u.password = :password",
 				Usuario.class);
 		// TODO [ANDY] Hash del password 
 		try {
-			usuario = query.setParameter("email", email).getSingleResult();
+			usuario = query.setParameter("email", email).setParameter("password", password).getSingleResult();
 		} catch (Exception e) {
 			log.error("Error: " + e.getMessage());
 		}

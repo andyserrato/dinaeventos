@@ -8,10 +8,21 @@
     <ui:define name="content">
 		
 		<script>
-			if (#{validarEntradaBean.cambioDeNombre}){
-				alert('juas juas juas');
-			}
+			$( document ).ready(function() {
+				if (#{validarEntradaBean.cambioDeNombre}){
+					//$('#mensajeInicial').show();
+					//PF("mensajeInicial").show();
+					alert('No es necesario que cambies el nombre porque todavía no has validado la entrada. Mediante este formulario se generará la entrada a tu nombre');
+				}
+			});
+		
 		</script>
+		
+		
+		<p:dialog header="Basic Dialog" id="mensajeInicial" modal="true" widgetVar="mensajeInicial" minHeight="40">
+		    	<h:outputText value="Resistance to PrimeFaces is futile!" />
+		</p:dialog>
+		
 		
 		<div class="Container100">
 			<div class="ContainerIndent">
@@ -24,7 +35,7 @@
 								<div class="Card ShadowEffect ui-fluid">
 					
 					<h2 class="BigTopic"> Validación de entradas</h2>
-					<h:form>
+					<h:form id="mi_form">
 						<p:outputPanel >
 							<p:messages id="messages" showDetail="false" autoUpdate="true" closable="true" />
 							
@@ -121,6 +132,8 @@
 		</div>
 		</div>
 		</div>
+		
+		
 	</ui:define>
 	
 </ui:composition>	
