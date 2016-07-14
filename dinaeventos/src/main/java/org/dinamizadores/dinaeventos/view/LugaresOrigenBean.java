@@ -22,7 +22,7 @@ import org.dinamizadores.dinaeventos.utiles.Constantes;
 public class LugaresOrigenBean implements Serializable {
 	
 	/** UID. */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 676064455026372332L;
 
 	/** LoginBean inyectado para poder recoger datos globales de la aplicación. */
 	@Inject

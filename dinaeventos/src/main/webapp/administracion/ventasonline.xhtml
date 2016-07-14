@@ -1,5 +1,3 @@
-<?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
@@ -8,51 +6,108 @@
 	xmlns:p="http://primefaces.org/ui">
 
 	<ui:define name="header">
-		<h1>Ventas online</h1>
+		<script type="text/javascript">
+			function skinChart() {
+	            this.cfg.shadow = false;
+	            this.cfg.title='';
+	            this.cfg.seriesColors = ['#FF4081', '#FBB040', '#1C75BC'];
+	            this.cfg.grid = {
+	                background: '#ffffff',
+	                borderColor: '#ffffff',
+	                gridLineColor: '#E8E8E8',
+	                shadow: false,
+	            };
+	            this.cfg.axesDefaults = {
+	                rendererOptions: {
+	                    textColor: '#778D9B'
+	                }
+	            };
+	            this.cfg.seriesDefaults = {
+	                shadow: false,
+	                markerOptions: {
+	                    shadow: false
+	                }
+	            }
+	        }
+	        
+            function skinPie() {
+                this.cfg.seriesColors = ['#dae8ef', '#27aae1', '#33ccff', '#9fadb5'];
+                this.cfg.grid = {
+                    background: '#ffffff',
+                    borderColor: '#eaeaea',
+                    gridLineColor: '#e5ebf0',
+                    shadow: false,
+                    borderWidth: 0
+                };
+                this.cfg.seriesDefaults.shadow = false;
+            }
+        </script>
+        <style type="text/css">
+            .jqplot-target, .jqplot-axis {
+                color: #778D9B;
+            }
+        </style>
 	</ui:define>
 
 	<ui:define name="content">
+		<div class="Container100">
+			<div class="Container100 Responsive100 Wid90">
+				<div class="ContainerIndent">
+					<div class="Card ShadowEffect">
+						<p:panelGrid columns="2" layout="grid" style="border: 0px !important; ">
+							<p:outputLabel value="Entradas vendidas online " styleClass="Fleft"/>
+							<p:outputLabel id="labelEntradasVendidas" styleClass="Fright" value="#{ventasOnline.evento.entradasOnline} / #{ventasOnline.evento.entradasTotales}"/>
+							<p:outputLabel value="Ingresos totales " styleClass="Fleft"/>
+							<p:outputLabel id="labelIngresosTotales" styleClass="Fright" value="#{ventasOnline.evento.ingresosTotales}€"/>
+						</p:panelGrid>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="Container100">	
+			<div class="Container100 Responsive100 Wid90">
+				<div class="ContainerIndent">
+					<div class="Card ShadowEffect">
+						<p:panelGrid columns="2" layout="grid" style="border: 0px !important; ">
+							<p:outputLabel value="Cambios de nombre de entradas vendidas online " styleClass="Fleft"/>
+							<p:outputLabel id="labelVendidasPapel" styleClass="Fright" value="#{ventasOnline.cambiosNombre}"/>
+						</p:panelGrid>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="Container100">	
+			<div class="Container100 Responsive100 Wid90">
+				<div class="ContainerIndent">
+					<div class="Card ShadowEffect HeiAutoOnMobile">
+						<p:panel header="ABONOS VENDIDOS" style="height:100%; min-height:348px;" styleClass="HeiAutoOnMobile">
+                            <p:chart id="lineasOnline" type="line" model="#{ventasOnline.entradasTiempo}"  responsive="true"/>
+                        </p:panel>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="Container100">	
+			<div class="Container50 Responsive50 Wid90">
+				<div class="ContainerIndent">
+					<div class="Card ShadowEffect HeiAutoOnMobile">
+						<p:panel header="DISTRIBUCIÓN POR EDAD" style="height:100%; min-height:348px;" styleClass="HeiAutoOnMobile">
+                            <p:chart id="edadOnline" type="pie" model="#{ventasOnline.quesoEdad}" responsive="true"/>
+                        </p:panel>
+					</div>
+				</div>
+			</div>
+			<div class="Container50 Responsive50 Wid90">
+				<div class="ContainerIndent">
+					<div class="Card ShadowEffect HeiAutoOnMobile">
+						<p:panel header="DISTRIBUCIÓN POR SEXO" style="height:100%; min-height:348px;" styleClass="HeiAutoOnMobile">
+                            <p:chart id="sexoOnline" type="pie" model="#{ventasOnline.quesoSexual}" styleClass="Wid100" responsive="true"/>
+                        </p:panel>
+					</div>
+				</div>
+			</div>
+		</div>
 		
-		<p:panelGrid id="panelTop" columns="1" class="nav nav-tabs nav-stacked">
-		
-			<p:panelGrid id="panelEntradasTV" columns="2">
-			
-				<h:outputLabel value="Entradas vendidas online" style="float: left"/>
-				
-				<p:panelGrid columns="3" style="float: right">
-					<p:outputLabel id="labelEntradasVendidas" style="bold: true; float:left" value="#{ventasOnline.evento.entradasVendidas}"/>
-					<b> / </b>
-					<p:outputLabel id="labelEntradasTotales" style="float: right" value="#{ventasOnline.evento.entradasTotales}"/>
-				</p:panelGrid>
-			</p:panelGrid>
-			
-			<p:panelGrid id="panelIngresosTotales" columns="2">
-				<h:outputLabel value="Ingresos totales online " style="float: left"/>
-				<p:outputLabel id="labelIngresosTotales" style="float: right" value="#{ventasOnline.evento.ingresosTotales}€"/>
-			</p:panelGrid>
-		</p:panelGrid>
-		
-		<br/>
-		
-		<p:panelGrid id="panelBot" columns="1" class="nav nav-tabs nav-stacked" style="width: 75%;">
-			
-			<p:panelGrid id="panelCambiosNombre" columns="2" style="width: 100%;">
-				<h:outputLabel value="Cambios de nombre de entradas vendidas online " style="float: left"/>
-				<p:outputLabel id="labelCambiosNombre" style="float: right" value="#{ventasOnline.cambiosNombre}"/>
-			</p:panelGrid>
-			
-			<p:panelGrid id="panelChartPie" columns="1" style="width: 100%;">
-				<p:chart type="line" model="#{ventasOnline.entradasTiempo}" style="height:300px;"/>
-				<br/>
-				<p:panelGrid id="panelQuesitos" columns="2" style="width: 100%">
-					<p:chart type="pie" model="#{ventasOnline.quesoEdad}" style="width: 50%; height: 100%; left: 25%"/>
-					<p:chart type="pie" model="#{ventasOnline.quesoSexual}" style="width: 50%; height: 100%; left: 25%"/>
-				</p:panelGrid>
-			</p:panelGrid>
-			
-			
-		</p:panelGrid>
-					
 	</ui:define>
 
 </ui:composition>

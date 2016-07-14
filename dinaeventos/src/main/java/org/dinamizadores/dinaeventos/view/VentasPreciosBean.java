@@ -67,7 +67,8 @@ public class VentasPreciosBean implements Serializable {
 		Calendar c = Calendar.getInstance();
 		
 		LineChartSeries serieTipoEntrada = new LineChartSeries();
-		serieTipoEntrada.setLabel("Recaudación");
+		serieTipoEntrada.setLabel("Recaudación (€)");
+		serieTipoEntrada.setFill(true);
 		
 		for(EntradasTiempoDTO e : listaTiempos){
 			c.setTime(e.getFecha());
@@ -89,8 +90,8 @@ public class VentasPreciosBean implements Serializable {
 		}
 		
 		entradasTiempo.addSeries(serieTipoEntrada);
-		
-		entradasTiempo.getAxis(AxisType.Y).setLabel("€ recaudados");
+		//entradasTiempo.getAxis(AxisType.Y).setLabel("€ recaudados");
+		entradasTiempo.setExtender("skinChart");
 		
 		DateAxis axis = new DateAxis("Fecha");
         axis.setTickAngle(-45);
@@ -101,7 +102,7 @@ public class VentasPreciosBean implements Serializable {
         axis.setTickFormat("%b %#d, %y");
         entradasTiempo.getAxes().put(AxisType.X, axis);
 		
-		entradasTiempo.setTitle("Recaudación por días");
+		//entradasTiempo.setTitle("Recaudación por días");
         entradasTiempo.setLegendPosition("s");
         Axis yAxis = entradasTiempo.getAxis(AxisType.Y);
         yAxis.setMin(0);
