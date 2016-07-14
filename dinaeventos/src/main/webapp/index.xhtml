@@ -47,6 +47,8 @@
                     <li class=""><h:link id="comprarEntradaLink" outcome="/comprar/comprarEntrada.xhtml" value="Comprar entrada" styleClass="brand"/></li>
                     <li class=""><h:link value="Login" outcome="/login/login" /></li>
 					<li class=""><h:link id="irAAdmin" outcome="/administracion/visionGlobal.xhtml" value="No pulsar" styleClass="brand"/></li>
+                    <li class=""><h:link id="cambioNombre" outcome="/cambioNombre/cambioNombre.xhtml" value="Cambiar de nombre mi entrada" styleClass="brand"/></li>
+                    <li class=""><h:link id="validarEntrada" outcome="/validacion/validarEntrada.xhtml" value="Validar mi entrada" styleClass="brand"/></li>
                     <li class=""><h:link value="Crear RRPP Jefe" outcome="/rrppJefes/create" /></li>
                     <li class=""><h:link value="Crear Usuario Interno" outcome="/usuario/crearUsuario" /></li>
                     <li class=""><a href="#rio-pricingtables" class="">Pricing Tables</a></li>
@@ -73,7 +75,7 @@
                     <div class="Wid50 MarAuto ui-fluid Responsive100">
                     	<h:form>
                         	<div class="Container50 Responsive100"><div class="ContainerIndent"><p:commandButton value="Crear un Evento" action="#{navigationBean.toCrearEvento}" styleClass="GreenButton Fs18"/></div></div>
-                        	<div class="Container50 Responsive100"><div class="ContainerIndent"><p:commandButton value="Learn More" styleClass="RedButton Fs18"/></div></div>
+                        	<div class="Container50 Responsive100"><div class="ContainerIndent"><p:commandButton value="Descubre nuestros eventos" styleClass="RedButton Fs18"/></div></div>
                         </h:form>
                     </div>
 
@@ -200,20 +202,36 @@
 
             <div class="EmptyBox80"></div>
 
-            <h1 class="FontRobotoRegular Fs30 White TexAlCenter">Try Now !</h1>
+            <h1 class="FontRobotoRegular Fs30 White TexAlCenter">Descubre los mejores eventos de Valencia!</h1>
             <div class="EmptyBox30"></div>
-
-            <div class="Wid90 OvHidden MarAuto">
-                <div class="Container100">
-
-                    <div class="Wid70 WidAutoOnMobile MarAuto White Fs20 TexAlCenter FontRobotoLight">Create your free account to get access to historical ranks and reviews<br/>
-                        To check out just top charts and daily ranks, go to Store Stats now !
-                        <div class="EmptyBox20"></div>
-                        <p:commandButton value="Create Free Account Now" styleClass="CyanButton"/>
-                    </div>
+	<h:form>
+           <p:repeat  var="even"  value="#{indexBean.listaEventos}">
+                <div class="Container50 Responsive50">
+	                <div class="ContainerIndent">
+	                				<div class="Card ShadowEffect HeiAutoOnMobile OvHidden">
+	                                    <div class="Container100" style="margin:0px 10px 10px -10px; padding:0px 10px;">
+	                                        <div class="SoftGreenBack DispInlBlock Fleft" style="margin:-10px 10px -10px -10px; padding:20px 10px;">
+	                                            <i class="icon-screen44 Green Fs100"></i>
+	                                        </div>
+	                                        <p></p>
+	                                        <span class="Green Fs30 FontRobotoBold">#{even.nombre}</span><br/> 
+	                                        <span class="Gray FontRobotoLight Fs20">#{even.descripcion} </span>
+	                                        
+	                                    </div>
+	                                    <div class="CardFooter">
+	                                    	<p:panelGrid layout="grid" style="border:0px !important;" columns="3"> 
+	                                        <p:commandButton style="width:auto" value="Comprar entradas" action="#{indexBean.irComprar(even)}"  styleClass="BlueTextButton"></p:commandButton>
+	                                        <p:commandButton style="width:auto" value="Activa tu entrada" action="#{indexBean.irActivar(even)}" styleClass="BlueTextButton"></p:commandButton>
+	                                        <p:commandButton style="width:auto" value="Cambio de nombre" action="#{indexBean.irCambioNombre(even)}" styleClass="BlueTextButton"></p:commandButton>
+	                                    	</p:panelGrid>
+	                                    </div>
+	                                </div>
+	                </div>
 
                 </div>
-            </div>
+
+             </p:repeat>
+      </h:form>      
 
             <div class="EmptyBox50"></div>
 

@@ -11,14 +11,18 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.faces.view.ViewScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Named;
 
 import org.dinamizadores.dinaeventos.model.DdTipoEntrada;
+import org.dinamizadores.dinaeventos.model.Evento;
 import org.dinamizadores.dinaeventos.model.Usuario;
 import org.dinamizadores.dinaeventos.utiles.log.Loggable;
+import org.dinamizadores.dinaeventos.dao.UsuarioDao;
 import org.dinamizadores.dinaeventos.dto.EntradasCompleta;
 
 /**
@@ -36,6 +40,9 @@ import org.dinamizadores.dinaeventos.dto.EntradasCompleta;
 public class UsuarioBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+	
+	@EJB
+	private UsuarioDao usuarioDao;
 
 	private Integer id;
 	private Usuario usuario;
@@ -43,6 +50,7 @@ public class UsuarioBean implements Serializable {
 	private BigDecimal total = new BigDecimal(0);
 	
 	private Integer cantidad = 0;
+	private Evento evento;
 	
 	private String nombreEntrada = null;
 	
@@ -59,7 +67,7 @@ public class UsuarioBean implements Serializable {
 		total = (BigDecimal) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("total");
 		listaPrecios = (Map<Long, List<BigDecimal>>) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("lista");
 		tiposEntrada = (List<DdTipoEntrada>) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("tiposEntrada");
-		
+		evento = (Evento) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("evento");
 		calcularInfoUsuarios();
 	
 	}
@@ -72,8 +80,10 @@ public class UsuarioBean implements Serializable {
 				entrada.setIdTipoEntrada(e.getKey());
 				entrada.setCantidadEntradas(e.getValue());
 				for (DdTipoEntrada d : tiposEntrada)
-					if (d.getIdtipoentrada() == e.getKey())
+					if (d.getIdtipoentrada() == e.getKey()){
 						entrada.setNombre(d.getNombre());
+						entrada.setIdTipoEntrada(Long.valueOf(d.getIdtipoentrada()));
+					}
 				entrada.setPrecio(e.getValue().get(0));
 				listadoEntradas.add(entrada);
 			}
@@ -81,8 +91,23 @@ public class UsuarioBean implements Serializable {
 		}
 		
 	}
-	
+	public void verificarDNI(AjaxBehaviorEvent event){
+		try{
+			for(EntradasCompleta e: listadoEntradas){
+				Usuario us = new Usuario();
+				us = usuarioDao.getUsuarioDni(e.getUsuario().getDni(), evento.getIdevento());
+				if (us != null){
+					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!","El DNI indicado ya existe en el sistema."));
+				}
+				
+			}
+			}catch(Exception e){
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!","El DNI indicado ya existe en el sistema."));
+			}
+		
+	}
 	public String cambiarPagina(){
+
 		
 		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("listaEntradas", listadoEntradas);
 		return "/comprar/comprarComplemento.xhtml?faces-redirect=true";

@@ -23,6 +23,7 @@ import org.dinamizadores.dinaeventos.dao.EntradaDao;
 import org.dinamizadores.dinaeventos.dao.EventoDao;
 import org.dinamizadores.dinaeventos.dao.UsuarioDao;
 import org.dinamizadores.dinaeventos.model.DdTipoComplemento;
+import org.dinamizadores.dinaeventos.model.DdTipoEntrada;
 import org.dinamizadores.dinaeventos.model.Entrada;
 import org.dinamizadores.dinaeventos.model.EntradaComplemento;
 import org.dinamizadores.dinaeventos.model.Evento;
@@ -158,6 +159,7 @@ public class FinalizarPagoBean implements Serializable {
 		en.setIdformapago(1);
 		en.setIdtipoiva(1);
 		en.setIdevento(1);
+		en.setIdtipoentrada(entrada.getIdTipoEntrada().intValue());
 		Calendar cal = new GregorianCalendar();
 		
 		String numeroserie = entrada.getUsuario().getDni() + "" + cal.getTimeInMillis();
@@ -178,7 +180,8 @@ public class FinalizarPagoBean implements Serializable {
 		en.setPrecio(total);
 
 		
-		Usuario usu = usuarioDao.getUsuarioDni(entrada.getUsuario().getDni());
+		Usuario usu = usuarioDao.getUsuarioDni(entrada.getUsuario().getDni(), en.getIdevento());
+		if (usu != null)
 		en.setIdusuario(usu.getIdUsuario());
 		
 		entradaDao.create(en);

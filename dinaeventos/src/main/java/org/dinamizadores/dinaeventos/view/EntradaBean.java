@@ -17,6 +17,7 @@ import javax.inject.Named;
 import org.dinamizadores.dinaeventos.dao.EntradaDao;
 import org.dinamizadores.dinaeventos.model.DdTipoEntrada;
 import org.dinamizadores.dinaeventos.model.Entrada;
+import org.dinamizadores.dinaeventos.model.Evento;
 import org.dinamizadores.dinaeventos.utiles.log.Loggable;
 
 /**
@@ -56,6 +57,8 @@ public class EntradaBean implements Serializable {
 	
 	private List<DdTipoEntrada> tiposEntrada;
 	
+	private Evento evento;
+	
 	private boolean skip;
 
 
@@ -66,8 +69,9 @@ public class EntradaBean implements Serializable {
 		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("total", total);
 		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("lista", listaPrecios);
 		cantidad=0;
+		evento = (Evento) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("evento");
 		
-		this.tiposEntrada = tipoEntradaDao.listTipoEntrada();
+		this.tiposEntrada = tipoEntradaDao.listTipoEntrada(evento.getIdevento());
 		for (DdTipoEntrada tipo : tiposEntrada){
 			listaPrecios.put((long) tipo.getIdtipoentrada(), new ArrayList<BigDecimal>());
 		}

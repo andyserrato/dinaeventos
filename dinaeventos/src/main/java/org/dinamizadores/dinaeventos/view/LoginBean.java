@@ -1,5 +1,6 @@
 package org.dinamizadores.dinaeventos.view;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
@@ -20,6 +21,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.dinamizadores.dinaeventos.dao.UsuarioDao;
 import org.dinamizadores.dinaeventos.dto.facebookprofile.PerfilRedSocial;
+import org.dinamizadores.dinaeventos.model.DdTipoComplemento;
 import org.dinamizadores.dinaeventos.model.Evento;
 import org.dinamizadores.dinaeventos.model.Usuario;
 import org.dinamizadores.dinaeventos.utiles.Constantes;
@@ -48,6 +50,8 @@ public class LoginBean implements Serializable {
 	private String password;
 	private List<Evento> eventosList;
 	private Evento evento;
+	private Usuario usuario;
+	
 	@EJB
 	private UsuarioDao usuarioDao;
 	@EJB
@@ -127,6 +131,14 @@ public class LoginBean implements Serializable {
 		this.evento = evento;
 	}
 
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
+
 	/**
 	 * Esto sirve para cuando se hace un login forzoso al intentar acceder a una
 	 * pagina protegida sin haberse logueado
@@ -155,9 +167,10 @@ public class LoginBean implements Serializable {
 		FacesContext context = FacesContext.getCurrentInstance();
 		FacesMessage message = null;
 
-		if (usuario != null && usuario.getEmail().equals(email) && usuario.getPassword().equals(password)) {
+		if (usuario != null) {
 			loggedIn = true;
 			message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Bienvenido", usuario.getNombre());
+			this.usuario = usuario;
 			gestinarRedireccion();
 		} else {
 			loggedIn = false;
@@ -440,6 +453,19 @@ public class LoginBean implements Serializable {
 		ClassLoader classloader = Thread.currentThread().getContextClassLoader();
 		InputStream is = classloader.getResourceAsStream("/img/placeholder.png");
 		file = new DefaultStreamedContent(is, "image/png");
+
+		return file;
+	}
+	
+	@Loggable
+	public StreamedContent obtenerImagen(DdTipoComplemento complemento) {
+		StreamedContent file = null;
+		if (complemento != null && !"".equals(complemento.getNombreImagen()) && complemento.getImagen() != null) {
+			log.debug("El complemento no es nulo");
+			// TODO falta sacar la extensión del nombre de la imagen  
+			file = new DefaultStreamedContent(new ByteArrayInputStream(complemento.getImagen()));
+		}
+		
 
 		return file;
 	}

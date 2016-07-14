@@ -18,13 +18,13 @@ import javax.inject.Named;
 import javax.net.ssl.HttpsURLConnection;
 
 import org.dinamizadores.dinaeventos.dao.EntradaDao;
+import org.dinamizadores.dinaeventos.dto.ComplementoEntero;
+import org.dinamizadores.dinaeventos.dto.EntradasCompleta;
 import org.dinamizadores.dinaeventos.model.DdTipoComplemento;
 import org.dinamizadores.dinaeventos.model.Usuario;
 import org.dinamizadores.dinaeventos.utiles.log.Loggable;
 import org.dinamizadores.dinaeventos.utiles.pdf.FormarPDF;
 import org.dinamizadores.dinaeventos.utiles.plataformapagos.Pagar;
-import org.dinamizadores.dinaeventos.dto.ComplementoEntero;
-import org.dinamizadores.dinaeventos.dto.EntradasCompleta;
 
 import com.itextpdf.text.DocumentException;
 import com.mangopay.entities.CardRegistration;
@@ -83,7 +83,7 @@ public class ComprarEntradaBean implements Serializable {
 		insertarTotal();
 		data = tarjetaRegistrada.PreregistrationData;
 		accessKeyRef = tarjetaRegistrada.AccessKey;
-		returnURL = "http://localhost:8080/dinaeventos/faces/comprar/finalizarPago.xhtml?faces-redirect=true";
+		returnURL = "http://localhost:8080/dinaeventos/faces/comprar/finalizarPago.xhtml?faces-redirect=true";	
 	}
 
 	public void insertarTotal(){

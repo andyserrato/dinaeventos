@@ -63,10 +63,13 @@ public class VentasPapelBean implements Serializable {
 	public void init() {
 		//Posteriormente ese 1 'hardcodeado' se sacará del loginBean
 		evento = eventoDAO.getVentasPapel(1);
+		
+		if(evento != null) {
 		crearModeloSexual();
 		crearModeloEdades();
 		crearGraficoIngresosTiempo();
 		crearTablaVentas();
+		}
 	}
 	
 	/**
@@ -75,10 +78,11 @@ public class VentasPapelBean implements Serializable {
 	private void crearModeloSexual(){
 		quesoSexual = new PieChartModel();
 		
-		quesoSexual.setTitle("Distribución por Sexo");
+		//quesoSexual.setTitle("Distribución por Sexo");
 		quesoSexual.set("Hombre", evento.getNumHombres());
 		quesoSexual.set("Mujer", evento.getNumMujeres());
-		quesoSexual.setLegendPosition("s");
+		quesoSexual.setLegendPosition("w");
+		quesoSexual.setExtender("skinPie");
 
 		return;
 	}
@@ -86,12 +90,13 @@ public class VentasPapelBean implements Serializable {
 	private void crearModeloEdades(){
 		quesoEdad = new PieChartModel();
 		
-		quesoEdad.setTitle("Distribución por edades");
+		//quesoEdad.setTitle("Distribución por edades");
 		quesoEdad.set("18 y 19", eventoDAO.getNumeroVentasPapelPorRangoEdad(1, 18, 19));
 		quesoEdad.set("20 y 21", eventoDAO.getNumeroVentasPapelPorRangoEdad(1, 20, 21));
 		quesoEdad.set("22 - 24", eventoDAO.getNumeroVentasPapelPorRangoEdad(1, 22, 24));
 		quesoEdad.set("> 25", eventoDAO.getNumeroVentasPapelPorRangoEdad(1, 25, 100));
-		quesoEdad.setLegendPosition("s");
+		quesoEdad.setLegendPosition("w");
+		quesoEdad.setExtender("skinPie");
 	}
 	
 	private void crearTablaVentas() {
@@ -152,6 +157,7 @@ public class VentasPapelBean implements Serializable {
 		entradasTiempo.addSeries(serieTipoEntrada);
 		
 		entradasTiempo.getAxis(AxisType.Y).setLabel("€ recaudados");
+		entradasTiempo.setExtender("skinChart");
 		
 		DateAxis axis = new DateAxis("Fecha");
         axis.setTickAngle(-45);
@@ -162,7 +168,7 @@ public class VentasPapelBean implements Serializable {
         axis.setTickFormat("%b %#d, %y");
         entradasTiempo.getAxes().put(AxisType.X, axis);
 		
-		entradasTiempo.setTitle("Recaudación por días");
+		//entradasTiempo.setTitle("Recaudación por días");
         entradasTiempo.setLegendPosition("s");
         Axis yAxis = entradasTiempo.getAxis(AxisType.Y);
         yAxis.setMin(0);

@@ -33,8 +33,8 @@ import org.primefaces.model.chart.LineChartSeries;
 public class VentasTipoEntradasBean implements Serializable {
 
 	/** UID. */
-	private static final long serialVersionUID = 1L;
-	
+	private static final long serialVersionUID = -1875864714871850567L;
+
 	/** LoginBean inyectado para poder recoger datos globales de la aplicación. */
 	@Inject
 	private LoginBean loginBean;
@@ -58,9 +58,12 @@ public class VentasTipoEntradasBean implements Serializable {
 	@PostConstruct
 	public void init() {
 		
-		setEvento(eventoDAO.getVisionGlobal(1));
-		tiposEntradaVendidas = eventoDAO.getTiposDeEntradaVendidas(1);
-		crearGraficoEntradasTiempo();
+		evento = eventoDAO.getVisionGlobal(1);
+		
+		if(evento != null) {
+			tiposEntradaVendidas = eventoDAO.getTiposDeEntradaVendidas(1);
+			crearGraficoEntradasTiempo();
+		}
 	}
 	
 	/**
@@ -101,7 +104,8 @@ public class VentasTipoEntradasBean implements Serializable {
 			entradasTiempo.addSeries(serieTipoEntrada);
 		}		
 		
-		entradasTiempo.getAxis(AxisType.Y).setLabel("Entradas vendidas");
+		//entradasTiempo.getAxis(AxisType.Y).setLabel("Entradas vendidas");
+		entradasTiempo.setExtender("skinChart");
 		
 		DateAxis axis = new DateAxis("Fecha");
         axis.setTickAngle(-45);

@@ -29,8 +29,8 @@ import org.primefaces.model.chart.PieChartModel;
 public class VentasOnlineBean implements Serializable {
 
 	/** UID. */
-	private static final long serialVersionUID = 1L;
-	
+	private static final long serialVersionUID = -2086880145876931367L;
+
 	/** LoginBean inyectado para poder recoger datos globales de la aplicación. */
 	@Inject
 	private LoginBean loginBean;
@@ -63,9 +63,11 @@ public class VentasOnlineBean implements Serializable {
 		
 		//Posteriormente ese 1 'hardcodeado' se sacará del loginBean
 		evento = eventoDAO.getVentasOnline(1);
-		crearModeloSexual();
-		crearGraficoEntradasTiempo();
-		crearModeloEdades();
+		if(evento != null) {
+			crearModeloSexual();
+			crearGraficoEntradasTiempo();
+			crearModeloEdades();
+		}
 	}
 	
 	/**
@@ -74,10 +76,11 @@ public class VentasOnlineBean implements Serializable {
 	private void crearModeloSexual(){
 		quesoSexual = new PieChartModel();
 		
-		quesoSexual.setTitle("Distribución por Sexo");
+		//quesoSexual.setTitle("Distribución por Sexo");
 		quesoSexual.set("Hombre", evento.getNumHombres());
 		quesoSexual.set("Mujer", evento.getNumMujeres());
-		quesoSexual.setLegendPosition("s");
+		quesoSexual.setLegendPosition("w");
+		quesoSexual.setExtender("skinPie");
 
 		return;
 	}
@@ -85,12 +88,15 @@ public class VentasOnlineBean implements Serializable {
 	private void crearModeloEdades(){
 		quesoEdad = new PieChartModel();
 		
-		quesoEdad.setTitle("Distribución por edades");
+		//quesoEdad.setTitle("Distribución por edades");
 		quesoEdad.set("18 y 19", eventoDAO.getNumeroVentasPorRangoEdadVentasOnline(1, 18, 19));
 		quesoEdad.set("20 y 21", eventoDAO.getNumeroVentasPorRangoEdadVentasOnline(1, 20, 21));
 		quesoEdad.set("22 - 24", eventoDAO.getNumeroVentasPorRangoEdadVentasOnline(1, 22, 24));
 		quesoEdad.set("> 25", eventoDAO.getNumeroVentasPorRangoEdadVentasOnline(1, 25, 100));
-		quesoEdad.setLegendPosition("s");
+		quesoEdad.setLegendPosition("w");
+		quesoEdad.setExtender("skinPie");
+		
+		return;
 	}
 	
 	/**
@@ -124,7 +130,8 @@ public class VentasOnlineBean implements Serializable {
 		}
 		
 		entradasTiempo.addSeries(serieGrafico);
-		entradasTiempo.getAxis(AxisType.Y).setLabel("Abonos Vendidos");
+		//entradasTiempo.getAxis(AxisType.Y).setLabel("Abonos Vendidos");
+		entradasTiempo.setExtender("skinChart");
 		
 		DateAxis axis = new DateAxis("Fecha");
         axis.setTickAngle(-45);
