@@ -56,12 +56,9 @@
 								
 								<div style="margin-top: 10px" class="Container100 ui-fluid TexAlCenter">
 									
-									<p:confirmDialog id="confirmacion" header="Confirmación" message="¿Estás seguro?" widgetVar="juas" global="true" showEffect="fade" hideEffect="fade">
-								       <p:commandButton value="Si" actionListener="#{cambiarNombreBean.IrAPagar()}" update="contenedorFormularios costeCambioNombre" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" onclick="PF('juas').hide();" />
-								       <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-								    </p:confirmDialog>
 									
-									<p:commandButton id="botonCambioNombre" style="width: 20%" value="Cambiar nombre" oncomplete="if (args &amp;&amp; !args.validationFailed) PF('juas').show()">
+									
+									<p:commandButton id="botonCambioNombre" action="#{cambiarNombreBean.IrAPagar()}" update="contenedorFormularios costeCambioNombre" style="width: 20%" value="Cambiar nombre" >
 									</p:commandButton>
 									
 								</div>	

@@ -49,4 +49,7 @@ public final class Constantes {
 		public static final String PAGO_OK = "SUCCEEDED";
 		public static final String PAGO_FALLIDO = "FAILED";
 	}
+	public static final String IVAN = "Ivan";
+	
+	public static final String IVAN_PUTITO ="";
 }
