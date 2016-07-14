@@ -3,9 +3,12 @@ package org.dinamizadores.dinaeventos.view;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -75,7 +78,10 @@ public class VisionGlobalBean implements Serializable{
 		cambiosNombre = 529;
 		
 		//TODO Posteriormente ese 1 'hardcodeado' se sacará del loginBean
-		eventoDTO = eventoDAO.getVisionGlobal(1);
+		
+		if (loginBean != null && loginBean.getEvento() != null && loginBean.getEvento().getIdevento() != 0) {
+			eventoDTO = eventoDAO.getVisionGlobal(loginBean.getEvento().getIdevento());
+		}
 		
 		if (eventoDTO !=  null) {
 			crearModeloSexual();

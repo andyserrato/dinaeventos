@@ -22,6 +22,8 @@ public final class Constantes {
 		public final class Administracion {
 
 			public static final String VISION_GLOBAL = "/administracion/visionGlobal.xhtml?faces-redirect=true";
+			
+			public static final String VISION_GLOBAL_CON_FACES= "/faces/administracion/visionGlobal.xhtml?faces-redirect=true";
 
 			public static final String LUGARES_ORIGEN = "/administracion/lugaresdeorigen.xhtml?faces-redirect=true";
 
