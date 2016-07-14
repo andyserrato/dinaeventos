@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -18,6 +19,7 @@ import org.dinamizadores.dinaeventos.dto.EntradasTiempoDTO;
 import org.dinamizadores.dinaeventos.dto.EventoDTO;
 import org.dinamizadores.dinaeventos.dto.TipoVentaBasico;
 import org.dinamizadores.dinaeventos.model.Evento;
+import org.dinamizadores.dinaeventos.model.Organizadores;
 import org.dinamizadores.dinaeventos.model.Patrocinadores;
 import org.dinamizadores.dinaeventos.utiles.log.Loggable;
 
@@ -29,7 +31,8 @@ public class EventoDao {
 	@PersistenceContext(unitName = "dinaeventos-persistence-unit")
 	private EntityManager em;
 	private final Logger log = LogManager.getLogger(EventoDao.class);
-	
+	@EJB
+	UsuarioDao usuarioDao;
 	public void create(Evento entity) {
 		em.persist(entity);
 	}
@@ -240,4 +243,21 @@ public class EventoDao {
 		
 		return lista;
 	}
+	
+	@Loggable
+	public List<Evento> getEventoListByOrganizadorIdThroughUsuarioId(int idUser) {
+		Organizadores organizador = usuarioDao.getOrganizadorByUserId(idUser);
+		log.debug("Nombre organizador: " + organizador.getNombre());
+		
+		TypedQuery<Evento> findEventosByIdOrganizador = em.createQuery(
+				"SELECT DISTINCT e FROM Evento e WHERE e.idorganizador = :idorganizador ORDER BY e.fechaIni DESC",
+				Evento.class);
+		
+		findEventosByIdOrganizador.setParameter("idorganizador", organizador.getIdorganizador());
+		
+		return findEventosByIdOrganizador.getResultList();
+		
+	}
+	
+	
 }
