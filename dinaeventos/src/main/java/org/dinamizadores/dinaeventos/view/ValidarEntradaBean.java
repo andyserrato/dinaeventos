@@ -26,7 +26,8 @@ public class ValidarEntradaBean implements Serializable{
 	private Entrada entradaSeleccionada;
 	private String nombre, apellidos, codPostal, direccion, email, dni, telefono;
 	private Date fechaNacimiento;
-	
+	private boolean camposDeshabilitados = false;
+	private boolean cambioDeNombre = false;
 	@EJB
 	EntradaDao entradaDao;
 	
@@ -35,10 +36,39 @@ public class ValidarEntradaBean implements Serializable{
 	
 	@PostConstruct
 	public void init(){
-		renderedBotonValidar = true;
-		renderedInNumeroSerie = true;
-		renderedDatosEntrada = false;
-		renderedFormularioDatos = false;
+		
+		
+		//Si viene redireccionado de cambio de nombre
+		if (FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("cambio_de_nombre") != null){
+			renderedBotonValidar = false;
+			renderedInNumeroSerie = false;
+			renderedDatosEntrada = false;
+			renderedFormularioDatos = true;
+			
+			//seleccionamos la entrada
+			entradaSeleccionada = (Entrada)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("entrada");
+			setAtributosCamposEntrada();
+			cambioDeNombre = true;
+			FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("cambio_de_nombre");
+		}else{
+			renderedBotonValidar = true;
+			renderedInNumeroSerie = true;
+			renderedDatosEntrada = false;
+			renderedFormularioDatos = false;
+			
+			cambioDeNombre = false;
+		}
+
+	}
+	
+	private void setAtributosCamposEntrada(){
+		nombre = entradaSeleccionada.getUsuario().getNombre();
+		apellidos = entradaSeleccionada.getUsuario().getApellidos();
+		dni = entradaSeleccionada.getUsuario().getDni();
+		email = entradaSeleccionada.getUsuario().getEmail();
+		fechaNacimiento = entradaSeleccionada.getUsuario().getFechanac();
+		
+		camposDeshabilitados = true;
 	}
 	
 	public void validarEntradaPaso1(){
@@ -50,10 +80,16 @@ public class ValidarEntradaBean implements Serializable{
 			//Validamos la entrada
 			entradaSeleccionada = entrada;
 			
+			if (entradaSeleccionada.getDdTipoEntrada().getCanalDeVentas().equals("online")){
+				setAtributosCamposEntrada();
+			}
 			
 			renderedBotonValidar = false;
 			renderedInNumeroSerie = false;
 			renderedFormularioDatos = true;
+			
+			
+			
 		}else{
 	        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "No existe ninguna entrada asociada con el número de serie que has introducido"));
 		}
@@ -186,6 +222,22 @@ public class ValidarEntradaBean implements Serializable{
 
 	public void setTelefono(String telefono) {
 		this.telefono = telefono;
+	}
+
+	public boolean isCamposDeshabilitados() {
+		return camposDeshabilitados;
+	}
+
+	public void setCamposDeshabilitados(boolean camposDeshabilitados) {
+		this.camposDeshabilitados = camposDeshabilitados;
+	}
+
+	public boolean isCambioDeNombre() {
+		return cambioDeNombre;
+	}
+
+	public void setCambioDeNombre(boolean cambioDeNombre) {
+		this.cambioDeNombre = cambioDeNombre;
 	}
 	
 	

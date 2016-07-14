@@ -45,7 +45,7 @@ public class GestionEntradasBean implements Serializable{
     	opcionesComboMostrar.add(new SelectItem("2","opcion2"));
     	
     	try {
-			bbddFaker.llenarBBDD();
+//			bbddFaker.llenarBBDD();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

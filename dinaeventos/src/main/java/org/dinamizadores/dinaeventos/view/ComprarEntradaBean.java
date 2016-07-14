@@ -18,13 +18,13 @@ import javax.inject.Named;
 import javax.net.ssl.HttpsURLConnection;
 
 import org.dinamizadores.dinaeventos.dao.EntradaDao;
+import org.dinamizadores.dinaeventos.dto.ComplementoEntero;
+import org.dinamizadores.dinaeventos.dto.EntradasCompleta;
 import org.dinamizadores.dinaeventos.model.DdTipoComplemento;
 import org.dinamizadores.dinaeventos.model.Usuario;
 import org.dinamizadores.dinaeventos.utiles.log.Loggable;
 import org.dinamizadores.dinaeventos.utiles.pdf.FormarPDF;
-import org.dinamizadores.dinaeventos.utiles.plataformapagos.pagar;
-import org.dinamizadores.dinaeventos.dto.complementoEntero;
-import org.dinamizadores.dinaeventos.dto.entradasCompleta;
+import org.dinamizadores.dinaeventos.utiles.plataformapagos.Pagar;
 
 import com.itextpdf.text.DocumentException;
 import com.mangopay.entities.CardRegistration;
@@ -52,7 +52,7 @@ public class ComprarEntradaBean implements Serializable {
 	
 	private String nombreEntrada = null;
 	
-	private List<entradasCompleta> listadoEntradas = new ArrayList<entradasCompleta>();
+	private List<EntradasCompleta> listadoEntradas = new ArrayList<EntradasCompleta>();
 
 	private int cuenta = 0;
 	
@@ -74,7 +74,9 @@ public class ComprarEntradaBean implements Serializable {
 	
 	@PostConstruct
 	public void init(){
-		listadoEntradas = (List<entradasCompleta>) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("listaEntradas");
+
+		listadoEntradas = (List<EntradasCompleta>) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("listaEntradas");
+
 		
 		tarjetaRegistrada  = (CardRegistration) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("tarjeta");
 		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("tarjeta", tarjetaRegistrada);
@@ -86,14 +88,14 @@ public class ComprarEntradaBean implements Serializable {
 
 	public void insertarTotal(){
 		
-		for (entradasCompleta entrada : listadoEntradas){
-			for (complementoEntero c : entrada.getListaComplementos()){
+		for (EntradasCompleta entrada : listadoEntradas){
+			for (ComplementoEntero c : entrada.getListaComplementos()){
 				total = total.add(c.getComplemento().getPrecio().multiply(BigDecimal.valueOf(c.getCantidad())));
 			}
 			total = total.add(entrada.getPrecio());
 		}
-		
 		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("total", total);
+		
 	}
 	
 
@@ -137,11 +139,11 @@ public class ComprarEntradaBean implements Serializable {
 		this.nombreEntrada = nombreEntrada;
 	}
 
-	public List<entradasCompleta> getListadoEntradas() {
+	public List<EntradasCompleta> getListadoEntradas() {
 		return listadoEntradas;
 	}
 
-	public void setListadoEntradas(List<entradasCompleta> listadoEntradas) {
+	public void setListadoEntradas(List<EntradasCompleta> listadoEntradas) {
 		this.listadoEntradas = listadoEntradas;
 	}
 

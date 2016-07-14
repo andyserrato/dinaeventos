@@ -26,7 +26,7 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
 import org.dinamizadores.dinaeventos.dto.EmailBasico;
-import org.dinamizadores.dinaeventos.dto.entradasCompleta;
+import org.dinamizadores.dinaeventos.dto.EntradasCompleta;
 
 import freemarker.cache.ClassTemplateLoader;
 import freemarker.core.ParseException;
@@ -39,7 +39,7 @@ import freemarker.template.TemplateNotFoundException;
 
 public class Email {
 	
-	public void enviarEmail(List<entradasCompleta> listaentradas, EmailBasico datosEmail)  {
+	public void enviarEmail(List<EntradasCompleta> listaentradas, EmailBasico datosEmail)  {
         
 		ConfiguracionBasico configuracion = new ConfiguracionBasico();
 		
@@ -119,7 +119,7 @@ public class Email {
  
             
  
-            	for (entradasCompleta archivo : listaentradas){
+            	for (EntradasCompleta archivo : listaentradas){
 	                // create the second message part with the attachment
             		File aux = new File ("entrada-" + archivo.getUsuario().getDni() + ".pdf"); 
 	                MimeBodyPart attachment = new MimeBodyPart();

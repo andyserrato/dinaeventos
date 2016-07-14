@@ -3,31 +3,62 @@
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
-                template="/WEB-INF/template.xhtml">
+                template="/WEB-INF/templateCliente.xhtml">
 
     <ui:define name="content">
 		
 		<div class="Container100">
 			<div class="ContainerIndent">
 				<div class="Card ShadowEffect ui-fluid">
-					<h2 class="BigTopic"> Cambio de nombre de tu entrada</h2>					
 					
 					<p:outputPanel id="contenedorFormularios">
 					
 						<h:form >
 							<p:outputPanel rendered="#{!cambiarNombreBean.renderedFormularioPago}" >
 								<p:messages id="messages" showDetail="false" autoUpdate="true" closable="true" />
-								<p:inputText id="inNumeroSerie" class="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all" role="textbox" required="true" requiredMessage="Es necesario proporcionar el número de serie de la entrada" value="#{cambiarNombreBean.numeroSerie}" placeholder="Número de serie"></p:inputText>
-								<p:inputText style="margin-top: 10px" id="inNuevoNombre" class="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all" role="textbox" required="true" requiredMessage="Es necesario proporcionar el nuevo nombre asociado a la entrada" value="#{cambiarNombreBean.nombre}" placeholder="Nuevo nombre asociado a la entrada"></p:inputText>
+								
+								<div class="Container100">
+									<div class="ContainerIndent">
+										<h2 class="BigTopic"> Cambio de nombre de tu entrada</h2>					
+								
+								
+										<div class="ui-grid-row">
+											<p:inputText id="inNumeroSerie" class="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all" role="textbox" required="true" requiredMessage="Es necesario proporcionar el número de serie de la entrada" value="#{cambiarNombreBean.numeroSerie}" placeholder="Número de serie"></p:inputText>
+										</div>
+										
+									</div>
+										<div class="Container50">
+											<div class="ContainerIndent">
+											
+												<div class="ui-grid-row">
+													
+													<div>
+														<p:inputText id="inNuevoNombre" class="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all" role="textbox" required="true" requiredMessage="Es necesario proporcionar el nuevo nombre asociado a la entrada" value="#{cambiarNombreBean.nombre}" placeholder="Nombre"></p:inputText>
+													</div>
+												</div>
+											</div>
+										</div>
+								
+										<div class="Container50">		
+											<div class="ContainerIndent">
+		
+												<div class="ui-grid-row">
+														<div>
+															<p:inputText id="inNuevosApellidos" class="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all" role="textbox" required="true" requiredMessage="Es necesario proporcionar los apellidos asociados a la entrada" value="#{cambiarNombreBean.apellidos}" placeholder="Apellidos"></p:inputText>
+														</div>
+													</div>
+												</div>
+										</div>
+										
+								</div>
+								
+								
 								
 								<div style="margin-top: 10px" class="Container100 ui-fluid TexAlCenter">
 									
-									<p:confirmDialog id="confirmacion" header="Confirmación" message="¿Estás seguro?" widgetVar="juas" global="true" showEffect="fade" hideEffect="fade">
-								       <p:commandButton value="Si" actionListener="#{cambiarNombreBean.IrAPagar()}" update="contenedorFormularios costeCambioNombre" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" onclick="PF('juas').hide();" />
-								       <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-								    </p:confirmDialog>
 									
-									<p:commandButton id="botonCambioNombre" style="width: 20%" value="Cambiar nombre" oncomplete="if (args &amp;&amp; !args.validationFailed) PF('juas').show()">
+									
+									<p:commandButton id="botonCambioNombre" action="#{cambiarNombreBean.IrAPagar()}" update="contenedorFormularios costeCambioNombre" style="width: 20%" value="Cambiar nombre" >
 									</p:commandButton>
 									
 								</div>	
@@ -38,7 +69,7 @@
 						
 						<p:outputPanel id="formularioPago" rendered="#{cambiarNombreBean.renderedFormularioPago}">
 								
-							<p:outputLabel id="costeCambioNombre" value="El coste asociado para cambiar tu tipo de entrada es: #{cambiarNombreBean.costeCambioNombre}"></p:outputLabel>
+							<p:outputLabel id="costeCambioNombre" value="El coste asociado para cambiar tu tipo de entrada es: #{cambiarNombreBean.costeCambioNombre} €"></p:outputLabel>
 											
 							<form id="mainform" method="post" action="https://homologation-webpayment.payline.com/webpayment/getToken">
 		 						<h:inputHidden  id="data" value="#{cambiarNombreBean.data}" /> 
@@ -75,5 +106,4 @@
 			</div>
 		</div>
 	</ui:define>
-	
-	</ui:composition>
+</ui:composition>

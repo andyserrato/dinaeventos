@@ -13,7 +13,7 @@ import javax.inject.Named;
 import org.dinamizadores.dinaeventos.dao.EntradaDao;
 import org.dinamizadores.dinaeventos.model.DdTipoEntrada;
 import org.dinamizadores.dinaeventos.model.Entrada;
-import org.dinamizadores.dinaeventos.utiles.plataformapagos.pagar;
+import org.dinamizadores.dinaeventos.utiles.plataformapagos.Pagar;
 
 import com.mangopay.entities.CardRegistration;
 
@@ -22,7 +22,7 @@ import com.mangopay.entities.CardRegistration;
 public class CambiarNombreBean implements Serializable{
 
 	private String numeroSerie;
-	private String nombre;
+	private String nombre, apellidos;
 	
 	private String data = "";
 	
@@ -61,37 +61,49 @@ public class CambiarNombreBean implements Serializable{
 		System.out.println("Cambiar nombre");
 	}
 	
-	public void IrAPagar(){
+	public String IrAPagar(){
 		Entrada entrada = entradaDao.findByNumeroSerie(numeroSerie);
+		String resultado = "";
 		
 		if (entrada != null)
 		{
-			DdTipoEntrada tipoEntrada = entrada.getDdTipoEntrada();
-			costeCambioNombre = tipoEntrada.getCosteCambioDeNombre();
+			
+			if (entrada.getValidada()){
+				DdTipoEntrada tipoEntrada = entrada.getDdTipoEntrada();
+				costeCambioNombre = tipoEntrada.getCosteCambioDeNombre();
 
-			//Ponemos en la sesion los datos de la entrada y el nombre
-			FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("entrada", entrada);
-			FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("nuevoNombre", nombre);			
-			
-			pagar pa = new pagar();
-			
-			String idUsuario = pa.nuevoUsuario(entrada.getUsuario());
-			tarjetaRegistrada = pa.nuevoTarjeta(idUsuario);
-			
-			data = tarjetaRegistrada.PreregistrationData;
-			accessKeyRef = tarjetaRegistrada.AccessKey;
-			returnURL = "http://localhost:8080/dinaeventos/faces/comprar/finalizarPagoCambioNombre.xhtml?faces-redirect=true";
-			
-			//Enviamos los datos a la nueva pagina
-			FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("tarjeta", tarjetaRegistrada);
-			FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("total", tipoEntrada.getCosteCambioDeNombre());
+				//Ponemos en la sesion los datos de la entrada y el nombre
+				FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("entrada", entrada);
+				FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("nuevoNombre", nombre);			
+				FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("nuevosApellidos", apellidos);				
 				
-			renderedFormularioPago = true;
+				Pagar pa = new Pagar();
+				
+				String idUsuario = pa.nuevoUsuario(entrada.getUsuario());
+				tarjetaRegistrada = pa.nuevoTarjeta(idUsuario);
+				
+				data = tarjetaRegistrada.PreregistrationData;
+				accessKeyRef = tarjetaRegistrada.AccessKey;
+				returnURL = "http://localhost:8080/dinaeventos/faces/comprar/finalizarPagoCambioNombre.xhtml?faces-redirect=true";
+				
+				//Enviamos los datos a la nueva pagina
+				FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("tarjeta", tarjetaRegistrada);
+				FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("total", tipoEntrada.getCosteCambioDeNombre());
+					
+				renderedFormularioPago = true;
+			}else{
+				FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("cambio_de_nombre", "si");				
+				FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("entrada", entrada);				
+
+				resultado = "/validacion/validarEntrada.xhtml?faces-redirect=true";
+			}
+			
 			
 		}else{
 	        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "No existe ninguna entrada asociada con el número de serie que has introducido", ""));
 		}
 		
+		return resultado;
 		//return "/comprar/pagarEntradas.xhtml?faces-redirect=true";
 	}
 	
@@ -125,9 +137,10 @@ public class CambiarNombreBean implements Serializable{
 	public void setCosteCambioNombre(BigDecimal costeCambioNombre) {
 		this.costeCambioNombre = costeCambioNombre;
 	}
-	
-	
-	
-	
-	
+	public String getApellidos() {
+		return apellidos;
+	}
+	public void setApellidos(String apellidos) {
+		this.apellidos = apellidos;
+	}
 }

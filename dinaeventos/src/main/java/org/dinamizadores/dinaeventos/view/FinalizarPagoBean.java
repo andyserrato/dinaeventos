@@ -18,19 +18,21 @@ import javax.faces.view.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 
+import org.dinamizadores.dinaeventos.dao.DAOGenerico;
 import org.dinamizadores.dinaeventos.dao.EntradaDao;
 import org.dinamizadores.dinaeventos.dao.EventoDao;
 import org.dinamizadores.dinaeventos.dao.UsuarioDao;
 import org.dinamizadores.dinaeventos.model.DdTipoComplemento;
 import org.dinamizadores.dinaeventos.model.Entrada;
+import org.dinamizadores.dinaeventos.model.EntradaComplemento;
 import org.dinamizadores.dinaeventos.model.Evento;
 import org.dinamizadores.dinaeventos.model.Usuario;
 import org.dinamizadores.dinaeventos.utiles.ConversorNumeroSerie;
 import org.dinamizadores.dinaeventos.utiles.log.Loggable;
 import org.dinamizadores.dinaeventos.utiles.pdf.FormarPDF;
-import org.dinamizadores.dinaeventos.utiles.plataformapagos.pagar;
-import org.dinamizadores.dinaeventos.dto.complementoEntero;
-import org.dinamizadores.dinaeventos.dto.entradasCompleta;
+import org.dinamizadores.dinaeventos.utiles.plataformapagos.Pagar;
+import org.dinamizadores.dinaeventos.dto.ComplementoEntero;
+import org.dinamizadores.dinaeventos.dto.EntradasCompleta;
 
 import com.itextpdf.text.DocumentException;
 import com.mangopay.entities.CardRegistration;
@@ -57,6 +59,10 @@ public class FinalizarPagoBean implements Serializable {
 	@EJB 
 	private EventoDao eventoDao;
 	
+	/** Acceso a la capa DAO para persistir los datos. */
+	@EJB
+	private DAOGenerico dao;
+	
 	private ConversorNumeroSerie con = new ConversorNumeroSerie();
 
 	private Integer id;
@@ -68,9 +74,9 @@ public class FinalizarPagoBean implements Serializable {
 	
 	private String nombreEntrada = null;
 	
-	private entradasCompleta entrada = new entradasCompleta();
+	private EntradasCompleta entrada = new EntradasCompleta();
 	
-	private List<entradasCompleta> listadoEntradas = new ArrayList<entradasCompleta>();
+	private List<EntradasCompleta> listadoEntradas = new ArrayList<EntradasCompleta>();
 	
 	private Evento evento = new Evento();
 	
@@ -82,7 +88,7 @@ public class FinalizarPagoBean implements Serializable {
 	
 	@PostConstruct
 	public void init(){
-		listadoEntradas = (List<entradasCompleta>) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("listaEntradas");
+		listadoEntradas = (List<EntradasCompleta>) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("listaEntradas");
 		envioConjunto = (Boolean) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("envioConjunto");
 		evento = eventoDao.findById(1);
 		//evento = (Evento) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("evento");
@@ -93,15 +99,13 @@ public class FinalizarPagoBean implements Serializable {
 		FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
 	}
 	
-	
-	
 	public void efectuarPago(){
 		
 			try {
 
 				crearEntradasUsuarios();
 				
-				pagar pa = new pagar();
+				Pagar pa = new Pagar();
 				CardRegistration tarjetaRegistrada = (CardRegistration) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("tarjeta");
 				total = (BigDecimal) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("total");
 				
@@ -126,7 +130,7 @@ public class FinalizarPagoBean implements Serializable {
 	
 	public void crearEntradasUsuarios(){
 		
-		for (entradasCompleta entrada : listadoEntradas){
+		for (EntradasCompleta entrada : listadoEntradas){
 			
 			crearUsuario(entrada.getUsuario());
 			crearEntrada(entrada);		
@@ -142,7 +146,7 @@ public class FinalizarPagoBean implements Serializable {
 		
 	}
 	
-	public void crearEntrada(entradasCompleta entrada){
+	public void crearEntrada(EntradasCompleta entrada){
 		
 		try {
 		Entrada en = new Entrada();
@@ -150,7 +154,6 @@ public class FinalizarPagoBean implements Serializable {
 		en.setDentrofuera(false);
 		en.setValidada(false);
 		en.setVendida(true);
-		
 		
 		en.setIdformapago(1);
 		en.setIdtipoiva(1);
@@ -162,11 +165,10 @@ public class FinalizarPagoBean implements Serializable {
 		en.setNumeroserie(numeroserie);
 		
 		BigDecimal total = new BigDecimal(0);
+		
 		en.setFechaVendida(cal.getTime());
-		Set<DdTipoComplemento> listacomplemento = new HashSet<DdTipoComplemento>(0);
-		for (complementoEntero com : entrada.getListaComplementos()){
+		for (ComplementoEntero com : entrada.getListaComplementos()){
 			if (com.getCantidad() > 0){
-			listacomplemento.add(com.getComplemento());
 			total = total.add(com.getComplemento().getPrecio());
 			}
 			
@@ -174,15 +176,16 @@ public class FinalizarPagoBean implements Serializable {
 		entrada.setNumeroserie(en.getNumeroserie());
 		total = total.add(entrada.getPrecio());
 		en.setPrecio(total);
-		en.setDdTipoComplementos(listacomplemento);
+
 		
 		Usuario usu = usuarioDao.getUsuarioDni(entrada.getUsuario().getDni());
 		en.setIdusuario(usu.getIdUsuario());
 		
 		entradaDao.create(en);
+		algoritmoInsercionEntradasComplementos(entrada,en);
+		
 		
 		entrada.setIdEntrada((long) entradaDao.getEntradaDniEvento(en.getIdusuario(),en.getIdevento()));
-		System.out.println("El valor: " + entrada.getIdEntrada());
 		String format = String.format("%03d", entrada.getIdEntrada());
 		entrada.setIdEntrada(Long.valueOf(format));
 		
@@ -193,6 +196,42 @@ public class FinalizarPagoBean implements Serializable {
 		
 	}
 	
+	public void algoritmoInsercionEntradasComplementos(EntradasCompleta entrada,Entrada en){
+		
+		try{
+			EntradaComplemento entradanueva = null;
+			List<ComplementoEntero> auxTipoComplemento;
+			ComplementoEntero nuevocom;
+			
+				auxTipoComplemento = new ArrayList<ComplementoEntero>();
+				for (ComplementoEntero c : entrada.getListaComplementos()){
+					for (int i = 0; i < c.getCantidad(); i++){
+						nuevocom = new ComplementoEntero();
+						nuevocom.setCantidad(c.getCantidad());
+						nuevocom.setComplemento(c.getComplemento());
+						auxTipoComplemento.add(nuevocom);
+					}
+				}
+				EntradasCompleta entradaaux = new EntradasCompleta();
+				entradaaux.setListaComplementos(auxTipoComplemento);
+			
+			
+			for (ComplementoEntero com : entradaaux.getListaComplementos()){
+				if (com.getCantidad() > 0){
+						entradanueva = new EntradaComplemento();
+						entradanueva.setDdTipoComplemento(com.getComplemento());
+						entradanueva.setEntrada(en);
+						en.getEntradaComplementos().add(entradanueva);
+						dao.insertar(entradanueva);
+				}	
+			}
+		
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
 
 	public BigDecimal getTotal() {
 		return total;
@@ -234,19 +273,19 @@ public class FinalizarPagoBean implements Serializable {
 		this.nombreEntrada = nombreEntrada;
 	}
 
-	public List<entradasCompleta> getListadoEntradas() {
+	public List<EntradasCompleta> getListadoEntradas() {
 		return listadoEntradas;
 	}
 
-	public void setListadoEntradas(List<entradasCompleta> listadoEntradas) {
+	public void setListadoEntradas(List<EntradasCompleta> listadoEntradas) {
 		this.listadoEntradas = listadoEntradas;
 	}
 
-	public entradasCompleta getEntrada() {
+	public EntradasCompleta getEntrada() {
 		return entrada;
 	}
 
-	public void setEntrada(entradasCompleta entrada) {
+	public void setEntrada(EntradasCompleta entrada) {
 		this.entrada = entrada;
 	}
 
