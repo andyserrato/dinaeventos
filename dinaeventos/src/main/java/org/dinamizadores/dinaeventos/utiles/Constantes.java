@@ -45,7 +45,7 @@ public final class Constantes {
 		}
 	}
 	
-	public final class MangoPay{
+	public final class MangoPay {
 		public static final String PAGO_OK = "SUCCEEDED";
 		public static final String PAGO_FALLIDO = "FAILED";
 	}
