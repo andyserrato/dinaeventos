@@ -10,6 +10,7 @@ import javax.persistence.TypedQuery;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.dinamizadores.dinaeventos.model.Organizadores;
 import org.dinamizadores.dinaeventos.model.RrppJefes;
 import org.dinamizadores.dinaeventos.model.Usuario;
 import org.dinamizadores.dinaeventos.utiles.log.Loggable;
@@ -67,12 +68,13 @@ public class UsuarioDao {
 
 	public Usuario login(String email, String password) {
 		Usuario usuario = null;
+		//TODO [IVAN] Habría que filtrar también para que solo aparezcan resultados de usuarios administradores, no clientes
 		TypedQuery<Usuario> query = em.createQuery(
-				"SELECT u FROM Usuario u WHERE u.email = :email",
+				"SELECT u FROM Usuario u WHERE u.email = :email AND u.password = :password",
 				Usuario.class);
 		// TODO [ANDY] Hash del password 
 		try {
-			usuario = query.setParameter("email", email).getSingleResult();
+			usuario = query.setParameter("email", email).setParameter("password", password).getSingleResult();
 		} catch (Exception e) {
 			log.error("Error: " + e.getMessage());
 		}
@@ -101,5 +103,20 @@ public class UsuarioDao {
 		em.persist(rrppJefe);
 		log.debug("idrrppJefe: " + rrppJefe.getIdrrppJefe());
 		return rrppJefe;
+	}
+	
+	@Loggable
+	public Organizadores getOrganizadorByUserId(int idUser) {
+		Organizadores organizador = null;
+		TypedQuery<Organizadores> query = em.createQuery(
+				"SELECT org FROM Organizadores org WHERE org.idUsuario = :idUsuario",
+				Organizadores.class);
+		try {
+			organizador = query.setParameter("idUsuario", idUser).getSingleResult();
+		} catch (Exception e) {
+			log.error("Error: " + e.getMessage());
+		}
+		
+		return organizador;
 	}
 }

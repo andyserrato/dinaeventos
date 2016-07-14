@@ -1,5 +1,6 @@
 package org.dinamizadores.dinaeventos.view;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
@@ -20,6 +21,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.dinamizadores.dinaeventos.dao.UsuarioDao;
 import org.dinamizadores.dinaeventos.dto.facebookprofile.PerfilRedSocial;
+import org.dinamizadores.dinaeventos.model.DdTipoComplemento;
 import org.dinamizadores.dinaeventos.model.Evento;
 import org.dinamizadores.dinaeventos.model.Usuario;
 import org.dinamizadores.dinaeventos.utiles.Constantes;
@@ -165,7 +167,7 @@ public class LoginBean implements Serializable {
 		FacesContext context = FacesContext.getCurrentInstance();
 		FacesMessage message = null;
 
-		if (usuario != null && usuario.getEmail().equals(email) && usuario.getPassword().equals(password)) {
+		if (usuario != null) {
 			loggedIn = true;
 			message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Bienvenido", usuario.getNombre());
 			this.usuario = usuario;
@@ -451,6 +453,19 @@ public class LoginBean implements Serializable {
 		ClassLoader classloader = Thread.currentThread().getContextClassLoader();
 		InputStream is = classloader.getResourceAsStream("/img/placeholder.png");
 		file = new DefaultStreamedContent(is, "image/png");
+
+		return file;
+	}
+	
+	@Loggable
+	public StreamedContent obtenerImagen(DdTipoComplemento complemento) {
+		StreamedContent file = null;
+		if (complemento != null && !"".equals(complemento.getNombreImagen()) && complemento.getImagen() != null) {
+			log.debug("El complemento no es nulo");
+			// TODO falta sacar la extensión del nombre de la imagen  
+			file = new DefaultStreamedContent(new ByteArrayInputStream(complemento.getImagen()));
+		}
+		
 
 		return file;
 	}
