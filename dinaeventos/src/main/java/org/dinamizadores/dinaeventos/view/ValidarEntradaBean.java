@@ -14,6 +14,7 @@ import org.dinamizadores.dinaeventos.dao.DAOGenerico;
 import org.dinamizadores.dinaeventos.dao.EntradaDao;
 import org.dinamizadores.dinaeventos.model.Entrada;
 import org.dinamizadores.dinaeventos.model.Evento;
+import org.dinamizadores.dinaeventos.utiles.GeneradorEntradas;
 
 @Named("validarEntradaBean")
 @ViewScoped
@@ -134,8 +135,14 @@ public class ValidarEntradaBean implements Serializable{
 			e.printStackTrace();
 		}
 		
+		//Si es fisica debemos generar la entrada en pdf y enviarsela por correo
+		if (entradaSeleccionada.getDdTipoEntrada().getCanalDeVentas().equals("fisica"))
+			GeneradorEntradas.generarEntrada(entradaSeleccionada);
+		
 		System.out.println("Validar paso 2");
 	}
+	
+	
 	
 	
 	public Entrada getEntradaSeleccionada() {
