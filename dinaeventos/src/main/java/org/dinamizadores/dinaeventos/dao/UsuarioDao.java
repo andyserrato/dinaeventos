@@ -40,12 +40,20 @@ public class UsuarioDao {
 		return em.find(Usuario.class, id);
 	}
 	
-	public Usuario getUsuarioDni(String dni) {
+	public Usuario getUsuarioDni(String dni, Integer idEvento) {
+		
 		TypedQuery<Usuario> findAllQuery = em.createQuery(
-				"SELECT u FROM Usuario u WHERE u.dni = :dni",
+				"SELECT u FROM Usuario u, Entrada en, Evento e  WHERE u.dni = :dni AND en.idusuario = u.idUsuario AND e.idevento = en.idevento AND e.idevento = :idEvento ",
 				Usuario.class);
 		findAllQuery.setParameter("dni", dni);
-		return findAllQuery.getSingleResult();
+		findAllQuery.setParameter("idEvento", idEvento);
+		List resultado = findAllQuery.getResultList();
+		if (resultado.isEmpty()){
+			return  null;
+		}else{
+			return findAllQuery.getSingleResult();
+		}
+
 	}
 
 
