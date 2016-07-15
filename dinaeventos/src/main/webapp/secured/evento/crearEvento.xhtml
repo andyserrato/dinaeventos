@@ -1,0 +1,615 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/templateCliente.xhtml">
+
+    <ui:define name="content">
+    
+    	
+        <div class="Container100">
+            <div class="ContainerIndent">
+                <div >
+                
+		<h:form id="eventoForm" enctype="multipart/form-data">
+			<p:growl id="growl" sticky="false" showDetail="true" life="5000" />
+			<p:messages showDetail="false" autoUpdate="true"></p:messages>
+			<div class="ui-fluid">
+				<p:outputPanel id="outputPanel" width="100%">
+					
+					<div>
+							<div class="Container100 Responsive100" >
+								<div class="ContainerIndent">
+									<h2>1 DETALLES DEL EVENTO</h2>
+									
+									<p:spacer height="0,5%"></p:spacer>
+									
+									<div class="Card ShadowEffect HeiAutoOnMobile OvHidden">
+									
+									<div class="Container100 Responsive100" align="left" >
+											<div class="ContainerIndent">
+												
+												<div class="ui-grid-row" style="width:100%">
+								                    <div class="ui-grid-cell">
+								                    	<h3 style="margin-top:0">NOMBRE DEL EVENTO</h3>
+								                    </div>
+								                </div>
+								            </div>
+								        </div>
+								        
+										<div class="Container100 Responsive100" >
+											<div class="ContainerIndent">
+												
+												<div class="ui-grid-row" style="width:100%">
+								                    <div class="ui-grid-cell">
+														<p:inputText id="eventoNombre" maxLength="75" required="true" value="#{evento.evento.nombre}" placeholder="Coloca un nombre increible"/>
+														<p:message for="eventoNombre" styleClass="error"/>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									
+									
+									
+									<p:spacer height="0,5%"></p:spacer>
+									
+									<div class="Card ShadowEffect HeiAutoOnMobile OvHidden" >
+									
+										<div class="Container100 Responsive100" align="left" >
+											<div class="ContainerIndent">
+												
+												<div class="ui-grid-row" style="width:100%">
+								                    <div class="ui-grid-cell">
+								                    	<h3 style="margin-top:0">UBICACIÓN</h3>
+								                    </div>
+								                </div>
+								            </div>
+								        </div>
+								        
+										<div class="Container33 Responsive33" >
+											<div class="ContainerIndent">
+												
+												<div class="ui-grid-row" style="width:100%">
+								                    <div class="ui-grid-cell">
+														<p:inputText id="eventoDireccion1" value="#{evento.evento.direccion}" placeholder="Dirección"/>
+														<p:message for="eventoDireccion1" styleClass="error"/>
+													</div>
+												</div>
+											</div>
+										</div>
+										
+										<div class="Container33 Responsive33" >
+											<div class="ContainerIndent">
+												<div class="ui-grid-row" style="width:100%">
+								                    <div class="ui-grid-cell">
+														<p:inputText id="eventoCodigoPostal" value="#{evento.evento.codigoPostal.codigo}" maxlength="5" placeholder="Código postal">
+														<p:ajax event="blur" update="eventoProvincia" listener="#{evento.actualizaLocalidadesByCP(evento.evento.codigoPostal.codigo)}" />
+														</p:inputText>
+														
+													</div>
+												</div>
+											</div>
+										</div>
+										
+										<div class="Container33 Responsive33" >
+											<div class="ContainerIndent">
+												<div class="ui-grid-row" style="width:100%">
+								                    <div class="ui-grid-cell">
+														<p:selectOneMenu id="eventoProvincia" value="#{evento.evento.idcodigopostal}">
+														<f:selectItem itemValue="#{null}" itemLabel="Seleccionar localidad" />
+														<f:selectItems value="#{evento.codigosPostales}" var="cp" itemLabel="#{cp.localidad} - #{cp.provincia.nombre}" itemValue="#{cp.idcodigopostal}" />
+														</p:selectOneMenu>
+														<p:message for="eventoProvincia" styleClass="error"/>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									
+									<p:spacer height="0,5%"></p:spacer>
+									
+									<div class="Card ShadowEffect HeiAutoOnMobile OvHidden">
+										<div class="Container100 Responsive100" >
+											<div class="ContainerIndent">
+												<h3 style="margin-top:0">¿CUÁNDO SERÁ?</h3>
+										
+												<p:spacer height="0,5%"></p:spacer>
+								
+													<div class="Container50 Responsive50">
+							                         <div class="ContainerIndent">
+							                            <h4 style="margin-top:0">EMPIEZA</h4>
+						                               	<div class="ui-grid-row" style="width:100%">
+							                               	<div class="ui-grid-cell">
+																<p:calendar placeholder="Presiona para seleccionar la fecha de inicio" id="eventoFechaHoraInicio" value="#{evento.evento.fechaIni}" pattern="MM/dd/yyyy HH:mm:ss" style="width:100%"/>
+																<p:message for="eventoFechaHoraInicio" styleClass="error"/>
+															</div>
+						 								</div>
+						 								</div>
+						                            </div>
+						 
+						 							
+													 <div class="Container50 Responsive50">
+										 				<div class="ContainerIndent">
+															<h4 style="margin-top:0">FINALIZA</h4>
+															<div class="ui-grid-row" style="width:100%">
+							                               		<div class="ui-grid-cell">
+																	<p:calendar placeholder="Presiona para seleccionar la fecha de fin" id="eventoFechaHoraFin" value="#{evento.evento.fechaFin}" pattern="MM/dd/yyyy HH:mm:ss" />
+																</div>
+															</div>
+														</div>
+													 </div>
+													 
+												
+											</div>	
+										</div>
+									</div>
+									
+									<p:spacer height="0,5%"></p:spacer>
+									
+									<div class="Card ShadowEffect HeiAutoOnMobile OvHidden">
+										<div class="Container100 Responsive100" >
+											<div class="ContainerIndent">
+												<h3>DEFINICIÓN DEL EVENTO</h3>	
+												
+												<div class="Container50 Responsive50" >
+													<div class="ContainerIndent">
+														<h4>LOGO DEL EVENTO</h4>
+														<div class="ui-grid-row" style="width:100%">
+										                    <div class="ui-grid-cell">
+																<p:fileUpload id="eventoImageUpload" update=":eventoForm:eventoImageUpload :eventoForm:growl" label="Seleccionar Logo" sizeLimit="1000000" fileLimit="1" fileUploadListener="#{evento.handleFileUploadLogoEvento}" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"/>
+																<p:message for="eventoImageUpload" />
+															</div>
+														</div>
+														
+														<div class="ui-grid-row" style="width:100%">
+										                    <div class="ui-grid-cell">
+																<p:graphicImage value="#{evento.evento.logoNombre}" rendered="pictureControler.isFound"/> 
+															</div>
+														</div>
+														
+													</div>
+												</div>
+												
+												<div class="Container50 Responsive50" >
+													<div class="ContainerIndent">
+														<h4>TIPO DE EVENTO</h4>
+														<div class="ui-grid-row" style="width:100%">
+										                    <div class="ui-grid-cell">
+																<p:selectOneMenu id="eventoTipoEvento" value="#{evento.evento.idtipoevento}" >
+											            			<f:selectItem itemLabel="Tipo de Evento" itemValue="" />
+											            			<f:selectItems value="#{evento.ddTipoEvento}" var="tipoEvento" itemLabel="#{tipoEvento.tipoEvento}" itemValue="#{tipoEvento.idTipoEvento}" />
+											        			</p:selectOneMenu>
+															</div>
+														</div>
+													</div>
+												</div>
+												
+												<div class="Container33 Responsive33" >
+													<div class="ContainerIndent">
+														<h4>ORGANIZADOR</h4>
+														<div class="ui-grid-row" style="width:100%">
+										                    <div class="ui-grid-cell">
+																<p:inputText value="#{evento.evento.organizador.nombre}" placeholder="¿Quién organiza este evento?"/>
+																
+															</div>
+														</div>
+													</div>
+												</div>										
+											</div>
+										</div>
+									</div>
+									
+									<p:spacer height="0,5%"></p:spacer>
+									
+									<div class="Card ShadowEffect HeiAutoOnMobile OvHidden" >
+										<div class="Container100 Responsive100">
+											<div class="ContainerIndent">
+												<h3>DESCRIPCIÓN DEL EVENTO</h3>	
+												<div class="ui-grid-row" >
+										        	<div class="ui-grid-cell" >
+														<p:editor id="eventoDescripcion" widgetVar="eventoDescripcionWidget" value="#{evento.evento.descripcion}"  controls="bold italic underline strikethrough size font"  height="100"/>
+													</div>
+												</div>										
+											</div>
+										</div>
+									</div>
+									
+									<p:spacer height="0,5%"></p:spacer>
+									
+									<div class="Card ShadowEffect HeiAutoOnMobile OvHidden">
+										<div class="Container100 Responsive100" >
+											<div class="ContainerIndent">
+												<h3>DESCRIPCIÓN DEL ORGANIZADOR</h3>	
+												<div class="ui-grid-row" style="width:100%">
+										        	<div class="ui-grid-cell">
+														<p:editor value="#{evento.evento.organizador.descripcion}" controls="bold italic underline strikethrough size font" height="100"/>
+														<p:spacer height="0"/>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>	
+									
+									<p:spacer height="0,5%"></p:spacer>
+									
+									<div class="Card ShadowEffect HeiAutoOnMobile OvHidden">
+										<div class="Container100 Responsive100" >
+											<div class="ContainerIndent">
+												<h3>PATROCINADORES</h3>
+											</div>
+										</div>
+										
+										
+										
+											<div class="Container100 Responsive100" >
+												<div class="ContainerIndent">
+												
+													<p:dataList id="listaPatrocinadorEvento" value="#{evento.evento.patrocinadores}" var="pat" type="unordered" emptyMessage="Agrega un Patrocinador" itemType="none" >
+												
+												        <p:outputLabel id="elementoListaPatrocinadores">#{pat.nombre}</p:outputLabel>
+												    </p:dataList>
+												    
+												
+									   		
+												</div>
+											</div>
+						
+											<div id="panelAgregar" class="Container100 Responsive100" >
+												<div class="ContainerIndent">
+												
+													<div class="Container50 Responsive50" >
+														<div class="ContainerIndent">
+													   		<div class="Container100 Responsive100" >
+																<div class="ContainerIndent">
+																	<div class="ui-grid-row" style="width:100%" align="center">
+													                    <div class="ui-grid-cell">
+												            				<p:outputLabel for="eventoNombrePatrocinador" value="Nombre del patrocinador: " />
+            																<p:inputText id="eventoNombrePatrocinador" value="#{evento.patrocinador.nombre}" label="patrocinador" inmediate="true"/>
+            																<p:message for="eventoNombrePatrocinador" styleClass="error"/>
+											            				</div>
+										            				</div>
+																</div>
+															</div>
+														</div>
+													</div>
+												
+													<div class="Container50 Responsive50" >
+														<div class="ContainerIndent">
+											   				<div>
+																<div class="Container100 Responsive100" >
+																	<div class="ContainerIndent">
+																		<div class="ui-grid-row" style="width:100%" align="center">
+														                    <div class="ui-grid-cell">
+														                    <p:outputLabel for="eventoImagePatrocinadorUpload" value="Seleccione el logo del patrocinador: " />
+																			<p:fileUpload id="eventoImagePatrocinadorUpload" fileUploadListener="#{evento.handleFileUploadPatrocinador}" label="Seleccionar Logo" sizeLimit="1000000" fileLimit="1" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
+																			<p:message for="eventoImagePatrocinadorUpload" styleClass="error"/>
+																			</div>
+																		</div>
+																	</div>
+																</div>
+															</div>
+											   		
+														</div>
+													</div>
+												
+													<div class="Container100 Responsive100" >
+														<div class="ContainerIndent">
+										   					<div class="Container100 Responsive100">
+				         										<p:commandButton value="Agregar" process="@this,eventoImagePatrocinadorUpload,eventoNombrePatrocinador" actionListener="#{evento.crearPatrocinador()}" update="listaPatrocinadorEvento eventoNombrePatrocinador eventoImagePatrocinadorUpload" ></p:commandButton>
+				     										</div>
+				     									</div>
+				     								</div>
+		     									</div>
+											</div>
+											
+										</div>
+								
+									
+									<p:spacer height="0"/>
+									
+								</div>
+							</div>
+						</div>
+
+					<div >
+							<div class="Container100 Responsive100" >
+								<div class="ContainerIndent">
+									<h2>2 ENTRADAS</h2>
+									
+									<p:spacer height="0"/>
+									
+									<div class="Card ShadowEffect HeiAutoOnMobile OvHidden">
+									
+										<div class="Container100 Responsive100" >
+											<div class="ContainerIndent">
+												<h3 style="margin-top:0">AFORO DEL EVENTO</h3>
+												<div class="ui-grid-row" style="width:100%">
+								                    <div class="ui-grid-cell">
+														<p:inputText id="eventoAforo" value="#{evento.evento.aforo}" placeholder="Aforo"/>
+													</div>
+												</div>
+											</div>
+										</div>
+									
+									</div>
+									
+									<p:spacer height="0"/>
+									
+									
+									<div class="Card ShadowEffect HeiAutoOnMobile OvHidden">
+										<div class="Container100 Responsive100" >
+											<div class="ContainerIndent">
+											<h3>CREA LAS ENTRADAS DEL EVENTO</h3>
+												<div class="ui-grid-row" style="width:100%">
+								                    <div class="ui-grid-cell">
+														
+														<div>
+													
+																<div class="Container100 Responsive100" >
+																	<div class="ContainerIndent">
+																	
+																		<p:dataList id="eventoListaEntrada" value="#{evento.evento.ddTipoEntradas}" var="tipoEntrada" type="ordered" emptyMessage="Agrega un Tipo de Entrada" itemType="none" >
+																	       #{tipoEntrada.cantidad} - #{tipoEntrada.nombre}  #{tipoEntrada.precio}  -  #{tipoEntrada.fechaInicioVenta} #{tipoEntrada.fechaFinVenta}  -- Sobreventa: #{tipoEntrada.sobreVenta}  -- #{tipoEntrada.maxPorPedido} #{tipoEntrada.canalDeVentas} 
+																		</p:dataList>
+																    </div>
+																</div>
+														    
+													        
+													        <div>
+																<div class="Container100 Responsive100" >
+																	<div class="ContainerIndent">
+
+															        	<div>
+																			<div class="Container33 Responsive50" >
+																				<div class="ContainerIndent">
+																					<div class="ui-grid-row" style="width:100%">
+								                  										<div class="ui-grid-cell">
+																							<p:inputText id="eventoEntradaNombre" required="true" requiredMessage="Es necesario un nombre para el tipo de entrada"   maxLength="100" value="#{evento.tipoEntrada.nombre}" placeholder="Compra Anticapada, VIP..."/>
+																							<p:message for="eventoEntradaNombre" styleClass="error"/>
+																						</div>
+																					</div>
+																				</div>
+																			</div>
+																			
+																			<div class="Container33 Responsive50" >
+																				<div class="ContainerIndent">
+																					<div class="ui-grid-row" style="width:100%">
+								                  										<div class="ui-grid-cell">
+																							<p:inputText id="eventoEntradaCantidad" required="true" requiredMessage="Es necesario indicar el número de entradas de este tipo"   maxLength="6" value="#{evento.tipoEntrada.cantidad}" placeholder="100"/>
+																							<p:message for="eventoEntradaCantidad" styleClass="error"/>
+																						</div>
+																					</div>
+																				</div>
+																			</div>
+																			
+																			<div class="Container33 Responsive100" >
+																				<div class="ContainerIndent">
+																					<div class="ui-grid-row" style="width:100%">
+								                  										<div class="ui-grid-cell">
+								                  										
+									                  										<div class="Container90 Responsive90" >
+																								<div class="ContainerIndent">
+																									<div class="ui-grid-row" style="width:100%">
+								                  														<div class="ui-grid-cell" align="justify">
+																											<h:outputText value="Permitir numero de entradas mayor al aforo " />
+																											
+																										</div>
+																									</div>	
+																							</div>
+																						</div>
+																						
+																						<div class="Container10 Responsive10" >
+																								<div class="ContainerIndent"> 
+																									<div class="ui-grid-row" style="width:100%">
+								                  														<div class="ui-grid-cell">
+																											<p:selectBooleanCheckbox id="selectSobreventa" value="#{evento.tipoEntrada.sobreVenta}" />
+																										</div>
+																									</div>	
+																							</div>
+																						</div>
+																					</div>
+																				</div>
+																			</div>
+																			</div>
+																		</div>
+																		
+																		
+																		<p:spacer height="0"/>
+															        	
+															        	<div >
+																			<div class="Container33 Responsive33" >
+																				<div class="ContainerIndent">
+																					<div class="ui-grid-row" style="width:100%"> 
+								                  										<div class="ui-grid-cell">
+																							<p:selectOneMenu id="eventoEntradaCanalDeVenta" value="#{evento.tipoEntrada.canalDeVentas}" style="width:100%">
+																					            <f:selectItem itemLabel="Canal de Ventas" itemValue="null" noSelectionOption="true" />
+																					            <f:selectItem itemLabel="online" itemValue="online" />
+																					            <f:selectItem itemLabel="papel" itemValue="papel" />
+																					        </p:selectOneMenu>
+																					        <p:message for="eventoEntradaCanalDeVenta" styleClass="error"/>
+																						</div>
+																					</div>
+																				</div>
+																			</div>
+																			
+																			<div class="Container33 Responsive33" >
+																				<div class="ContainerIndent">
+																					<div class="ui-grid-row" style="width:100%"> 
+								                  										<div class="ui-grid-cell">
+																							<p:calendar id="eventoEntradaFechaInicioVenta" required="true" requireMessage="Es necesario seleccionar una fecha de inicio" value="#{evento.tipoEntrada.fechaInicioVenta}" pattern="MM/dd/yyyy" placeholder="Inicio de la venta de entradas"/>
+																							<p:message for="eventoEntradaFechaInicioVenta" styleClass="error"/>
+																						</div>
+																					</div>
+																				</div>
+																			</div>
+																			
+																			<div class="Container33 Responsive33" >
+																				<div class="ContainerIndent">
+																					<div class="ui-grid-row" style="width:100%"> 
+								                  										<div class="ui-grid-cell">
+																							<p:calendar id="eventoEntradaFechaFinVenta" value="#{evento.tipoEntrada.fechaFinVenta}" required="true" requireMessage="Es necesario seleccionar una fecha de fin" pattern="MM/dd/yyyy" placeholder="Fin de la venta de entradas"/>
+																							<p:message for="eventoEntradaFechaFinVenta" styleClass="error"/>
+																						</div>
+																					</div>
+																				</div>
+																			</div>
+																			
+																		</div>
+																	
+																		<p:spacer height="0"/>
+															        	
+															        	<div class="Container100 Responsive100">
+																			<div class="Container50 Responsive50" >
+																				<div class="ContainerIndent">
+																					<div class="ui-grid-row" style="width:100%">
+								                  										<div class="ui-grid-cell">  
+																							<p:inputNumber id="eventoEntradaMaxPorTransaccion" required="true" requireMessage="Es necesario seleccionar un número máximo de entradas para cada transacción" value="#{evento.tipoEntrada.maxPorPedido}" minValue="1" maxValue="100" placeholder="Entradas permitidas por pedido"/>
+																							<p:message for="eventoEntradaMaxPorTransaccion" styleClass="error"/>
+																						</div>
+																					</div>
+																				</div>
+																			</div>
+																			
+																			<div class="Container50 Responsive50" >
+																				<div class="ContainerIndent">
+																					<div class="ui-grid-row" style="width:100%">
+								                  										<div class="ui-grid-cell">
+																							<p:inputNumber id="eventoEntradaPrecio" required="true" requireMessage="Es necesario indicar el precio de este tipo de entradas" value="#{evento.tipoEntrada.precio}" symbol=" €" symbolPosition="s" decimalSeparator="," thousandSeparator="." placeholder="15,00"/>
+																							<p:message for="eventoEntradaPrecio" styleClass="error"/>
+																						</div> 
+																					</div>
+																				</div>
+																			</div>
+																			
+																		</div>	
+																		
+																		<p:spacer height="0"/>
+																		</div>
+																		
+																			<div class="Container100 Responsive100" >
+																				<div class="ContainerIndent">
+																					<div class="ui-grid-row" style="width:100%">
+								                  										<div class="ui-grid-cell">
+																							<p:commandButton id="boton_agregar_entrada" update="eventoListaEntrada" process="@this,eventoEntradaNombre,eventoEntradaCantidad,selectSobreventa,eventoEntradaCanalDeVenta,eventoEntradaFechaInicioVenta,eventoEntradaFechaFinVenta,eventoEntradaMaxPorTransaccion,eventoEntradaPrecio" value="Agregar Entrada " actionListener="#{evento.crearTipoEntrada()}"></p:commandButton>
+																						</div>
+																					</div>
+																				</div>
+																			</div>
+																</div>
+															</div>
+															</div>
+													</div>
+												</div>
+											</div>
+											
+											</div>
+											
+											</div>
+											
+											<p:spacer height="0"/>
+											
+											<div class="Card ShadowEffect HeiAutoOnMobile OvHidden">
+												<div class="Container100 Responsive100" >
+													<div class="ContainerIndent">
+													<h3>COMPLEMENTOS</h3>
+														<div class="ui-grid-row" style="width:100%">
+										                    <div class="ui-grid-cell">
+										                    	<div class="Container100 Responsive100" >
+																	<div class="ContainerIndent">
+																		<p:dataList id="eventoListaComplementos" value="#{evento.evento.ddTipoComplementos}" var="tipoComplemento" type="unordered" emptyMessage="Agrega un Tipo de Complemento" itemType="none" >
+																	       #{tipoComplemento.nombre} #{tipoComplemento.precio} #{tipoComplemento.descripcion} #{tipoComplemento.nombreImagen}
+																		</p:dataList>
+																	</div>
+																</div>
+										                    
+																<div class="Container33 Responsive33" >
+																	<div class="ContainerIndent">
+																		<p:inputText id="eventoComplementoNombre" require="true" maxLength="100" value="#{evento.complemento.nombre}" placeholder="Cerveza, papas, pulsera..."/>
+																		<p:message for="eventoComplementoNombre" styleClass="error"/>
+																	</div>
+																</div>
+																<div class="Container33 Responsive33" >
+																	<div class="ContainerIndent">
+																		<p:inputText id="eventoComplementoDescripcion" require="true" value="#{evento.complemento.descripcion}" placeholder="Breve Descripción"/>
+																		<p:message for="eventoComplementoDescripcion" styleClass="error"/>
+																		
+																	</div>
+																</div>
+																<div class="Container33 Responsive33" >
+																	<div class="ContainerIndent">
+																		<p:inputNumber id="eventoComplementoPrecio" value="#{evento.complemento.precio}" symbol=" €" symbolPosition="s" decimalSeparator="," thousandSeparator="." placeholder="15,00"/>
+																		<p:message for="eventoComplementoPrecio" styleClass="error"/>
+																	</div>
+																</div>
+												        	</div>
+														</div>
+													</div>
+												</div>
+												<div class="Container100 Responsive100" >
+													<div class="ContainerIndent">
+													
+														<div class="ui-grid-row" style="width:100%" align="center">
+										                    <div class="ui-grid-cell">
+																		<p:fileUpload id="eventoComplementoImagenUpload" update="eventoComplementoImagenUpload" label="Seleccionar Imagen" uploadLabel="Subir" cancelLabel="Cancelar" sizeLimit="1000000" fileLimit="1" fileUploadListener="#{evento.handleFileUploadComplementoImagen}" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"/>
+																		<p:message for="eventoComplementoImagenUpload" />
+												        	</div>
+														</div>
+													</div>
+												</div>
+												<div class="Container100 Responsive100" align="center">
+													<div class="ContainerIndent">
+													
+														<div class="ui-grid-row" style="width:100%">
+										                    <div class="ui-grid-cell">
+										                		<p:commandButton value="Crear Complemento" actionListener="#{evento.crearComplemento}" process="@this,eventoComplementoImagenUpload,eventoComplementoPrecio,eventoComplementoDescripcion,eventoComplementoNombre" update="eventoListaComplementos"/>
+												        	</div>
+														</div>
+													</div>
+												</div>
+											</div>
+								</div>
+							</div>
+						</div>
+				</p:outputPanel>
+				<p:commandButton value="Crear Evento" action="#{evento.crearEvento}" />
+			</div>
+		</h:form>
+		</div>
+            </div>
+        </div>
+	
+	
+	
+	
+	
+	<style type="text/css">
+	    .dialogPatrocinadoresSizeDesigner {
+	        width:40%;
+	    }
+	    
+	    @media only screen and (min-device-width: 435px) { 
+	        .dialogPatrocinadoresSizeDesigner {
+	             width:80%;
+	        }
+	    }
+	
+	</style>		
+	
+	<script type="text/javascript">
+	    function handlePatrocinadorRequest(xhr, status, args) {
+	        if(args.validationFailed || !args.patrocinadorCreado) {
+	            
+	        }
+	        else {
+	        	
+	        }
+	    }    
+	</script>
+			 	
+							 	
+							 	
+    </ui:define>
+
+</ui:composition>

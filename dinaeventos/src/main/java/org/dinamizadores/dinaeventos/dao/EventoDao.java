@@ -18,6 +18,8 @@ import org.dinamizadores.dinaeventos.dto.DdGenerico;
 import org.dinamizadores.dinaeventos.dto.EntradasTiempoDTO;
 import org.dinamizadores.dinaeventos.dto.EventoDTO;
 import org.dinamizadores.dinaeventos.dto.TipoVentaBasico;
+import org.dinamizadores.dinaeventos.model.DdTipoComplemento;
+import org.dinamizadores.dinaeventos.model.DdTipoEntrada;
 import org.dinamizadores.dinaeventos.model.Evento;
 import org.dinamizadores.dinaeventos.model.Organizadores;
 import org.dinamizadores.dinaeventos.model.Patrocinadores;
@@ -67,17 +69,39 @@ public class EventoDao {
 	
 	@Loggable
 	public Evento crearEvento(Evento evento) {
+		log.debug("Persistimos el organizador");
+		Organizadores organizador = evento.getOrganizador();
+		em.persist(organizador);
+		log.debug("Organizador: " + organizador.getIdorganizador());
+		evento.setIdorganizador(organizador.getIdorganizador());
 		log.debug("Persistimos el evento");
 		em.persist(evento);
 		log.debug("Evento persistido id: " + evento.getIdevento());
+		
 		log.debug("Colocamos a cada patrocinador el id del evento");
 		for (Patrocinadores patrocinador : evento.getPatrocinadores()) {
-			log.debug("Probamos con el id");
 			patrocinador.setIdEvento(evento.getIdevento());
 			log.debug("Persistimos el patrocinador");
 			em.persist(patrocinador);
 			log.debug("Patrocinador id : " + patrocinador.getIdpatrocinador());
 			
+		}
+		
+		log.debug("Persistimos Tipo Complemento");
+		for (DdTipoComplemento complemento : evento.getDdTipoComplementos()) {
+			complemento.setIdEvento(evento.getIdevento());
+			log.debug("Persistimos el complemento");
+			em.persist(complemento);
+			log.debug("Complemento id: " + complemento.getIdTipoComplemento());
+			
+		}
+		
+		log.debug("Persistimos Tipo entrada");
+		for (DdTipoEntrada tipoEntrada : evento.getDdTipoEntradas()) {
+			tipoEntrada.setIdEvento(evento.getIdevento());
+			log.debug("Persistimos el tipo de entrada");
+			em.persist(tipoEntrada);
+			log.debug("Tipo de entrada id: " + tipoEntrada.getIdtipoentrada());
 		}
 		
 		return evento;

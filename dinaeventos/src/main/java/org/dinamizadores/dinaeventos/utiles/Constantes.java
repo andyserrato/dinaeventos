@@ -14,6 +14,11 @@ public final class Constantes {
 	public final class Rutas {
 
 		public static final String PAGINA_INICIAL = "/faces/index.xhtml";
+		
+		/**
+		 * Si se devuelve esta ruta te quedas en la misma página.
+		 */
+		public static final String NULA = "#";
 
 		/**
 		 * Clase empotrada que contiene las rutas estáticas a las páginas del
@@ -24,6 +29,8 @@ public final class Constantes {
 			public static final String VISION_GLOBAL = "/administracion/visionGlobal.xhtml?faces-redirect=true";
 			
 			public static final String VISION_GLOBAL_CON_FACES= "/faces/administracion/visionGlobal.xhtml?faces-redirect=true";
+			
+			public static final String MIS_EVENTOS = "/administracion/misEventos.xhtml?faces-redirect=true";
 
 			public static final String LUGARES_ORIGEN = "/administracion/lugaresdeorigen.xhtml?faces-redirect=true";
 

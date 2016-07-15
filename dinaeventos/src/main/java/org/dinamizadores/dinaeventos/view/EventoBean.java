@@ -27,6 +27,7 @@ import org.dinamizadores.dinaeventos.model.Evento;
 import org.dinamizadores.dinaeventos.model.GlobalCodigospostales;
 import org.dinamizadores.dinaeventos.model.Organizadores;
 import org.dinamizadores.dinaeventos.model.Patrocinadores;
+import org.dinamizadores.dinaeventos.utiles.Constantes;
 import org.dinamizadores.dinaeventos.utiles.log.Loggable;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.FileUploadEvent;
@@ -54,6 +55,7 @@ public class EventoBean implements Serializable {
 	private UploadedFile imageFile;
 	private UploadedFile imagePatrocinador;
 	private List<DdTipoEvento> ddTipoEvento = new ArrayList<>(); 
+	private List<DdTipoComplemento> complementoList = new ArrayList<>();
 	private DdTipoComplemento complemento = new DdTipoComplemento();
 	
 	@PostConstruct
@@ -76,6 +78,8 @@ public class EventoBean implements Serializable {
 		FacesMessage message = null;
 		FacesContext facesContext = FacesContext.getCurrentInstance();
 		
+		log.debug((patrocinador == null)?"El patrocinador es nulo, el nombre es: " + patrocinador.getNombre():"El patrocinador no es nulo." + patrocinador.getNombre());
+		
 		if (patrocinador.getNombre() != null && !"".equals(patrocinador.getNombre())) {
 			log.debug("Nombre del patrocinador: " + patrocinador.getNombre());
 			log.debug("Nombre de la foto" + patrocinador.getFotoNombre());
@@ -85,6 +89,7 @@ public class EventoBean implements Serializable {
 			patrocinadorCreado = true;
 		} else {
 			message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", "Error");
+			log.debug("estoy aqui");
 		}
 		
 		facesContext.addMessage(null, message);
@@ -173,41 +178,70 @@ public class EventoBean implements Serializable {
 		}
 	}
 	
-	public StreamedContent obtenerImagen(String nombre, byte[] datos) {
-		StreamedContent file = null;
-		ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
-		
-		if (nombre == null || "".equals(nombre) || datos == null ) {
-			file = new DefaultStreamedContent(ec.getResourceAsStream("/resources/images/placeholder.png"), "image/png");
-		} else {
-			file = new DefaultStreamedContent();
-		}
-		
-		return file;
-	}
-	
-	public StreamedContent obtenerImagenPrueba() {
-		StreamedContent file = null;
-		
-		ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-		InputStream is = classloader.getResourceAsStream("/img/placeholder.png");
-		file = new DefaultStreamedContent(is, "image/png");
-		
-		return file;
-	}
-	
-	public void crearEvento() {
+	@Loggable
+	public String crearEvento() {
 		FacesMessage message = null;
 		FacesContext facesContext = FacesContext.getCurrentInstance();
-		eventoDao.crearEvento(evento);
-		message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Evento", evento.getIdevento() + " creado.");
-		facesContext.addMessage(null, message);
+		String destinoUrl = Constantes.Rutas.Administracion.MIS_EVENTOS;
+		
+		if(evento.getNombre() != null && !"".equals(evento.getNombre())){
+			if(evento.getDireccion() != null && !"".equals(evento.getDireccion())){
+				if(evento.getFechaIni() != null && evento.getFechaFin() != null){
+					if(evento.getIdtipoevento() != null){
+						if(evento.getOrganizador() != null){
+							if(evento.getDdTipoEntradas() != null && !evento.getDdTipoEntradas().isEmpty()){
+								if(evento.getAforo() > 0){
+									evento.getOrganizador().setIdUsuario(loginBean.getUsuario().getIdUsuario());
+									eventoDao.crearEvento(evento);
+									message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Evento", evento.getIdevento() + " creado.");
+									facesContext.addMessage(null, message);
+								}else{
+									message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error! " + "Indica el aforo del evento", "Indica el aforo del evento");
+									facesContext.addMessage(null, message);
+									destinoUrl = Constantes.Rutas.NULA;
+								}
+							}else{
+								message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error! " + "Indica el tipo de entradas que tendrá el evento", "Indica el tipo de entradas que tendrá el evento");
+								facesContext.addMessage(null, message);
+								destinoUrl = Constantes.Rutas.NULA;
+							}
+						}else{
+							message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error! " + "Indica el organizador del evento", "Indica el organizador del evento");
+							facesContext.addMessage(null, message);
+							destinoUrl = Constantes.Rutas.NULA;
+						}
+					}else{
+						message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error! " + "Indica el tipo de evento", "Indica el tipo de evento");
+						facesContext.addMessage(null, message);
+						destinoUrl = Constantes.Rutas.NULA;
+					}
+				}else{
+					message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error! " + "Asegurate de indicar las fechas de inicio y fin para el evento", "Asegurate de indicar las fechas de inicio y fin para el evento");
+					facesContext.addMessage(null, message);
+					destinoUrl = Constantes.Rutas.NULA;
+				}
+			}else{
+				message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error! " + "Indica una dirección para el evento", "Indica una dirección para el evento");
+				facesContext.addMessage(null, message);
+				destinoUrl = Constantes.Rutas.NULA;
+			}
+		}else{
+			message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error! " + "Indica un nombre para el evento", "Indica un nombre para el evento");
+			facesContext.addMessage(null, message);
+			destinoUrl = Constantes.Rutas.NULA;
+		}
+		
+		log.debug("DestinoUrl: " + destinoUrl);
+		return destinoUrl;
 	}
 	
+	@Loggable
 	public void crearComplemento() {
 		FacesMessage message = null;
 		FacesContext facesContext = FacesContext.getCurrentInstance();
+		log.debug("");
 		evento.getDdTipoComplementos().add(complemento);
+		complementoList.add(complemento);
 		complemento = new DdTipoComplemento();
 		message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Complemento", " creado.");
 		facesContext.addMessage(null, message);
@@ -295,6 +329,16 @@ public class EventoBean implements Serializable {
 	public void setComplemento(DdTipoComplemento complemento) {
 		this.complemento = complemento;
 	}
+
+	public List<DdTipoComplemento> getComplementoList() {
+		return complementoList;
+	}
+
+	public void setComplementoList(List<DdTipoComplemento> complementoList) {
+		this.complementoList = complementoList;
+	}
+	
+	
 	
 }
 
