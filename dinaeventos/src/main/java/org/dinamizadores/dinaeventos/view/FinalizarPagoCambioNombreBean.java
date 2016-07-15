@@ -19,6 +19,7 @@ import org.dinamizadores.dinaeventos.dto.EntradasCompleta;
 import org.dinamizadores.dinaeventos.model.Entrada;
 import org.dinamizadores.dinaeventos.model.EntradaComplemento;
 import org.dinamizadores.dinaeventos.utiles.Constantes;
+import org.dinamizadores.dinaeventos.utiles.GeneradorEntradas;
 import org.dinamizadores.dinaeventos.utiles.pdf.FormarPDF;
 import org.dinamizadores.dinaeventos.utiles.plataformapagos.Pagar;
 
@@ -82,41 +83,7 @@ public class FinalizarPagoCambioNombreBean implements Serializable{
 			try {
 				genericoDao.modificar(e.getUsuario());
 				
-				//Creamos el pdf con la nueva entrada y se la enviamos por correo
-				ArrayList<EntradasCompleta> entradas = new ArrayList<EntradasCompleta>();
-				
-				EntradasCompleta eentradaCompleta = new EntradasCompleta();
-				
-				eentradaCompleta.setNombre(e.getUsuario().getNombre());
-				eentradaCompleta.setNumeroserie(e.getNumeroserie());
-				eentradaCompleta.setFechaVendida(e.getFechaVendida());
-				eentradaCompleta.setPrecio(e.getPrecio());
-				eentradaCompleta.setIdEntrada(Long.valueOf(e.getIdentrada()));
-				eentradaCompleta.setIdTipoEntrada((long)1);
-				eentradaCompleta.setUsuario(e.getUsuario());
-				
-				
-				Iterator it = e.getEntradaComplementos().iterator();
-				ArrayList<ComplementoEntero> listaComplementos = new ArrayList<>(); 
-				
-				while (it.hasNext()){
-					EntradaComplemento complemento = (EntradaComplemento) it.next();
-					System.out.println("Descripcion:" + complemento.getDdTipoComplemento().getDescripcion());
-					ComplementoEntero compl = new ComplementoEntero();
-					compl.setComplemento(complemento.getDdTipoComplemento());
-					//TODO BIEN
-					compl.setCantidad(1);
-					
-					listaComplementos.add(compl);
-				}
-				
-				eentradaCompleta.setListaComplementos(listaComplementos);
-				
-				//eentradaCompleta.set
-				
-				entradas.add(eentradaCompleta);
-				
-				FormarPDF.main(entradas, e.getEvento(), false);
+				GeneradorEntradas.generarEntrada(e);
 				
 			} catch (Exception e1) {
 				// TODO Auto-generated catch block
