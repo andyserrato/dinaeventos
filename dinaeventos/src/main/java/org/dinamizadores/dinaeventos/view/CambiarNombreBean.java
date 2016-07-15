@@ -72,7 +72,7 @@ public class CambiarNombreBean implements Serializable{
 		if (entrada != null)
 		{
 			
-			if (entrada.getValidada()){
+			if (entrada.getValidada() || (!entrada.getValidada() && entrada.getDdTipoEntrada().getCanalDeVentas().equals("online"))){
 				DdTipoEntrada tipoEntrada = entrada.getDdTipoEntrada();
 				costeCambioNombre = tipoEntrada.getCosteCambioDeNombre();
 

@@ -69,7 +69,7 @@ public class FinalizarPagoCambioNombreBean implements Serializable{
 	
 		PayIn resultadoPago = pa.actualizarTarjeta(tarjetaRegistrada);
 		
-		if (resultadoPago.Status.name() == Constantes.MangoPay.PAGO_OK){
+		if (resultadoPago.Status.name().equals(Constantes.MangoPay.PAGO_OK)){
 			rendererMensajeOk = true;
 			rendererMensajeError = false;
 			

@@ -136,7 +136,7 @@ public class Pagar {
 
 		try {
 
-			api.PayIns.create(pago);
+			pago = api.PayIns.create(pago);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
