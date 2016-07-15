@@ -2,6 +2,7 @@ package org.dinamizadores.dinaeventos.view;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -13,10 +14,15 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import javax.transaction.Transactional;
 
+import org.dinamizadores.dinaeventos.dao.DAOGenerico;
 import org.dinamizadores.dinaeventos.dao.EntradaDao;
+import org.dinamizadores.dinaeventos.dto.ComplementoEntero;
+import org.dinamizadores.dinaeventos.dto.EntradasCompleta;
 import org.dinamizadores.dinaeventos.model.Entrada;
+import org.dinamizadores.dinaeventos.model.EntradaComplemento;
 import org.dinamizadores.dinaeventos.model.Usuario;
 import org.dinamizadores.dinaeventos.utiles.BBDDFaker;
+import org.dinamizadores.dinaeventos.utiles.pdf.FormarPDF;
 import org.primefaces.event.RowEditEvent;
 
 @Named("gestionEntradasBean")
@@ -36,6 +42,9 @@ public class GestionEntradasBean implements Serializable{
 	
 	@EJB
 	private BBDDFaker bbddFaker;
+	
+	@EJB
+	private DAOGenerico genericoDao;
 	
     @PostConstruct
 	public void init(){
@@ -69,8 +78,56 @@ public class GestionEntradasBean implements Serializable{
 
 
 	public void regenerarEntrada(){
-    	
 		System.out.println("Regenerando entrada: " + emailSeleccionado);
+		
+		itemSeleccionado.getUsuario().setNombre((String)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("nuevoNombre"));
+		itemSeleccionado.getUsuario().setApellidos((String)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("nuevosApellidos"));
+
+		itemSeleccionado.getUsuario().setEmail(emailSeleccionado);
+		
+		
+		try {
+			//Persistimos los datos en la base de datos
+			genericoDao.modificar(itemSeleccionado.getUsuario());
+			//Creamos el pdf con la nueva entrada y se la enviamos por correo
+			ArrayList<EntradasCompleta> entradas = new ArrayList<EntradasCompleta>();
+			
+			EntradasCompleta eentradaCompleta = new EntradasCompleta();
+			
+			eentradaCompleta.setNombre(itemSeleccionado.getUsuario().getNombre());
+			eentradaCompleta.setNumeroserie(itemSeleccionado.getNumeroserie());
+			eentradaCompleta.setFechaVendida(itemSeleccionado.getFechaVendida());
+			eentradaCompleta.setPrecio(itemSeleccionado.getPrecio());
+			eentradaCompleta.setIdEntrada(Long.valueOf(itemSeleccionado.getIdentrada()));
+			eentradaCompleta.setIdTipoEntrada((long)1);
+			eentradaCompleta.setUsuario(itemSeleccionado.getUsuario());
+			
+			
+			Iterator it = itemSeleccionado.getEntradaComplementos().iterator();
+			ArrayList<ComplementoEntero> listaComplementos = new ArrayList<>(); 
+			
+			while (it.hasNext()){
+				EntradaComplemento complemento = (EntradaComplemento) it.next();
+				System.out.println("Descripcion:" + complemento.getDdTipoComplemento().getDescripcion());
+				ComplementoEntero compl = new ComplementoEntero();
+				compl.setComplemento(complemento.getDdTipoComplemento());
+				//TODO BIEN
+				compl.setCantidad(1);
+				
+				listaComplementos.add(compl);
+			}
+			
+			eentradaCompleta.setListaComplementos(listaComplementos);
+			
+			//eentradaCompleta.set
+			
+			entradas.add(eentradaCompleta);
+			
+			FormarPDF.main(entradas, itemSeleccionado.getEvento(), false);
+			
+		}catch (Exception e){
+			e.printStackTrace();
+		}
     }
     
     
