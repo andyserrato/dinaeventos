@@ -191,8 +191,7 @@
 														<h4>ORGANIZADOR</h4>
 														<div class="ui-grid-row" style="width:100%">
 										                    <div class="ui-grid-cell">
-																<p:inputText value="#{evento.evento.organizador.nombre}" placeholder="¿Quién organiza este evento?"/>
-																
+																<p:inputText value="#{evento.evento.nombreOrganizador}" placeholder="¿Quién organiza este evento?"/>
 															</div>
 														</div>
 													</div>
@@ -221,10 +220,18 @@
 									<div class="Card ShadowEffect HeiAutoOnMobile OvHidden">
 										<div class="Container100 Responsive100" >
 											<div class="ContainerIndent">
-												<h3>DESCRIPCIÓN DEL ORGANIZADOR</h3>	
+												<h3>DATOS DE CONTACTO</h3>
+												<div class="Container100 Responsive 100">
+													<div class="ui-grid-row" >
+										        		<div class="ui-grid-cell" >
+															<p:inputText value="#{evento.evento.emailContacto}" placeholder="Email de contacto para el evento"/>
+														</div>
+													</div>
+												</div>		
+												<p:spacer height="0,5%"></p:spacer>
 												<div class="ui-grid-row" style="width:100%">
 										        	<div class="ui-grid-cell">
-														<p:editor value="#{evento.evento.organizador.descripcion}" controls="bold italic underline strikethrough size font" height="100"/>
+														<p:editor value="#{evento.evento.descripcionOrganizador}" controls="bold italic underline strikethrough size font" height="100"/>
 														<p:spacer height="0"/>
 													</div>
 												</div>

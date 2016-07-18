@@ -2,6 +2,7 @@ package org.dinamizadores.dinaeventos.view;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -17,6 +18,7 @@ import org.apache.logging.log4j.Logger;
 import org.dinamizadores.dinaeventos.dao.EventoDao;
 import org.dinamizadores.dinaeventos.model.Evento;
 import org.dinamizadores.dinaeventos.utiles.Constantes;
+import org.dinamizadores.dinaeventos.utiles.UtilDinaEventos;
 import org.dinamizadores.dinaeventos.utiles.log.Loggable;
 import org.primefaces.event.SelectEvent;
 
@@ -32,6 +34,7 @@ public class MisEventosBean implements Serializable {
 	private List<Evento> eventos;
 	private Evento evento;
 	private String nombre;
+	private UtilDinaEventos utilDinaEventos = new UtilDinaEventos();
 
 	@PostConstruct
 	public void init() {
@@ -41,7 +44,7 @@ public class MisEventosBean implements Serializable {
 		 */
 
 		// Buscar los eventos en los que el usuario es organizador
-		eventos = eventoDao.getEventoListByOrganizadorIdThroughUsuarioId(loginBean.getUsuario().getIdUsuario());
+		eventos = eventoDao.getEventosByOrganizadorIdThroughUsuarioId(loginBean.getUsuario().getIdUsuario());
 		ExternalContext econtext = FacesContext.getCurrentInstance().getExternalContext();
 		log.debug(econtext.getRequestContextPath());
 		log.debug(econtext.getRequestContextPath() + Constantes.Rutas.Administracion.VISION_GLOBAL);
@@ -50,8 +53,7 @@ public class MisEventosBean implements Serializable {
 			log.debug("idevento: " + evento.getIdevento());
 		}
 
-		nombre = "Andy is aw esome";
-
+		nombre = "Andy is awesome";
 	}
 
 	@Loggable
@@ -63,6 +65,12 @@ public class MisEventosBean implements Serializable {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	@Loggable
+	public String irAVisionGlobalDelEvento(Evento eventoUnitario) {
+		loginBean.setEvento(eventoUnitario);
+		return Constantes.Rutas.Administracion.VISION_GLOBAL;
 	}
 
 	public String getNombre() {
@@ -87,6 +95,11 @@ public class MisEventosBean implements Serializable {
 
 	public void setEvento(Evento evento) {
 		this.evento = evento;
+	}
+	
+	public String obtenerFechaFormateada(Date fecha) {
+		log.debug(utilDinaEventos.getMyFormattedDate(fecha));
+		return utilDinaEventos.getMyFormattedDate(fecha);
 	}
 
 }

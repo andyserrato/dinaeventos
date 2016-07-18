@@ -269,18 +269,17 @@ public class EventoDao {
 	}
 	
 	@Loggable
-	public List<Evento> getEventoListByOrganizadorIdThroughUsuarioId(int idUser) {
+	public List<Evento> getEventosByOrganizadorIdThroughUsuarioId(int idUser) {
 		Organizadores organizador = usuarioDao.getOrganizadorByUserId(idUser);
-		log.debug("Nombre organizador: " + organizador.getNombre());
+		log.debug("Nombre organizador: " + organizador.getIdorganizador());
 		
 		TypedQuery<Evento> findEventosByIdOrganizador = em.createQuery(
-				"SELECT DISTINCT e FROM Evento e WHERE e.idorganizador = :idorganizador ORDER BY e.fechaIni DESC",
+				"SELECT DISTINCT e FROM Evento e JOIN FETCH e.codigoPostal WHERE e.idorganizador = :idorganizador ORDER BY e.fechaIni DESC",
 				Evento.class);
 		
 		findEventosByIdOrganizador.setParameter("idorganizador", organizador.getIdorganizador());
 		
 		return findEventosByIdOrganizador.getResultList();
-		
 	}
 	
 	

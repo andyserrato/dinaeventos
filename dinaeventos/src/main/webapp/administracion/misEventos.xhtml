@@ -21,28 +21,26 @@
                      </h2>
                      <div class="Separator"></div>
                      <h:form id="form">
-                         <p:dataTable id="singleDT" var="eventucho" value="#{misEventosBean.eventos}" selection="#{misEventosBean.evento}" selectionMode="single" rowKey="#{eventucho.idevento}"
-                                      rows="12" paginator="true" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                      rowsPerPageTemplate="12,15,22" emptyMessage="No Hay Eventos" reflow="true">
-                             <f:facet name="header">
-                                 MIS EVENTOS
-                             </f:facet>
-                             
-                             <p:ajax event="rowSelect" listener="#{misEventosBean.onRowSelect}" update="@form"/>
-
-                             <p:column headerText="Id" sortBy="#{eventucho.idevento}" footerText="Id">
-                                 <h:outputText value="#{eventucho.idevento}" />
-                             </p:column>
-                             <p:column headerText="Fecha" sortBy="#{eventucho.fechaIni}" footerText="Fecha">
-                                 <h:outputText value="#{eventucho.fechaIni}" />
-                             </p:column>
-                             <p:column headerText="Nombre" sortBy="#{eventucho.nombre}" footerText="Nombre">
-                                 <h:outputText value="#{eventucho.nombre}" />
-                             </p:column>
-                             <p:column headerText="Lugar" sortBy="#{eventucho.codigoPostal.localidad}" footerText="Lugar">
-                                 <h:outputText value="#{eventucho.codigoPostal.localidad}" />
-                             </p:column>
-                         </p:dataTable>
+                         <p:repeat  var="eventoUnitario"  value="#{misEventosBean.eventos}">
+			                <div class="Container50 Responsive50">
+				                <div class="ContainerIndent">
+	                				<div class="Card ShadowEffect HeiAutoOnMobile OvHidden">
+	                                    <div class="Container100" style="margin:0px 10px 10px -10px; padding:0px 10px;">
+	                                        <div class="SoftBlueBack DispInlBlock Fleft" style="margin:-10px 10px -10px -10px; padding:20px 10px;">
+	                                            <i class="icon-screen44 White Fs100"></i>
+	                                        </div>
+	                                        <p></p>
+	                                        <span class="Blue Fs30 FontRobotoBold">#{eventoUnitario.nombre}</span><br/> 
+	                                        <span class="Gray FontRobotoLight Fs20">#{misEventosBean.obtenerFechaFormateada(eventoUnitario.fechaIni)} </span><br/> 
+	                                        <span class="Gray FontRobotoLight Fs20">#{eventoUnitario.codigoPostal.localidad} </span>
+	                                    </div>
+	                                    <div class="CardFooter">
+	                                        <p:commandButton value="Gestionar Evento" action="#{misEventosBean.irAVisionGlobalDelEvento(eventoUnitario)}" styleClass="Wid100 - Responsive BlueButton RaisedButton"/>
+	                                    </div>
+	                                </div>
+				                </div>
+			                </div>
+			             </p:repeat>
                      </h:form>
                  </div>
              </div>

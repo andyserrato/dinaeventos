@@ -85,7 +85,7 @@ public class NavigationController implements Serializable {
 	@Loggable
 	public String redirectToCrearUsuario() {
 		// TODO colocar flag de tipo de usuario a crear
-		return "/usuario/usuarioCompletoCrear.xhtml?faces-redirect=true";
+		return "/usuario/crearUsuario.xhtml?faces-redirect=true";
 	}
 	
 	@Loggable

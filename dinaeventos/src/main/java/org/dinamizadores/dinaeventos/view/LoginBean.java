@@ -152,7 +152,7 @@ public class LoginBean implements Serializable {
 		} else {
 			salto = Constantes.Rutas.PAGINA_INICIAL;
 		}
-		System.out.println("Volvemos a " + salto + " después de hacer Login");
+		log.debug("Volvemos a " + salto + " después de hacer Login");
 		ExternalContext econtext = FacesContext.getCurrentInstance().getExternalContext();
 		try {
 			econtext.redirect(econtext.getRequestContextPath() + salto);
@@ -162,7 +162,7 @@ public class LoginBean implements Serializable {
 	}
 
 	public void login() {
-		System.out.println("Login normal");
+		log.debug("Login normal");
 		Usuario usuario = usuarioDao.login(email, password);
 		FacesContext context = FacesContext.getCurrentInstance();
 		FacesMessage message = null;
@@ -320,7 +320,7 @@ public class LoginBean implements Serializable {
 		log.debug("Checking loggin");
 		log.debug("checkFacebooklogin: " + checkFacebookLogin);
 		if (checkFacebookLogin) {
-			System.out.println("Entramos a verificar el login");
+			log.debug("Entramos a verificar el login");
 			final String clientId = "1065091143540194";
 			final String clientSecret = "51cd238b5a3a10d2b9e0ec51c862c091";
 			final String secretState = "secret" + new Random().nextInt(999_999);
@@ -334,10 +334,10 @@ public class LoginBean implements Serializable {
 			// Si se recibe code se obtiene token
 			final String code = parameterMap.get("code");
 			if (code != null && !"".equals(code)) {
-				System.out.println("code: " + code);
+				log.debug("code: " + code);
 				try {
 					accessToken = service.getAccessToken(code);
-					System.out.println("token: " + accessToken.getAccessToken());
+					log.debug("token: " + accessToken.getAccessToken());
 				} catch (IOException e) {
 					System.err.println("error:" + e.getMessage());
 					checkFacebookLogin = false;
@@ -360,11 +360,10 @@ public class LoginBean implements Serializable {
 				System.err.println("error:" + e.getMessage());
 				checkFacebookLogin = false;
 			}
-			System.out.println("Got it! Lets see what we found...");
-			System.out.println();
-			System.out.println(response.getCode());
+			log.debug("Got it! Lets see what we found...");
+			log.debug(response.getCode());
 			try {
-				System.out.println(response.getBody());
+				log.debug(response.getBody());
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -377,11 +376,10 @@ public class LoginBean implements Serializable {
 						service);
 				service.signRequest(accessToken, request2);
 				final Response response2 = request2.send();
-				System.out.println("Got it! Lets see what we found...");
-				System.out.println();
-				System.out.println(response2.getCode());
+				log.debug("Got it! Lets see what we found...");
+				log.debug(response2.getCode());
 				try {
-					System.out.println(response2.getBody());
+					log.debug(response2.getBody());
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -420,17 +418,17 @@ public class LoginBean implements Serializable {
 			// OAuthRequest(Verb.GET, service.getAuthorizationUrl(), service);
 			// service.signRequest(accessToken, requestAuthorization);
 			// Response responseAuthorization = requestAuthorization.send();
-			// System.out.println("Respuesta" +
+			// log.debug("Respuesta" +
 			// responseAuthorization.getBody());
 
 			service.signRequest(accessToken, request);
 			Response response = null;
 			response = request.send();
-			System.out.println("Got it! Lets see what we found...");
-			System.out.println(response.getBody());
+			log.debug("Got it! Lets see what we found...");
+			log.debug(response.getBody());
 			Gson gson = new Gson();
 			perfilFacebook = gson.fromJson(response.getBody(), PerfilRedSocial.class);
-			System.out.println("perfil" + perfilFacebook.toString());
+			log.debug("perfil" + perfilFacebook.toString());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -106,7 +106,7 @@ public class Usuario implements java.io.Serializable {
 		this.nombre = nombre;
 	}
 
-	@Column(name = "apellido", length = 255)
+	@Column(name = "apellidos", length = 255)
 	public String getApellidos() {
 		return this.apellidos;
 	}

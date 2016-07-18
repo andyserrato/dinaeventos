@@ -5,7 +5,6 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.ColumnResult;
 import javax.persistence.ConstructorResult;
@@ -124,6 +123,9 @@ public class Evento implements java.io.Serializable {
 	private Organizadores organizador;
 	private Date fechaAlta;
 	private Boolean activo;
+	private String nombreOrganizador;
+	private String descripcionOrganizador;
+	private String emailContacto;
 	private Set<RrppJefes> rrppJefes = new HashSet<RrppJefes>(0);
 	private Set<DdTipoEntrada> ddTipoEntradas = new HashSet<DdTipoEntrada>(0);
     private Set<DdTipoComplemento> ddTipoComplementos = new HashSet<DdTipoComplemento>(0);
@@ -297,9 +299,8 @@ public class Evento implements java.io.Serializable {
 		this.idcodigopostal = idcodigopostal;
 	}
 	
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idcodigopostal", insertable = false, updatable = false)
-	@Transient
 	public GlobalCodigospostales getCodigoPostal() {
 		return codigoPostal;
 	}
@@ -367,6 +368,34 @@ public class Evento implements java.io.Serializable {
 		this.activo = activo;
 	}
 	
+	
+	@Column(name = "nombre_organizador")
+	public String getNombreOrganizador() {
+		return nombreOrganizador;
+	}
+
+	public void setNombreOrganizador(String nombreOrganizador) {
+		this.nombreOrganizador = nombreOrganizador;
+	}
+
+	@Column(name = "descripcion_organizador")
+	public String getDescripcionOrganizador() {
+		return descripcionOrganizador;
+	}
+
+	public void setDescripcionOrganizador(String descripcionOrganizador) {
+		this.descripcionOrganizador = descripcionOrganizador;
+	}
+	
+	@Column(name = "email_contacto")
+	public String getEmailContacto() {
+		return emailContacto;
+	}
+
+	public void setEmailContacto(String emailContacto) {
+		this.emailContacto = emailContacto;
+	}
+
 	@ManyToMany(fetch=FetchType.LAZY)
     @JoinTable(name="dd_rrpp_evento", catalog="jbossforge", joinColumns = { 
         @JoinColumn(name="idevento", nullable=false, updatable=false) }, inverseJoinColumns = { 

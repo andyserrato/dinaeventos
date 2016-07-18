@@ -9,7 +9,6 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
-import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -20,6 +19,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.dinamizadores.dinaeventos.dao.DiccionarioDao;
 import org.dinamizadores.dinaeventos.dao.EventoDao;
+import org.dinamizadores.dinaeventos.dao.OrganizadoresDao;
 import org.dinamizadores.dinaeventos.model.DdTipoComplemento;
 import org.dinamizadores.dinaeventos.model.DdTipoEntrada;
 import org.dinamizadores.dinaeventos.model.DdTipoEvento;
@@ -31,8 +31,6 @@ import org.dinamizadores.dinaeventos.utiles.Constantes;
 import org.dinamizadores.dinaeventos.utiles.log.Loggable;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.FileUploadEvent;
-import org.primefaces.model.DefaultStreamedContent;
-import org.primefaces.model.StreamedContent;
 import org.primefaces.model.UploadedFile;
 
 
@@ -46,6 +44,8 @@ public class EventoBean implements Serializable {
 	private EventoDao eventoDao;
 	@EJB
 	private DiccionarioDao diccionarioDao;
+	@EJB 
+	private OrganizadoresDao organizadorDao;
 	@Inject
 	private LoginBean loginBean;
 	private Evento evento = new Evento();
@@ -62,8 +62,31 @@ public class EventoBean implements Serializable {
 	public void init() {
 		codigosPostales = new ArrayList<>();
 		evento.setCodigoPostal(new GlobalCodigospostales());
-		evento.setOrganizador(new Organizadores());
+		inicializarOrganizador();
 		ddTipoEvento = diccionarioDao.getDdTiposDeEvento();
+	}
+	
+	public void inicializarOrganizador() {
+		Organizadores organizador = null;
+		
+		try {
+			organizador = organizadorDao.getOrganizadorByIdUsuario(loginBean.getUsuario().getIdUsuario());
+		} catch (Exception e) {
+			log.debug("Error obteniendo el organizador", e);
+		}
+		
+		if (organizador != null) {
+			evento.setOrganizador(organizador);
+			evento.setIdorganizador(organizador.getIdorganizador());
+		} else {
+			organizador = new Organizadores();
+			organizador.setIdUsuario(loginBean.getUsuario().getIdUsuario());
+			organizadorDao.create(organizador);
+			log.debug("Organizador creado: " + organizador.getIdorganizador() + " asociado al usuario: " + loginBean.getUsuario().getIdUsuario() + " con email: " + loginBean.getUsuario().getIdUsuario());
+			evento.setOrganizador(organizador);
+			evento.setIdorganizador(organizador.getIdorganizador());
+		}
+		
 	}
 	
 	@Loggable
@@ -191,7 +214,6 @@ public class EventoBean implements Serializable {
 						if(evento.getOrganizador() != null){
 							if(evento.getDdTipoEntradas() != null && !evento.getDdTipoEntradas().isEmpty()){
 								if(evento.getAforo() > 0){
-									evento.getOrganizador().setIdUsuario(loginBean.getUsuario().getIdUsuario());
 									eventoDao.crearEvento(evento);
 									message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Evento", evento.getIdevento() + " creado.");
 									facesContext.addMessage(null, message);

@@ -21,26 +21,26 @@ public class Organizadores implements java.io.Serializable {
 
 	private static final long serialVersionUID = 3771450537753481435L;
 	private int idorganizador;
-	private String nombre;
-	private String descripcion;
+	private String cuentacorriente;
+	private String iban;
 	private Integer idUsuario;
 	private Usuario usuario;
 
 	public Organizadores() {
-		this.nombre = "";
-		this.descripcion = null;
 		this.usuario = null;
 		this.idUsuario = null;
 	}
 	
-	public Organizadores(int idorganizador, String nombre, String descripcion, Integer idUsuario, Usuario usuario) {
+	public Organizadores(int idorganizador, String cuentacorriente, String iban, Integer idUsuario, Usuario usuario) {
 		super();
 		this.idorganizador = idorganizador;
-		this.nombre = nombre;
-		this.descripcion = descripcion;
+		this.cuentacorriente = cuentacorriente;
+		this.iban = iban;
 		this.idUsuario = idUsuario;
 		this.usuario = usuario;
 	}
+
+
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -53,24 +53,24 @@ public class Organizadores implements java.io.Serializable {
 		this.idorganizador = idorganizador;
 	}
 
-	@Column(name = "nombre", length = 45)
-	public String getNombre() {
-		return this.nombre;
+	@Column(name = "cuentacorriente", length = 20)
+	public String getCuentacorriente() {
+		return this.cuentacorriente;
 	}
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
+	public void setCuentacorriente(String cuentacorriente) {
+		this.cuentacorriente = cuentacorriente;
 	}
 
-	@Column(name = "descripcion")
-	public String getDescripcion() {
-		return this.descripcion;
-	}
-
-	public void setDescripcion(String descripcion) {
-		this.descripcion = descripcion;
+	@Column(name = "iban", length = 34)
+	public String getIban() {
+		return this.iban;
 	}
 	
+	public void setIban(String iban) {
+		this.iban = iban;
+	}
+
 	@Column(name = "idusuario")
 	public Integer getIdUsuario() {
 		return idUsuario;
