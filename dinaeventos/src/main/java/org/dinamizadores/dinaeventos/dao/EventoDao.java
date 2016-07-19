@@ -69,12 +69,8 @@ public class EventoDao {
 	
 	@Loggable
 	public Evento crearEvento(Evento evento) {
-		log.debug("Persistimos el organizador");
-		Organizadores organizador = evento.getOrganizador();
-		em.persist(organizador);
-		log.debug("Organizador: " + organizador.getIdorganizador());
-		evento.setIdorganizador(organizador.getIdorganizador());
 		log.debug("Persistimos el evento");
+		evento.setCodigoPostal(null);
 		em.persist(evento);
 		log.debug("Evento persistido id: " + evento.getIdevento());
 		

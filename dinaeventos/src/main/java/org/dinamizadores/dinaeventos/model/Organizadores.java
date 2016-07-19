@@ -71,7 +71,7 @@ public class Organizadores implements java.io.Serializable {
 		this.iban = iban;
 	}
 
-	@Column(name = "idusuario")
+	@Column(name = "idusuario", unique = true)
 	public Integer getIdUsuario() {
 		return idUsuario;
 	}

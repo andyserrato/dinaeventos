@@ -160,7 +160,7 @@ public class BBDDFaker {
 		
 		e.setEmailContacto(faker.internet().emailAddress());
 		e.setDescripcionOrganizador(faker.lorem().characters(1000));
-		e.setNombreOrganizador(faker.company().name());
+		e.setNombreOrganizador(faker.beer().name());
 		
 		// TODO revisar por qué no se puede agregar un organizador
 		e.setIdtipoevento(idTipoEvento);
@@ -178,49 +178,25 @@ public class BBDDFaker {
 	public Organizadores crearOrganizadores(int idCodigoPostal, int idUsuario){
 		Organizadores o = new Organizadores();
 		
-		o.setCuentacorriente(String.valueOf(faker.number().randomNumber(20, true)));
-		o.setIban(faker.finance().iban("es"));
+		o.setCuentacorriente("01826564120000000000");
+		o.setIban("ES6101826564120000000000");
 		o.setIdUsuario(idUsuario);
-		
-		
-//		Usuario usuario = new Usuario();
-//		
-//		usuario.setActivo(true);
-//		usuario.setApellidos(faker.name().lastName());
-//		usuario.setBloqueado(false);
-////		u.setCuentacorriente(faker.finance().bic());
-//		usuario.setDireccion(faker.color().name());
-//		usuario.setDni(String.valueOf(faker.number().numberBetween(0, 99999999)));
-//		usuario.setEmail(faker.internet().emailAddress());
-//		usuario.setFechanac(faker.date().past(10950, TimeUnit.DAYS));
-//		usuario.setFotoperfil(null);
-//		usuario.setIban(faker.finance().iban("ES"));
-//		usuario.setIdcodigopostal(idCodigoPostal);
-////		u.setIdredessociales(idRedesSociales);
-////		u.setIdrol(idRol);
-//		usuario.setIdsexo(faker.number().numberBetween(1,2));
-//		usuario.setNombre(faker.name().firstName());
-//		usuario.setPassword("123456");
-//		usuario.setTelefono("615931639");
-//		usuario.setUltimologin(new Date());
-//			
-//		o.setUsuario(usuario);
-		
+
 		return o;
 	}
 	
 	public Patrocinadores crearPatrocinador(int idCodigoPostal, int idEvento){
 		Patrocinadores p = new Patrocinadores();
 		
-//		p.setCuentacorriente(faker.finance().creditCard());
 		p.setDireccion(faker.address().country());
 		p.setEmail(faker.internet().emailAddress());
-		p.setIban(faker.finance().iban("ES"));
+		p.setCuentacorriente("01826564120000000000");
+		p.setIban("ES6101826564120000000000");
 		p.setIdcodigopostal(idCodigoPostal);
 		p.setNombre(faker.name().firstName());
 		p.setTelefono("663149759");
 		p.setIdEvento(idEvento);
-		// TODO problema foreign key
+
 		return p;
 	}
 	
@@ -279,13 +255,13 @@ public class BBDDFaker {
 		u.setActivo(true);
 		u.setApellidos(faker.name().lastName());
 		u.setBloqueado(false);
-//		u.setCuentacorriente(faker.finance().bic());
 		u.setDireccion(faker.color().name());
 		u.setDni(String.valueOf(faker.number().numberBetween(0, 99999999)));
 		u.setEmail(faker.internet().emailAddress());
 		u.setFechanac(faker.date().past(10950, TimeUnit.DAYS));
 		u.setFotoperfil(null);
-		u.setIban(faker.finance().iban("ES"));
+		u.setCuentacorriente("01826564120000000000");
+		u.setIban("ES6101826564120000000000");
 		u.setIdcodigopostal(idCodigoPostal);
 		u.setIdredessociales(idRedSocial);
 		u.setIdrol(idRol);

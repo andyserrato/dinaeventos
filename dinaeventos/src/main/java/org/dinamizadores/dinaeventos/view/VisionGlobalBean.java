@@ -79,14 +79,6 @@ public class VisionGlobalBean implements Serializable{
 		
 		//TODO Posteriormente ese 1 'hardcodeado' se sacará del loginBean
 		
-		try {
-			bbddFaker.llenarBBDD();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		
 		if (loginBean != null && loginBean.getEvento() != null && loginBean.getEvento().getIdevento() != 0) {
 			eventoDTO = eventoDAO.getVisionGlobal(loginBean.getEvento().getIdevento());
 		}

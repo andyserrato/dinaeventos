@@ -58,13 +58,14 @@ public class OrganizadoresDao {
 	
 	@Loggable
 	public Organizadores getOrganizadorByIdUsuario(int idUsuario) throws Exception {
+		log.debug("idUsuario: " + idUsuario);
 		TypedQuery<Organizadores> findOrganizadorByUsuario = em.createQuery(
-				"SELECT DISTINCT o FROM Organizadores o WHERE o.idusuario = :idUsuario", Organizadores.class);
+				"SELECT DISTINCT o FROM Organizadores o WHERE o.idUsuario = :N_COD_USUARIO", Organizadores.class);
 
 		Organizadores organizador = null;
 
 		try {
-			findOrganizadorByUsuario.setParameter(":idusuario", idUsuario);
+			findOrganizadorByUsuario.setParameter("N_COD_USUARIO", idUsuario);
 			organizador = findOrganizadorByUsuario.getSingleResult();
 		} catch (NoResultException nre) {
 			log.debug("Organizador no encontrado 'OrganizadoresDao.getOrganizadorByIdUsuario': idUsuario: " + idUsuario);

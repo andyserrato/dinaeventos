@@ -17,6 +17,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.dinamizadores.dinaeventos.dao.EventoDao;
 import org.dinamizadores.dinaeventos.model.Evento;
+import org.dinamizadores.dinaeventos.utiles.BBDDFaker;
 import org.dinamizadores.dinaeventos.utiles.Constantes;
 import org.dinamizadores.dinaeventos.utiles.UtilDinaEventos;
 import org.dinamizadores.dinaeventos.utiles.log.Loggable;
@@ -35,7 +36,9 @@ public class MisEventosBean implements Serializable {
 	private Evento evento;
 	private String nombre;
 	private UtilDinaEventos utilDinaEventos = new UtilDinaEventos();
-
+	@EJB
+	private BBDDFaker bbddFaker;
+	
 	@PostConstruct
 	public void init() {
 		/*
@@ -54,6 +57,7 @@ public class MisEventosBean implements Serializable {
 		}
 
 		nombre = "Andy is awesome";
+		
 	}
 
 	@Loggable
