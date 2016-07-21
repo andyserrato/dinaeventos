@@ -4,7 +4,6 @@ package org.dinamizadores.dinaeventos.dto.facebookprofile;
 import javax.annotation.Generated;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import org.apache.commons.lang.builder.ToStringBuilder;
 
 @Generated("org.jsonschema2pojo")
 public class PerfilRedSocial {
@@ -21,9 +20,6 @@ public class PerfilRedSocial {
     @SerializedName("email")
     @Expose
     private String email;
-    @SerializedName("birthday")
-    @Expose
-    private String birthday;
     @SerializedName("gender")
     @Expose
     private String gender;
@@ -33,40 +29,6 @@ public class PerfilRedSocial {
     @SerializedName("picture")
     @Expose
     private Picture picture;
-    @SerializedName("location")
-    @Expose
-    private Location location;
-
-    /**
-     * No args constructor for use in serialization
-     * 
-     */
-    public PerfilRedSocial() {
-    }
-
-    /**
-     * 
-     * @param picture
-     * @param id
-     * @param birthday
-     * @param lastName
-     * @param location
-     * @param email
-     * @param link
-     * @param gender
-     * @param firstName
-     */
-    public PerfilRedSocial(String id, String firstName, String lastName, String email, String birthday, String gender, String link, Picture picture, Location location) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.birthday = birthday;
-        this.gender = gender;
-        this.link = link;
-        this.picture = picture;
-        this.location = location;
-    }
 
     /**
      * 
@@ -143,24 +105,6 @@ public class PerfilRedSocial {
     /**
      * 
      * @return
-     *     The birthday
-     */
-    public String getBirthday() {
-        return birthday;
-    }
-
-    /**
-     * 
-     * @param birthday
-     *     The birthday
-     */
-    public void setBirthday(String birthday) {
-        this.birthday = birthday;
-    }
-
-    /**
-     * 
-     * @return
      *     The gender
      */
     public String getGender() {
@@ -210,29 +154,6 @@ public class PerfilRedSocial {
      */
     public void setPicture(Picture picture) {
         this.picture = picture;
-    }
-
-    /**
-     * 
-     * @return
-     *     The location
-     */
-    public Location getLocation() {
-        return location;
-    }
-
-    /**
-     * 
-     * @param location
-     *     The location
-     */
-    public void setLocation(Location location) {
-        this.location = location;
-    }
-
-    @Override
-    public String toString() {
-        return ToStringBuilder.reflectionToString(this);
     }
 
 }

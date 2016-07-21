@@ -12,8 +12,12 @@ public final class Constantes {
 	 * Clase empotrada que contiene las rutas estáticas a distintas páginas.
 	 */
 	public final class Rutas {
-
+		
+		private Rutas() {}
+		
 		public static final String PAGINA_INICIAL = "/faces/index.xhtml";
+		
+		public static final String PAGINA_404 = "/faces/404.xhtml";
 		
 		/**
 		 * Si se devuelve esta ruta te quedas en la misma página.
@@ -50,12 +54,55 @@ public final class Constantes {
 		}
 		
 		public final class Evento {
+			
+			private Evento () {}
+			
 			public static final String CREAR_EVENTO = "/secured/evento/crearEvento.xhtml?faces-redirect=true";
+			
+		}
+		
+		public final class Entrada {
+		
+			private Entrada() {}
+			
+			public static final String COMPRAR = "/comprar/comprarEntrada.xhtml?faces-redirect=true";
+			
+			public static final String VALIDAR = "/validacion/validarEntrada.xhtml?faces-redirect=true";
+			
+			public static final String CAMBIAR_NOMBRE = "/cambioNombre/cambioNombre.xhtml?faces-redirect=true";
 		}
 	}
 	
 	public final class MangoPay {
 		public static final String PAGO_OK = "SUCCEEDED";
 		public static final String PAGO_FALLIDO = "FAILED";
-	}	
+	}
+	
+	public final class Facebook {
+		
+		private Facebook() {}
+		
+		public final class Credenciales {
+			private Credenciales(){}
+			public static final String CLIENT_ID = "1065091143540194";
+			public static final String CLIENT_SECRET = "51cd238b5a3a10d2b9e0ec51c862c091";
+		}
+		
+		public final class Enlaces {
+			private Enlaces() {}
+			
+			public static final String API_PLAIN_URL = "https://graph.facebook.com/v2.6/";
+			public static final String PROTECTED_RESOURCE_URL = "https://graph.facebook.com/v2.6/me";
+			public static final String PROFILE_URL = "https://graph.facebook.com/v2.6/me?fields=id,first_name,last_name,email,gender,link,picture";
+			public static final String CALLBACK_TO_LOGIN_PRUEBA = "http://localhost:8080/dinaeventos/faces/login/loginPrueba.xhtml";
+			public static final String CALLBACK_TO_LOGIN = "http://localhost:8080/dinaeventos/faces/login/loginPrueba.xhtml"; 
+			public static final String CALLBACK_TO_RRPP_APROVAL = "";
+		}
+		
+		public final class Permisos {
+			private Permisos() {}
+			
+			public static final String EMAIL = "email";
+		}
+	}
 }

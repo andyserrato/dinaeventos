@@ -8,6 +8,8 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+import javax.persistence.NonUniqueResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
@@ -277,6 +279,30 @@ public class EventoDao {
 		
 		return findEventosByIdOrganizador.getResultList();
 	}
+	
+	@Loggable
+	public Evento getEventoByName(String name) throws Exception {
+		log.debug("Buscamos el evento de nombre: " + name);
+		Evento evento = null;
+		
+		try {
+			TypedQuery<Evento> findEventoByName = em.createQuery(
+					"SELECT DISTINCT e FROM Evento e JOIN FETCH e.codigoPostal WHERE e.nombre = :name ORDER BY e.fechaIni DESC",
+					Evento.class);
+			
+			findEventoByName.setParameter("name", name);
+			evento = findEventoByName.getSingleResult();
+		} catch (NoResultException nre) {
+			log.debug("Evento no encontrado 'EventoDao.getEventoByName': '{}'", name);
+		} catch (NonUniqueResultException nure) {
+			throw new Exception("La consulta 'EventoDao.getEventoByName' debe devolver un único registro", nure);
+		} catch (Exception e) {
+			throw new Exception("Error en la consulta 'EventoDao.getEventoByName'", e);
+		}
+		
+		return evento;
+	}
+	
 	
 	
 }

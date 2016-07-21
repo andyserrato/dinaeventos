@@ -34,7 +34,6 @@ public class MisEventosBean implements Serializable {
 	private EventoDao eventoDao;
 	private List<Evento> eventos;
 	private Evento evento;
-	private String nombre;
 	private UtilDinaEventos utilDinaEventos = new UtilDinaEventos();
 	@EJB
 	private BBDDFaker bbddFaker;
@@ -56,8 +55,6 @@ public class MisEventosBean implements Serializable {
 			log.debug("idevento: " + evento.getIdevento());
 		}
 
-		nombre = "Andy is awesome";
-		
 	}
 
 	@Loggable
@@ -75,14 +72,6 @@ public class MisEventosBean implements Serializable {
 	public String irAVisionGlobalDelEvento(Evento eventoUnitario) {
 		loginBean.setEvento(eventoUnitario);
 		return Constantes.Rutas.Administracion.VISION_GLOBAL;
-	}
-
-	public String getNombre() {
-		return nombre;
-	}
-
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
 	}
 
 	public List<Evento> getEventos() {

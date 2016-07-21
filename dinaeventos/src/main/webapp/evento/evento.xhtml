@@ -1,0 +1,58 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/templateCliente.xhtml">
+
+    <ui:define name="content">
+        <div class="Container100">
+            <div class="ContainerIndent">
+                <div class="Card ShadowEffect ">
+ 					<div class="Card ShadowEffect HeiAutoOnMobile OvHidden">
+                             <div class="Container100" style="margin:0px 10px 10px -10px; padding:0px 10px;">
+                                 <div class="SoftGreenBack DispInlBlock Fleft" style="margin:-10px 10px -10px -10px; padding:20px 10px;">
+                                     <i class="icon-screen44 Green Fs100"></i>
+                                 </div>
+                                 <p></p>
+                                 <span class="Green Fs30 FontRobotoBold">#{eventoIndividualBean.evento.nombre}</span><br/>
+                                 Nombre Lugar: 
+                                 <span class="Gray FontRobotoLight Fs20">#{eventoIndividualBean.evento.nombrelugar}</span><br/> 
+                                 <span class="Gray FontRobotoLight Fs20">Dirección: #{eventoIndividualBean.evento.direccion}</span><br/> 
+                               	 <span class="Gray FontRobotoLight Fs20">Fecha Inicio: #{eventoIndividualBean.getMyFormattedDate(eventoIndividualBean.evento.fechaIni)}</span><br/> 
+                               	 <span class="Gray FontRobotoLight Fs20">Fecha Fin: #{eventoIndividualBean.getMyFormattedDate(eventoIndividualBean.evento.fechaFin)}</span><br/> 
+                               	 <span class="Gray FontRobotoLight Fs20">
+                               	 	Foto: 
+                               	 	<p:graphicImage value="#{loginBean.getImagenFromByte(eventoIndividualBean.evento.logo, eventoIndividualBean.evento.logoNombre)}"/>
+                               	 </span><br/> 
+                               	 <span class="Gray FontRobotoLight Fs20">Descripción Evento: #{eventoIndividualBean.evento.descripcion}</span><br/> 
+                               	 <span class="Gray FontRobotoLight Fs20">Aforo: #{eventoIndividualBean.evento.aforo}</span><br/> 
+                               	 <span class="Gray FontRobotoLight Fs20">Latitud: #{eventoIndividualBean.evento.latitud}</span><br/> 
+                               	 <span class="Gray FontRobotoLight Fs20">Longitud: #{eventoIndividualBean.evento.longitud}</span><br/> 
+                               	 <span class="Gray FontRobotoLight Fs20">Entradas Disponible#{eventoIndividualBean.evento.entradasDisponibles}</span><br/> 
+                               	 <span class="Gray FontRobotoLight Fs20">Fecha de Alta: #{eventoIndividualBean.getMyFormattedDate(eventoIndividualBean.evento.fechaAlta)}</span><br/> 
+                               	 <span class="Gray FontRobotoLight Fs20">Activo: #{eventoIndividualBean.evento.activo}</span><br/> 
+                               	 <span class="Gray FontRobotoLight Fs20">Código Postal: #{eventoIndividualBean.evento.codigoPostal.codigo}</span><br/> 
+                               	 <span class="Gray FontRobotoLight Fs20">Localidad: #{eventoIndividualBean.evento.codigoPostal.localidad}</span><br/> 
+                               	 <span class="Gray FontRobotoLight Fs20">Provincia: #{eventoIndividualBean.evento.codigoPostal.provincia.nombre}</span><br/> 
+                               	 <span class="Gray FontRobotoLight Fs20">Nombre Organizador: #{eventoIndividualBean.evento.nombreOrganizador}</span><br/> 
+                               	 <span class="Gray FontRobotoLight Fs20">Descripción Organziador: #{eventoIndividualBean.evento.descripcionOrganizador}</span><br/> 
+                               	 <span class="Gray FontRobotoLight Fs20">Email de contacto de la organización del evento:#{eventoIndividualBean.evento.emailContacto}</span><br/> 
+                             </div>
+                             <div class="CardFooter">
+                             	<h:form>
+	                             	<p:panelGrid layout="grid" style="border:0px !important;" columns="3"> 
+		                                 <p:commandButton style="width:auto" value="Comprar entradas" action="#{navigationBean.irComprar(eventoIndividualBean.evento)}"  styleClass="BlueTextButton"></p:commandButton>
+		                                 <p:commandButton style="width:auto" value="Activa tu entrada" action="#{navigationBean.irActivar(eventoIndividualBean.evento)}" styleClass="BlueTextButton"></p:commandButton>
+		                                 <p:commandButton style="width:auto" value="Cambio de nombre" action="#{navigationBean.irCambioNombre(eventoIndividualBean.evento)}" styleClass="BlueTextButton"></p:commandButton>
+	                             	</p:panelGrid>
+                             	</h:form>
+                             </div>
+                         </div>
+                </div>
+            </div>
+        </div>
+        
+    </ui:define>
+
+</ui:composition>

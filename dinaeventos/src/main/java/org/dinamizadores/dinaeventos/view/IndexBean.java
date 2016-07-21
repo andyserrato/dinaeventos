@@ -47,9 +47,6 @@ public class IndexBean implements Serializable {
 	
 	private List<Evento> listaEventos = new ArrayList<Evento>();
 	
-	
-
-
 	@PostConstruct
 	public void init() {
 		
@@ -58,29 +55,6 @@ public class IndexBean implements Serializable {
 		
 	}
 	
-
-
-	public String irComprar(Evento evento){
-		
-		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("evento", evento);
-		
-		return "/comprar/comprarEntrada.xhtml?faces-redirect=true";
-	}
-	
-	public String irActivar(Evento evento){
-		
-		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("evento", evento);
-		return "/validacion/validarEntrada.xhtml?faces-redirect=true";
-	}
-	
-	public String irCambioNombre(Evento evento){
-		
-		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("evento", evento);
-		return "/cambioNombre/cambioNombre.xhtml?faces-redirect=true";
-	}
-
-
-
 	public List<Evento> getListaEventos() {
 		return listaEventos;
 	}

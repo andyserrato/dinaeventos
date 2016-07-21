@@ -26,6 +26,7 @@ import org.dinamizadores.dinaeventos.model.Evento;
 import org.dinamizadores.dinaeventos.model.Usuario;
 import org.dinamizadores.dinaeventos.utiles.Constantes;
 import org.dinamizadores.dinaeventos.utiles.FacebookAppCredential;
+import org.dinamizadores.dinaeventos.utiles.FacebookLoginService;
 import org.dinamizadores.dinaeventos.utiles.log.Loggable;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
@@ -57,12 +58,13 @@ public class LoginBean implements Serializable {
 	@EJB
 	private FacebookAppCredential appAccessToken;
 	private Boolean loggedIn = false;
+	private FacebookLoginService facebookLoginService = new FacebookLoginService();
 	
 	//TODO Falta cambiar la variable cuando se loguee con FEISBUK
 	private Boolean loggedInWithFacebook=false;
 	
 	private String originalURL;
-	PerfilRedSocial perfilFacebook = null;
+	private PerfilRedSocial perfilFacebook = null;
 	private static final String NETWORK_NAME = "Facebook";
 	private static final String PROTECTED_RESOURCE_URL = "https://graph.facebook.com/v2.6/me";
 	private static final String PROFILE_URL = "https://graph.facebook.com/v2.6/me?fields=id,first_name,last_name,email,birthday,gender,link,picture,location";
@@ -183,17 +185,10 @@ public class LoginBean implements Serializable {
 	}
 
 	public void loginFacebook() {
-		final String clientId = "1065091143540194";
-		final String clientSecret = "51cd238b5a3a10d2b9e0ec51c862c091";
-		final String secretState = "secret" + new Random().nextInt(999_999);
-		final OAuth20Service service = new ServiceBuilder().apiKey(clientId).apiSecret(clientSecret).scope("email")
-				.state(secretState).callback("http://localhost:8080/dinaeventos/faces/login/login.xhtml")
-				.build(FacebookApi.instance());
 
-		final String authorizationUrl = service.getAuthorizationUrl();
+		final String authorizationUrl = facebookLoginService.getService().getAuthorizationUrl();
 
 		checkFacebookLogin = true;
-		log.debug("checkFacebooklogin: " + checkFacebookLogin);
 		ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
 
 		try {
@@ -204,55 +199,6 @@ public class LoginBean implements Serializable {
 		}
 
 	}
-
-	// public void LogoutPerfilFacebook1() throws UnsupportedEncodingException {
-	// final String clientId = "1065091143540194";
-	// final String clientSecret = "51cd238b5a3a10d2b9e0ec51c862c091";
-	// final String secretState = "secret" + new Random().nextInt(999_999);
-	// final OAuth20Service service = new ServiceBuilder()
-	// .apiKey(clientId)
-	// .apiSecret(clientSecret)
-	// .state(secretState)
-	// .callback("http://localhost:8080/dinaeventos/faces/login/login.xhtml")
-	// .build(FacebookApi.instance());
-	//// String logoutUrl =
-	// "https://www.facebook.com/logout.php?next=http://localhost:8080/dinaeventos/&access_token="
-	// + accessToken.getAccessToken();
-	// String logoutUrl = "https://www.facebook.com/logout.php?next=" +
-	// URLEncoder.encode("http://localhost:8080/dinaeventos/faces/login/login.xhtml",
-	// "UTF-8") + "&access_token=" + accessToken.getAccessToken();
-	//
-	// ExternalContext externalContext = FacesContext.getCurrentInstance()
-	// .getExternalContext();
-	//
-	// try {
-	// externalContext.redirect(logoutUrl);
-	// } catch (IOException ex) {
-	// log.error("Ha ocurrido un problema con el inicio de sesión: ");
-	// ex.printStackTrace();
-	// }
-	// // final OAuthRequest request = new OAuthRequest(Verb.GET, logoutUrl,
-	// service);
-	////
-	////
-	////
-	//// Response response = null;
-	//// try {
-	//// response = request.send();
-	//// } catch (Exception e) {
-	//// log.error("Ha ocurrido un error con el cierre de sesión: " +
-	// e.getMessage());
-	//// }
-	////
-	//// log.debug("Respuesta" + response.getCode());
-	//// try {
-	//// log.debug(response.getBody());
-	//// } catch (IOException e) {
-	//// e.printStackTrace();
-	//// }
-	//
-	// log.debug(accessToken.getAccessToken());
-	// }
 
 	public void LogoutPerfilFacebook() throws UnsupportedEncodingException {
 		final String clientId = "1065091143540194";
@@ -317,16 +263,8 @@ public class LoginBean implements Serializable {
 	}
 
 	public void checkFirstFacebookLogin() {
-		log.debug("Checking loggin");
-		log.debug("checkFacebooklogin: " + checkFacebookLogin);
+		
 		if (checkFacebookLogin) {
-			log.debug("Entramos a verificar el login");
-			final String clientId = "1065091143540194";
-			final String clientSecret = "51cd238b5a3a10d2b9e0ec51c862c091";
-			final String secretState = "secret" + new Random().nextInt(999_999);
-			final OAuth20Service service = new ServiceBuilder().apiKey(clientId).apiSecret(clientSecret)
-					.state(secretState).callback("http://localhost:8080/dinaeventos/faces/login/login.xhtml")
-					.build(FacebookApi.instance());
 
 			ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
 			Map<String, String> parameterMap = (Map<String, String>) externalContext.getRequestParameterMap();
@@ -336,45 +274,20 @@ public class LoginBean implements Serializable {
 			if (code != null && !"".equals(code)) {
 				log.debug("code: " + code);
 				try {
-					accessToken = service.getAccessToken(code);
+					accessToken = facebookLoginService.getService().getAccessToken(code);
 					log.debug("token: " + accessToken.getAccessToken());
 				} catch (IOException e) {
-					System.err.println("error:" + e.getMessage());
+					log.debug("error:", e);
 					checkFacebookLogin = false;
 				}
-			}
-
-			final OAuthRequest request = new OAuthRequest(Verb.GET, PROTECTED_RESOURCE_URL, service);
-
-			try {
-				service.signRequest(accessToken, request);
-			} catch (Exception e) {
-				System.err.println("error:" + e.getMessage());
-				checkFacebookLogin = false;
-			}
-
-			Response response = null;
-			try {
-				response = request.send();
-			} catch (Exception e) {
-				System.err.println("error:" + e.getMessage());
-				checkFacebookLogin = false;
-			}
-			log.debug("Got it! Lets see what we found...");
-			log.debug(response.getCode());
-			try {
-				log.debug(response.getBody());
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			}
 
 			// si se obtiene token se verifica
 			final String token = parameterMap.get("token");
 			if (token != null && !"".equals(token)) {
 				final OAuthRequest request2 = new OAuthRequest(Verb.GET, "https://graph.facebook.com/debug_token",
-						service);
-				service.signRequest(accessToken, request2);
+						facebookLoginService.getService());
+				facebookLoginService.getService().signRequest(accessToken, request2);
 				final Response response2 = request2.send();
 				log.debug("Got it! Lets see what we found...");
 				log.debug(response2.getCode());
@@ -387,50 +300,34 @@ public class LoginBean implements Serializable {
 			}
 
 			checkFacebookLogin = false;
+			
+			obtenerPerfilFacebook();
+			log.debug("Access Token: " + accessToken.getAccessToken());
+			log.debug("Refresh Token: " + accessToken.getRefreshToken());
+			log.debug("Scope: " + accessToken.getScope());
+			log.debug("Access Token: " + accessToken.getExpiresIn());
+			
+//			accessToken = facebookLoginService.getService().getAccessToken(code);
+			
+//			usuarioDao.crearUsuarioConPerfilFacebook(perfilFacebook, accessToken.getAccessToken());
 
-			// Verifier v = new Verifier(parameterMap.get("oauth_verifier"));
-			// Token accessToken = service.getAccessToken(requestToken, v);
-			//
-			// OAuthRequest request = new OAuthRequest(Verb.GET,
-			// "https://api.linkedin.com/v1/people/~");
-			//
-			// service.signRequest(accessToken, request);
-			// Response response = request.send();
-			//
-			// System.err.println(response.getBody());
-			//
-			// return "";
 		}
 	}
 
 	public void obtenerPerfilFacebook() {
-		final String clientId = "1065091143540194";
-		final String clientSecret = "51cd238b5a3a10d2b9e0ec51c862c091";
-		final String secretState = "secret" + new Random().nextInt(999_999);
-		final OAuth20Service service = new ServiceBuilder().apiKey(clientId).apiSecret(clientSecret).state(secretState)
-				.callback("http://localhost:8080/dinaeventos/faces/login/login.xhtml").build(FacebookApi.instance());
-
-		final OAuthRequest request = new OAuthRequest(Verb.GET, PROFILE_URL, service);
-
+		
 		try {
-			// service.refreshAccessToken(accessToken.getAccessToken());
-			// final OAuthRequest requestAuthorization = new
-			// OAuthRequest(Verb.GET, service.getAuthorizationUrl(), service);
-			// service.signRequest(accessToken, requestAuthorization);
-			// Response responseAuthorization = requestAuthorization.send();
-			// log.debug("Respuesta" +
-			// responseAuthorization.getBody());
-
-			service.signRequest(accessToken, request);
+			final OAuthRequest request = new OAuthRequest(Verb.GET, PROFILE_URL, facebookLoginService.getService());
+			facebookLoginService.getService().signRequest(accessToken, request);
 			Response response = null;
 			response = request.send();
-			log.debug("Got it! Lets see what we found...");
+			log.debug("Obtenemos perfil facebook");
 			log.debug(response.getBody());
 			Gson gson = new Gson();
 			perfilFacebook = gson.fromJson(response.getBody(), PerfilRedSocial.class);
 			log.debug("perfil" + perfilFacebook.toString());
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.error("Obteniendo perfil de facebook",e);
 		}
 	}
 
@@ -465,6 +362,18 @@ public class LoginBean implements Serializable {
 		}
 		
 
+		return file;
+	}
+	
+	@Loggable
+	public StreamedContent getImagenFromByte(byte[] fichero, String nombre) {
+		StreamedContent file = null;
+		if (fichero != null && !"".equals(nombre) && nombre != null) {
+			log.debug("La imagen no es nula" + nombre);
+			// TODO falta sacar la extensión del nombre de la imagen  
+			file = new DefaultStreamedContent(new ByteArrayInputStream(fichero));
+		}
+		
 		return file;
 	}
 

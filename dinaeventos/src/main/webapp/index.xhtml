@@ -208,28 +208,26 @@
            <p:repeat  var="even"  value="#{indexBean.listaEventos}">
                 <div class="Container50 Responsive50">
 	                <div class="ContainerIndent">
-	                				<div class="Card ShadowEffect HeiAutoOnMobile OvHidden">
-	                                    <div class="Container100" style="margin:0px 10px 10px -10px; padding:0px 10px;">
-	                                        <div class="SoftGreenBack DispInlBlock Fleft" style="margin:-10px 10px -10px -10px; padding:20px 10px;">
-	                                            <i class="icon-screen44 Green Fs100"></i>
-	                                        </div>
-	                                        <p></p>
-	                                        <span class="Green Fs30 FontRobotoBold">#{even.nombre}</span><br/> 
-	                                        <span class="Gray FontRobotoLight Fs20">#{even.descripcion} </span>
-	                                        
-	                                    </div>
-	                                    <div class="CardFooter">
-	                                    	<p:panelGrid layout="grid" style="border:0px !important;" columns="3"> 
-	                                        <p:commandButton style="width:auto" value="Comprar entradas" action="#{indexBean.irComprar(even)}"  styleClass="BlueTextButton"></p:commandButton>
-	                                        <p:commandButton style="width:auto" value="Activa tu entrada" action="#{indexBean.irActivar(even)}" styleClass="BlueTextButton"></p:commandButton>
-	                                        <p:commandButton style="width:auto" value="Cambio de nombre" action="#{indexBean.irCambioNombre(even)}" styleClass="BlueTextButton"></p:commandButton>
-	                                    	</p:panelGrid>
-	                                    </div>
-	                                </div>
+         				<div class="Card ShadowEffect HeiAutoOnMobile OvHidden">
+                             <div class="Container100" style="margin:0px 10px 10px -10px; padding:0px 10px;">
+                                 <div class="SoftGreenBack DispInlBlock Fleft" style="margin:-10px 10px -10px -10px; padding:20px 10px;">
+                                     <i class="icon-screen44 Green Fs100"></i>
+                                 </div>
+                                 <p></p>
+                                 <span class="Green Fs30 FontRobotoBold">#{even.nombre}</span><br/> 
+                                 <span class="Gray FontRobotoLight Fs20">#{even.descripcion} </span>
+                                 
+                             </div>
+                             <div class="CardFooter">
+                             	<p:panelGrid layout="grid" style="border:0px !important;" columns="3"> 
+                                 <p:commandButton style="width:auto" value="Comprar entradas" action="#{navigationBean.irComprar(even)}"  styleClass="BlueTextButton"></p:commandButton>
+                                 <p:commandButton style="width:auto" value="Activa tu entrada" action="#{navigationBean.irActivar(even)}" styleClass="BlueTextButton"></p:commandButton>
+                                 <p:commandButton style="width:auto" value="Cambio de nombre" action="#{navigationBean.irCambioNombre(even)}" styleClass="BlueTextButton"></p:commandButton>
+                             	</p:panelGrid>
+                             </div>
+                         </div>
 	                </div>
-
                 </div>
-
              </p:repeat>
       </h:form>      
 

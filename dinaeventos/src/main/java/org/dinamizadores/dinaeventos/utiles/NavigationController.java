@@ -4,9 +4,11 @@ import java.io.Serializable;
 
 import javax.ejb.Startup;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.dinamizadores.dinaeventos.model.Evento;
 import org.dinamizadores.dinaeventos.utiles.log.Loggable;
 import org.dinamizadores.dinaeventos.view.LoginBean;
 
@@ -92,5 +94,24 @@ public class NavigationController implements Serializable {
 	public String toCrearUsuario() {
 		// TODO colocar flag de tipo de usuario a crear123
 		return "/usuario/crearUsuario.xhtml";
+	}
+	
+	public String irComprar(Evento evento){
+		
+		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("evento", evento);
+		
+		return Constantes.Rutas.Entrada.COMPRAR;
+	}
+	
+	public String irActivar(Evento evento){
+		
+		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("evento", evento);
+		return Constantes.Rutas.Entrada.VALIDAR;
+	}
+	
+	public String irCambioNombre(Evento evento){
+		
+		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("evento", evento);
+		return Constantes.Rutas.Entrada.CAMBIAR_NOMBRE;
 	}
 }
