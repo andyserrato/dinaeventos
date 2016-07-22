@@ -20,16 +20,6 @@ import org.dinamizadores.dinaeventos.model.Entrada;
 import org.dinamizadores.dinaeventos.model.Evento;
 import org.dinamizadores.dinaeventos.utiles.log.Loggable;
 
-/**
- * Backing bean for Entrada entities.
- * <p/>
- * This class provides CRUD functionality for all Entrada entities. It focuses
- * purely on Java EE 6 standards (e.g. <tt>&#64;ConversationScoped</tt> for
- * state management, <tt>PersistenceContext</tt> for persistence,
- * <tt>CriteriaBuilder</tt> for searches) rather than introducing a CRUD
- * framework or custom base class.
- */
-
 @Named("entradaBean")
 @ViewScoped
 @Loggable
@@ -37,17 +27,12 @@ public class EntradaBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	/*
-	 * Support creating and retrieving Entrada entities
-	 */
-
 	@EJB
 	private EntradaDao tipoEntradaDao; 
 	
 	private Integer id;
 	
 	private int cantidad;
-	
 	
 	private Map<Long,List<BigDecimal>> listaPrecios =  new HashMap<Long,List<BigDecimal>>();
 
@@ -122,8 +107,6 @@ public class EntradaBean implements Serializable {
 	}
 
 	public String cambiarPagina(){
-		
-		
 		return "/comprar/formularioCliente.xhtml?faces-redirect=true";
 	}
 	

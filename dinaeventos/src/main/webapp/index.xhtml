@@ -38,7 +38,7 @@
         <div class="Container100 PosFixed BlueBack FontRobotoRegular" style="z-index:999;">
             <div class="EmptyBox20"></div>
             <div class="Wid90 OvHidden MarAuto">
-                <h:graphicImage name="images/logo.svg" library="rio-layout" style="height:25px; float:left;"/>
+                <h:graphicImage name="images/LogoResolucion.png" library="rio-layout" style="height:25px; float:left;"/>
 
                 <a id="menu-button"><i class="fa fa-bars"></i></a>
                 <ul class="" style="padding:0px;" id="menubody">
@@ -75,7 +75,7 @@
                     <div class="Wid50 MarAuto ui-fluid Responsive100">
                     	<h:form>
                         	<div class="Container50 Responsive100"><div class="ContainerIndent"><p:commandButton value="Crear un Evento" action="#{navigationBean.toCrearEvento}" styleClass="GreenButton Fs18"/></div></div>
-                        	<div class="Container50 Responsive100"><div class="ContainerIndent"><p:commandButton value="Descubre nuestros eventos" styleClass="RedButton Fs18"/></div></div>
+                        	<div class="Container50 Responsive100"><div class="ContainerIndent"><p:commandButton value="Descubre nuestros eventos" type="button" styleClass="RedButton Fs18" onclick="scrollToAnchor('#eventos_valencia')" /></div></div>
                         </h:form>
                     </div>
 
@@ -198,7 +198,7 @@
 
         <!-- -->
 
-        <div class="Container100 BoldGrayBack" id="rio-infoArea" style="padding:0px 3rem; box-sizing:border-box;">
+        <div id="eventos_valencia" class="Container100 BoldGrayBack" Style="padding:0px 3rem; box-sizing:border-box;">
 
             <div class="EmptyBox80"></div>
 
@@ -642,6 +642,12 @@
                     menustatus = true;
                 }
             });
+
+            function scrollToAnchor(idEnlace) {
+                jQuery('html, body').animate({
+                    scrollTop: jQuery(idEnlace).offset().top
+                }, 500);
+            };
         </script>
     </h:body>
 

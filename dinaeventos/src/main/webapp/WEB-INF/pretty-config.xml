@@ -9,4 +9,10 @@
 		<action>#{eventoIndividualBean.cargarEventoPorNombre}</action>
 	</url-mapping>
 	
+	<url-mapping id="conferenciaSinActivacionNiCambioNombre">
+		<pattern value="/conferencia/#{iid : eventoIndividualBean.nombreEvento}" />
+		<view-id value="/faces/evento/eventoSinActivacionNiCambioNombre.xhtml" />
+		<action>#{eventoIndividualBean.cargarEventoPorNombre}</action>
+	</url-mapping>
+	
 </pretty-config>
