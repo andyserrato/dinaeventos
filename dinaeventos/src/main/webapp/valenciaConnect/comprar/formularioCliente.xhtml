@@ -1,0 +1,82 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/WEB-INF/templateCliente.xhtml"
+	xmlns:p="http://primefaces.org/ui">
+
+
+	<ui:param name="pageTitle" value="Rellenar información entradas"/>
+
+	<ui:define name="header">
+		<h1>Entrada</h1>
+	</ui:define>
+
+	<ui:define name="subheader">
+		<h3>Rellena la información de entradas</h3>
+	</ui:define>
+
+	<ui:define name="footer"/>
+
+	<ui:define name="content">
+	
+					<h:form id="search">
+					    <p:repeat value="#{usuarioBean.listadoEntradas}" var="entrada">
+
+								         <div class="Container100 ">
+            								<div class="ContainerIndent">
+                								<div class="Card ShadowEffect ui-fluid ">
+                								 <div class="Container100 Responsive100">
+            									<div class="ContainerIndent">
+                								<h2 class="BigTopic" >#{entrada.nombre}</h2> 
+								            	<p:panelGrid columns="6" layout="grid" style="border:0px!important;">
+		            	 
+								            	 <p:inputText placeholder="Nombre"  id="nombre" value="#{entrada.usuario.nombre}" label="Nombre" required="true"></p:inputText>
+								                 	                
+								                 <p:inputText placeholder="Apellidos"  class="" label="apellidos" id="apellidos" value="#{entrada.usuario.apellidos}" required="true"></p:inputText>
+								            		 
+								                 <p:inputText placeholder="Correo electrónico"  label="email" value="#{entrada.usuario.email}" id="email" required="true">
+								                 	<f:validateRegex pattern="^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$"></f:validateRegex>
+								                 </p:inputText>
+								                   
+								                 <p:calendar placeholder="Fecha nacimiento" label="fecha" id="fecha" value="#{entrada.usuario.fechanac}" mask="99/99/9999" yearRange="c-90:c+0" navigator="true" pattern="dd/MM/yyyy" required="true" showOn="button"></p:calendar>
+																		                 
+								                 <p:inputMask  placeholder="DNI"  label="dni" id="dni" value="#{entrada.usuario.dni}" mask="*********"  required="true">
+								                 	<f:validateRegex pattern="(([X-Z]|[x-z]{1})([-]?)(\d{7})([-]?)([a-z]|[A-Z]{1}))|((\d{8})([-]?)([a-z]|[A-Z]{1}))"></f:validateRegex>
+								                 	<p:ajax event="blur" listener="#{usuarioBean.verificarDNI}" update="messages"></p:ajax>
+								                 </p:inputMask>
+								             	 
+								            	 <h2 align="center" >#{entrada.precio}€</h2>
+			
+								            </p:panelGrid>
+								            <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true"></p:messages>
+								           </div>
+										</div>
+									</div>
+								</div>
+							</div>     	
+					    </p:repeat>
+									<div class="Container100 ">
+            								<div class="ContainerIndent">
+											  <div class="Card ShadowEffect ui-fluid ">
+											   
+													    <p:outputPanel style="float:right;">
+																	<p:outputLabel  value="Total: "></p:outputLabel> <p:outputLabel id="total" value="#{usuarioBean.total}€"></p:outputLabel>
+														</p:outputPanel>
+														<br></br>
+																<p:separator />						
+														
+											   			<div class="Container100 ui-fluid TexAlCenter">
+						            						
+															<p:commandButton  style="width:auto;" id="botonComprar" update="search" action="#{usuarioBean.cambiarPagina()}"  value="Validar información">
+															</p:commandButton>
+															
+														</div>
+													</div>
+												</div>
+											</div>
+									
+					</h:form>
+	</ui:define>
+
+</ui:composition>

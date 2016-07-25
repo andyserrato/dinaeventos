@@ -114,4 +114,11 @@ public class NavigationController implements Serializable {
 		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("evento", evento);
 		return Constantes.Rutas.Entrada.CAMBIAR_NOMBRE;
 	}
+	
+	public String irComprarValenciaConnect(Evento evento){
+		
+		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("evento", evento);
+		
+		return Constantes.Rutas.Entrada.COMPRAR;
+	}
 }

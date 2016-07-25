@@ -167,7 +167,7 @@ public class BBDDFaker {
 		e.setLatitud(0);
 		e.setLongitud(0);
 		e.setNombre(faker.color().name());
-		e.setNombrelugar(faker.address().state());
+		e.setNombreLugar(faker.address().state());
 		
 //		ClassLoader classloader = Thread.currentThread().getContextClassLoader();
 //		InputStream is = classloader.getResourceAsStream("test.csv");
@@ -352,8 +352,11 @@ public class BBDDFaker {
 		
 		
 		List<DdTipoEvento> tiposEventos = new ArrayList<>();
+		DdTipoEvento tipoEvento = new DdTipoEvento();
+		tipoEvento.setTipoEvento("Conferencia");
+		tiposEventos.add(tipoEvento);
 		for(int i = 0; i < NUM_TIPOEVENTO; i++){
-			DdTipoEvento tipoEvento = crearTipoEvento(); 
+			tipoEvento = crearTipoEvento(); 
 			dao.insertar(tipoEvento);
 			tiposEventos.add(tipoEvento);
 		}

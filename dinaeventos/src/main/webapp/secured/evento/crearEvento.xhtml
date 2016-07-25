@@ -68,9 +68,18 @@
 								            </div>
 								        </div>
 								        
-										<div class="Container33 Responsive33" >
+								        <div class="Container20 Responsive20" >
 											<div class="ContainerIndent">
-												
+												<div class="ui-grid-row" style="width:100%">
+								                    <div class="ui-grid-cell">
+														<p:inputText id="eventoNombreLugar" value="#{evento.evento.nombreLugar}" placeholder="Nombre Lugar"/>
+														<p:message for="eventoNombreLugar" styleClass="error"/>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="Container40 Responsive40" >
+											<div class="ContainerIndent">
 												<div class="ui-grid-row" style="width:100%">
 								                    <div class="ui-grid-cell">
 														<p:inputText id="eventoDireccion1" value="#{evento.evento.direccion}" placeholder="Dirección"/>
@@ -80,7 +89,7 @@
 											</div>
 										</div>
 										
-										<div class="Container33 Responsive33" >
+										<div class="Container20 Responsive20" >
 											<div class="ContainerIndent">
 												<div class="ui-grid-row" style="width:100%">
 								                    <div class="ui-grid-cell">
@@ -92,8 +101,7 @@
 												</div>
 											</div>
 										</div>
-										
-										<div class="Container33 Responsive33" >
+										<div class="Container20 Responsive20" >
 											<div class="ContainerIndent">
 												<div class="ui-grid-row" style="width:100%">
 								                    <div class="ui-grid-cell">
@@ -107,9 +115,7 @@
 											</div>
 										</div>
 									</div>
-									
 									<p:spacer height="0,5%"></p:spacer>
-									
 									<div class="Card ShadowEffect HeiAutoOnMobile OvHidden">
 										<div class="Container100 Responsive100" >
 											<div class="ContainerIndent">
@@ -358,7 +364,7 @@
 																	<div class="ContainerIndent">
 																	
 																		<p:dataList id="eventoListaEntrada" value="#{evento.evento.ddTipoEntradas}" var="tipoEntrada" type="ordered" emptyMessage="Agrega un Tipo de Entrada" itemType="none" >
-																	       #{tipoEntrada.cantidad} - #{tipoEntrada.nombre}  #{tipoEntrada.precio}  -  #{tipoEntrada.fechaInicioVenta} #{tipoEntrada.fechaFinVenta}  -- Sobreventa: #{tipoEntrada.sobreVenta}  -- #{tipoEntrada.maxPorPedido} #{tipoEntrada.canalDeVentas} 
+																	       #{tipoEntrada.cantidad} - #{tipoEntrada.nombre}  #{tipoEntrada.precio} - #{tipoEntrada.descripcion} -  #{tipoEntrada.fechaInicioVenta} #{tipoEntrada.fechaFinVenta}  -- Sobreventa: #{tipoEntrada.sobreVenta}  -- #{tipoEntrada.maxPorPedido} #{tipoEntrada.canalDeVentas} 
 																		</p:dataList>
 																    </div>
 																</div>
@@ -400,7 +406,7 @@
 																								<div class="ContainerIndent">
 																									<div class="ui-grid-row" style="width:100%">
 								                  														<div class="ui-grid-cell" align="justify">
-																											<h:outputText value="Permitir numero de entradas mayor al aforo " />
+																											<h:outputText value="Permitir número de entradas mayor al aforo " />
 																											
 																										</div>
 																									</div>	
@@ -491,10 +497,16 @@
 																			</div>
 																			
 																		</div>	
+																		<p:spacer height="5%"/>
+																		<h3>DESCRIPCIÓN TIPO ENTRADA</h3>
+																			<div class="ui-grid-row" style="width:100%">
+																	        	<div class="ui-grid-cell">
+																					<p:editor value="#{evento.tipoEntrada.descripcion}" controls="bold italic underline strikethrough size font" height="100" />
+																					<p:spacer height="0"/>
+																				</div>
+																			</div>
 																		
-																		<p:spacer height="0"/>
 																		</div>
-																		
 																			<div class="Container100 Responsive100" >
 																				<div class="ContainerIndent">
 																					<div class="ui-grid-row" style="width:100%">
@@ -550,6 +562,7 @@
 																		<p:message for="eventoComplementoPrecio" styleClass="error"/>
 																	</div>
 																</div>
+																
 												        	</div>
 														</div>
 													</div>

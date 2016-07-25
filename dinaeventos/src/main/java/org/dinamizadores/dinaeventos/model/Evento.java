@@ -104,7 +104,7 @@ public class Evento implements java.io.Serializable {
 	private static final long serialVersionUID = -1044399576691985644L;
 	private int idevento;
 	private String nombre;
-	private String nombrelugar;
+	private String nombreLugar;
 	private String direccion;
 	private Date fechaIni;
 	private Date fechaFin;
@@ -143,7 +143,7 @@ public class Evento implements java.io.Serializable {
 		this.fechaFin = fechaFin;
 		this.aforo = aforo;
 	}
-	public Evento(int idevento, String nombre, String nombrelugar,
+	public Evento(int idevento, String nombre, String nombreLugar,
 			String direccion, Date fechaIni, Date fechaFin, byte[] logo,
 			String descripcion, int aforo, Integer latitud, Integer longitud,
 			Integer entradasDisponibles, Integer idcodigopostal,
@@ -151,7 +151,7 @@ public class Evento implements java.io.Serializable {
 			Boolean acitvo) {
 		this.idevento = idevento;
 		this.nombre = nombre;
-		this.nombrelugar = nombrelugar;
+		this.nombreLugar = nombreLugar;
 		this.direccion = direccion;
 		this.fechaIni = fechaIni;
 		this.fechaFin = fechaFin;
@@ -189,12 +189,12 @@ public class Evento implements java.io.Serializable {
 	}
 
 	@Column(name = "nombrelugar", length = 60)
-	public String getNombrelugar() {
-		return this.nombrelugar;
+	public String getNombreLugar() {
+		return this.nombreLugar;
 	}
 
-	public void setNombrelugar(String nombrelugar) {
-		this.nombrelugar = nombrelugar;
+	public void setNombreLugar(String nombreLugar) {
+		this.nombreLugar = nombreLugar;
 	}
 
 	@Column(name = "direccion", length = 100)

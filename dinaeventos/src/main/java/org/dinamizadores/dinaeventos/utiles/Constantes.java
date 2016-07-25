@@ -67,6 +67,8 @@ public final class Constantes {
 			
 			public static final String COMPRAR = "/comprar/comprarEntrada.xhtml?faces-redirect=true";
 			
+			public static final String COMPRAR_VALENCIA_CONNECT = "/valenciaConnect/comprar/comprarEntrada.xhtml?faces-redirect=true";
+			
 			public static final String VALIDAR = "/validacion/validarEntrada.xhtml?faces-redirect=true";
 			
 			public static final String CAMBIAR_NOMBRE = "/cambioNombre/cambioNombre.xhtml?faces-redirect=true";

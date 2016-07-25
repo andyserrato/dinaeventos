@@ -39,24 +39,34 @@ public class DdTipoEntrada implements java.io.Serializable {
     private Date fechaFinVenta;
     private BigDecimal costeCambioDeNombre;
     private Boolean activa;
+    private String descripcion;
 	private Set<Entrada> entradas = new HashSet<Entrada>(0);
 	
 	
     public DdTipoEntrada() {
     }
 
-    public DdTipoEntrada(Evento evento, String nombre, BigDecimal precio, Integer cantidad, Boolean sobreVenta, Integer maxPorPedido, String canalDeVentas, Date fechaInicioVenta, Date fechaFinVenta, Set<Entrada> entradas) {
-       this.evento = evento;
-       this.nombre = nombre;
-       this.precio = precio;
-       this.cantidad = cantidad;
-       this.sobreVenta = sobreVenta;
-       this.maxPorPedido = maxPorPedido;
-       this.canalDeVentas = canalDeVentas;
-       this.fechaInicioVenta = fechaInicioVenta;
-       this.fechaFinVenta = fechaFinVenta;
-       this.entradas = entradas;
-    }    
+	public DdTipoEntrada(String nombre, BigDecimal precio, Integer cantidad, Integer idEvento, Evento evento,
+			Boolean sobreVenta, Integer maxPorPedido, String canalDeVentas, Date fechaInicioVenta, Date fechaFinVenta,
+			BigDecimal costeCambioDeNombre, Boolean activa, String descripcion, Set<Entrada> entradas) {
+		super();
+		this.nombre = nombre;
+		this.precio = precio;
+		this.cantidad = cantidad;
+		this.idEvento = idEvento;
+		this.evento = evento;
+		this.sobreVenta = sobreVenta;
+		this.maxPorPedido = maxPorPedido;
+		this.canalDeVentas = canalDeVentas;
+		this.fechaInicioVenta = fechaInicioVenta;
+		this.fechaFinVenta = fechaFinVenta;
+		this.costeCambioDeNombre = costeCambioDeNombre;
+		this.activa = activa;
+		this.descripcion = descripcion;
+		this.entradas = entradas;
+	}
+
+
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -173,6 +183,15 @@ public class DdTipoEntrada implements java.io.Serializable {
 		this.activa = activa;
 	}
 	
+	@Column(name ="descripcion")	
+	public String getDescripcion() {
+		return descripcion;
+	}
+
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
+	}
+
 	@Column(name = "costecambionombre", precision = 5, scale = 2)
 	public BigDecimal getCosteCambioDeNombre() {
 		return costeCambioDeNombre;

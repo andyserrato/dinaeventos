@@ -11,7 +11,7 @@
 	
 	<url-mapping id="conferenciaSinActivacionNiCambioNombre">
 		<pattern value="/conferencia/#{iid : eventoIndividualBean.nombreEvento}" />
-		<view-id value="/faces/evento/eventoSinActivacionNiCambioNombre.xhtml" />
+		<view-id value="/faces/valenciaConnect/valenciaConnectIndex.xhtml" />
 		<action>#{eventoIndividualBean.cargarEventoPorNombre}</action>
 	</url-mapping>
 	

@@ -1,0 +1,30 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/templateCliente.xhtml">
+
+    <ui:define name="content">
+        <div class="Container100">
+            <div class="ContainerIndent">
+                <div class="Card ShadowEffect ">
+                <p:panel id="basic" header="VALENCIA CONNECT" style="margin-bottom:20px">
+                     <div class="Container100" style="margin:0px 10px 10px -10px; padding:0px 10px;">
+                       	 <h:graphicImage name="images/evento_foto.PNG" styleClass="Fleft" library="rio-layout" /> 
+                     </div>
+                     <div class="CardFooter">
+                     	<h:form>
+                      	<p:panelGrid layout="grid" style="border:0px !important;" columns="1"> 
+                           <p:commandButton value="COMPRAR ENTRADAS" action="#{navigationBean.irComprar(eventoIndividualBean.evento)}"  styleClass="Wid100 - Responsive BlueButton RaisedButton"></p:commandButton>
+                      	</p:panelGrid>
+                     	</h:form>
+                     </div>
+                 </p:panel>
+                </div>
+            </div>
+        </div>
+        
+    </ui:define>
+
+</ui:composition>
