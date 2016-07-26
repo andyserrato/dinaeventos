@@ -4,8 +4,8 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	template="/WEB-INF/templateCliente.xhtml"
 	xmlns:p="http://primefaces.org/ui">
-	
-	<ui:param name="pageTitle" value="Compra entradas"/>
+
+	<ui:param name="pageTitle" value="Compra entradas" />
 
 	<ui:define name="header">
 		<h1>Entrada</h1>
@@ -15,97 +15,91 @@
 		<h3>Añade un complemento</h3>
 	</ui:define>
 
-	<ui:define name="footer"/>
+	<ui:define name="footer" />
 
 	<ui:define name="content">
-	
-					<h:form id="comprar">
 
-					<p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
-			    		<p:graphicImage name="images/wait3.gif" />
-					</p:dialog>
-							
-							<p:repeat var="entrada"  value="#{ddTipoComplementoBean.listadoEntradas}" >
-								<div class="Container33 Responsive33">
-            						<div class="ContainerIndent">
-                					<div class="Card ShadowEffect ">
-								<div class="Container35 Responsive35">
-            							<div class="ContainerIndent">
-            							<p:panelGrid columns="2" layout="grid" style="border:0px!important;">
-										        <p:outputLabel styleClass="Fs20" value="#{entrada.nombre}" />	
-										        <div class="Container40 Responsive40">
-            										<div class="ContainerIndent">
-										        <p:outputLabel value="#{entrada.usuario.nombre}" />
-										        <p:outputLabel value="#{entrada.precio}€" />
-										        </div></div>
-										</p:panelGrid>
-								        </div>
+		<h:form id="comprar">
+
+			<p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+				<p:graphicImage name="images/wait3.gif" />
+			</p:dialog>
+
+			<p:repeat var="entrada" value="#{ddTipoComplementoBean.listadoEntradas}">
+				<div class="Container33 Responsive33">
+					<div class="ContainerIndent">
+						<div class="Card ShadowEffect ">
+							<div class="Container35 Responsive35">
+								<div class="ContainerIndent">
+									<p:panelGrid columns="2" layout="grid" style="border:0px!important;">
+										<p:outputLabel styleClass="Fs20" value="#{entrada.nombre}" />
+										<div class="Container40 Responsive40">
+											<div class="ContainerIndent">
+												<p:outputLabel value="#{entrada.usuario.nombre}" />
+												<p:outputLabel value="#{entrada.precio}€" />
+											</div>
+										</div>
+									</p:panelGrid>
 								</div>
-									<div class="Container65 Responsive65">
-            							<div class="ContainerIndent">
-										       <p:repeat var="comple"  value="#{entrada.listaComplementos}" > 
-											       <p:panelGrid columns="4" layout="grid" style="border:0px!important;">
-													       <p:outputLabel value="#{comple.complemento.nombre}" />
-													      	<p:outputLabel value="#{comple.complemento.precio}€" />
-													        <p:outputLabel value="#{comple.complemento.descripcion}" />
-													        <p:spinner size="5"  value="#{comple.cantidad}" min="0" > 
-													       	<p:ajax  update="comprar:totales" listener="#{ddTipoComplementoBean.agregarComplemento}" />
-													       </p:spinner>
-													</p:panelGrid>
-										        </p:repeat>
-										       </div>
-										     </div>
-										 </div>
-									</div>
-									</div>
-								
-						</p:repeat>
-							<div class="Container100 Responsive100">
-            						<div class="ContainerIndent">
-                					<div class="Card ShadowEffect TexAlCenter">
-								<p:outputPanel id="totales" >
-													
-			        						<div class="Container50 Responsive50 TexAlLeft">
-            									<div class="ContainerIndent">
-			        						
-												<p:repeat var="entrada" value="#{ddTipoComplementoBean.listadoEntradas}" >
-													<p:outputPanel rendered="#{!empty entrada.listaComplementos}">
-													<p:outputLabel  value="#{entrada.usuario.nombre} " /> 
-													<p:outputLabel  value=" va ha comprar:" /> 
-													<p:repeat var="complemento" value="#{entrada.listaComplementos}"  >
-														<p:outputPanel rendered="#{complemento.cantidad > 0}">
-														
-														<p:outputLabel  value="#{complemento.cantidad} de" /> <p:outputLabel  value=" #{complemento.complemento.nombre} " /> <p:outputLabel  value=" precio: #{complemento.complemento.precio}€" /> 	 
-														</p:outputPanel>
-													</p:repeat>
-													</p:outputPanel>
-												</p:repeat>
-												<p:outputLabel  value="Total: " /> <p:outputLabel id="total" value="#{ddTipoComplementoBean.total} €"></p:outputLabel>
-										
-												</div></div>
-												
-												<div class="Container50 Responsive50 TexAlRight">
-            											<div class="ContainerIndent">
-														<h:outputText value="Enviar cada entrada a cada amigo: " />
-			        									<p:inputSwitch id="value1" value="#{ddTipoComplementoBean.envioConjunto}" />
-			        							</div></div>
-											
-								</p:outputPanel>
-											
-								
-								
-								<div class="Container100 Responsive100 TexAlCenter">
-            						<div class="ContainerIndent">
-            						<p:separator />
-									<p:commandButton style="width:auto;" id="botonComprar"  action="#{ddTipoComplementoBean.cambiarPagina()}" value="Finalizar compra">
-									</p:commandButton>
-									</div></div>
-									</div>
-									</div>
-									</div>
-								
-					</h:form>	
-					
-	</ui:define>
+							</div>
+							<div class="Container65 Responsive65">
+								<div class="ContainerIndent">
+									<p:repeat var="comple" value="#{entrada.listaComplementos}"> 
+										<p:panelGrid columns="4" layout="grid" style="border:0px!important;">
+											<p:outputLabel value="#{comple.complemento.nombre}" />
+											<p:outputLabel value="#{comple.complemento.precio}€" />
+											<p:outputLabel value="#{comple.complemento.descripcion}" />
+											<p:spinner size="5" value="#{comple.cantidad}" min="0">
+												<p:ajax update="comprar:totales" listener="#{ddTipoComplementoBean.agregarComplemento}" />
+											</p:spinner>
+										</p:panelGrid>
+									</p:repeat>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</p:repeat>
+			<div class="Container100 Responsive100">
+				<div class="ContainerIndent">
+					<div class="Card ShadowEffect TexAlCenter">
+						<p:outputPanel id="totales">
+							<div class="Container50 Responsive50 TexAlLeft">
+								<div class="ContainerIndent">
+									<p:repeat var="entrada"	value="#{ddTipoComplementoBean.listadoEntradas}">
+										<p:outputPanel rendered="#{!empty entrada.listaComplementos}">
+											<p:outputLabel value="#{entrada.usuario.nombre} " />
+											<p:outputLabel value=" va ha comprar:" />
+											<p:repeat var="complemento" value="#{entrada.listaComplementos}">
+												<p:outputPanel rendered="#{complemento.cantidad > 0}">
+												<p:outputLabel value="#{complemento.cantidad} de" />
+												<p:outputLabel value=" #{complemento.complemento.nombre} " />
+												<p:outputLabel value=" precio: #{complemento.complemento.precio}€" />
+												</p:outputPanel>
+											</p:repeat>
+										</p:outputPanel>
+									</p:repeat>
+									<p:outputLabel value="Total: " />
+									<p:outputLabel id="total" value="#{ddTipoComplementoBean.total} €"></p:outputLabel>
+								</div>
+							</div>
+							<div class="Container50 Responsive50 TexAlRight">
+								<div class="ContainerIndent">
+									<h:outputText value="Enviar cada entrada a cada amigo: " />
+									<p:inputSwitch id="value1" value="#{ddTipoComplementoBean.envioConjunto}" />
+								</div>
+							</div>
+						</p:outputPanel>
 
+						<div class="Container100 Responsive100 TexAlCenter">
+							<div class="ContainerIndent">
+								<p:separator />
+								<p:commandButton style="width:auto;" id="botonComprar"	action="#{ddTipoComplementoBean.cambiarPagina()}" value="Finalizar compra"/>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</h:form>
+	</ui:define>
 </ui:composition>

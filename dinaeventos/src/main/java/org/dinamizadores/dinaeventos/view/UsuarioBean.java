@@ -40,26 +40,17 @@ import org.dinamizadores.dinaeventos.dto.EntradasCompleta;
 public class UsuarioBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
 	@EJB
 	private UsuarioDao usuarioDao;
-
 	private Integer id;
 	private Usuario usuario;
-	
 	private BigDecimal total = new BigDecimal(0);
-	
 	private Integer cantidad = 0;
 	private Evento evento;
-	
 	private String nombreEntrada = null;
-	
 	private Map<Long,List<BigDecimal>> listaPrecios =  new HashMap<Long,List<BigDecimal>>();
-	
 	private List<EntradasCompleta> listadoEntradas = new ArrayList<EntradasCompleta>();
-	
 	private List<DdTipoEntrada> tiposEntrada = new ArrayList<DdTipoEntrada>();
-	
 	
 	@PostConstruct
 	public void init(){
@@ -106,9 +97,8 @@ public class UsuarioBean implements Serializable {
 			}
 		
 	}
+	
 	public String cambiarPagina(){
-
-		
 		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("listaEntradas", listadoEntradas);
 		return "/comprar/comprarComplemento.xhtml?faces-redirect=true";
 	}

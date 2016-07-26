@@ -179,7 +179,7 @@ public class Evento implements java.io.Serializable {
 		this.idevento = idevento;
 	}
 
-	@Column(name = "nombre", nullable = false, length = 75)
+	@Column(name = "nombre", nullable = false, length = 255)
 	public String getNombre() {
 		return this.nombre;
 	}
@@ -188,7 +188,7 @@ public class Evento implements java.io.Serializable {
 		this.nombre = nombre;
 	}
 
-	@Column(name = "nombrelugar", length = 60)
+	@Column(name = "nombrelugar", length = 255)
 	public String getNombreLugar() {
 		return this.nombreLugar;
 	}
@@ -197,7 +197,7 @@ public class Evento implements java.io.Serializable {
 		this.nombreLugar = nombreLugar;
 	}
 
-	@Column(name = "direccion", length = 100)
+	@Column(name = "direccion", length = 255)
 	public String getDireccion() {
 		return this.direccion;
 	}
@@ -245,7 +245,7 @@ public class Evento implements java.io.Serializable {
 		this.logoNombre = logoNombre;
 	}
 
-	@Column(name = "descripcion", length = 140)
+	@Column(name = "descripcion", length = 1000)
 	public String getDescripcion() {
 		return this.descripcion;
 	}

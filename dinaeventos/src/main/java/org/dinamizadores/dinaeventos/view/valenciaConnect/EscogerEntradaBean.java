@@ -1,4 +1,4 @@
-package org.dinamizadores.dinaeventos.view;
+package org.dinamizadores.dinaeventos.view.valenciaConnect;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -18,17 +18,17 @@ import org.dinamizadores.dinaeventos.dao.EntradaDao;
 import org.dinamizadores.dinaeventos.model.DdTipoEntrada;
 import org.dinamizadores.dinaeventos.model.Entrada;
 import org.dinamizadores.dinaeventos.model.Evento;
+import org.dinamizadores.dinaeventos.utiles.Constantes;
 import org.dinamizadores.dinaeventos.utiles.log.Loggable;
 
-@Named("entradaBean")
+@Named("escogerEntradaBean")
 @ViewScoped
 @Loggable
-public class EntradaBean implements Serializable {
-
-	private static final long serialVersionUID = 1L;
+public class EscogerEntradaBean implements Serializable{
+	
+	private static final long serialVersionUID = -319833280168240652L;
 	@EJB
 	private EntradaDao tipoEntradaDao; 
-	private Integer id;
 	private int cantidad;
 	private Map<Long,List<BigDecimal>> listaPrecios =  new HashMap<Long,List<BigDecimal>>();
 	private BigDecimal total = new BigDecimal(0);
@@ -38,7 +38,6 @@ public class EntradaBean implements Serializable {
 
 	@PostConstruct
 	public void init() {
-		
 		//reiniciamos cada vez que cargamos el Bean
 		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("total", total);
 		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("lista", listaPrecios);
@@ -53,7 +52,6 @@ public class EntradaBean implements Serializable {
 	}
 	
 	public void sumarTotal(Long idTipoEntrada){
-		
 		total = new BigDecimal(0);
 		
 		for (DdTipoEntrada tipo : tiposEntrada){
@@ -74,11 +72,9 @@ public class EntradaBean implements Serializable {
 		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("total", total);
 		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("lista", listaPrecios);
 		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("tiposEntrada", tiposEntrada);
-		
 	}
 	
 	public boolean isRendererBoton() {
-		
 		boolean desactivado = true;
         int res;
         
@@ -99,17 +95,9 @@ public class EntradaBean implements Serializable {
 	}
 
 	public String toFormularioCliente(){
-		return "/comprar/formularioCliente.xhtml?faces-redirect=true";
+		return Constantes.Rutas.Entrada.FORMULARIO_CLIENTE_VALENCIA_CONNECT;
 	}
 	
-	public Integer getId() {
-		return this.id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
 	public int getCantidad() {
 		return cantidad;
 	}

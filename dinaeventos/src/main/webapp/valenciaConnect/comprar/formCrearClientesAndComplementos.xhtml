@@ -1,0 +1,100 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/WEB-INF/templateCliente.xhtml"
+	xmlns:p="http://primefaces.org/ui">
+
+
+	<ui:define name="content">
+		<h:form id="formClientesAndComplementos">
+			<p:repeat value="#{clientesAndComplementosBean.listadoEntradas}" var="entrada">
+				<div class="Container100 ">
+					<div class="ContainerIndent">
+						<div class="Card ShadowEffect ui-fluid ">
+							<div class="Container100 Responsive100">
+								<div class="ContainerIndent">
+									<h2 class="BigTopic">Entrada: #{entrada.nombre}</h2>
+									<p:panelGrid columns="6" layout="grid" style="border:0px!important;">
+										<p:inputText placeholder="Nombre" id="nombre" value="#{entrada.usuario.nombre}" label="Nombre" required="true"/>
+										<p:inputText placeholder="Apellidos"  label="apellidos" id="apellidos" value="#{entrada.usuario.apellidos}" required="true"/>
+										<p:inputText placeholder="Correo electrónico" label="email"	value="#{entrada.usuario.email}" id="email" required="true">
+											<f:validateRegex pattern="^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$"/>
+										</p:inputText>
+										<p:calendar placeholder="Fecha nacimiento" label="fecha" id="fecha" value="#{entrada.usuario.fechanac}"	mask="99/99/9999" yearRange="c-90:c+0" navigator="true"	pattern="dd/MM/yyyy" required="true" showOn="button"/>
+										<p:inputMask placeholder="DNI" label="dni" id="dni"	value="#{entrada.usuario.dni}" mask="*********"	required="true">
+											<f:validateRegex pattern="(([X-Z]|[x-z]{1})([-]?)(\d{7})([-]?)([a-z]|[A-Z]{1}))|((\d{8})([-]?)([a-z]|[A-Z]{1}))"/>
+											<p:ajax event="blur" listener="#{clientesAndComplementosBean.verificarDNI}"	update="messages"/>
+										</p:inputMask>
+										<h2 align="center">#{entrada.precio}€</h2>
+									</p:panelGrid>
+									<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true"/>
+									<h2 class="BigTopic">Complementos: </h2>
+												
+									<p:accordionPanel value="#{entrada.listaComplementos}" var="complementos" rendered="#{clientesAndComplementosBean.isComplementoRendered(entrada.nombre)}">
+	                                   <p:tab title="#{complementos.complemento.nombre}">
+	                                       <p:panelGrid columns="3" layout="grid" style="border:0px!important;">
+											<p:outputLabel value="#{complementos.complemento.nombre}" />
+											<p:outputLabel value="#{complementos.complemento.precio}€" />
+											<p:spinner size="5" value="#{complementos.cantidad}" min="0">
+												<p:ajax update="formClientesAndComplementos:totales" listener="#{clientesAndComplementosBean.agregarComplemento}" />
+											</p:spinner>
+										</p:panelGrid>
+	                                       <h:panelGrid columns="3" cellpadding="10">
+	                                       		<h:outputText value="#{complementos.complemento.descripcion}" />
+	                                           <h:outputText value="#{complementos.complemento.descripcion}" />
+	                                       </h:panelGrid>
+	                                   </p:tab>
+                                	</p:accordionPanel>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</p:repeat>
+			
+			<div class="Container100 Responsive100">
+				<div class="ContainerIndent">
+					<div class="Card ShadowEffect TexAlCenter">
+						<p:outputPanel id="totales">
+							<div class="Container50 Responsive50 TexAlLeft">
+								<div class="ContainerIndent">
+									<p:repeat var="entrada"	value="#{clientesAndComplementosBean.listadoEntradas}">
+										<p:outputPanel rendered="#{!empty entrada.listaComplementos}">
+											<p:outputLabel value="#{entrada.usuario.nombre} " />
+											<p:outputLabel value=" va ha comprar:" />
+											<p:repeat var="complemento" value="#{entrada.listaComplementos}">
+												<p:outputPanel rendered="#{complemento.cantidad > 0}">
+												<p:outputLabel value="#{complemento.cantidad} de" />
+												<p:outputLabel value=" #{complemento.complemento.nombre} " />
+												<p:outputLabel value=" precio: #{complemento.complemento.precio}€" />
+												</p:outputPanel>
+											</p:repeat>
+										</p:outputPanel>
+									</p:repeat>
+									<p:outputLabel value="Total: " />
+									<p:outputLabel id="totals" value="#{clientesAndComplementosBean.total} €"></p:outputLabel>
+								</div>
+							</div>
+							<div class="Container50 Responsive50 TexAlRight">
+								<div class="ContainerIndent">
+									<h:outputText value="Enviar cada entrada a cada amigo: " />
+									<p:inputSwitch id="value1" value="#{clientesAndComplementosBean.envioConjunto}" />
+								</div>
+							</div>
+						</p:outputPanel>
+
+						<div class="Container100 Responsive100 TexAlCenter">
+							<div class="ContainerIndent">
+								<p:separator />
+								<p:commandButton id="botonComprar" update="@form" action="#{clientesAndComplementosBean.toPagarEntradas()}" value="Finalizar compra"/>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</h:form>
+	</ui:define>
+
+</ui:composition>

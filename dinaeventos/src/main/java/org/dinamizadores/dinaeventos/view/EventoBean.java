@@ -27,6 +27,7 @@ import org.dinamizadores.dinaeventos.model.Evento;
 import org.dinamizadores.dinaeventos.model.GlobalCodigospostales;
 import org.dinamizadores.dinaeventos.model.Organizadores;
 import org.dinamizadores.dinaeventos.model.Patrocinadores;
+import org.dinamizadores.dinaeventos.utiles.BBDDFaker;
 import org.dinamizadores.dinaeventos.utiles.Constantes;
 import org.dinamizadores.dinaeventos.utiles.log.Loggable;
 import org.primefaces.context.RequestContext;
@@ -46,6 +47,8 @@ public class EventoBean implements Serializable {
 	private DiccionarioDao diccionarioDao;
 	@EJB 
 	private OrganizadoresDao organizadorDao;
+	@EJB
+	private BBDDFaker bbddFaker;
 	@Inject
 	private LoginBean loginBean;
 	private Evento evento = new Evento();
@@ -64,6 +67,14 @@ public class EventoBean implements Serializable {
 		evento.setCodigoPostal(new GlobalCodigospostales());
 		inicializarOrganizador();
 		ddTipoEvento = diccionarioDao.getDdTiposDeEvento();
+	}
+	
+	public void llenarDB() {
+		try {
+			bbddFaker.llenarBBDD();
+		} catch (Exception e) {
+			log.error("Ha ocurrido un error con DB Faker", e);
+		}
 	}
 	
 	public void inicializarOrganizador() {

@@ -22,7 +22,6 @@ import org.dinamizadores.dinaeventos.utiles.plataformapagos.Pagar;
 
 import com.mangopay.entities.CardRegistration;
 
-
 @Named
 @ViewScoped
 @Loggable
@@ -34,84 +33,81 @@ public class DdTipoComplementoBean implements Serializable {
 	/*
 	 * Support creating and retrieving DdTipoComplementoBean entities
 	 */
-	
+
 	@EJB
-	private EntradaDao tipoComplementoDao; 
+	private EntradaDao tipoComplementoDao;
 
 	private Integer id;
-	private Usuario usuario;
-	
-	private BigDecimal total = new BigDecimal(0);
-	
-	private Integer cantidad = 0;
-	
-	private String nombreEntrada = null;
-	
-	private EntradasCompleta entrada = new EntradasCompleta();
-	
-	private List<EntradasCompleta> listadoEntradas = new ArrayList<EntradasCompleta>();
-	
-	private List<DdTipoComplemento> listadoComplemento = new ArrayList<DdTipoComplemento>();
-	
-	private int cuenta = 0;
-	
-	private Boolean envioConjunto = false;
-	
-	private Evento evento;
-	
 
-	
+	private Usuario usuario;
+
+	private BigDecimal total = new BigDecimal(0);
+
+	private Integer cantidad = 0;
+
+	private String nombreEntrada = null;
+
+	private EntradasCompleta entrada = new EntradasCompleta();
+
+	private List<EntradasCompleta> listadoEntradas = new ArrayList<EntradasCompleta>();
+
+	private List<DdTipoComplemento> listadoComplemento = new ArrayList<DdTipoComplemento>();
+
+	private int cuenta = 0;
+
+	private Boolean envioConjunto = false;
+
+	private Evento evento;
+
 	@PostConstruct
-	public void init(){
-	
+	public void init() {
+
 		total = (BigDecimal) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("total");
 		listadoEntradas = (List<EntradasCompleta>) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("listaEntradas");
 		evento = (Evento) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("evento");
-		
-		calcularInfoComplementos();	
+
+		calcularInfoComplementos();
 	}
-	
-	private void calcularInfoComplementos(){
-			
+
+	private void calcularInfoComplementos() {
+
 		setListadoComplemento(tipoComplementoDao.listTipoComplemento(evento.getIdevento()));
-		
-		for (EntradasCompleta entrada : listadoEntradas){
+
+		for (EntradasCompleta entrada : listadoEntradas) {
 			entrada.getListaComplementos().clear();
-			for (DdTipoComplemento c : listadoComplemento){
-			ComplementoEntero comple = new ComplementoEntero();
-			comple.setComplemento(c);
-			entrada.getListaComplementos().add(comple);
+			for (DdTipoComplemento c : listadoComplemento) {
+				ComplementoEntero comple = new ComplementoEntero();
+				comple.setComplemento(c);
+				entrada.getListaComplementos().add(comple);
 			}
 		}
 	}
-	
-	public void agregarComplemento(){
+
+	public void agregarComplemento() {
 		total = new BigDecimal(0);
-		for (EntradasCompleta entrada : listadoEntradas){
-				for (ComplementoEntero c : entrada.getListaComplementos()){
-					total = total.add(c.getComplemento().getPrecio().multiply(BigDecimal.valueOf(c.getCantidad())));
-				}
-				total = total.add(entrada.getPrecio());
+		for (EntradasCompleta entrada : listadoEntradas) {
+			for (ComplementoEntero c : entrada.getListaComplementos()) {
+				total = total.add(c.getComplemento().getPrecio().multiply(BigDecimal.valueOf(c.getCantidad())));
 			}
-		
+			total = total.add(entrada.getPrecio());
 		}
 
-	public String cambiarPagina(){
-		
-				Pagar pa = new Pagar();
-				String idUsuario = pa.nuevoUsuario(listadoEntradas.get(0).getUsuario());
-				CardRegistration tarjetaRegistrada = pa.nuevoTarjeta(idUsuario);
-				
-				FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("listaEntradas", listadoEntradas);
-				
-				//Enviamos los datos a la nueva pagina
-				FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("tarjeta", tarjetaRegistrada);
-				FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("envioConjunto", envioConjunto);
-				
-				return "/comprar/pagarEntradas.xhtml?faces-redirect=true";
-			
 	}
-	
+
+	public String cambiarPagina() {
+		Pagar pa = new Pagar();
+		String idUsuario = pa.nuevoUsuario(listadoEntradas.get(0).getUsuario());
+		CardRegistration tarjetaRegistrada = pa.nuevoTarjeta(idUsuario);
+
+		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("listaEntradas", listadoEntradas);
+
+		// Enviamos los datos a la nueva pagina
+		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("tarjeta", tarjetaRegistrada);
+		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("envioConjunto", envioConjunto);
+
+		return "/comprar/pagarEntradas.xhtml?faces-redirect=true";
+
+	}
 
 	public BigDecimal getTotal() {
 		return total;
@@ -193,5 +189,4 @@ public class DdTipoComplementoBean implements Serializable {
 		this.envioConjunto = envioConjunto;
 	}
 
-	
 }
