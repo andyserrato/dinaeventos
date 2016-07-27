@@ -6,21 +6,30 @@
                 template="/WEB-INF/templateCliente.xhtml">
 
     <ui:define name="content">
-        <div class="Container100">
-            <div class="ContainerIndent">
-                <div class="Card ShadowEffect ">
-                <p:panel id="basic" header="VALENCIA CONNECT" style="margin-bottom:20px">
-                     <div class="Container100" style="margin:0px 10px 10px -10px; padding:0px 10px;">
-                       	 <h:graphicImage name="images/evento_foto.PNG" styleClass="Fleft" library="rio-layout" /> 
-                     </div>
-                     <div class="CardFooter">
-                     	<h:form>
-                      	<p:panelGrid layout="grid" style="border:0px !important;" columns="1"> 
-                           <p:commandButton value="COMPRAR ENTRADAS" action="#{navigationBean.irComprarValenciaConnect(eventoIndividualBean.evento)}"  styleClass="Wid100 - Responsive BlueButton RaisedButton"></p:commandButton>
-                      	</p:panelGrid>
-                     	</h:form>
-                     </div>
-                 </p:panel>
+        <div class="Container100 BlueBack" id="rio-highlight" style="padding:2rem 0px;">
+
+            <div class="Wid90 OvHidden MarAuto">
+                <div class="Container100">
+                    <h1 class=" FontRobotoBold Fs50 WhiteBlue TexAlCenter">VALENCIA CONNECT</h1>
+                    <div class="EmptyBox5"></div>
+                    <span class="DispBlock Fs24 FontRobotoLight White TexAlCenter">“ 1 OCTUBRE 2016, VEN AL MEJOR ENCUENTRO EMPRESARIAL ”</span>
+                    <div class="EmptyBox20"></div>
+                    <div class="Wid100 MarAuto ui-fluid Responsive100">
+                    	<h:form>
+                        	<div class="Container100 Responsive100">
+                        		<div class="ContainerIndent">
+                        			<p:commandLink action="#{navigationBean.irComprarValenciaConnect(eventoIndividualBean.evento)}" >
+                        				<p:graphicImage name="images/valenciaConnect/fondo_vc.jpg" library="rio-layout" styleClass="Wid100 - Responsive100"/>
+                        			</p:commandLink>
+                        			<div class="EmptyBox10"></div>
+                        			<p:commandButton value="COMPRAR ENTRADA" action="#{navigationBean.irComprarValenciaConnect(eventoIndividualBean.evento)}" styleClass="Wid100 - Responsive100 GreenButton Fs18"/>
+                        		</div>
+                        	</div>
+                        </h:form>
+                    </div>
+
+                    <div class="EmptyBox20 ShowOnMobile"></div>
+                    <div class="EmptyBox120 ShowOnDesktop"></div>
                 </div>
             </div>
         </div>
