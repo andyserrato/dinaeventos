@@ -6,20 +6,40 @@
 	xmlns:p="http://primefaces.org/ui">
 
 	<ui:define name="content">
-		<div class="Container100">
-			<div class="ContainerIndent">
-				<div class="Card ShadowEffect TexAlCenter">
-					<h:form id="comprar">
-
+		<div class="Container100 Responsive100">
+			<div class="Container100 Responsive100">
+				<div class="ContainerIndent">
+					<div class="Card ShadowEffect HeiAutoOnMobile OvHidden">
+						<div class="Container100"
+							style="margin: 0px 10px 10px -10px; padding: 0px 10px;">
+							<div class="DispInlBlock Fleft"
+								style="margin: -10px 10px -10px -10px; padding: 20px 10px;">
+								<p:graphicImage name="images/valenciaConnect/logoVC.png"
+									library="rio-layout" styleClass="Wid100 - Responsive100" />
+							</div>
+							<span class="Blue Fs30 FontRobotoBold">#{escogerEntradaBean.evento.nombre}
+								- Entradas</span><br /> <span class="Blue Fs20 FontRoboto">#{escogerEntradaBean.evento.fechaIni}
+							</span><br /> <span class="Blue Fs20 FontRoboto">#{escogerEntradaBean.evento.nombreLugar},
+								#{escogerEntradaBean.evento.direccion},
+								#{escogerEntradaBean.evento.codigoPostal.codigo}
+								#{escogerEntradaBean.evento.codigoPostal.provincia.nombre}</span><br />
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<h:form id="comprar">
+			<div class="Container100">
+				<div class="ContainerIndent">
+					<div class="Card ShadowEffect TexAlCenter">
 						<p:dataTable value="#{escogerEntradaBean.tiposEntrada}" var="tipo">
 							<p:column headerText="entrada">
-								<h2 class="BigTopic">#{tipo.nombre}</h2>
+								<h2 class="BigTopic Responsive100">#{tipo.nombre}</h2>
 							</p:column>
 							<p:column headerText="cantidad">
-
+								<!-- El style class tiene Responsive10 xq sino no se vé en los móviles -->
 								<p:selectOneMenu id="cantidad"
-									value="#{escogerEntradaBean.cantidad}" style="width:200px;">
-
+									value="#{escogerEntradaBean.cantidad}" styleClass="Wid40 - Responsive10">
 									<p:ajax update="comprar:total comprar:botonComprar"
 										listener="#{escogerEntradaBean.sumarTotal(tipo.idtipoentrada)}" />
 									<f:selectItem itemLabel="0" itemValue="0" />
@@ -30,27 +50,43 @@
 									<f:selectItem itemLabel="5" itemValue="5" />
 									<f:selectItem itemLabel="6" itemValue="6" />
 								</p:selectOneMenu>
-
 							</p:column>
 							<p:column headerText="precio">
 								<h2 class="BigTopic">#{tipo.precio}€</h2>
 							</p:column>
-
 						</p:dataTable>
-						<p:outputPanel id="total" style="float:right;">
-							<p:outputLabel value="Total: "></p:outputLabel>
-							<p:outputLabel value="#{escogerEntradaBean.total}€"></p:outputLabel>
-						</p:outputPanel>
-						<br></br>
-						<p:separator />
-
-						<p:outputPanel id="botonComprar">
-							<p:commandButton disabled="#{escogerEntradaBean.isRendererBoton()}" action="#{escogerEntradaBean.toFormularioCliente()}" value="Añadir entrada"/>
-						</p:outputPanel>
-					</h:form>
+					</div>
 				</div>
 			</div>
-		</div>
+			<p:outputPanel id="total">
+				<div class="Container100 Responsive100">
+					<div class="Container100 Responsive50">
+						<div class="ContainerIndent">
+							<div class="Card ShadowEffect HeiAutoOnMobile OvHidden">
+								<div class="Container100"
+									style="margin: 0px 10px 10px -10px; padding: 0px 10px;">
+									<div class="SoftBlueBack DispInlBlock Fleft"
+										style="margin: -10px 10px -10px -10px; padding: 20px 10px;">
+										<i class="fa fa-euro Blue Fs100"></i>
+									</div>
+									<p></p>
+									<span class="Gray FontRobotoLight Fs20 TexAlCenter">Total</span><br />
+									<span class="Blue Fs30 FontRobotoBold TexAlCenter">#{escogerEntradaBean.total}€</span>
+								</div>
+								<div class="CardFooter">
+									<p:outputPanel id="botonComprar">
+										<p:commandButton
+											disabled="#{escogerEntradaBean.isRendererBoton()}"
+											action="#{escogerEntradaBean.toFormularioCliente()}"
+											value="Comprar Entrada" class="Wid100 - Responsive 100" />
+									</p:outputPanel>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</p:outputPanel>
+		</h:form>
 	</ui:define>
 
 </ui:composition>

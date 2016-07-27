@@ -24,80 +24,87 @@ import org.dinamizadores.dinaeventos.utiles.log.Loggable;
 @Named("escogerEntradaBean")
 @ViewScoped
 @Loggable
-public class EscogerEntradaBean implements Serializable{
-	
+public class EscogerEntradaBean implements Serializable {
+
 	private static final long serialVersionUID = -319833280168240652L;
+
 	@EJB
-	private EntradaDao tipoEntradaDao; 
+	private EntradaDao tipoEntradaDao;
+
 	private int cantidad;
-	private Map<Long,List<BigDecimal>> listaPrecios =  new HashMap<Long,List<BigDecimal>>();
+
+	private Map<Long, List<BigDecimal>> listaPrecios = new HashMap<Long, List<BigDecimal>>();
+
 	private BigDecimal total = new BigDecimal(0);
+
 	private Entrada entrada;
+
 	private List<DdTipoEntrada> tiposEntrada;
+
 	private Evento evento;
 
 	@PostConstruct
 	public void init() {
-		//reiniciamos cada vez que cargamos el Bean
+		// reiniciamos cada vez que cargamos el Bean
 		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("total", total);
 		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("lista", listaPrecios);
 		cantidad = 0;
 		evento = (Evento) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("evento");
-		
+
 		this.tiposEntrada = tipoEntradaDao.listTipoEntrada(evento.getIdevento());
-		for (DdTipoEntrada tipo : tiposEntrada){
+		for (DdTipoEntrada tipo : tiposEntrada) {
 			listaPrecios.put((long) tipo.getIdtipoentrada(), new ArrayList<BigDecimal>());
 		}
-		
+
 	}
-	
-	public void sumarTotal(Long idTipoEntrada){
+
+	public void sumarTotal(Long idTipoEntrada) {
 		total = new BigDecimal(0);
-		
-		for (DdTipoEntrada tipo : tiposEntrada){
-			if (idTipoEntrada == tipo.getIdtipoentrada()){
-				
+
+		for (DdTipoEntrada tipo : tiposEntrada) {
+			if (idTipoEntrada == tipo.getIdtipoentrada()) {
+
 				listaPrecios.get(idTipoEntrada).clear();
 				for (int j = 0; j < cantidad; j++)
 					listaPrecios.get(idTipoEntrada).add(tipo.getPrecio());
-				}
+			}
 		}
 
-		for (Entry<Long,List<BigDecimal>> e: listaPrecios.entrySet()) {
+		for (Entry<Long, List<BigDecimal>> e : listaPrecios.entrySet()) {
 			for (BigDecimal a : e.getValue()) {
 				total = total.add(a);
 			}
 		}
-		
+
 		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("total", total);
 		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("lista", listaPrecios);
 		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("tiposEntrada", tiposEntrada);
 	}
-	
+
 	public boolean isRendererBoton() {
 		boolean desactivado = true;
-        int res;
-        
-        res = total.compareTo(BigDecimal.valueOf(0));
-		
-        //Iguales
-		if (res == 0){
+		int res;
+
+		res = total.compareTo(BigDecimal.valueOf(0));
+
+		// Iguales
+		if (res == 0) {
 			desactivado = true;
-		//0 menor que total
-		}else if (res == 1){
+			// 0 menor que total
+		} else if (res == 1) {
 			desactivado = false;
-		//total menor que 0
-		}else if (res == -1){
+			// total menor que 0
+		} else if (res == -1) {
 			desactivado = true;
 		}
-		
+
 		return desactivado;
 	}
 
-	public String toFormularioCliente(){
+	public String toFormularioCliente() {
 		return Constantes.Rutas.Entrada.FORMULARIO_CLIENTE_VALENCIA_CONNECT;
 	}
-	
+
 	public int getCantidad() {
 		return cantidad;
 	}
@@ -105,7 +112,7 @@ public class EscogerEntradaBean implements Serializable{
 	public void setCantidad(int cantidad) {
 		this.cantidad = cantidad;
 	}
-	
+
 	public Entrada getEntrada() {
 		return this.entrada;
 	}
@@ -145,5 +152,13 @@ public class EscogerEntradaBean implements Serializable{
 	public void setListaPrecios(Map<Long, List<BigDecimal>> listaPrecios) {
 		this.listaPrecios = listaPrecios;
 	}
-	
+
+	public Evento getEvento() {
+		return evento;
+	}
+
+	public void setEvento(Evento evento) {
+		this.evento = evento;
+	}
+
 }
