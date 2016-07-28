@@ -5,9 +5,10 @@
 	template="/WEB-INF/templateCliente.xhtml"
 	xmlns:p="http://primefaces.org/ui">
 
-
 	<ui:define name="content">
 		<h:form id="formClientesAndComplementos">
+			<p:blockUI id="blockUI" block=":formClientesAndComplementos" trigger="botonComprar" widgetVar="blockBodyUIWidget"/>
+			<p:growl id="growl" showDetail="true"/>  
 			<p:repeat value="#{clientesAndComplementosBean.listadoEntradas}" var="entrada">
 				<div class="Container100 ">
 					<div class="ContainerIndent">
@@ -28,24 +29,21 @@
 										</p:inputMask>
 										<h2 align="center">#{entrada.precio}€</h2>
 									</p:panelGrid>
-									<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true"/>
-									<h2 class="BigTopic">Complementos: </h2>
-												
-									<p:accordionPanel value="#{entrada.listaComplementos}" var="complementos" rendered="#{clientesAndComplementosBean.isComplementoRendered(entrada.nombre)}">
-	                                   <p:tab title="#{complementos.complemento.nombre}">
-	                                       <p:panelGrid columns="3" layout="grid" style="border:0px!important;">
-											<p:outputLabel value="#{complementos.complemento.nombre}" />
-											<p:outputLabel value="#{complementos.complemento.precio}€" />
-											<p:spinner size="5" value="#{complementos.cantidad}" min="0">
-												<p:ajax update="formClientesAndComplementos:totales" listener="#{clientesAndComplementosBean.agregarComplemento}" />
-											</p:spinner>
-										</p:panelGrid>
-	                                       <h:panelGrid columns="3" cellpadding="10">
-	                                       		<h:outputText value="#{complementos.complemento.descripcion}" />
-	                                           <h:outputText value="#{complementos.complemento.descripcion}" />
-	                                       </h:panelGrid>
-	                                   </p:tab>
-                                	</p:accordionPanel>
+									<p:messages id="messages" autoUpdate="true" closable="true" />
+									<div class="EmptyBox20"></div>
+									<p:fieldset legend="Complementos" toggleable="true" toggleSpeed="500" collapsed="true" rendered="#{clientesAndComplementosBean.isComplementoRendered(entrada.nombre)}" >
+										<p:accordionPanel value="#{entrada.listaComplementos}" var="complementos" rendered="#{clientesAndComplementosBean.isComplementoRendered(entrada.nombre)}" >
+		                                   <p:tab title="#{complementos.complemento.nombre}" titleStyleClass="SoftBlueBack" titleStyle="BlueBack" >
+		                                       <p:panelGrid columns="3" layout="grid" style="border:0px!important;">
+												<p:outputLabel value="#{complementos.complemento.descripcion}" />
+												<p:outputLabel value="#{complementos.complemento.precio}€" />
+												<p:spinner size="5" value="#{complementos.cantidad}" min="0">
+													<p:ajax update="formClientesAndComplementos:totales" listener="#{clientesAndComplementosBean.agregarComplemento}" />
+												</p:spinner>
+											</p:panelGrid>
+		                                   </p:tab>
+	                                	</p:accordionPanel>
+                                	</p:fieldset>
 								</div>
 							</div>
 						</div>
@@ -57,43 +55,67 @@
 				<div class="ContainerIndent">
 					<div class="Card ShadowEffect TexAlCenter">
 						<p:outputPanel id="totales">
-							<div class="Container50 Responsive50 TexAlLeft">
+							<div class="Container100 Responsive100 TexAlLeft">
 								<div class="ContainerIndent">
-									<p:repeat var="entrada"	value="#{clientesAndComplementosBean.listadoEntradas}">
+								
+									<!-- TODO [CUALQUIERA] ME ESTÁ LLEVANDO MUCHO TIEMPO QUE SE VEA BIEN SE DEJA PARA EL FUTURO - FUNCIONA CON TODAS LAS RESOLUCIONES DE PANTALLA MOVIL-->
+								
+									<!-- <p:repeat var="entrada"	value="#{clientesAndComplementosBean.listadoEntradas}">
 										<p:outputPanel rendered="#{!empty entrada.listaComplementos}">
-											<p:outputLabel value="#{entrada.usuario.nombre} " />
-											<p:outputLabel value=" va ha comprar:" />
-											<p:repeat var="complemento" value="#{entrada.listaComplementos}">
-												<p:outputPanel rendered="#{complemento.cantidad > 0}">
-												<p:outputLabel value="#{complemento.cantidad} de" />
-												<p:outputLabel value=" #{complemento.complemento.nombre} " />
-												<p:outputLabel value=" precio: #{complemento.complemento.precio}€" />
-												</p:outputPanel>
-											</p:repeat>
+											<div class="Container100 Responsive">
+                                                <div class="ContainerIndent">
+                                                    <div class="Card ShadowEffect BlueBack SoftBlue TexAlCenter HoverEffect">
+                                                    	<div class="Container20 Responsive15 SoftBlueBack DispInlBlock Fleft" style="margin: -10px 10px -10px -10px; padding: 20px 10px;">
+															<div class="FontRobotoLight Fs16 White DispBlock ClearBoth">"#{entrada.nombre}"</div>
+														</div>
+														
+														<div class="BlueBack DispInlBlock" style="margin: -10px 10px -10px -10px; padding: 20px 10px;">
+															<p:repeat var="complemento" value="#{entrada.listaComplementos}">
+																<p:outputPanel rendered="#{complemento.cantidad > 0}">
+																	<p:outputLabel styleClass="White" value="#{complemento.cantidad} de" />
+																	<p:outputLabel styleClass="White" value=" #{complemento.complemento.nombre} " />
+																	<p:outputLabel styleClass="White" value=" precio: #{complemento.complemento.precio}€" />
+																</p:outputPanel>
+															</p:repeat>
+														</div>
+														
+                                                    </div>
+                                                </div>
+                                            </div>
 										</p:outputPanel>
-									</p:repeat>
-									<p:outputLabel value="Total: " />
-									<p:outputLabel id="totals" value="#{clientesAndComplementosBean.total} €"></p:outputLabel>
+									</p:repeat> -->
+									
+									<div class="Container100 Responsive">
+                                    	<div class="ContainerIndent">
+											<div class="Card ShadowEffect BlueBack SoftBlue TexAlCenter HoverEffect">
+												<div class="Container20 Responsive15 SoftBlueBack DispInlBlock Fleft" style="margin: -10px 10px -10px -10px; padding: 20px 10px;">
+													<div class="FontRobotoLight Fs16 White DispBlock ClearBoth">"Total"</div>
+												</div>
+												<div class="BlueBack DispInlBlock" style="margin: -10px 10px -10px -10px; padding: 20px 10px;">
+													<p:outputLabel id="totals" styleClass="DispBlock Fs16 FontRobotoBold White TexAlCenter" value="#{clientesAndComplementosBean.total} €"/>
+												</div>
+											</div>
+										</div>
+									</div>
 								</div>
 							</div>
-							<div class="Container50 Responsive50 TexAlRight">
-								<div class="ContainerIndent">
-									<h:outputText value="Enviar cada entrada a cada amigo: " />
-									<p:inputSwitch id="value1" value="#{clientesAndComplementosBean.envioConjunto}" />
-								</div>
-							</div>
+							
 						</p:outputPanel>
 
 						<div class="Container100 Responsive100 TexAlCenter">
 							<div class="ContainerIndent">
-								<p:separator />
-								<p:commandButton id="botonComprar" update="@form" action="#{clientesAndComplementosBean.toPagarEntradas()}" value="Finalizar compra"/>
+								<!-- TODO [CUALQUIERA] POSICIONAMIENTO MEJORABLE, PERO COMO ESTÁ FUNCIONA CON TODAS LAS RESOLUCIONES DE PANTALLA MOVIL  -->
+								<h:outputText sytleClass="FontRobotoLight White TexAlCenter" value="Enviar entrada al email de cada amigo: " />
+								<div class="EmptyBox5"></div>
+								<p:inputSwitch id="value1" value="#{clientesAndComplementosBean.envioConjunto}" />
+								<div class="EmptyBox5"></div>
+								<p:commandButton id="botonComprar" update="@form" action="#{clientesAndComplementosBean.toPagarEntradas()}" value="Finalizar compra" onstart="PF('statusDialog').show();" onsuccess="PF('statusDialog').hide();"/>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-
+			
 		</h:form>
 	</ui:define>
 
