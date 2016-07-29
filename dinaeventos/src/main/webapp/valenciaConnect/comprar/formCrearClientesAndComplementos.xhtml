@@ -32,6 +32,7 @@
 									<p:messages id="messages" autoUpdate="true" closable="true" />
 									<div class="EmptyBox20"></div>
 									<p:fieldset legend="Complementos" toggleable="true" toggleSpeed="500" collapsed="true" rendered="#{clientesAndComplementosBean.isComplementoRendered(entrada.nombre)}" >
+									<!-- SE PROPONE CAMBIAR EL ACCORDION PANEL POR UN REPEAT CON CARDS DE CONTENAINERS33-->
 										<p:accordionPanel value="#{entrada.listaComplementos}" var="complementos" rendered="#{clientesAndComplementosBean.isComplementoRendered(entrada.nombre)}" >
 		                                   <p:tab title="#{complementos.complemento.nombre}" titleStyleClass="SoftBlueBack" titleStyle="BlueBack" >
 		                                       <p:panelGrid columns="3" layout="grid" style="border:0px!important;">

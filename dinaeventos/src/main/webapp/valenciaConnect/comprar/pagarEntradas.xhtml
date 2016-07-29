@@ -5,19 +5,6 @@
 	xmlns:p="http://primefaces.org/ui"
 	template="/WEB-INF/templateCliente.xhtml">
 
-
-	<ui:param name="pageTitle" value="Compra entradas"/>
-	
-	<ui:define name="header">
-		<h1>Entrada</h1>
-	</ui:define>
-
-	<ui:define name="subheader">
-		<h3>Pagar entrada</h3>
-	</ui:define>
-
-	<ui:define name="footer"/>
-
 	<ui:define name="content">
 	<div class="Container100 MarAuto WidAutoOnMobile">
 	<div class="Wid90 DispBlock MarAuto MarTopPerc1 TexAlCenter" >
@@ -28,18 +15,22 @@
                 <div class="Wid100 OvHidden BigTopic Fs30"><i class="fa fa-credit-card Fs40"></i> Panel de pago</div>
 					<form method="post" action="https://homologation-webpayment.payline.com/webpayment/getToken" >
 		 						
-		 						<h:inputHidden id="data" value="#{comprarEntradaBean.data}" /> 
-								<h:inputHidden id="accessKeyRef" value="#{comprarEntradaBean.accessKeyRef}" /> 
-		 						<h:inputHidden id="returnURL" value="#{comprarEntradaBean.returnURL}" /> 
+		 						<h:inputHidden id="data" value="#{comprarEntradaValenciaConnect.data}" /> 
+								<h:inputHidden id="accessKeyRef" value="#{comprarEntradaValenciaConnect.accessKeyRef}" /> 
+		 						<h:inputHidden id="returnURL" value="#{comprarEntradaValenciaConnect.returnURL}" /> 
 								
 								
 								<div class="Container100"> 	
 								<p:panelGrid columns="1" layout="grid" style="border:0px!important;"> 
-											<p:inputText id="cardNumber" style="margin-top: 10px"  required="true" requiredMessage="Es necesario proporcionar el número de la tarjeta" placeholder="Número de tarjeta"></p:inputText>
-										
-											<p:inputMask mask="9999" id="cardExpirationDate" style="margin-top: 10px;"  placeholder="Fecha de caducidad" required="true"></p:inputMask>
-										
-											<p:inputMask mask="999" id="cardCvx" style="margin-top: 10px;" placeholder="Código de seguridad" required="true"></p:inputMask>
+											<p:inputMask id="cardNumber" style="margin-top: 10px" required="true" requiredMessage="Es necesario proporcionar el número de la tarjeta" placeholder="Número de tarjeta" mask="9999999999999999"/>
+											
+											<p:panelGrid columns="3" style="border:0px!important;" >
+												<p:inputMask mask="99" id="cardExpirationMonth" placeholder="Mes" required="true" styleClass="Wid20 -  Responsive"/>
+												<h:outputText value="/" styleClass="Wid10 - Responsive"/>
+												<p:inputMask mask="99" id="cardExpirationYear" placeholder="Año" required="true" styleClass="Wid20 - Responsive"/>
+											</p:panelGrid>
+											
+											<p:inputMask mask="999" id="cardCvx" style="margin-top: 10px;" placeholder="Código de seguridad" required="true"/>
 								</p:panelGrid> 
 								</div>
 								
@@ -69,7 +60,6 @@
 			</div>
 			<br></br>
 		</div>
-		
 		
 	</ui:define>
 

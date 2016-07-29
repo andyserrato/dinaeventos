@@ -25,7 +25,6 @@ import com.mangopay.entities.CardRegistration;
 @Named
 @ViewScoped
 @Loggable
-
 public class DdTipoComplementoBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
