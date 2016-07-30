@@ -10,12 +10,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.ejb.Startup;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -25,6 +30,7 @@ import org.dinamizadores.dinaeventos.model.DdTipoComplemento;
 import org.dinamizadores.dinaeventos.model.Evento;
 import org.dinamizadores.dinaeventos.model.Usuario;
 import org.dinamizadores.dinaeventos.utiles.Constantes;
+import org.dinamizadores.dinaeventos.utiles.CookieHelper;
 import org.dinamizadores.dinaeventos.utiles.FacebookAppCredential;
 import org.dinamizadores.dinaeventos.utiles.FacebookLoginService;
 import org.dinamizadores.dinaeventos.utiles.log.Loggable;
@@ -44,6 +50,7 @@ import com.google.gson.Gson;
 @Named
 @SessionScoped
 @Loggable
+@Startup
 public class LoginBean implements Serializable {
 	private final Logger log = LogManager.getLogger(EventoBean.class);
 	private static final long serialVersionUID = -1161277308459762945L;
@@ -52,17 +59,17 @@ public class LoginBean implements Serializable {
 	private List<Evento> eventosList;
 	private Evento evento;
 	private Usuario usuario;
-	
+
 	@EJB
 	private UsuarioDao usuarioDao;
 	@EJB
 	private FacebookAppCredential appAccessToken;
 	private Boolean loggedIn = false;
 	private FacebookLoginService facebookLoginService = new FacebookLoginService();
-	
-	//TODO Falta cambiar la variable cuando se loguee con FEISBUK
-	private Boolean loggedInWithFacebook=false;
-	
+
+	// TODO Falta cambiar la variable cuando se loguee con FEISBUK
+	private Boolean loggedInWithFacebook = false;
+
 	private String originalURL;
 	private PerfilRedSocial perfilFacebook = null;
 	private static final String NETWORK_NAME = "Facebook";
@@ -147,20 +154,34 @@ public class LoginBean implements Serializable {
 	 */
 	private void gestinarRedireccion() {
 		String salto;
-
-		if (originalURL != null) {
-			salto = originalURL;
-			originalURL = null;
-		} else {
-			salto = Constantes.Rutas.PAGINA_INICIAL;
-		}
-		log.debug("Volvemos a " + salto + " después de hacer Login");
-		ExternalContext econtext = FacesContext.getCurrentInstance().getExternalContext();
 		try {
-			econtext.redirect(econtext.getRequestContextPath() + salto);
+			if (originalURL != null) {
+				salto = originalURL;
+				originalURL = null;
+			} else {
+				salto = Constantes.Rutas.PAGINA_INICIAL;
+			}
+			log.debug("Volvemos a " + salto + " después de hacer Login");
+			ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+
+			context.redirect(context.getRequestContextPath() + salto);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public void establecerCookieUsuario(String email, String password) {
+
+		CookieHelper coockieHelper = new CookieHelper();
+		System.out.println("Estableciendo coockie de usuario");
+		HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext()
+				.getRequest();
+
+		HttpServletResponse resp = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext()
+				.getResponse();
+
+		coockieHelper.setCookie(Constantes.nombreCookie, email + "&" + password, req, resp);
+
 	}
 
 	public void login() {
@@ -173,7 +194,9 @@ public class LoginBean implements Serializable {
 			loggedIn = true;
 			message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Bienvenido", usuario.getNombre());
 			this.usuario = usuario;
+			establecerCookieUsuario(email, password);
 			gestinarRedireccion();
+
 		} else {
 			loggedIn = false;
 			message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al Iniciar la sesión",
@@ -182,6 +205,7 @@ public class LoginBean implements Serializable {
 		email = "";
 		password = "";
 		context.addMessage(null, message);
+		// return originalURL;
 	}
 
 	public void loginFacebook() {
@@ -263,7 +287,7 @@ public class LoginBean implements Serializable {
 	}
 
 	public void checkFirstFacebookLogin() {
-		
+
 		if (checkFacebookLogin) {
 
 			ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
@@ -300,22 +324,24 @@ public class LoginBean implements Serializable {
 			}
 
 			checkFacebookLogin = false;
-			
+
 			obtenerPerfilFacebook();
 			log.debug("Access Token: " + accessToken.getAccessToken());
 			log.debug("Refresh Token: " + accessToken.getRefreshToken());
 			log.debug("Scope: " + accessToken.getScope());
 			log.debug("Access Token: " + accessToken.getExpiresIn());
-			
-//			accessToken = facebookLoginService.getService().getAccessToken(code);
-			
-//			usuarioDao.crearUsuarioConPerfilFacebook(perfilFacebook, accessToken.getAccessToken());
+
+			// accessToken =
+			// facebookLoginService.getService().getAccessToken(code);
+
+			// usuarioDao.crearUsuarioConPerfilFacebook(perfilFacebook,
+			// accessToken.getAccessToken());
 
 		}
 	}
 
 	public void obtenerPerfilFacebook() {
-		
+
 		try {
 			final OAuthRequest request = new OAuthRequest(Verb.GET, PROFILE_URL, facebookLoginService.getService());
 			facebookLoginService.getService().signRequest(accessToken, request);
@@ -327,7 +353,7 @@ public class LoginBean implements Serializable {
 			perfilFacebook = gson.fromJson(response.getBody(), PerfilRedSocial.class);
 			log.debug("perfil" + perfilFacebook.toString());
 		} catch (Exception e) {
-			log.error("Obteniendo perfil de facebook",e);
+			log.error("Obteniendo perfil de facebook", e);
 		}
 	}
 
@@ -351,29 +377,28 @@ public class LoginBean implements Serializable {
 
 		return file;
 	}
-	
+
 	@Loggable
 	public StreamedContent obtenerImagen(DdTipoComplemento complemento) {
 		StreamedContent file = null;
 		if (complemento != null && !"".equals(complemento.getNombreImagen()) && complemento.getImagen() != null) {
 			log.debug("El complemento no es nulo");
-			// TODO falta sacar la extensión del nombre de la imagen  
+			// TODO falta sacar la extensión del nombre de la imagen
 			file = new DefaultStreamedContent(new ByteArrayInputStream(complemento.getImagen()));
 		}
-		
 
 		return file;
 	}
-	
+
 	@Loggable
 	public StreamedContent getImagenFromByte(byte[] fichero, String nombre) {
 		StreamedContent file = null;
 		if (fichero != null && !"".equals(nombre) && nombre != null) {
 			log.debug("La imagen no es nula" + nombre);
-			// TODO falta sacar la extensión del nombre de la imagen  
+			// TODO falta sacar la extensión del nombre de la imagen
 			file = new DefaultStreamedContent(new ByteArrayInputStream(fichero));
 		}
-		
+
 		return file;
 	}
 
