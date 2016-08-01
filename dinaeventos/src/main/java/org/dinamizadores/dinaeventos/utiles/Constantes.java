@@ -8,6 +8,8 @@ package org.dinamizadores.dinaeventos.utiles;
  */
 public final class Constantes {
 
+	public static final String nombreCookie = "UserSessionFilter.cookieId";
+
 	/**
 	 * Clase empotrada que contiene las rutas estáticas a distintas páginas.
 	 */

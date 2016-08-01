@@ -247,4 +247,8 @@ public class CrearClientesAndComplementos implements Serializable {
 		return renderComplementos;
 	}
 
+	public boolean isEnviarCadaAmigoRedered() {
+		return (listadoEntradas.size() > 1);
+	}
+
 }

@@ -24,10 +24,8 @@
 								<p:panelGrid columns="1" layout="grid" style="border:0px!important;"> 
 											<p:inputMask id="cardNumber" style="margin-top: 10px" required="true" requiredMessage="Es necesario proporcionar el número de la tarjeta" placeholder="Número de tarjeta" mask="9999999999999999"/>
 											
-											<p:panelGrid columns="3" style="border:0px!important;" >
-												<p:inputMask mask="99" id="cardExpirationMonth" placeholder="Mes" required="true" styleClass="Wid20 -  Responsive"/>
-												<h:outputText value="/" styleClass="Wid10 - Responsive"/>
-												<p:inputMask mask="99" id="cardExpirationYear" placeholder="Año" required="true" styleClass="Wid20 - Responsive"/>
+											<p:panelGrid columns="1" style="border:0px!important;" >
+												<p:inputMask mask="9999" id="cardExpiration" placeholder="MesAño" required="true" styleClass="Wid20 -  Responsive"/>
 											</p:panelGrid>
 											
 											<p:inputMask mask="999" id="cardCvx" style="margin-top: 10px;" placeholder="Código de seguridad" required="true"/>
