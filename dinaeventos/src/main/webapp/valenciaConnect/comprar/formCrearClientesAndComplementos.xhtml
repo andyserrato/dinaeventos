@@ -106,11 +106,13 @@
 						<div class="Container100 Responsive100 TexAlCenter">
 							<div class="ContainerIndent">
 								<!-- TODO [CUALQUIERA] POSICIONAMIENTO MEJORABLE, PERO COMO ESTÁ FUNCIONA CON TODAS LAS RESOLUCIONES DE PANTALLA MOVIL  -->
-								<h:outputText sytleClass="FontRobotoLight White TexAlCenter" value="Enviar entrada al email de cada amigo: " />
-								<div class="EmptyBox5"></div>
-								<p:inputSwitch id="value1" value="#{clientesAndComplementosBean.envioConjunto}" />
-								<div class="EmptyBox5"></div>
-								<p:commandButton id="botonComprar" update="@form" action="#{clientesAndComplementosBean.toPagarEntradas()}" value="Finalizar compra" onstart="PF('statusDialog').show();" onsuccess="PF('statusDialog').hide();"/>
+								<p:outputPanel id="enviarAlEmailDeCadaAmigo" rendered="#{clientesAndComplementosBean.isEnviarCadaAmigoRedered()}">
+									<h:outputText sytleClass="FontRobotoLight White TexAlCenter" value="Enviar entrada al email de cada amigo: " />
+									<div class="EmptyBox5"></div>
+									<p:inputSwitch id="value1" value="#{clientesAndComplementosBean.envioConjunto}" />
+									<div class="EmptyBox5"></div>
+								</p:outputPanel>
+									<p:commandButton id="botonComprar" update="@form" action="#{clientesAndComplementosBean.toPagarEntradas()}" value="Finalizar compra" onstart="PF('statusDialog').show();" onsuccess="PF('statusDialog').hide();" />
 							</div>
 						</div>
 					</div>
