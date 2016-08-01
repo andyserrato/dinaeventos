@@ -115,12 +115,14 @@ public class EntradaDao {
 		return findAllQuery.getResultList();
 	}
 	
-	public Integer getEntradaDniEvento(Integer idUsuario, Integer idEvento) {
+	public Integer getEntradaDniEvento(Integer idUsuario, Integer idEvento, String dni) {
 		TypedQuery<Integer> findAllQuery = em.createQuery(
-				"SELECT e.identrada FROM Entrada e WHERE e.idusuario = :idUsuario AND e.idevento = :idEvento",
+				"SELECT e.identrada FROM Entrada e JOIN usuario u ON u.idusuario = e.idusuario WHERE e.idusuario = :idUsuario AND e.idevento = :idEvento and u.dni = :dni",
 				Integer.class);
 		findAllQuery.setParameter("idUsuario", idUsuario);
+		findAllQuery.setParameter("dni", dni);
 		findAllQuery.setParameter("idEvento", idEvento);
+		
 		return findAllQuery.getSingleResult();
 	}
 }

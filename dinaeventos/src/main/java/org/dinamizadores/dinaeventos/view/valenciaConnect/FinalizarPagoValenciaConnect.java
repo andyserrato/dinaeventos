@@ -15,6 +15,8 @@ import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.dinamizadores.dinaeventos.dao.DAOGenerico;
 import org.dinamizadores.dinaeventos.dao.EntradaDao;
 import org.dinamizadores.dinaeventos.dao.EventoDao;
@@ -39,6 +41,8 @@ import com.mangopay.entities.CardRegistration;
 public class FinalizarPagoValenciaConnect implements Serializable {
 
 	private static final long serialVersionUID = -3334270119276327476L;
+	
+	private static final Logger log = LogManager.getLogger(UsuarioDao.class);
 
 	@EJB
 	private EntradaDao entradaDao;
@@ -121,23 +125,24 @@ public class FinalizarPagoValenciaConnect implements Serializable {
 	public void crearEntradasUsuarios() {
 
 		for (EntradasCompleta entrada : listadoEntradas) {
-
-			crearUsuario(entrada.getUsuario());
-			crearEntrada(entrada);
+			log.debug("idusuario: " + entrada.getUsuario().getIdUsuario());
+			Usuario nuevoUsuario = crearUsuario(entrada.getUsuario());
+			log.debug("idusuario: " + entrada.getUsuario().getIdUsuario());
+			crearEntrada(entrada, usuario);
 		}
 
 	}
 
-	public void crearUsuario(Usuario usuario) {
+	public Usuario crearUsuario(Usuario usuario) {
 
 		usuario.setActivo(true);
 		usuario.setBloqueado(false);
 
 		usuarioDao.create(usuario);
-
+		return usuario;
 	}
 
-	public void crearEntrada(EntradasCompleta entrada) {
+	public void crearEntrada(EntradasCompleta entrada, Usuario nuevoUsuario) {
 
 		try {
 			Entrada en = new Entrada();
@@ -165,20 +170,20 @@ public class FinalizarPagoValenciaConnect implements Serializable {
 				}
 
 			}
+			
 			entrada.setNumeroserie(en.getNumeroserie());
 			total = total.add(entrada.getPrecio());
 			en.setPrecio(total);
 
-			Usuario usu = usuarioDao.getUsuarioDni(entrada.getUsuario().getDni(), en.getIdevento());
-			if (usu != null)
-				en.setIdusuario(usu.getIdUsuario());
-
+			en.setUsuario(nuevoUsuario);
+			
 			entradaDao.create(en);
 			algoritmoInsercionEntradasComplementos(entrada, en);
 
-			entrada.setIdEntrada((long) entradaDao.getEntradaDniEvento(en.getIdusuario(), en.getIdevento()));
-			String format = String.format("%03d", entrada.getIdEntrada());
-			entrada.setIdEntrada(Long.valueOf(format));
+			//entrada.setIdEntrada((long) entradaDao.getEntradaDniEvento(en.getIdusuario(), en.getIdevento(), nuevoU.getDni()));
+			
+			//String format = String.format("%03d", entrada.getIdEntrada());
+			//entrada.setIdEntrada(Long.valueOf(format));
 
 		} catch (NoSuchAlgorithmException e) {
 			// TODO Auto-generated catch block
