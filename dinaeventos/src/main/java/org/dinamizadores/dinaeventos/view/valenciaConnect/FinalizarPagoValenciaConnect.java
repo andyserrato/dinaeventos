@@ -53,15 +53,10 @@ public class FinalizarPagoValenciaConnect implements Serializable {
 	@EJB
 	private EventoDao eventoDao;
 
-	/** Acceso a la capa DAO para persistir los datos. */
 	@EJB
-	private DAOGenerico dao;
+	private DAOGenerico daoGenerico;
 
-	private ConversorNumeroSerie con = new ConversorNumeroSerie();
-
-	private Integer id;
-
-	private Usuario usuario;
+	private ConversorNumeroSerie conversorNumeroSerie = new ConversorNumeroSerie();
 
 	private BigDecimal total = new BigDecimal(0);
 
@@ -85,8 +80,7 @@ public class FinalizarPagoValenciaConnect implements Serializable {
 	public void init() {
 		listadoEntradas = (List<EntradasCompleta>) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("listaEntradas");
 		envioConjunto = (Boolean) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("envioConjunto");
-		evento = eventoDao.findById(1);
-		// evento = (Evento) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("evento");
+		evento = (Evento) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("evento");
 
 		efectuarPago();
 
@@ -125,69 +119,68 @@ public class FinalizarPagoValenciaConnect implements Serializable {
 	public void crearEntradasUsuarios() {
 
 		for (EntradasCompleta entrada : listadoEntradas) {
-			log.debug("idusuario: " + entrada.getUsuario().getIdUsuario());
-			Usuario nuevoUsuario = crearUsuario(entrada.getUsuario());
-			log.debug("idusuario: " + entrada.getUsuario().getIdUsuario());
-			crearEntrada(entrada, usuario);
+			crearEntradaAndUsuario(entrada);
 		}
 
 	}
 
-	public Usuario crearUsuario(Usuario usuario) {
+	public void crearUsuario(Usuario usuario) {
 
 		usuario.setActivo(true);
 		usuario.setBloqueado(false);
 
 		usuarioDao.create(usuario);
-		return usuario;
 	}
 
-	public void crearEntrada(EntradasCompleta entrada, Usuario nuevoUsuario) {
+	public void crearEntradaAndUsuario(EntradasCompleta entradaCompletaDTO) {
 
 		try {
-			Entrada en = new Entrada();
-			en.setActiva(true);
-			en.setDentrofuera(false);
-			en.setValidada(false);
-			en.setVendida(true);
+			log.debug("Se procede a crear el usuario con email: " + entradaCompletaDTO.getUsuario().getEmail());
+			crearUsuario(entradaCompletaDTO.getUsuario());
+			log.debug("Usuario peristido con id: " + entradaCompletaDTO.getUsuario().getIdUsuario());
+			
+			Entrada entradaEntidad = new Entrada();
+			entradaEntidad.setActiva(true);
+			entradaEntidad.setDentrofuera(false);
+			entradaEntidad.setValidada(false);
+			entradaEntidad.setVendida(true);
 
-			en.setIdformapago(1);
-			en.setIdtipoiva(1);
-			en.setIdevento(1);
-			en.setIdtipoentrada(entrada.getIdTipoEntrada().intValue());
-			Calendar cal = new GregorianCalendar();
+			// TODO [EQUIPO] Corregir al normalizar y tener todos los datos claros
+//			en.setIdformapago(1);
+//			en.setIdtipoiva(1);
+			
+			entradaEntidad.setIdevento(evento.getIdevento());
+			entradaEntidad.setIdtipoentrada(entradaCompletaDTO.getIdTipoEntrada().intValue());
+			
+			Calendar calendario = new GregorianCalendar();
 
-			String numeroserie = entrada.getUsuario().getDni() + "" + cal.getTimeInMillis();
-			numeroserie = con.convertirNumero(numeroserie);
-			en.setNumeroserie(numeroserie);
+			String numeroserie = entradaCompletaDTO.getUsuario().getDni() + "" + calendario.getTimeInMillis();
+			numeroserie = conversorNumeroSerie.convertirNumero(numeroserie);
+			entradaEntidad.setNumeroserie(numeroserie);
 
 			BigDecimal total = new BigDecimal(0);
 
-			en.setFechaVendida(cal.getTime());
-			for (ComplementoEntero com : entrada.getListaComplementos()) {
-				if (com.getCantidad() > 0) {
-					total = total.add(com.getComplemento().getPrecio());
+			entradaEntidad.setFechaVendida(calendario.getTime());
+			
+			for (ComplementoEntero complementoDTO : entradaCompletaDTO.getListaComplementos()) {
+				if (complementoDTO.getCantidad() > 0) {
+					total = total.add(complementoDTO.getComplemento().getPrecio());
 				}
-
 			}
 			
-			entrada.setNumeroserie(en.getNumeroserie());
-			total = total.add(entrada.getPrecio());
-			en.setPrecio(total);
+			entradaCompletaDTO.setNumeroserie(entradaEntidad.getNumeroserie());
+			total = total.add(entradaCompletaDTO.getPrecio());
+			entradaEntidad.setPrecio(total);
 
-			en.setUsuario(nuevoUsuario);
+			entradaEntidad.setUsuario(entradaCompletaDTO.getUsuario());
 			
-			entradaDao.create(en);
-			algoritmoInsercionEntradasComplementos(entrada, en);
+			entradaDao.create(entradaEntidad);
+			algoritmoInsercionEntradasComplementos(entradaCompletaDTO, entradaEntidad);
 
-			//entrada.setIdEntrada((long) entradaDao.getEntradaDniEvento(en.getIdusuario(), en.getIdevento(), nuevoU.getDni()));
-			
-			//String format = String.format("%03d", entrada.getIdEntrada());
-			//entrada.setIdEntrada(Long.valueOf(format));
-
-		} catch (NoSuchAlgorithmException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (NoSuchAlgorithmException noSuchAlgorithmException) {
+			// TODO [EQUIPO] verificar que log.debug("blah blah", exception) funciona igual que e.printStackTrace
+			log.debug("Ha ocurrido un error creando el pdf de entrada",noSuchAlgorithmException );
+			noSuchAlgorithmException.printStackTrace();
 		}
 
 	}
@@ -217,7 +210,7 @@ public class FinalizarPagoValenciaConnect implements Serializable {
 					entradanueva.setDdTipoComplemento(com.getComplemento());
 					entradanueva.setEntrada(en);
 					en.getEntradaComplementos().add(entradanueva);
-					dao.insertar(entradanueva);
+					daoGenerico.insertar(entradanueva);
 				}
 			}
 
@@ -234,22 +227,6 @@ public class FinalizarPagoValenciaConnect implements Serializable {
 
 	public void setTotal(BigDecimal total) {
 		this.total = total;
-	}
-
-	public Integer getId() {
-		return this.id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-	public Usuario getUsuario() {
-		return this.usuario;
-	}
-
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
 	}
 
 	public Integer getCantidad() {
