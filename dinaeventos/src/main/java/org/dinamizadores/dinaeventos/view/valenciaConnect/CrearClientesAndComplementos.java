@@ -92,21 +92,21 @@ public class CrearClientesAndComplementos implements Serializable {
 		}
 	}
 
-	public void verificarDNI(AjaxBehaviorEvent event) {
-		try {
-			for (EntradasCompleta e : listadoEntradas) {
-				Usuario us = new Usuario();
-				us = usuarioDao.getUsuarioDni(e.getUsuario().getDni(), evento.getIdevento());
-				if (us != null) {
-					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "El DNI indicado ya existe en el sistema."));
-				}
-
-			}
-		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "El DNI indicado ya existe en el sistema."));
-		}
-
-	}
+//	public void verificarDNI(AjaxBehaviorEvent event) {
+//		try {
+//			for (EntradasCompleta e : listadoEntradas) {
+//				Usuario us = new Usuario();
+//				us = usuarioDao.getUsuarioDni(e.getUsuario().getDni(), evento.getIdevento());
+//				if (us != null) {
+//					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "El DNI indicado ya existe en el sistema."));
+//				}
+//
+//			}
+//		} catch (Exception e) {
+//			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "El DNI indicado ya existe en el sistema."));
+//		}
+//
+//	}
 
 	public String toPagarEntradas() {
 

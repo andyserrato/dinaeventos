@@ -25,7 +25,6 @@
 										<p:calendar placeholder="Fecha nacimiento" label="fecha" id="fecha" value="#{entrada.usuario.fechanac}"	mask="99/99/9999" yearRange="c-90:c+0" navigator="true"	pattern="dd/MM/yyyy" required="true" showOn="button"/>
 										<p:inputMask placeholder="DNI" label="dni" id="dni"	value="#{entrada.usuario.dni}" mask="*********"	required="true">
 											<f:validateRegex pattern="(([X-Z]|[x-z]{1})([-]?)(\d{7})([-]?)([a-z]|[A-Z]{1}))|((\d{8})([-]?)([a-z]|[A-Z]{1}))"/>
-											<p:ajax event="blur" listener="#{clientesAndComplementosBean.verificarDNI}"	update="messages"/>
 										</p:inputMask>
 										<h2 align="center">#{entrada.precio}€</h2>
 									</p:panelGrid>

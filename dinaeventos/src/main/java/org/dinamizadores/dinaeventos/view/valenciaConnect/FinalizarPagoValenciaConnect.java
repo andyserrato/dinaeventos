@@ -93,17 +93,17 @@ public class FinalizarPagoValenciaConnect implements Serializable {
 
 			crearEntradasUsuarios();
 
-			Pagar pa = new Pagar();
+			Pagar pagar = new Pagar();
 			CardRegistration tarjetaRegistrada = (CardRegistration) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("tarjeta");
 			total = (BigDecimal) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("total");
 
-			pa.setTotal(total);
+			pagar.setTotal(total);
 			String[] lista = null;
 			lista = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterValuesMap().get("data");
 
 			tarjetaRegistrada.RegistrationData = lista[0];
 
-			pa.actualizarTarjeta(tarjetaRegistrada);
+			pagar.actualizarTarjeta(tarjetaRegistrada);
 
 			FormarPDF.main(listadoEntradas, evento, envioConjunto);
 
@@ -128,7 +128,7 @@ public class FinalizarPagoValenciaConnect implements Serializable {
 
 		usuario.setActivo(true);
 		usuario.setBloqueado(false);
-
+		usuario.setCliente(true);
 		usuarioDao.create(usuario);
 	}
 
@@ -142,7 +142,8 @@ public class FinalizarPagoValenciaConnect implements Serializable {
 			Entrada entradaEntidad = new Entrada();
 			entradaEntidad.setActiva(true);
 			entradaEntidad.setDentrofuera(false);
-			entradaEntidad.setValidada(false);
+			
+			entradaEntidad.setValidada(true);
 			entradaEntidad.setVendida(true);
 
 			// TODO [EQUIPO] Corregir al normalizar y tener todos los datos claros
@@ -152,16 +153,16 @@ public class FinalizarPagoValenciaConnect implements Serializable {
 			entradaEntidad.setIdevento(evento.getIdevento());
 			entradaEntidad.setIdtipoentrada(entradaCompletaDTO.getIdTipoEntrada().intValue());
 			
-			Calendar calendario = new GregorianCalendar();
+			Calendar calendario = Calendar.getInstance();
 
 			String numeroserie = entradaCompletaDTO.getUsuario().getDni() + "" + calendario.getTimeInMillis();
 			numeroserie = conversorNumeroSerie.convertirNumero(numeroserie);
 			entradaEntidad.setNumeroserie(numeroserie);
-
+			
 			BigDecimal total = new BigDecimal(0);
 
 			entradaEntidad.setFechaVendida(calendario.getTime());
-			
+			entradaCompletaDTO.setFechaVendida(entradaEntidad.getFechaVendida());
 			for (ComplementoEntero complementoDTO : entradaCompletaDTO.getListaComplementos()) {
 				if (complementoDTO.getCantidad() > 0) {
 					total = total.add(complementoDTO.getComplemento().getPrecio());
@@ -175,17 +176,18 @@ public class FinalizarPagoValenciaConnect implements Serializable {
 			entradaEntidad.setUsuario(entradaCompletaDTO.getUsuario());
 			
 			entradaDao.create(entradaEntidad);
+			entradaCompletaDTO.setIdEntrada(Long.valueOf(entradaEntidad.getIdentrada()));
 			algoritmoInsercionEntradasComplementos(entradaCompletaDTO, entradaEntidad);
 
 		} catch (NoSuchAlgorithmException noSuchAlgorithmException) {
 			// TODO [EQUIPO] verificar que log.debug("blah blah", exception) funciona igual que e.printStackTrace
-			log.debug("Ha ocurrido un error creando el pdf de entrada",noSuchAlgorithmException );
+			log.debug("Ha ocurrido un error creando el pdf de entrada", noSuchAlgorithmException);
 			noSuchAlgorithmException.printStackTrace();
 		}
 
 	}
 
-	public void algoritmoInsercionEntradasComplementos(EntradasCompleta entrada, Entrada en) {
+	public void algoritmoInsercionEntradasComplementos(EntradasCompleta entradaDTO, Entrada entradaEntidad) {
 
 		try {
 			EntradaComplemento entradanueva = null;
@@ -193,7 +195,7 @@ public class FinalizarPagoValenciaConnect implements Serializable {
 			ComplementoEntero nuevocom;
 
 			auxTipoComplemento = new ArrayList<ComplementoEntero>();
-			for (ComplementoEntero c : entrada.getListaComplementos()) {
+			for (ComplementoEntero c : entradaDTO.getListaComplementos()) {
 				for (int i = 0; i < c.getCantidad(); i++) {
 					nuevocom = new ComplementoEntero();
 					nuevocom.setCantidad(c.getCantidad());
@@ -208,8 +210,8 @@ public class FinalizarPagoValenciaConnect implements Serializable {
 				if (com.getCantidad() > 0) {
 					entradanueva = new EntradaComplemento();
 					entradanueva.setDdTipoComplemento(com.getComplemento());
-					entradanueva.setEntrada(en);
-					en.getEntradaComplementos().add(entradanueva);
+					entradanueva.setEntrada(entradaEntidad);
+					entradaEntidad.getEntradaComplementos().add(entradanueva);
 					daoGenerico.insertar(entradanueva);
 				}
 			}
