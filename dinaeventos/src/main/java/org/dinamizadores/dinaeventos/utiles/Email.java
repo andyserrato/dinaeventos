@@ -1,9 +1,13 @@
 package org.dinamizadores.dinaeventos.utiles;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,7 +15,9 @@ import java.util.Properties;
 
 import javax.activation.DataHandler;
 import javax.activation.FileDataSource;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.imageio.ImageIO;
 import javax.mail.BodyPart;
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -101,12 +107,8 @@ public class Email {
 			
  
             Map<String, String> rootMap = new HashMap<String, String>();
-            rootMap.put("Titulo", "prueba");
-            //rootMap.put("Texto", datosEmail.getTexto());
-            rootMap.put("Texto", "prueba");
-            rootMap.put("Lineas", "");
-            rootMap.put("Pie", pie);
-            //rootMap.put("imgAsBase64", getImagenLogo(datosEmail.getIdEnte()));
+            rootMap.put("logoValenciaConnect", getImagenEmail("/img/logoVC.png"));
+            rootMap.put("fotoIsraAjram", getImagenEmail("/img/fotoIsraAjram.jpg"));
             Writer out = new StringWriter();
             template.process(rootMap, out);
  
@@ -156,6 +158,28 @@ public class Email {
 			}
  
     }
+	
+	private String getImagenEmail(String ruta) {
+		  String imgAsBase64 = null;
+		  String formatoImagen = ruta.substring(ruta.lastIndexOf('.'), ruta.length());
+		  
+		  try {
+			  ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+		   BufferedImage image = ImageIO.read(classLoader.getResourceAsStream(ruta));
+		   ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		   ImageIO.write(image, formatoImagen, baos);
+		   baos.flush();
+		   
+		   byte[] imageInBytes = baos.toByteArray();
+		   
+		   String mimeEncoded = Base64.getMimeEncoder().encodeToString(imageInBytes);
+		   imgAsBase64 = "data:image/png;base64," + mimeEncoded;
+		  } catch (IOException e) {
+		   e.printStackTrace();
+		  }
+		  
+		  return imgAsBase64;
+		 }
 	
 	private Session getSession(ConfiguracionBasico configuracion) {
 
