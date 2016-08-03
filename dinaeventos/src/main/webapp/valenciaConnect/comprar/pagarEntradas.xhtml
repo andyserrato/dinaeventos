@@ -7,52 +7,78 @@
 
 	<ui:define name="content">
 	<div class="Container100 MarAuto WidAutoOnMobile">
-	<div class="Wid90 DispBlock MarAuto MarTopPerc1 TexAlCenter" >
-            
-            <div class="Wid33 MarAuto WidAutoOnMobile">
-            <div class="EmptyBox30"></div>
-                <div class="Card ShadowEffect">
-                <div class="Wid100 OvHidden BigTopic Fs30"><i class="fa fa-credit-card Fs40"></i> Panel de pago</div>
-					<form method="post" action="https://homologation-webpayment.payline.com/webpayment/getToken" >
-		 						
-		 						<h:inputHidden id="data" value="#{comprarEntradaValenciaConnect.data}" /> 
-								<h:inputHidden id="accessKeyRef" value="#{comprarEntradaValenciaConnect.accessKeyRef}" /> 
-		 						<h:inputHidden id="returnURL" value="#{comprarEntradaValenciaConnect.returnURL}" /> 
-								
-								
-								<div class="Container100"> 	
-								<p:panelGrid columns="1" layout="grid" style="border:0px!important;"> 
-											<p:inputMask id="cardNumber" style="margin-top: 10px" required="true" requiredMessage="Es necesario proporcionar el número de la tarjeta" placeholder="Número de tarjeta" mask="9999999999999999"/>
-											
-												<p:inputMask mask="9999" id="cardExpirationDate" placeholder="Mes" required="true" styleClass="Wid20 -  Responsive"/>
-											
-											<p:inputMask mask="999" id="cardCvx" style="margin-top: 10px;" placeholder="Código de seguridad" required="true"/>
-								</p:panelGrid> 
+	<div class="Wid90 DispBlock MarAuto MarTopPerc1" >
+            <p:repeat value="#{comprarEntradaValenciaConnect.listadoEntradas}" var="entrada">
+				<div class="Container100 Responsive100">
+					<div class="ContainerIndent">
+						<div class="Card ShadowEffect ui-fluid">
+							<div class="Container100 Responsive100">
+								<div class="ContainerIndent">
+									<h2 class="BigTopic">Entrada: #{entrada.nombre}</h2>
+									<p:panelGrid columns="6" layout="grid" style="border:0px!important;">
+										<h:outputText value="#{entrada.usuario.nombre}" />
+										<h:outputText value="#{entrada.usuario.apellidos}" />
+										<h:outputText value="#{entrada.usuario.email}" />
+										<h:outputText value="#{comprarEntradaValenciaConnect.getFechaFormateada(entrada.usuario.fechanac)}" />
+										<h:outputText value="#{entrada.usuario.dni}" />
+										<h2 align="center">#{entrada.precio}€</h2>
+									</p:panelGrid>
+									<div class="EmptyBox20"></div>
+									<h2 class="BigTopic">Complementos</h2>
+									<p:repeat value="#{entrada.listaComplementos}" var="complementos">
+	                                	<p:panelGrid columns="5" layout="grid" style="border:0px!important;" rendered="#{complementos.cantidad > 0}">
+											<h:outputText value="#{complementos.complemento.nombre}" />
+											<h:outputText value="#{complementos.complemento.descripcion}" />
+											<h:outputText value="#{complementos.complemento.precio}€" />
+											<h:outputText value="#{complementos.cantidad}"/>
+											<h2 align="center">#{comprarEntradaValenciaConnect.getTotalAPagarComplementos(complementos.complemento.precio, complementos.cantidad)}€</h2>
+										</p:panelGrid>
+									</p:repeat>
 								</div>
-								
-										<div id="procesar" style="visibility: hidden" class="col-md-2">Procesando el pago...<img src="../../resources/images/wait3.gif" alt="wait" /></div>
-											
-											<div style="margin-top: 20px" class="Container100 ui-fluid TexAlCenter">
-												<button style="width: auto;" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only GreenButton" id="enviarPago" type="submit" onclick="verImagen()" ><span class="ui-button-text ui-c">Confirmar pago</span></button>
-												
-											</div>
-								</form>	
-									<div class="spacerB"></div> 
-										<script type="text/javascript">
-										function verImagen(){
-											document.getElementById("procesar").style.visibility="visible";
-										}
-										</script>	
-		
-								<div class="Container100 TexAlCenter">
-           							 <div class="ContainerIndent">
-											<img width="100%" src="../../resources/images/powered-by-mangopay.png" alt="marcoMangoPay" /> 
-									</div>
-									
-								</div>
-										
+							</div>
 						</div>
+					</div>
 				</div>
+			</p:repeat>
+            
+	    	<div class="Container100 Responsive">
+	        	<div class="ContainerIndent">
+					<div class="Card ShadowEffect BlueBack SoftBlue TexAlCenter HoverEffect">
+						<div class="Container20 Responsive15 SoftBlueBack DispInlBlock Fleft" style="margin: -10px 10px -10px -10px; padding: 20px 10px;">
+							<div class="FontRobotoLight Fs16 White DispBlock ClearBoth">"Total"</div>
+						</div>
+						<div class="BlueBack DispInlBlock" style="margin: -10px 10px -10px -10px; padding: 20px 10px;">
+							<p:outputLabel id="totals" styleClass="DispBlock Fs16 FontRoboto White TexAlCenter" value="#{comprarEntradaValenciaConnect.total} €"/>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="Container100 Responsive">
+	        	<div class="ContainerIndent">
+					<div class="Card ShadowEffect TexAlCenter HoverEffect">
+									<form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post" target="_top">
+			  <!-- Identify your business so that you can collect the payments. -->
+			  <input type="hidden" name="business" value="dinamizadoresgroup@gmail.com"/>
+			
+			  <!-- Specify a Buy Now button. -->
+			  <input type="hidden" name="cmd" value="_xclick"/>
+			
+			  <!-- Specify details about the item that buyers will purchase. -->
+			  <input type="hidden" name="item_name" value="Entradas"/>
+			  <input type="hidden" name="amount" value="#{clientesAndComplementosBean.total}"/>
+			  <input type="hidden" name="currency_code" value="EUR"/>
+			  <input type="hidden" name="lc" value="ES"/>
+			  <input type="hidden" name="return" value="http://localhost:8080/dinaeventos/faces/valenciaConnect/comprar/finalizarPago.xhtml"/>
+			  <!-- Display the payment button. -->
+			  <input type="image" name="submit" border="0"
+			  src="https://www.paypalobjects.com/es_ES/ES/i/btn/btn_buynowCC_LG.gif"
+			  alt="PayPal. La forma rápida y segura de pagar en Internet."  onclick="PF('statusDialog').show();"/>
+			  <img alt="" border="0" src="https://www.paypalobjects.com/es_ES/i/scr/pixel.gif" width="1" height="1"/>
+		</form>				</div>
+			</div>
+		</div>
+            
 			</div>
 			<br></br>
 		</div>

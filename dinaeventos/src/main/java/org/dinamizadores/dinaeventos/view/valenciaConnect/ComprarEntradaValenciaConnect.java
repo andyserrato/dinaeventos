@@ -2,7 +2,9 @@ package org.dinamizadores.dinaeventos.view.valenciaConnect;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -198,5 +200,24 @@ public class ComprarEntradaValenciaConnect implements Serializable {
 	public void setCardCvx(String cardCvx) {
 		this.cardCvx = cardCvx;
 	}
+	/**
+	 * TODO [ANDY] No mostrar complementos según tipo de entrada. Esto debe mejorarse xq es una chapuza
+	 */
+	public boolean isComplementoRendered(String nombreTipoEntrada) {
+		boolean renderComplementos = true;
 
+		if (nombreTipoEntrada != null && !"".equals(nombreTipoEntrada) && nombreTipoEntrada.equals("dddd")) {
+			renderComplementos = false;
+		}
+
+		return renderComplementos;
+	}
+	
+	public String getFechaFormateada(Date fecha) {
+		return new SimpleDateFormat("dd/MM/yyyy").format(fecha);
+	}
+	
+	public BigDecimal getTotalAPagarComplementos(BigDecimal precioComplemento, int cantidadComplemento) {
+		return precioComplemento.multiply(new BigDecimal(cantidadComplemento));
+	}
 }

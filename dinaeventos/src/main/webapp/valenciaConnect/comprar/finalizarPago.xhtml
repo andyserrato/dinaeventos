@@ -7,18 +7,7 @@
 	template="/WEB-INF/templateCliente.xhtml"
 	xmlns:p="http://primefaces.org/ui">
 
-
 	<ui:param name="pageTitle" value="Compra entradas"/>
-
-	<ui:define name="header">
-		<h1></h1>
-	</ui:define>
-
-	<ui:define name="subheader">
-		<h3>Felicidades</h3>
-	</ui:define>
-
-	<ui:define name="footer"/>
 
 	<ui:define name="content">
 	
@@ -28,8 +17,8 @@
                 <div class="Card ShadowEffect ui-fluid ">
                 	<div class="Container100 Responsive100">
             			<div class="ContainerIndent">
-				Ha comprado las entradas, las encontrará en su correo. #{finalizarPagoValenciaConnect.idTarjeta}
-				
+							Ha comprado las entradas, las encontrará en su correo. #{finalizarPagoValenciaConnect.idTarjeta}
+							Gracias por su pago. Su transacción ha finalizado y le hemos enviado un recibo de su compra por correo electrónico.
 				</div></div></div></div></div>
 		</h:form>		
 	</ui:define>

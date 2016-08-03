@@ -93,17 +93,17 @@ public class FinalizarPagoValenciaConnect implements Serializable {
 
 			crearEntradasUsuarios();
 
-			Pagar pagar = new Pagar();
-			CardRegistration tarjetaRegistrada = (CardRegistration) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("tarjeta");
-			total = (BigDecimal) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("total");
-
-			pagar.setTotal(total);
-			String[] lista = null;
-			lista = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterValuesMap().get("data");
-
-			tarjetaRegistrada.RegistrationData = lista[0];
-
-			pagar.actualizarTarjeta(tarjetaRegistrada);
+//			Pagar pagar = new Pagar();
+//			CardRegistration tarjetaRegistrada = (CardRegistration) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("tarjeta");
+//			total = (BigDecimal) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("total");
+//
+//			pagar.setTotal(total);
+//			String[] lista = null;
+//			lista = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterValuesMap().get("data");
+//
+//			tarjetaRegistrada.RegistrationData = lista[0];
+//
+//			pagar.actualizarTarjeta(tarjetaRegistrada);
 
 			FormarPDF.main(listadoEntradas, evento, envioConjunto);
 
@@ -132,6 +132,7 @@ public class FinalizarPagoValenciaConnect implements Serializable {
 		usuarioDao.create(usuario);
 	}
 
+	// TODO [EQUIPO] normalizar este método que es una guarrada
 	public void crearEntradaAndUsuario(EntradasCompleta entradaCompletaDTO) {
 
 		try {
