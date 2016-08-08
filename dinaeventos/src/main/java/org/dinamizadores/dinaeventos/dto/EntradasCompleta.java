@@ -22,6 +22,8 @@ public class EntradasCompleta {
 	
 	private String nombre;
 	
+	private String descripcion;
+	
 	private BigDecimal precio;
 	
 	private Usuario usuario;
@@ -114,4 +116,12 @@ public class EntradasCompleta {
 		this.numeroserie = numeroserie;
 	}
 
+	public String getDescripcion() {
+		return descripcion;
+	}
+
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
+	}
+	
 }

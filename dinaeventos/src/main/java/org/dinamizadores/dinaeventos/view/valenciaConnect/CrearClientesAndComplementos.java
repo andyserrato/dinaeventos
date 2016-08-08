@@ -10,9 +10,7 @@ import java.util.Map.Entry;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
@@ -92,21 +90,23 @@ public class CrearClientesAndComplementos implements Serializable {
 		}
 	}
 
-	public void verificarDNI(AjaxBehaviorEvent event) {
-		try {
-			for (EntradasCompleta e : listadoEntradas) {
-				Usuario us = new Usuario();
-				us = usuarioDao.getUsuarioDni(e.getUsuario().getDni(), evento.getIdevento());
-				if (us != null) {
-					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "El DNI indicado ya existe en el sistema."));
-				}
-
-			}
-		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "El DNI indicado ya existe en el sistema."));
-		}
-
-	}
+	// public void verificarDNI(AjaxBehaviorEvent event) {
+	// try {
+	// for (EntradasCompleta e : listadoEntradas) {
+	// Usuario us = new Usuario();
+	// us = usuarioDao.getUsuarioDni(e.getUsuario().getDni(), evento.getIdevento());
+	// if (us != null) {
+	// FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "El DNI indicado ya existe en el
+	// sistema."));
+	// }
+	//
+	// }
+	// } catch (Exception e) {
+	// FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "El DNI indicado ya existe en el
+	// sistema."));
+	// }
+	//
+	// }
 
 	public String toPagarEntradas() {
 
@@ -240,7 +240,7 @@ public class CrearClientesAndComplementos implements Serializable {
 	public boolean isComplementoRendered(String nombreTipoEntrada) {
 		boolean renderComplementos = true;
 
-		if (nombreTipoEntrada != null && !"".equals(nombreTipoEntrada) && nombreTipoEntrada.equals("dddd")) {
+		if (nombreTipoEntrada != null && !"".equals(nombreTipoEntrada) && nombreTipoEntrada.equals("Completa")) {
 			renderComplementos = false;
 		}
 

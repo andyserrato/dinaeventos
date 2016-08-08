@@ -181,7 +181,7 @@ public class FinalizarPagoBean implements Serializable {
 			entradaDao.create(en);
 			algoritmoInsercionEntradasComplementos(entrada, en);
 
-			entrada.setIdEntrada((long) entradaDao.getEntradaDniEvento(en.getIdusuario(), en.getIdevento()));
+			// entrada.setIdEntrada((long) entradaDao.getEntradaDniEvento(en.getIdusuario(), en.getIdevento()));
 			String format = String.format("%03d", entrada.getIdEntrada());
 			entrada.setIdEntrada(Long.valueOf(format));
 

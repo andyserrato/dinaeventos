@@ -73,6 +73,27 @@
 		<param-name>primefaces.THEME</param-name>
 		<param-value>rio</param-value>
 	</context-param>
+	<!-- PayPal SandBox-->
+	<context-param>
+		<param-name>authtoken</param-name>
+		<param-value>xb-O0oqnuV8MnQAASIOa92QqcV0wyFNqpHOBCOacTrQVw1T_8L9U8txs1X0</param-value>
+	</context-param>
+	<context-param>
+		<param-name>posturl</param-name>
+		<param-value>https://www.sandbox.paypal.com/cgi-bin/webscr</param-value>
+	</context-param>
+	<context-param>
+		<param-name>business</param-name>
+		<param-value>dinamizadoresgroup-facilitator@gmail.com</param-value>
+	</context-param>
+	<context-param>
+		<param-name>returnurl</param-name>
+		<param-value>http://localhost:8080/dinaeventos/faces/valenciaConnect/comprar/finalizarPago.xhtml</param-value>
+	</context-param>
+	<context-param>
+		<param-name>cancel</param-name>
+		<param-value>http://localhost:8080/dinaeventos/faces/valenciaConnect/paypal/payPalFail.xhtml</param-value>
+	</context-param>
 	<error-page>
 		<error-code>404</error-code>
 		<location>/faces/404.xhtml</location>

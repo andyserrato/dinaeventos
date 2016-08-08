@@ -13,7 +13,7 @@ public class Repository {
     public static File findCarPassPDFTemplate() {
     	String ruta = null;
     	
-    	ruta = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/resources/templatesPdf/plantillaFinal.pdf");
+    	ruta = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/resources/templatesPdf/plantillaValenciaConnect.pdf");
         return new File(ruta);
 
    }
