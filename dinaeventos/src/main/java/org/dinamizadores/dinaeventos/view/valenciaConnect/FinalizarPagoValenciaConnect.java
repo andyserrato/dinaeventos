@@ -70,9 +70,13 @@ public class FinalizarPagoValenciaConnect implements Serializable {
 
 	private String nombreEntrada = null;
 
+	private String numTransaccion;
+
 	private EntradasCompleta entrada = new EntradasCompleta();
 
-	private List<EntradasCompleta> listadoEntradas = new ArrayList<EntradasCompleta>();
+	private List<EntradasCompleta> listadoEntradas = new ArrayList<>();
+
+	private List<Entrada> listadoEntradasEntidad = new ArrayList<>();
 
 	private Evento evento = new Evento();
 
@@ -85,6 +89,7 @@ public class FinalizarPagoValenciaConnect implements Serializable {
 	@PostConstruct
 	public void init() {
 		listadoEntradas = (List<EntradasCompleta>) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("listaEntradas");
+		listadoEntradasEntidad = (List<Entrada>) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("listaEntradasEntidad");
 		envioConjunto = (Boolean) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("envioConjunto");
 		evento = (Evento) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("evento");
 
@@ -98,6 +103,7 @@ public class FinalizarPagoValenciaConnect implements Serializable {
 		}
 
 		if (pagoRealizado) {
+			colocarTxNumAEntradasAndFlagVendida();
 			efectuarPago();
 		}
 
@@ -114,6 +120,7 @@ public class FinalizarPagoValenciaConnect implements Serializable {
 		log.debug("at " + externalContext.getInitParameter("authtoken"));
 		params.put("tx", request.getParameter("tx"));
 		log.debug("tx " + request.getParameter("tx"));
+		numTransaccion = request.getParameter("tx");
 
 		StringBuilder postData = new StringBuilder();
 		for (Map.Entry<String, Object> param : params.entrySet()) {
@@ -154,11 +161,26 @@ public class FinalizarPagoValenciaConnect implements Serializable {
 		return false;
 	}
 
+	private void colocarTxNumAEntradasAndFlagVendida() {
+
+		for (Entrada entrada : listadoEntradasEntidad) {
+			entrada.setIdTransaccionPayPal(numTransaccion);
+			entrada.setVendida(true);
+			try {
+				daoGenerico.modificar(entrada);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
+	}
+
 	public void efectuarPago() {
 
 		try {
 
-			crearEntradasUsuarios();
+			// crearEntradasUsuarios();
 
 			// Pagar pagar = new Pagar();
 			// CardRegistration tarjetaRegistrada = (CardRegistration)

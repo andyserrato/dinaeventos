@@ -2,21 +2,32 @@ package org.dinamizadores.dinaeventos.view.valenciaConnect;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.dinamizadores.dinaeventos.dao.DAOGenerico;
+import org.dinamizadores.dinaeventos.dao.EntradaDao;
+import org.dinamizadores.dinaeventos.dao.EventoDao;
+import org.dinamizadores.dinaeventos.dao.UsuarioDao;
 import org.dinamizadores.dinaeventos.dto.ComplementoEntero;
 import org.dinamizadores.dinaeventos.dto.EntradasCompleta;
+import org.dinamizadores.dinaeventos.model.Entrada;
+import org.dinamizadores.dinaeventos.model.EntradaComplemento;
+import org.dinamizadores.dinaeventos.model.Evento;
 import org.dinamizadores.dinaeventos.model.Usuario;
+import org.dinamizadores.dinaeventos.utiles.ConversorNumeroSerie;
 import org.dinamizadores.dinaeventos.utiles.log.Loggable;
 import org.dinamizadores.dinaeventos.view.EventoBean;
 
@@ -37,11 +48,15 @@ public class ComprarEntradaValenciaConnect implements Serializable {
 
 	private BigDecimal total = new BigDecimal(0);
 
+	private BigDecimal handlingFee = new BigDecimal(0);
+
 	private Integer cantidad = 0;
 
 	private String nombreEntrada = null;
 
-	private List<EntradasCompleta> listadoEntradas = new ArrayList<EntradasCompleta>();
+	private List<EntradasCompleta> listadoEntradas = new ArrayList<>();
+
+	private List<Entrada> listadoEntradasEntidad = new ArrayList<>();
 
 	private int cuenta = 0;
 
@@ -61,10 +76,28 @@ public class ComprarEntradaValenciaConnect implements Serializable {
 
 	private String cardNumber = null;
 
+	private Evento evento = null;
+
+	private ConversorNumeroSerie conversorNumeroSerie = new ConversorNumeroSerie();
+
+	@EJB
+	private EntradaDao entradaDao;
+
+	@EJB
+	private UsuarioDao usuarioDao;
+
+	@EJB
+	private EventoDao eventoDao;
+
+	@EJB
+	private DAOGenerico daoGenerico;
+
 	@PostConstruct
 	public void init() {
 
 		listadoEntradas = (List<EntradasCompleta>) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("listaEntradas");
+		envioConjunto = (Boolean) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("envioConjunto");
+		evento = (Evento) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("evento");
 
 		// tarjetaRegistrada = (CardRegistration) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("tarjeta");
 		// FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("tarjeta", tarjetaRegistrada);
@@ -73,6 +106,9 @@ public class ComprarEntradaValenciaConnect implements Serializable {
 		// data = tarjetaRegistrada.PreregistrationData;
 		// accessKeyRef = tarjetaRegistrada.AccessKey;
 		// returnURL = "http://localhost:8080/dinaeventos/faces/valenciaConnect/comprar/finalizarPago.xhtml?faces-redirect=true";
+		crearEntradasUsuarios();
+		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("listaEntradas", listadoEntradas);
+		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("listaEntradasEntidad", listadoEntradasEntidad);
 	}
 
 	public void insertarTotal() {
@@ -84,6 +120,116 @@ public class ComprarEntradaValenciaConnect implements Serializable {
 			total = total.add(entrada.getPrecio());
 		}
 		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("total", total);
+
+	}
+
+	public void crearEntradasUsuarios() {
+
+		for (EntradasCompleta entrada : listadoEntradas) {
+			crearEntradaAndUsuario(entrada);
+		}
+
+	}
+
+	public void crearUsuario(Usuario usuario) {
+
+		usuario.setActivo(true);
+		usuario.setBloqueado(false);
+		usuario.setCliente(true);
+		usuarioDao.create(usuario);
+	}
+
+	// TODO [EQUIPO] normalizar este método que es una guarrada
+	public void crearEntradaAndUsuario(EntradasCompleta entradaCompletaDTO) {
+
+		try {
+			log.debug("Se procede a crear el usuario con email: " + entradaCompletaDTO.getUsuario().getEmail());
+			crearUsuario(entradaCompletaDTO.getUsuario());
+			log.debug("Usuario peristido con id: " + entradaCompletaDTO.getUsuario().getIdUsuario());
+
+			Entrada entradaEntidad = new Entrada();
+			entradaEntidad.setActiva(true);
+			entradaEntidad.setDentrofuera(false);
+
+			entradaEntidad.setValidada(true);
+			entradaEntidad.setVendida(false);
+
+			// TODO [EQUIPO] Corregir al normalizar y tener todos los datos claros
+			// en.setIdformapago(1);
+			// en.setIdtipoiva(1);
+
+			entradaEntidad.setIdevento(evento.getIdevento());
+			entradaEntidad.setIdtipoentrada(entradaCompletaDTO.getIdTipoEntrada().intValue());
+
+			Calendar calendario = Calendar.getInstance();
+
+			String numeroserie = entradaCompletaDTO.getUsuario().getDni() + "" + calendario.getTimeInMillis();
+			numeroserie = conversorNumeroSerie.convertirNumero(numeroserie);
+			entradaEntidad.setNumeroserie(numeroserie);
+
+			BigDecimal total = new BigDecimal(0);
+
+			entradaEntidad.setFechaVendida(calendario.getTime());
+			entradaCompletaDTO.setFechaVendida(entradaEntidad.getFechaVendida());
+			for (ComplementoEntero complementoDTO : entradaCompletaDTO.getListaComplementos()) {
+				if (complementoDTO.getCantidad() > 0) {
+					total = total.add(complementoDTO.getComplemento().getPrecio());
+				}
+			}
+
+			entradaCompletaDTO.setNumeroserie(entradaEntidad.getNumeroserie());
+			total = total.add(entradaCompletaDTO.getPrecio());
+			entradaEntidad.setPrecio(total);
+
+			entradaEntidad.setUsuario(entradaCompletaDTO.getUsuario());
+
+			entradaDao.create(entradaEntidad);
+			entradaCompletaDTO.setIdEntrada(Long.valueOf(entradaEntidad.getIdentrada()));
+			algoritmoInsercionEntradasComplementos(entradaCompletaDTO, entradaEntidad);
+
+			listadoEntradasEntidad.add(entradaEntidad);
+
+		} catch (NoSuchAlgorithmException noSuchAlgorithmException) {
+			// TODO [EQUIPO] verificar que log.debug("blah blah", exception) funciona igual que e.printStackTrace
+			log.debug("Ha ocurrido un error creando el pdf de entrada", noSuchAlgorithmException);
+			noSuchAlgorithmException.printStackTrace();
+		}
+
+	}
+
+	public void algoritmoInsercionEntradasComplementos(EntradasCompleta entradaDTO, Entrada entradaEntidad) {
+
+		try {
+			EntradaComplemento entradanueva = null;
+			List<ComplementoEntero> auxTipoComplemento;
+			ComplementoEntero nuevocom;
+
+			auxTipoComplemento = new ArrayList<ComplementoEntero>();
+			for (ComplementoEntero c : entradaDTO.getListaComplementos()) {
+				for (int i = 0; i < c.getCantidad(); i++) {
+					nuevocom = new ComplementoEntero();
+					nuevocom.setCantidad(c.getCantidad());
+					nuevocom.setComplemento(c.getComplemento());
+					auxTipoComplemento.add(nuevocom);
+				}
+			}
+			EntradasCompleta entradaaux = new EntradasCompleta();
+			entradaaux.setListaComplementos(auxTipoComplemento);
+
+			for (ComplementoEntero com : entradaaux.getListaComplementos()) {
+				if (com.getCantidad() > 0) {
+					entradanueva = new EntradaComplemento();
+					entradanueva.setDdTipoComplemento(com.getComplemento());
+					entradanueva.setEntrada(entradaEntidad);
+					entradaEntidad.getEntradaComplementos().add(entradanueva);
+					daoGenerico.insertar(entradanueva);
+				}
+			}
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 
@@ -205,6 +351,15 @@ public class ComprarEntradaValenciaConnect implements Serializable {
 
 	public void setCardCvx(String cardCvx) {
 		this.cardCvx = cardCvx;
+	}
+
+	public BigDecimal getHandlingFee() {
+		handlingFee = total.multiply(total.multiply(new BigDecimal("0.03"))).add(new BigDecimal("2"));
+		return handlingFee;
+	}
+
+	public void setHandlingFee(BigDecimal handlingFee) {
+		this.handlingFee = handlingFee;
 	}
 
 	/**

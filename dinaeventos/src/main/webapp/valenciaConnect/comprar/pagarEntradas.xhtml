@@ -71,7 +71,7 @@
 						  <c:set var="dem" value="1"/>
 						  
 						  <c:forEach items="#{comprarEntradaValenciaConnect.listadoEntradas}" var="entrada">
-						  		<input type="hidden" name="item_number_#{dem}" value="#{dem}"/>
+						  		<input type="hidden" name="item_number_#{dem}" value="ns:#{entrada.numeroserie}"/>
 						  		<input type="hidden" name="item_name_#{dem}" value="#{entrada.nombre}"/>
 						  		<input type="hidden" name="quantity_#{dem}" value="1"/>
 						  		<input type="hidden" name="amount_#{dem}" value="#{entrada.precio}"/>
@@ -89,6 +89,11 @@
 						  		</c:forEach>
 						  </c:forEach>
 						  
+						  <!-- Comisión de emisión -->
+						  <input type="hidden" name="item_name_#{dem}" value="Emisión"/>
+						  <input type="hidden" name="quantity_#{dem}" value="1"/>
+						  <input type="hidden" name="amount_#{dem}" value="2.5"/>
+
 						  <input type="hidden" name="return" value="${initParam['returnurl']}"/>
 						  <input type="hidden" name="cancel" value="${initParam['cancel']}"/>
 						  <!-- Display the payment button. -->
