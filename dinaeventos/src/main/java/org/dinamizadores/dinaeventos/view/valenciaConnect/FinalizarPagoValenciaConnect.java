@@ -3,7 +3,6 @@ package org.dinamizadores.dinaeventos.view.valenciaConnect;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.Reader;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.net.HttpURLConnection;
@@ -89,34 +88,29 @@ public class FinalizarPagoValenciaConnect implements Serializable {
 		envioConjunto = (Boolean) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("envioConjunto");
 		evento = (Evento) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("evento");
 
-		efectuarPago();
-		successPaypal();
+		boolean pagoRealizado = false;
+
 		try {
-			getRespuestaTransaccionPayPal();
+			pagoRealizado = getRespuestaTransaccionPayPal();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
+		if (pagoRealizado) {
+			efectuarPago();
+		}
+
 		FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
 	}
 
-	public void successPaypal() {
-		log.debug("Inicio successPaypal");
-		HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-		log.debug("el tx " + request.getParameter("tx"));
-		log.debug(request.toString());
-		ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
-		log.debug("tx en ec" + externalContext.getRequestMap().get("tx"));
-		log.debug("Fin successPaypal");
-
-	}
-
-	public void getRespuestaTransaccionPayPal() throws IOException {
+	public boolean getRespuestaTransaccionPayPal() throws IOException {
 		ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
 		HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-		URL url = new URL("https://www.sandbox.paypal.com");
+		URL url = new URL(FacesContext.getCurrentInstance().getExternalContext().getInitParameter("posturl"));
 		Map<String, Object> params = new LinkedHashMap<>();
 		params.put("at", externalContext.getInitParameter("authtoken"));
+		params.put("cmd", "_notify-synch");
 		log.debug("at " + externalContext.getInitParameter("authtoken"));
 		params.put("tx", request.getParameter("tx"));
 		log.debug("tx " + request.getParameter("tx"));
@@ -138,10 +132,26 @@ public class FinalizarPagoValenciaConnect implements Serializable {
 		conn.setDoOutput(true);
 		conn.getOutputStream().write(postDataBytes);
 
-		Reader in = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
+		// Reader in = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
 
-		for (int c; (c = in.read()) >= 0;)
-			System.out.print((char) c);
+		// for (int c; (c = in.read()) >= 0;)
+		// System.out.print((char) c);
+
+		// TODO [IVAN] parsear la respuesta apropiadamente
+
+		BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
+		String inputLine;
+		StringBuffer response = new StringBuffer();
+
+		// TODO [EQUIPO] alerta de chapuza mejorarla
+		while ((inputLine = in.readLine()) != null) {
+			if (inputLine.contains("SUCCESS")) {
+				return true;
+			}
+			response.append(inputLine);
+		}
+
+		return false;
 	}
 
 	public void efectuarPago() {
