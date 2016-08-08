@@ -1,19 +1,27 @@
 package org.dinamizadores.dinaeventos.view.valenciaConnect;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -30,10 +38,8 @@ import org.dinamizadores.dinaeventos.model.Usuario;
 import org.dinamizadores.dinaeventos.utiles.ConversorNumeroSerie;
 import org.dinamizadores.dinaeventos.utiles.log.Loggable;
 import org.dinamizadores.dinaeventos.utiles.pdf.FormarPDF;
-import org.dinamizadores.dinaeventos.utiles.plataformapagos.Pagar;
 
 import com.itextpdf.text.DocumentException;
-import com.mangopay.entities.CardRegistration;
 
 @Named
 @ViewScoped
@@ -41,7 +47,7 @@ import com.mangopay.entities.CardRegistration;
 public class FinalizarPagoValenciaConnect implements Serializable {
 
 	private static final long serialVersionUID = -3334270119276327476L;
-	
+
 	private static final Logger log = LogManager.getLogger(UsuarioDao.class);
 
 	@EJB
@@ -53,15 +59,10 @@ public class FinalizarPagoValenciaConnect implements Serializable {
 	@EJB
 	private EventoDao eventoDao;
 
-	/** Acceso a la capa DAO para persistir los datos. */
 	@EJB
-	private DAOGenerico dao;
+	private DAOGenerico daoGenerico;
 
-	private ConversorNumeroSerie con = new ConversorNumeroSerie();
-
-	private Integer id;
-
-	private Usuario usuario;
+	private ConversorNumeroSerie conversorNumeroSerie = new ConversorNumeroSerie();
 
 	private BigDecimal total = new BigDecimal(0);
 
@@ -85,12 +86,72 @@ public class FinalizarPagoValenciaConnect implements Serializable {
 	public void init() {
 		listadoEntradas = (List<EntradasCompleta>) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("listaEntradas");
 		envioConjunto = (Boolean) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("envioConjunto");
-		evento = eventoDao.findById(1);
-		// evento = (Evento) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("evento");
+		evento = (Evento) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("evento");
 
-		efectuarPago();
+		boolean pagoRealizado = false;
+
+		try {
+			pagoRealizado = getRespuestaTransaccionPayPal();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		if (pagoRealizado) {
+			efectuarPago();
+		}
 
 		FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+	}
+
+	public boolean getRespuestaTransaccionPayPal() throws IOException {
+		ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+		HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+		URL url = new URL(FacesContext.getCurrentInstance().getExternalContext().getInitParameter("posturl"));
+		Map<String, Object> params = new LinkedHashMap<>();
+		params.put("at", externalContext.getInitParameter("authtoken"));
+		params.put("cmd", "_notify-synch");
+		log.debug("at " + externalContext.getInitParameter("authtoken"));
+		params.put("tx", request.getParameter("tx"));
+		log.debug("tx " + request.getParameter("tx"));
+
+		StringBuilder postData = new StringBuilder();
+		for (Map.Entry<String, Object> param : params.entrySet()) {
+			if (postData.length() != 0)
+				postData.append('&');
+			postData.append(URLEncoder.encode(param.getKey(), "UTF-8"));
+			postData.append('=');
+			postData.append(URLEncoder.encode(String.valueOf(param.getValue()), "UTF-8"));
+		}
+		byte[] postDataBytes = postData.toString().getBytes("UTF-8");
+
+		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+		conn.setRequestMethod("POST");
+		conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+		conn.setRequestProperty("Content-Length", String.valueOf(postDataBytes.length));
+		conn.setDoOutput(true);
+		conn.getOutputStream().write(postDataBytes);
+
+		// Reader in = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
+
+		// for (int c; (c = in.read()) >= 0;)
+		// System.out.print((char) c);
+
+		// TODO [IVAN] parsear la respuesta apropiadamente
+
+		BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
+		String inputLine;
+		StringBuffer response = new StringBuffer();
+
+		// TODO [EQUIPO] alerta de chapuza mejorarla
+		while ((inputLine = in.readLine()) != null) {
+			if (inputLine.contains("SUCCESS")) {
+				return true;
+			}
+			response.append(inputLine);
+		}
+
+		return false;
 	}
 
 	public void efectuarPago() {
@@ -99,17 +160,18 @@ public class FinalizarPagoValenciaConnect implements Serializable {
 
 			crearEntradasUsuarios();
 
-			Pagar pa = new Pagar();
-			CardRegistration tarjetaRegistrada = (CardRegistration) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("tarjeta");
-			total = (BigDecimal) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("total");
-
-			pa.setTotal(total);
-			String[] lista = null;
-			lista = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterValuesMap().get("data");
-
-			tarjetaRegistrada.RegistrationData = lista[0];
-
-			pa.actualizarTarjeta(tarjetaRegistrada);
+			// Pagar pagar = new Pagar();
+			// CardRegistration tarjetaRegistrada = (CardRegistration)
+			// FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("tarjeta");
+			// total = (BigDecimal) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("total");
+			//
+			// pagar.setTotal(total);
+			// String[] lista = null;
+			// lista = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterValuesMap().get("data");
+			//
+			// tarjetaRegistrada.RegistrationData = lista[0];
+			//
+			// pagar.actualizarTarjeta(tarjetaRegistrada);
 
 			FormarPDF.main(listadoEntradas, evento, envioConjunto);
 
@@ -125,74 +187,76 @@ public class FinalizarPagoValenciaConnect implements Serializable {
 	public void crearEntradasUsuarios() {
 
 		for (EntradasCompleta entrada : listadoEntradas) {
-			log.debug("idusuario: " + entrada.getUsuario().getIdUsuario());
-			Usuario nuevoUsuario = crearUsuario(entrada.getUsuario());
-			log.debug("idusuario: " + entrada.getUsuario().getIdUsuario());
-			crearEntrada(entrada, nuevoUsuario);
+			crearEntradaAndUsuario(entrada);
 		}
 
 	}
 
-	public Usuario crearUsuario(Usuario usuario) {
+	public void crearUsuario(Usuario usuario) {
 
 		usuario.setActivo(true);
 		usuario.setBloqueado(false);
-
+		usuario.setCliente(true);
 		usuarioDao.create(usuario);
-		return usuario;
 	}
 
-	public void crearEntrada(EntradasCompleta entrada, Usuario nuevoUsuario) {
+	// TODO [EQUIPO] normalizar este método que es una guarrada
+	public void crearEntradaAndUsuario(EntradasCompleta entradaCompletaDTO) {
 
 		try {
-			Entrada en = new Entrada();
-			en.setActiva(true);
-			en.setDentrofuera(false);
-			en.setValidada(false);
-			en.setVendida(true);
+			log.debug("Se procede a crear el usuario con email: " + entradaCompletaDTO.getUsuario().getEmail());
+			crearUsuario(entradaCompletaDTO.getUsuario());
+			log.debug("Usuario peristido con id: " + entradaCompletaDTO.getUsuario().getIdUsuario());
 
-			en.setIdformapago(1);
-			en.setIdtipoiva(1);
-			en.setIdevento(1);
-			en.setIdtipoentrada(entrada.getIdTipoEntrada().intValue());
-			Calendar cal = new GregorianCalendar();
+			Entrada entradaEntidad = new Entrada();
+			entradaEntidad.setActiva(true);
+			entradaEntidad.setDentrofuera(false);
 
-			String numeroserie = entrada.getUsuario().getDni() + "" + cal.getTimeInMillis();
-			numeroserie = con.convertirNumero(numeroserie);
-			en.setNumeroserie(numeroserie);
+			entradaEntidad.setValidada(true);
+			entradaEntidad.setVendida(true);
+
+			// TODO [EQUIPO] Corregir al normalizar y tener todos los datos claros
+			// en.setIdformapago(1);
+			// en.setIdtipoiva(1);
+
+			entradaEntidad.setIdevento(evento.getIdevento());
+			entradaEntidad.setIdtipoentrada(entradaCompletaDTO.getIdTipoEntrada().intValue());
+
+			Calendar calendario = Calendar.getInstance();
+
+			String numeroserie = entradaCompletaDTO.getUsuario().getDni() + "" + calendario.getTimeInMillis();
+			numeroserie = conversorNumeroSerie.convertirNumero(numeroserie);
+			entradaEntidad.setNumeroserie(numeroserie);
 
 			BigDecimal total = new BigDecimal(0);
 
-			en.setFechaVendida(cal.getTime());
-			for (ComplementoEntero com : entrada.getListaComplementos()) {
-				if (com.getCantidad() > 0) {
-					total = total.add(com.getComplemento().getPrecio());
+			entradaEntidad.setFechaVendida(calendario.getTime());
+			entradaCompletaDTO.setFechaVendida(entradaEntidad.getFechaVendida());
+			for (ComplementoEntero complementoDTO : entradaCompletaDTO.getListaComplementos()) {
+				if (complementoDTO.getCantidad() > 0) {
+					total = total.add(complementoDTO.getComplemento().getPrecio());
 				}
-
 			}
-			
-			entrada.setNumeroserie(en.getNumeroserie());
-			total = total.add(entrada.getPrecio());
-			en.setPrecio(total);
 
-			en.setUsuario(nuevoUsuario);
-			
-			entradaDao.create(en);
-			algoritmoInsercionEntradasComplementos(entrada, en);
+			entradaCompletaDTO.setNumeroserie(entradaEntidad.getNumeroserie());
+			total = total.add(entradaCompletaDTO.getPrecio());
+			entradaEntidad.setPrecio(total);
 
-			//entrada.setIdEntrada((long) entradaDao.getEntradaDniEvento(en.getIdusuario(), en.getIdevento(), nuevoU.getDni()));
-			
-			//String format = String.format("%03d", entrada.getIdEntrada());
-			//entrada.setIdEntrada(Long.valueOf(format));
+			entradaEntidad.setUsuario(entradaCompletaDTO.getUsuario());
 
-		} catch (NoSuchAlgorithmException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			entradaDao.create(entradaEntidad);
+			entradaCompletaDTO.setIdEntrada(Long.valueOf(entradaEntidad.getIdentrada()));
+			algoritmoInsercionEntradasComplementos(entradaCompletaDTO, entradaEntidad);
+
+		} catch (NoSuchAlgorithmException noSuchAlgorithmException) {
+			// TODO [EQUIPO] verificar que log.debug("blah blah", exception) funciona igual que e.printStackTrace
+			log.debug("Ha ocurrido un error creando el pdf de entrada", noSuchAlgorithmException);
+			noSuchAlgorithmException.printStackTrace();
 		}
 
 	}
 
-	public void algoritmoInsercionEntradasComplementos(EntradasCompleta entrada, Entrada en) {
+	public void algoritmoInsercionEntradasComplementos(EntradasCompleta entradaDTO, Entrada entradaEntidad) {
 
 		try {
 			EntradaComplemento entradanueva = null;
@@ -200,7 +264,7 @@ public class FinalizarPagoValenciaConnect implements Serializable {
 			ComplementoEntero nuevocom;
 
 			auxTipoComplemento = new ArrayList<ComplementoEntero>();
-			for (ComplementoEntero c : entrada.getListaComplementos()) {
+			for (ComplementoEntero c : entradaDTO.getListaComplementos()) {
 				for (int i = 0; i < c.getCantidad(); i++) {
 					nuevocom = new ComplementoEntero();
 					nuevocom.setCantidad(c.getCantidad());
@@ -215,9 +279,9 @@ public class FinalizarPagoValenciaConnect implements Serializable {
 				if (com.getCantidad() > 0) {
 					entradanueva = new EntradaComplemento();
 					entradanueva.setDdTipoComplemento(com.getComplemento());
-					entradanueva.setEntrada(en);
-					en.getEntradaComplementos().add(entradanueva);
-					dao.insertar(entradanueva);
+					entradanueva.setEntrada(entradaEntidad);
+					entradaEntidad.getEntradaComplementos().add(entradanueva);
+					daoGenerico.insertar(entradanueva);
 				}
 			}
 
@@ -234,22 +298,6 @@ public class FinalizarPagoValenciaConnect implements Serializable {
 
 	public void setTotal(BigDecimal total) {
 		this.total = total;
-	}
-
-	public Integer getId() {
-		return this.id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-	public Usuario getUsuario() {
-		return this.usuario;
-	}
-
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
 	}
 
 	public Integer getCantidad() {
