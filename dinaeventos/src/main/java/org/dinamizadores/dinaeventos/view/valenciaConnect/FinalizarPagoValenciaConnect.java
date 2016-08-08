@@ -128,7 +128,7 @@ public class FinalizarPagoValenciaConnect implements Serializable {
 			log.debug("idusuario: " + entrada.getUsuario().getIdUsuario());
 			Usuario nuevoUsuario = crearUsuario(entrada.getUsuario());
 			log.debug("idusuario: " + entrada.getUsuario().getIdUsuario());
-			crearEntrada(entrada, usuario);
+			crearEntrada(entrada, nuevoUsuario);
 		}
 
 	}
