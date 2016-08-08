@@ -12,10 +12,13 @@ import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.dinamizadores.dinaeventos.dto.ComplementoEntero;
 import org.dinamizadores.dinaeventos.dto.EntradasCompleta;
 import org.dinamizadores.dinaeventos.model.Usuario;
 import org.dinamizadores.dinaeventos.utiles.log.Loggable;
+import org.dinamizadores.dinaeventos.view.EventoBean;
 
 import com.mangopay.entities.CardRegistration;
 
@@ -25,6 +28,8 @@ import com.mangopay.entities.CardRegistration;
 public class ComprarEntradaValenciaConnect implements Serializable {
 
 	private static final long serialVersionUID = -1019333060794727516L;
+
+	private final Logger log = LogManager.getLogger(EventoBean.class);
 
 	private Integer id;
 
@@ -61,12 +66,13 @@ public class ComprarEntradaValenciaConnect implements Serializable {
 
 		listadoEntradas = (List<EntradasCompleta>) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("listaEntradas");
 
-		tarjetaRegistrada = (CardRegistration) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("tarjeta");
-		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("tarjeta", tarjetaRegistrada);
+		// tarjetaRegistrada = (CardRegistration) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("tarjeta");
+		// FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("tarjeta", tarjetaRegistrada);
 		insertarTotal();
-		data = tarjetaRegistrada.PreregistrationData;
-		accessKeyRef = tarjetaRegistrada.AccessKey;
-		returnURL = "http://localhost:8080/dinaeventos/faces/valenciaConnect/comprar/finalizarPago.xhtml?faces-redirect=true";
+
+		// data = tarjetaRegistrada.PreregistrationData;
+		// accessKeyRef = tarjetaRegistrada.AccessKey;
+		// returnURL = "http://localhost:8080/dinaeventos/faces/valenciaConnect/comprar/finalizarPago.xhtml?faces-redirect=true";
 	}
 
 	public void insertarTotal() {
@@ -200,23 +206,24 @@ public class ComprarEntradaValenciaConnect implements Serializable {
 	public void setCardCvx(String cardCvx) {
 		this.cardCvx = cardCvx;
 	}
+
 	/**
 	 * TODO [ANDY] No mostrar complementos según tipo de entrada. Esto debe mejorarse xq es una chapuza
 	 */
 	public boolean isComplementoRendered(String nombreTipoEntrada) {
 		boolean renderComplementos = true;
 
-		if (nombreTipoEntrada != null && !"".equals(nombreTipoEntrada) && nombreTipoEntrada.equals("dddd")) {
+		if (nombreTipoEntrada != null && !"".equals(nombreTipoEntrada) && nombreTipoEntrada.equals("Completa")) {
 			renderComplementos = false;
 		}
 
 		return renderComplementos;
 	}
-	
+
 	public String getFechaFormateada(Date fecha) {
 		return new SimpleDateFormat("dd/MM/yyyy").format(fecha);
 	}
-	
+
 	public BigDecimal getTotalAPagarComplementos(BigDecimal precioComplemento, int cantidadComplemento) {
 		return precioComplemento.multiply(new BigDecimal(cantidadComplemento));
 	}

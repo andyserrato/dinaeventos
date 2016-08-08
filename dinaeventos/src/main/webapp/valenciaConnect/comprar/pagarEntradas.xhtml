@@ -1,4 +1,5 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
@@ -55,27 +56,48 @@
 		</div>
 		
 		<div class="Container100 Responsive">
-	        	<div class="ContainerIndent">
-					<div class="Card ShadowEffect TexAlCenter HoverEffect">
-									<form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post" target="_top">
-			  <!-- Identify your business so that you can collect the payments. -->
-			  <input type="hidden" name="business" value="dinamizadoresgroup@gmail.com"/>
-			
-			  <!-- Specify a Buy Now button. -->
-			  <input type="hidden" name="cmd" value="_xclick"/>
-			
-			  <!-- Specify details about the item that buyers will purchase. -->
-			  <input type="hidden" name="item_name" value="Entradas"/>
-			  <input type="hidden" name="amount" value="#{clientesAndComplementosBean.total}"/>
-			  <input type="hidden" name="currency_code" value="EUR"/>
-			  <input type="hidden" name="lc" value="ES"/>
-			  <input type="hidden" name="return" value="http://localhost:8080/dinaeventos/faces/valenciaConnect/comprar/finalizarPago.xhtml"/>
-			  <!-- Display the payment button. -->
-			  <input type="image" name="submit" border="0"
-			  src="https://www.paypalobjects.com/es_ES/ES/i/btn/btn_buynowCC_LG.gif"
-			  alt="PayPal. La forma rápida y segura de pagar en Internet."  onclick="PF('statusDialog').show();"/>
-			  <img alt="" border="0" src="https://www.paypalobjects.com/es_ES/i/scr/pixel.gif" width="1" height="1"/>
-		</form>				</div>
+        	<div class="ContainerIndent">
+				<div class="Card ShadowEffect TexAlCenter HoverEffect">
+					<form action="${initParam['posturl']}" method="post" target="_top">
+						  <!-- Identify your business so that you can collect the payments. -->
+						  <input type="hidden" name="business" value="${initParam['business']}"/>
+						
+						  <!-- Specify a Buy Now button. -->
+						  <input type="hidden" name="cmd" value="_cart"/>
+						  <input type="hidden" name="currency_code" value="EUR"/>
+						  <input type="hidden" name="upload" value="1"/>
+						
+						  <!-- Specify details about the item that buyers will purchase. -->
+						  <c:set var="dem" value="1"/>
+						  
+						  <c:forEach items="#{comprarEntradaValenciaConnect.listadoEntradas}" var="entrada">
+						  		<input type="hidden" name="item_number_#{dem}" value="#{dem}"/>
+						  		<input type="hidden" name="item_name_#{dem}" value="#{entrada.nombre}"/>
+						  		<input type="hidden" name="quantity_#{dem}" value="1"/>
+						  		<input type="hidden" name="amount_#{dem}" value="#{entrada.precio}"/>
+						  		
+						  		<c:set var="dem" value="#{dem+1}"/>
+						  		
+						  		<c:forEach items="#{entrada.listaComplementos}" var="complementos">
+						  			<c:if test="${complementos.cantidad > 0}">
+							  			<input type="hidden" name="item_number_#{dem}" value="#{dem}"/>
+							  			<input type="hidden" name="item_name_#{dem}" value="#{complementos.complemento.nombre}"/>
+							  			<input type="hidden" name="quantity_#{dem}" value="#{complementos.cantidad}"/>
+							  			<input type="hidden" name="amount_#{dem}" value="#{complementos.complemento.precio}"/>
+							  			<c:set var="dem" value="#{dem+1}"/>
+						  			</c:if>
+						  		</c:forEach>
+						  </c:forEach>
+						  
+						  <input type="hidden" name="return" value="${initParam['returnurl']}"/>
+						  <input type="hidden" name="cancel" value="${initParam['cancel']}"/>
+						  <!-- Display the payment button. -->
+						  <input type="image" name="submit" border="0"
+						  src="https://www.paypalobjects.com/es_ES/ES/i/btn/btn_buynowCC_LG.gif"
+						  alt="PayPal. La forma rápida y segura de pagar en Internet."  onclick="PF('statusDialog').show();"/>
+						  <img alt="" border="0" src="https://www.paypalobjects.com/es_ES/i/scr/pixel.gif" width="1" height="1"/>
+					</form>				
+				</div>
 			</div>
 		</div>
             
