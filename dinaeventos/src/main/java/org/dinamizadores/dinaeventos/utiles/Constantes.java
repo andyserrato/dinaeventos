@@ -81,6 +81,8 @@ public final class Constantes {
 			public static final String PAGAR = "/comprar/pagarEntradas.xhtml?faces-redirect=true";
 
 			public static final String PAGAR_VALENCIA_CONNECT = "/valenciaConnect/comprar/pagarEntradas.xhtml?faces-redirect=true";
+
+			public static final String PAGAR_PAY_PAL_VALENCIA_CONNECT = "/valenciaConnect/paypal/payPalPagarEntradas.xhtml?faces-redirect=true";
 		}
 	}
 
