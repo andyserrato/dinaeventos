@@ -4,8 +4,6 @@ import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
-import java.util.Set;
-
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -27,8 +25,6 @@ import org.dinamizadores.dinaeventos.model.Permisos;
 import org.dinamizadores.dinaeventos.model.Redessociales;
 import org.dinamizadores.dinaeventos.model.Roles;
 import org.dinamizadores.dinaeventos.model.Usuario;
-import org.dinamizadores.dinaeventos.view.EventoBean;
-
 import com.github.javafaker.Faker;
 
 /**
