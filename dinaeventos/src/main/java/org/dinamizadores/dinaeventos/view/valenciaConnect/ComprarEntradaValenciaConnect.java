@@ -354,7 +354,7 @@ public class ComprarEntradaValenciaConnect implements Serializable {
 	}
 
 	public BigDecimal getHandlingFee() {
-		handlingFee = total.multiply(total.multiply(new BigDecimal("0.03"))).add(new BigDecimal("2"));
+		handlingFee = total.multiply(total.multiply(new BigDecimal("0.03"))).add(new BigDecimal("2.35"));
 		return handlingFee;
 	}
 
