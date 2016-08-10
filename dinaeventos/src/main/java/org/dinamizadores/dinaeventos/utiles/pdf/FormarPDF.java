@@ -64,6 +64,7 @@ public class FormarPDF {
     		EmailBasico datosEmail = new EmailBasico();
     		datosEmail.setNombreUsuario(listaEntrada.get(0).getUsuario().getNombre());
     		datosEmail.setMailReceptor(listaEntrada.get(0).getUsuario().getEmail());
+    		datosEmail.setTitulo(evento.getNombre());
     		correo.enviarEmail(listaEntrada, datosEmail);
     	}else if(envioConjunto){
     		for (EntradasCompleta entrada: listaEntrada){
@@ -73,6 +74,7 @@ public class FormarPDF {
     			auxlista.add(entrada);
     			datosEmail.setNombreUsuario(entrada.getUsuario().getNombre());
     			datosEmail.setMailReceptor(entrada.getUsuario().getEmail());
+    			datosEmail.setTitulo(evento.getNombre());
     			correo.enviarEmail(auxlista, datosEmail);
     		}
     	}

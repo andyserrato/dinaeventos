@@ -282,7 +282,7 @@ public class Entrada implements java.io.Serializable {
 		this.nombreCambiadoTimes = nombreCambiadoTimes;
 	}
 
-	@Column(name = "id_Transaccion_paypal")
+	@Column(name = "id_transaccion_paypal")
 	public String getIdTransaccionPayPal() {
 		return idTransaccionPayPal;
 	}
