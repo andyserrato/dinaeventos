@@ -90,9 +90,9 @@
 						  </c:forEach>
 						  
 						  <!-- Comisión de emisión -->
-						  <input type="hidden" name="item_name_#{dem}" value="Emisión"/>
+						  <input type="hidden" name="item_name_#{dem}" value="gastos"/>
 						  <input type="hidden" name="quantity_#{dem}" value="1"/>
-						  <input type="hidden" name="amount_#{dem}" value="2.5"/>
+						  <input type="hidden" name="amount_#{dem}" value="#{comprarEntradaValenciaConnect.handlingFee}"/>
 
 						  <input type="hidden" name="return" value="${initParam['returnurl']}"/>
 						  <input type="hidden" name="cancel" value="${initParam['cancel']}"/>

@@ -240,7 +240,7 @@ public class CrearClientesAndComplementos implements Serializable {
 	public boolean isComplementoRendered(String nombreTipoEntrada) {
 		boolean renderComplementos = true;
 
-		if (nombreTipoEntrada != null && !"".equals(nombreTipoEntrada) && nombreTipoEntrada.equals("Completa")) {
+		if (nombreTipoEntrada != null && !"".equals(nombreTipoEntrada) && nombreTipoEntrada.equals("COMPLETA")) {
 			renderComplementos = false;
 		}
 
