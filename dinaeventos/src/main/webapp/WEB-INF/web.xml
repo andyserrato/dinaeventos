@@ -92,8 +92,18 @@
 	</context-param>
 	<context-param>
 		<param-name>cancel</param-name>
-		<param-value>http://localhost:8080/dinaeventos/faces/valenciaConnect/paypal/payPalFail.xhtml</param-value>
+		<param-value>http://localhost:8080/dinaeventos/faces/valenciaConnect/comprar/payPalFail.xhtml</param-value>
+	</context-param> 
+	<!-- Direcciones de paypal producción -->
+	<!-- <context-param>
+		<param-name>returnurl</param-name>
+		<param-value>http://dinaeventos-andyserrato.rhcloud.com/faces/valenciaConnect/comprar/finalizarPago.xhtml</param-value>
 	</context-param>
+	<context-param>
+		<param-name>cancel</param-name>
+		<param-value>http://dinaeventos-andyserrato.rhcloud.com/faces/valenciaConnect/comprar/payPalFail.xhtml</param-value>
+	</context-param> -->
+	
 	<error-page>
 		<error-code>404</error-code>
 		<location>/faces/404.xhtml</location>
