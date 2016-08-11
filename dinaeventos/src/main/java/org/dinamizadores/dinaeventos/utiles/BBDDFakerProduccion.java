@@ -285,7 +285,7 @@ public class BBDDFakerProduccion implements Serializable {
 		DdTipoEntrada tipoEntradaGeneral = new DdTipoEntrada();
 		tipoEntradaGeneral.setNombre("GENERAL");
 		tipoEntradaGeneral.setPrecio(new BigDecimal(25));
-		tipoEntradaGeneral.setCantidad(500);
+		tipoEntradaGeneral.setCantidad(2000);
 		tipoEntradaGeneral.setEvento(eventoValenciaConnect);
 		tipoEntradaGeneral.setIdEvento(eventoValenciaConnect.getIdevento());
 		tipoEntradaGeneral.setSobreVenta(true);
@@ -311,6 +311,21 @@ public class BBDDFakerProduccion implements Serializable {
 		tipoEntradaCompleta.setCosteCambioDeNombre(new BigDecimal(0));
 		tipoEntradaCompleta.setActiva(true);
 		tipoEntradaCompleta.setDescripcion("Entrada general con acceso a todos los eventos y actividades del congreso.");
+
+		DdTipoEntrada tipoEntradaStartup = new DdTipoEntrada();
+		tipoEntradaStartup.setNombre("STARTUP");
+		tipoEntradaStartup.setPrecio(new BigDecimal(250));
+		tipoEntradaStartup.setCantidad(50);
+		tipoEntradaStartup.setEvento(eventoValenciaConnect);
+		tipoEntradaStartup.setIdEvento(eventoValenciaConnect.getIdevento());
+		tipoEntradaStartup.setSobreVenta(false);
+		tipoEntradaStartup.setMaxPorPedido(1);
+		tipoEntradaStartup.setCanalDeVentas("ONLINE");
+		tipoEntradaStartup.setFechaInicioVenta(new Date());
+		tipoEntradaStartup.setFechaFinVenta(fechaFinVentaTipoEntrada.getTime());
+		tipoEntradaStartup.setCosteCambioDeNombre(new BigDecimal(0));
+		tipoEntradaStartup.setActiva(true);
+		tipoEntradaStartup.setDescripcion("Dos Entradas Completas + Stand para dos personas de presentación de Startup.");
 
 		DdTipoEntrada tipoEntradaPrueba = new DdTipoEntrada();
 		tipoEntradaPrueba.setNombre("PRUEBA");

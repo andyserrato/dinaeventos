@@ -3,11 +3,14 @@ package org.dinamizadores.dinaeventos.view.valenciaConnect;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.security.NoSuchAlgorithmException;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -48,7 +51,7 @@ public class ComprarEntradaValenciaConnect implements Serializable {
 
 	private BigDecimal total = new BigDecimal(0);
 
-	private BigDecimal handlingFee = new BigDecimal(0);
+	private String handlingFee = null;
 
 	private Integer cantidad = 0;
 
@@ -99,20 +102,16 @@ public class ComprarEntradaValenciaConnect implements Serializable {
 		envioConjunto = (Boolean) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("envioConjunto");
 		evento = (Evento) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("evento");
 
-		// tarjetaRegistrada = (CardRegistration) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("tarjeta");
-		// FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("tarjeta", tarjetaRegistrada);
 		insertarTotal();
-
-		// data = tarjetaRegistrada.PreregistrationData;
-		// accessKeyRef = tarjetaRegistrada.AccessKey;
-		// returnURL = "http://localhost:8080/dinaeventos/faces/valenciaConnect/comprar/finalizarPago.xhtml?faces-redirect=true";
+		calcularGastos();
 		crearEntradasUsuarios();
+
 		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("listaEntradas", listadoEntradas);
 		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("listaEntradasEntidad", listadoEntradasEntidad);
 	}
 
 	public void insertarTotal() {
-
+		total = BigDecimal.ZERO;
 		for (EntradasCompleta entrada : listadoEntradas) {
 			for (ComplementoEntero c : entrada.getListaComplementos()) {
 				total = total.add(c.getComplemento().getPrecio().multiply(BigDecimal.valueOf(c.getCantidad())));
@@ -120,6 +119,15 @@ public class ComprarEntradaValenciaConnect implements Serializable {
 			total = total.add(entrada.getPrecio());
 		}
 		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("total", total);
+
+	}
+
+	public void calcularGastos() {
+		BigDecimal gastosNumero = BigDecimal.ZERO;
+		gastosNumero = total;
+		DecimalFormat decimalFormat = (DecimalFormat) NumberFormat.getNumberInstance(Locale.ENGLISH);
+		decimalFormat.applyPattern("#0.00");
+		handlingFee = decimalFormat.format(gastosNumero.multiply(new BigDecimal("0.03")).add(new BigDecimal("2.35")));
 
 	}
 
@@ -353,12 +361,11 @@ public class ComprarEntradaValenciaConnect implements Serializable {
 		this.cardCvx = cardCvx;
 	}
 
-	public BigDecimal getHandlingFee() {
-		handlingFee = total.multiply(total.multiply(new BigDecimal("0.03"))).add(new BigDecimal("2.35"));
+	public String getHandlingFee() {
 		return handlingFee;
 	}
 
-	public void setHandlingFee(BigDecimal handlingFee) {
+	public void setHandlingFee(String handlingFee) {
 		this.handlingFee = handlingFee;
 	}
 
