@@ -345,11 +345,14 @@ public class BBDDFakerProduccion implements Serializable {
 		try {
 			dao.insertar(tipoEntradaGeneral);
 			dao.insertar(tipoEntradaCompleta);
+			dao.insertar(tipoEntradaStartup);
 			dao.insertar(tipoEntradaPrueba);
+			
 			// Aquí actualizamos el Evento con su patrocinador recién creado.
 			eventoValenciaConnect.getDdTipoEntradas().add(tipoEntradaGeneral);
 			eventoValenciaConnect.getDdTipoEntradas().add(tipoEntradaCompleta);
 			eventoValenciaConnect.getDdTipoEntradas().add(tipoEntradaPrueba);
+			eventoValenciaConnect.getDdTipoEntradas().add(tipoEntradaStartup);
 			dao.modificar(eventoValenciaConnect);
 		} catch (Exception e) {
 			log.debug("Error al insertar los tipos de entradas", e);
