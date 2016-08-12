@@ -104,7 +104,6 @@ public class ComprarEntradaValenciaConnect implements Serializable {
 
 		insertarTotal();
 		calcularGastos();
-		crearEntradasUsuarios();
 
 		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("listaEntradas", listadoEntradas);
 		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("listaEntradasEntidad", listadoEntradasEntidad);
@@ -367,6 +366,16 @@ public class ComprarEntradaValenciaConnect implements Serializable {
 
 	public void setHandlingFee(String handlingFee) {
 		this.handlingFee = handlingFee;
+	}
+
+	public Boolean getRenderedComplementos(List<ComplementoEntero> complementoDTO) {
+		Boolean renderedComplementos = Boolean.FALSE;
+		for (ComplementoEntero complemento : complementoDTO) {
+			if (complemento.getCantidad() > 0) {
+				renderedComplementos = Boolean.TRUE;
+			}
+		}
+		return renderedComplementos;
 	}
 
 	/**

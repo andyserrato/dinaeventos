@@ -24,9 +24,6 @@ import org.dinamizadores.dinaeventos.model.Evento;
 import org.dinamizadores.dinaeventos.model.Usuario;
 import org.dinamizadores.dinaeventos.utiles.Constantes;
 import org.dinamizadores.dinaeventos.utiles.log.Loggable;
-import org.dinamizadores.dinaeventos.utiles.plataformapagos.Pagar;
-
-import com.mangopay.entities.CardRegistration;
 
 @Named("clientesAndComplementosBean")
 @ViewScoped
@@ -109,19 +106,10 @@ public class CrearClientesAndComplementos implements Serializable {
 	// }
 
 	public String toPagarEntradas() {
-
-		Pagar pa = new Pagar();
-		String idUsuario = pa.nuevoUsuario(listadoEntradas.get(0).getUsuario());
-		CardRegistration tarjetaRegistrada = pa.nuevoTarjeta(idUsuario);
-
 		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("listaEntradas", listadoEntradas);
-
-		// Enviamos los datos a la nueva pagina
-		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("tarjeta", tarjetaRegistrada);
 		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("envioConjunto", envioConjunto);
 
 		return Constantes.Rutas.Entrada.PAGAR_VALENCIA_CONNECT;
-
 	}
 
 	public void crearUsuarioBasico() {

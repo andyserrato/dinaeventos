@@ -25,16 +25,18 @@
 										<h2 align="center">#{entrada.precio}€</h2>
 									</p:panelGrid>
 									<div class="EmptyBox20"></div>
-									<h2 class="BigTopic">Complementos</h2>
-									<p:repeat value="#{entrada.listaComplementos}" var="complementos">
-	                                	<p:panelGrid columns="5" layout="grid" style="border:0px!important;" rendered="#{complementos.cantidad > 0}">
-											<h:outputText value="#{complementos.complemento.nombre}" />
-											<h:outputText value="#{complementos.complemento.descripcion}" />
-											<h:outputText value="#{complementos.complemento.precio}€" />
-											<h:outputText value="#{complementos.cantidad}"/>
-											<h2 align="center">#{comprarEntradaValenciaConnect.getTotalAPagarComplementos(complementos.complemento.precio, complementos.cantidad)}€</h2>
-										</p:panelGrid>
-									</p:repeat>
+									<p:outputPanel rendered="#{comprarEntradaValenciaConnect.getRenderedComplementos(entrada.listaComplementos)}">
+										<h2 class="BigTopic">Complementos</h2>
+										<p:repeat value="#{entrada.listaComplementos}" var="complementos">
+		                                	<p:panelGrid columns="6" layout="grid" style="border:0px!important;" rendered="#{complementos.cantidad > 0}">
+												<h:outputText value="#{complementos.complemento.nombre}" />
+												<h:outputText value="#{complementos.complemento.descripcion}" />
+												<h:outputText value="#{complementos.complemento.precio}€" />
+												<h:outputText value="#{complementos.cantidad}"/>
+												<h2 align="center">#{comprarEntradaValenciaConnect.getTotalAPagarComplementos(complementos.complemento.precio, complementos.cantidad)}€</h2>
+											</p:panelGrid>
+										</p:repeat>
+									</p:outputPanel>
 								</div>
 							</div>
 						</div>
@@ -58,7 +60,7 @@
 		<div class="Container100 Responsive">
         	<div class="ContainerIndent">
 				<div class="Card ShadowEffect TexAlCenter HoverEffect">
-					<form action="${initParam['posturl']}" method="post" target="_top">
+					<form action="${initParam['posturl']}" method="post" target="_top" onsubmit="#{comprarEntradaValenciaConnect.crearEntradasUsuarios()}">
 						  <!-- Identify your business so that you can collect the payments. -->
 						  <input type="hidden" name="business" value="${initParam['business']}"/>
 						
